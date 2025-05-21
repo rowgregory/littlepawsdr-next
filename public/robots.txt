@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /search?q=
+
+# Host
+Host: https://www.littlepawsdr.org
+
+# Sitemaps
+Sitemap: https://www.littlepawsdr.org/sitemap.xml

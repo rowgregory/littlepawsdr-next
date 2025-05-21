@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light Mode - Using :root */
+:root {
+  --background-color: #ffffff;
+  --text-color: #1d1d1f;
+  --floral-nova: #3698ef;
+}
+
+/* Dark Mode - Using prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1c1c1e; /* Stealth Gray */
+    --text-color: #ffffff; /* White text */
+    --floral-nova: #9b5de5;
+  }
+}
+
+html {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sfprotext";
+  src: url("/fonts/SFProText-Heavy.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.StripeElement {
+  background-color: #ffffff;
+  border: 2px solid #cdcdcd;
+  width: 100%;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  outline: none;
+  height: 46px;
+}
+
+.stripe-element-container input {
+  font-size: 16px;
+  color: #424770;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floral-nova {
+  font-size: 48px;
+  color: #fff;
+  width: 1em;
+  height: 1em;
+  box-sizing: border-box;
+  background-color: var(--floral-nova);
+  position: relative;
+  border-radius: 50%;
+  transform: rotateX(-60deg) perspective(1000px);
+}
+.floral-nova:before,
+.floral-nova:after {
+  content: "";
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  animation: flowerFlow 1s ease-out infinite;
+}
+.floral-nova:after {
+  animation-delay: 0.4s;
+}
+
+@keyframes flowerFlow {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg);
+    box-shadow: 0 0 0 -0.5em var(--floral-nova), 0 0 0 -0.5em var(--floral-nova),
+      0 0 0 -0.5em var(--floral-nova), 0 0 0 -0.5em var(--floral-nova),
+      0 0 0 -0.5em var(--floral-nova), 0 0 0 -0.5em var(--floral-nova),
+      0 0 0 -0.5em var(--floral-nova), 0 0 0 -0.5em var(--floral-nova);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(180deg);
+    box-shadow: -1em -1em 0 -0.35em var(--floral-nova),
+      0 -1.5em 0 -0.35em var(--floral-nova),
+      1em -1em 0 -0.35em var(--floral-nova),
+      -1.5em 0 0 -0.35em var(--floral-nova),
+      1.5em -0 0 -0.35em var(--floral-nova),
+      -1em 1em 0 -0.35em var(--floral-nova),
+      0 1.5em 0 -0.35em var(--floral-nova), 1em 1em 0 -0.35em var(--floral-nova);
+  }
+}

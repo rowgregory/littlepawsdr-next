@@ -1,0 +1,15 @@
+{
+  "overrides": [
+    {
+      "files": "*.tsx",
+      "options": {
+        "parser": "typescript",
+        "jsxBracketSameLine": false,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "semi": false,
+        "printWidth": 140
+      }
+    }
+  ]
+}

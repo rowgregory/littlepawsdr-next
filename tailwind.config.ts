@@ -1,0 +1,151 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  darkMode: "media",
+  corePlugins: {
+    fill: true, // Ensure fill utility is enabled
+  },
+  mode: "jit",
+  theme: {
+    extend: {
+      keyframes: {
+        pulse: {
+          "0%": { transform: "scale(0.9)" },
+          "70%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 50px rgba(90, 153, 212, 0)",
+          },
+          "100%": {
+            transform: "scale(0.9)",
+            boxShadow: "0 0 0 0 rgba(90, 153, 212, 0)",
+          },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
+      animation: {
+        pulse: "pulse 1.5s infinite",
+        "fade-in": "fade-in 0.5s ease-in-out",
+      },
+      fontSize: {
+        11: "11px",
+        13: "13px",
+        15: "15px",
+        17: "17px",
+        19: "19px",
+        21: "21px",
+        22: "22px",
+        23: "23px",
+        25: "25px",
+      },
+      fontFamily: {
+        QBold: ["Quicksand_Bold"],
+        QLight: ["Quicksand_Light"],
+        QBook: ["Quicksand_Book"],
+        rubik: ["Rubik", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+        sf: ["sfprotext", "sans-serif"],
+      },
+      fontWeight: {
+        light: "300",
+        regular: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+        heavy: "800",
+      },
+      backgroundImage: {
+        celestialdrift: "linear-gradient(135deg, #b185f9 0%, #9b5de5 100%)",
+        clouddrift: " linear-gradient(to right, #fff, #f8f8f8);",
+        duskfade: "linear-gradient(to right, #1c1c1e, #262A2F)",
+        polardrift: "linear-gradient(135deg, #7ab9f9 0%,  #3698ef 100%)",
+      },
+      screens: {
+        400: "400px",
+        480: "480px",
+        760: "760px",
+        860: "860px",
+        990: "990px",
+        1160: "1160px",
+        1200: "1200px",
+        1315: "1315px",
+        1690: "1690px",
+        "h-600": "600px",
+      },
+      colors: {
+        whisper: "#f5f5f6",
+        white: "#FFF",
+        amathystglow: "#9b5de5",
+        cybersky: "#2fa3f2",
+        azure: "#3698ef",
+        neonPink: "#ff6b8e",
+        neonYellow: "#d8ff00",
+        neonGreen: "#39ff14",
+        neonBlue: "#1f51ff",
+        slatestone: "#6e6e73",
+        ash: "#919191",
+        coolGray: "#646464",
+        graphite: "#444444",
+        storm: "#4a4a4a",
+        smoke: "#4b4b4b",
+        darkAsh: "#3a3a3a",
+        dusk: "#3b3b3b",
+        coal: "#353535",
+        eclipse: "#00000080",
+        charcoal: "#161616",
+        noir: "#121212",
+        deepslate: "#1c1c1e",
+        abyss: "#1C1C1C",
+        phantom: "#181818",
+        onyx: "#181818",
+        raven: "#1A1A1A",
+        carbon: "#1f1f1f",
+        shadow: "#1d1d1f",
+        jet: "#333333",
+        slate: "#282828",
+        obsidian: "#282828",
+        iron: "#303030",
+        charred: "#383838",
+        midnight: "#2a2a2e",
+        vesper: "#262A2F",
+        vibrantTeal: "#4cb8b1",
+        vibrantPink: "#ff61a6",
+        vibrantPeach: "#ff9f6f",
+        shadowSteel: "#424245",
+        ironMist: "#6E6E73",
+        gradientStart: "#ff006e", // bright pink
+        gradientEnd: "#ff9900", // bright orange
+      },
+      borderWidth: {
+        1: "1px",
+        3: "3px",
+      },
+      boxShadow: {
+        dark: "17px 20px 40px rgba(0,0,0,0.65)",
+      },
+      safelist: [
+        "bg-blue-500",
+        "text-2xl",
+        "text-3xl",
+        "text-sm",
+        "hover:text-pink-700",
+        "hover:bg-pink-700",
+        "hover:bg-blue-700",
+        {
+          pattern:
+            /(text|bg|border)-(red|orange|yellow|green|lime|blue|cyan|teal|purple|indigo|gray|zinc|slate)-(100|200|300|400|500|600|700|800|900)/,
+          variants: ["lg", "hover", "focus", "lg:hover"],
+        },
+      ],
+    },
+  },
+  plugins: [],
+};
+export default config;
