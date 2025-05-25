@@ -1,22 +1,20 @@
 import type { Metadata } from 'next'
 import ReduxWrapper from './redux-wrapper'
-import { Inter, Rubik } from 'next/font/google'
+import { Quicksand, Work_Sans } from 'next/font/google'
 import './globals.css'
 import './fonts.css'
 
-const rubik = Rubik({
+const workSans = Work_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  style: ['normal'],
-  display: 'swap',
-  preload: false
+  preload: false,
+  variable: '--font-work-sans'
 })
-const inter = Inter({
+const quicksand = Quicksand({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
-  style: ['normal'],
-  display: 'swap',
-  preload: false
+  preload: false,
+  variable: '--font-quicksand'
 })
 
 export const metadata: Metadata = {
@@ -28,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${rubik.className}`}>
+      <body className={`${quicksand.variable} ${workSans.variable}`}>
         <ReduxWrapper data={{}}>{children}</ReduxWrapper>
       </body>
     </html>

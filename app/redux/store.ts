@@ -11,6 +11,8 @@ import { adoptionApplicationFeeReducuer } from "./features/adoptionApplicationFe
 import { userReducer } from "./features/userSlice";
 import { dashboardReducer } from "./features/dashboardSlice";
 import { campaignReducer } from "./features/campaignSlice";
+import { formReducer } from "./features/formSlice";
+import { feeExpReducer } from "./features/feeExpSlice";
 
 const rootReducer = combineReducers({
   navbar: navbarReducer,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   dashboard: dashboardReducer,
   campaign: campaignReducer,
+  form: formReducer,
+  feeExp: feeExpReducer,
   [rescueGroupsApi.reducerPath]: rescueGroupsApi.reducer,
   [api.reducerPath]: api.reducer,
 });

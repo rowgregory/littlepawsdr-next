@@ -32,9 +32,8 @@ interface Errors {
 }
 
 interface ApplicantInfoFormProps {
-  onSubmit: (e: any, inputs: any) => void;
-  handleInput: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleInput: (input: { name: string; value: string }) => void;
   inputs: Inputs;
   errors: Errors;
   isLoading: boolean;
@@ -60,13 +59,6 @@ interface AdoptionApplicationFeeStatePayload {
   error: string | false | null;
   message: string | null;
   adoptionApplicationFees: [] | any;
-  isExpired: boolean;
-  activeSession: {};
-  token: string;
-  exp: number;
-  statusCode: number;
-  step: StepState;
-  formData: {} | null;
 }
 
 export type {

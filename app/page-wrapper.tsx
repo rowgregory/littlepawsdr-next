@@ -11,6 +11,7 @@ import { ClientPageProps } from './types/common.types'
 import { setAuthState } from '@redux/features/authSlice'
 import { shouldExcludePath } from '@public/static-data/string.functions'
 import useCustomPathname from '@hooks/useCustomPathname'
+import InitExpFromCookie from './components/InitExpFromCookie'
 
 const options = {
   clientSecret: process.env.STRIPE_SECRET_KEY
@@ -28,6 +29,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
 
   return (
     <Elements stripe={stripePromise} options={options}>
+      <InitExpFromCookie />
       {!shouldExcludePath(path) && <Header />}
       <NavigationDrawer />
       <main>{children}</main>

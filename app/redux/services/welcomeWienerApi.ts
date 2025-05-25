@@ -1,13 +1,12 @@
 import { api } from "./api";
 
-const BASE_URL_WELCOME_WIENER_DACHSHUND = "/welcome-wiener/dachshund";
+const BASE_URL_WELCOME_WIENER_DACHSHUND = "/welcome-wiener";
 // const BASE_URL_WELCOME_WIENER_PRODUCT = "/welcome-wiener-product";
 
 export const welcomeWienerApi = api.injectEndpoints({
   endpoints: (build: any) => ({
     getWelcomeWieners: build.query({
-      query: () =>
-        `${BASE_URL_WELCOME_WIENER_DACHSHUND}/get?endpoint=FETCH_WELCOME_WIENERS`,
+      query: () => `${BASE_URL_WELCOME_WIENER_DACHSHUND}/fetch-welcome-wieners`,
       providesTags: ["Welcome-Wiener"],
     }),
     // getWelcomeWiener: build.query({

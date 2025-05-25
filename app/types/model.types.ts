@@ -14,7 +14,7 @@ export interface User {
   campaigns: Types.ObjectId[];
   name: string;
   email: string;
-  password: string;
+  password?: string;
   isAdmin: boolean;
   confirmed?: boolean;
   shippingAddress?: Address;

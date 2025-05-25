@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { useAppDispatch } from '@redux/store'
 import { useLogoutMutation } from '@redux/services/authApi'
 import { setAuthState } from '@redux/features/authSlice'
-import useSoundEffect from '@hooks/useSoundEffect'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { pawIcon, signOutAltIcon } from 'app/icons'
 import useCustomPathname from '@hooks/useCustomPathname'
@@ -16,14 +15,12 @@ const AdminHeader = () => {
   const dispatch = useAppDispatch()
   const [logout, { isLoading, error }] = useLogoutMutation()
   const { push } = useRouter()
-  const { play } = useSoundEffect('/sound-effects/power-down.mp3', true)
   const path = useCustomPathname()
   const items = adminNavigationLinkData(path)
 
   const handleLogout = async (e: FormEvent) => {
     e.preventDefault()
     await logout().unwrap()
-    play()
     dispatch(setAuthState({}))
     push('/auth/login')
   }

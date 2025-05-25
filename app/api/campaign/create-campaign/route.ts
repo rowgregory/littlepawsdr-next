@@ -1,37 +1,67 @@
 import { Auction, Campaign } from "@models/campaignModel";
 import connectDB from "app/config/db";
 import { NextRequest, NextResponse } from "next/server";
+import { startSession } from "mongoose";
+import { createLog } from "app/utils/logHelper";
 
 export async function POST(req: NextRequest) {
-  try {
-    await connectDB();
+  await connectDB();
 
+  const session = await startSession();
+  session.startTransaction();
+
+  try {
     const { title } = await req.json();
 
-    const auction = await Auction.create({});
+    // Create auction in transaction
+    const auction = await Auction.create([{}], { session });
 
+    // Generate customCampaignLink
     const customCampaignLink = title
       .substring(0, 6)
       .toUpperCase()
       .replace(/\s+/g, "");
 
-    const campaign = await Campaign.create({
-      auction: auction._id,
-      title: title,
-      customCampaignLink,
-    });
-
-    await Auction.findByIdAndUpdate(
-      auction?._id,
-      { campaign: campaign?._id },
-      { new: true }
+    // Create campaign with auction id, inside session
+    const campaign = await Campaign.create(
+      [
+        {
+          auction: auction[0]._id,
+          title,
+          customCampaignLink,
+        },
+      ],
+      { session }
     );
+
+    // Update auction with campaign id, inside session
+    await Auction.findByIdAndUpdate(
+      auction[0]._id,
+      { campaign: campaign[0]._id },
+      { new: true, session }
+    );
+
+    await session.commitTransaction();
+    session.endSession();
 
     return NextResponse.json(
-      { campaignId: campaign?._id, sliceName: "campaignApi" },
+      { campaignId: campaign[0]._id, sliceName: "campaignApi" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
+    await session.abortTransaction();
+    session.endSession();
+
+    await createLog("error", "Error creating campaign", {
+      functionName: "POST_CREATE_CAMPAIGN",
+      name: error.name,
+      message: error.message,
+      location: ["campaign route - POST /api/campaign/create"],
+      method: req.method,
+      url: req.url,
+      timestamp: new Date().toISOString(),
+    });
+
     return NextResponse.json(
       { message: "Error creating campaign", sliceName: "campaignApi" },
       { status: 500 }

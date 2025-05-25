@@ -47,6 +47,9 @@ import {
   faPaw,
   faUpload,
   faCopy,
+  faChevronLeft,
+  faChevronUp,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const copyIcon = faCopy;
@@ -98,3 +101,6 @@ export const signOutAltIcon = faSignOutAlt;
 export const arrowRightIcon = faArrowRight;
 export const searchIcon = faSearch;
 export const pawIcon = faPaw;
+export const chevronLeftIcon = faChevronLeft;
+export const chevronUpIcon = faChevronUp;
+export const chevronDownIcon = faChevronDown;

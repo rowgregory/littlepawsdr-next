@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { JSX } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import useCustomPathname from '@hooks/useCustomPathname'

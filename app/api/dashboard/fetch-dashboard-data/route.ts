@@ -77,7 +77,6 @@ export async function GET() {
       { status: 200 }
     );
   } catch (err: any) {
-    console.log(err);
     return NextResponse.json(
       { message: "Error fetching campaigns.", sliceName: "dashboardApi" },
       { status: 500 }

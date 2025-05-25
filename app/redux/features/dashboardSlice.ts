@@ -69,7 +69,6 @@ export const dashboardSlice = createSlice({
       .addMatcher(
         dashboardApi.endpoints.fetchDashboardData.matchFulfilled,
         (state: any, { payload }: any) => {
-          console.log("FETCH DASHBOARD DATA SLICE: ", payload);
           // state.totalAdoptionFee = payload.totalAdoptionFee;
           // state.totalAdoptionFeesCount = payload.totalAdoptionFeesCount;
           // state.donationCount = payload.donationCount;

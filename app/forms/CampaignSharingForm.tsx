@@ -7,8 +7,8 @@ import AdminSubmitFormBtn from 'app/forms/elements/AdminSubmitFormBtn'
 import { checkIcon, copyIcon } from 'app/icons'
 import getUpdatedAttributes from 'app/utils/getUpdatedAttributes'
 import { ADMIN_CAMPAIGN_BASE_URL } from 'app/utils/url.functions'
-import { QRCodeSVG } from 'qrcode.react'
-import { toPng } from 'html-to-image'
+// import { QRCodeSVG } from 'qrcode.react'
+// import { toPng } from 'html-to-image'
 
 const CampaignSharingForm = () => {
   const { campaign, success } = useAppSelector((state: RootState) => state.campaign)
@@ -35,25 +35,24 @@ const CampaignSharingForm = () => {
     })
   }
 
-  const handleCopyQRCode = async () => {
-    if (qrCodeRef.current) {
-      try {
-        const dataUrl = await toPng(qrCodeRef.current, {
-          backgroundColor: 'white',
-          width: 128, // Slightly larger than QR code size
-          height: 128
-        })
-        const blob = await (await fetch(dataUrl)).blob()
-        const clipboardItem = new ClipboardItem({ 'image/png': blob })
+  // const handleCopyQRCode = async () => {
+  //   if (qrCodeRef.current) {
+  //     try {
+  //       const dataUrl = await toPng(qrCodeRef.current, {
+  //         backgroundColor: 'white',
+  //         width: 128,
+  //         height: 128
+  //       })
+  //       const blob = await (await fetch(dataUrl)).blob()
+  //       const clipboardItem = new ClipboardItem({ 'image/png': blob })
 
-        await navigator.clipboard.write([clipboardItem])
-        alert('QR Code copied to clipboard!')
-      } catch (err) {
-        console.error('Failed to copy QR code:', err)
-        alert('Failed to copy QR code.')
-      }
-    }
-  }
+  //       await navigator.clipboard.write([clipboardItem])
+  //       alert('QR Code copied to clipboard!')
+  //     } catch (err) {
+  //       alert('Failed to copy QR code.')
+  //     }
+  //   }
+  // }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mt-5 animate-fade-in">
@@ -85,9 +84,9 @@ const CampaignSharingForm = () => {
         <p className="text-sm text-ironMist dark:text-zinc-300 mb-4">
           Click the QR code to copy it. You can now paste it wherever you need!
         </p>
-        <div ref={qrCodeRef} onClick={handleCopyQRCode}>
+        {/* <div ref={qrCodeRef} onClick={handleCopyQRCode}>
           <QRCodeSVG value={qrCodeLink} size={128} />
-        </div>
+        </div> */}
       </div>
     </form>
   )

@@ -29,7 +29,7 @@ const adoptionFeeSchema = new mongoose.Schema(
       type: String,
     },
     exp: {
-      type: String,
+      type: Number,
     },
     tokenStatus: { type: String, default: "Valid" },
     applicationStatus: { type: String, default: "Active" },

@@ -2,7 +2,6 @@ import validateDonationIdentity from "app/validations/validateDonationIdentity";
 
 const handleStepOne = (e: any, inputs: any, setErrors: any, setStep: any) => {
   e.preventDefault();
-  console.log("INPTUS: ", inputs);
 
   if (
     inputs.donationAmount === 0 &&

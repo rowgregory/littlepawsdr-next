@@ -21,50 +21,7 @@
 html {
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Semibold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "sfprotext";
-  src: url("/fonts/SFProText-Heavy.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
+  font-family: "Quicksand";
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -77,19 +34,18 @@ html {
 }
 
 .StripeElement {
-  background-color: #ffffff;
-  border: 2px solid #cdcdcd;
+  border: 1px solid #e4e4e7;
   width: 100%;
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
   padding-left: 1rem;
   padding-right: 1rem;
   outline: none;
-  height: 46px;
+  height: 39px;
 }
 
 .stripe-element-container input {
-  font-size: 16px;
+  font-size: 13px;
   color: #424770;
   display: flex;
   align-items: center;
@@ -144,4 +100,9 @@ html {
       -1em 1em 0 -0.35em var(--floral-nova),
       0 1.5em 0 -0.35em var(--floral-nova), 1em 1em 0 -0.35em var(--floral-nova);
   }
+}
+
+canvas {
+  display: block !important;
+  visibility: visible !important;
 }

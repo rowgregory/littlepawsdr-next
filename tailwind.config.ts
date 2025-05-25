@@ -29,13 +29,20 @@ const config: Config = {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        takeoff: {
+          "40%": { transform: "rotate(45deg)" },
+          "100%": { transform: "translateX(100px)" },
+        },
       },
       animation: {
         pulse: "pulse 1.5s infinite",
         "fade-in": "fade-in 0.5s ease-in-out",
+        takeoff: "takeoff 1250ms linear forwards",
       },
       fontSize: {
+        10: "10px",
         11: "11px",
+        12: "12px",
         13: "13px",
         15: "15px",
         17: "17px",
@@ -46,12 +53,8 @@ const config: Config = {
         25: "25px",
       },
       fontFamily: {
-        QBold: ["Quicksand_Bold"],
-        QLight: ["Quicksand_Light"],
-        QBook: ["Quicksand_Book"],
-        rubik: ["Rubik", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
-        sf: ["sfprotext", "sans-serif"],
+        quicksand: ["var(--font-quicksand)"],
+        worksans: ["var(--font-work-sans)"],
       },
       fontWeight: {
         light: "300",
@@ -66,6 +69,7 @@ const config: Config = {
         clouddrift: " linear-gradient(to right, #fff, #f8f8f8);",
         duskfade: "linear-gradient(to right, #1c1c1e, #262A2F)",
         polardrift: "linear-gradient(135deg, #7ab9f9 0%,  #3698ef 100%)",
+        "logo-purple": "url('/images/logo-purple.png')",
       },
       screens: {
         400: "400px",

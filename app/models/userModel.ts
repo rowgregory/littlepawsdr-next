@@ -1,6 +1,39 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
+import argon2 from "argon2";
 
-const userSchema = new mongoose.Schema(
+export interface User extends Document {
+  _id: Types.ObjectId;
+  campaigns: Types.ObjectId[];
+  adoptFees: Types.ObjectId[];
+  donations: Types.ObjectId[];
+  paymentProfiles: Types.ObjectId[];
+  name: string;
+  email: string;
+  password?: string;
+  isAdmin: boolean;
+  shippingAddress?: {
+    name?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    zipPostalCode?: string;
+    country?: string;
+  };
+  lastLoginTime?: string;
+  firstNameFirstInitial?: string;
+  lastNameFirstInitial?: string;
+  firstName?: string;
+  lastName?: string;
+  anonymousBidding?: boolean;
+  registrationConfirmationEmailSent?: boolean;
+  hasSavedPaymentMethod?: boolean;
+  matchPassword(password: string): Promise<boolean>;
+
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const userSchema = new mongoose.Schema<User>(
   {
     campaigns: [
       {
@@ -8,28 +41,28 @@ const userSchema = new mongoose.Schema(
         ref: "Campaign",
       },
     ],
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    confirmed: {
-      type: Boolean,
-      default: false,
-    },
+    adoptFees: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AdoptionFee",
+      },
+    ],
+    donations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Donation",
+      },
+    ],
+    paymentProfiles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PaymentProfile",
+      },
+    ],
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: false },
+    isAdmin: { type: Boolean, required: true, default: false },
     shippingAddress: {
       name: { type: String },
       address: { type: String },
@@ -45,25 +78,26 @@ const userSchema = new mongoose.Schema(
     lastName: { type: String },
     anonymousBidding: { type: Boolean, default: false },
     registrationConfirmationEmailSent: { type: Boolean, default: false },
+    hasSavedPaymentMethod: { type: Boolean, default: false },
   },
   {
     timestamps: true,
   }
 );
 
-// userSchema.methods.matchPassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
+// Method to match password
+userSchema.methods.matchPassword = async function (enteredPassword: string) {
+  return await argon2.verify(this.password, enteredPassword);
+};
 
-// userSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) {
-//     next();
-//   }
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password") || !this.password) {
+    return next();
+  }
+  this.password = await argon2.hash(this.password);
+  next();
+});
 
-//   const salt = await bcrypt.genSalt(10);
-//   this.password = await bcrypt.hash(this.password, salt);
-// });
-
-const User = mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;

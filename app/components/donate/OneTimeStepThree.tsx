@@ -1,52 +1,43 @@
-import React, { FormEvent, useState } from 'react';
-import DonateInput from '../../forms/elements/DonateInput';
-import {
-  CardCvcElement,
-  CardExpiryElement,
-  CardNumberElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js';
-import { elementOptions } from '@public/static-data/stripe-data';
+import React, { FormEvent, useState } from 'react'
+import DonateInput from '../../forms/elements/DonateInput'
+import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { elementOptions } from '@public/static-data/stripe-data'
 
 const OneTimeStepThree = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [name, setName] = useState<string>('');
+  const stripe = useStripe()
+  const elements = useElements()
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [name, setName] = useState<string>('')
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log('HANDLE SUBMIT');
-    e.preventDefault();
+    e.preventDefault()
 
     if (!stripe || !elements) {
-      console.log('!stripe || !elements: ', !stripe || !elements);
-      return;
+      console.log('!stripe || !elements: ', !stripe || !elements)
+      return
     }
 
-    const cardNumberElement = elements.getElement(CardNumberElement);
-    const cardExpiryElement = elements.getElement(CardExpiryElement);
-    const cardCvcElement = elements.getElement(CardCvcElement);
+    const cardNumberElement = elements.getElement(CardNumberElement)
+    const cardExpiryElement = elements.getElement(CardExpiryElement)
+    const cardCvcElement = elements.getElement(CardCvcElement)
 
     if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
-      console.log('Missing one or more card elements');
-      return;
+      console.log('Missing one or more card elements')
+      return
     }
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardNumberElement,
       billing_details: {
-        name,
-      },
-    });
+        name
+      }
+    })
 
     if (error) {
-      return setErrorMessage(error.message || 'An unexpected error occurred.');
+      return setErrorMessage(error.message || 'An unexpected error occurred.')
     }
-
-    console.log('paymentMethod: ', paymentMethod);
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full">
@@ -89,7 +80,7 @@ const OneTimeStepThree = () => {
         Complete Donation
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default OneTimeStepThree;
+export default OneTimeStepThree

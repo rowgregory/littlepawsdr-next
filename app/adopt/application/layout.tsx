@@ -1,14 +1,16 @@
-import ProgressTracker from 'app/components/adopt/application/ProgressTracker';
-import { ChildrenProps } from 'app/types/general-types';
-import React, { FC } from 'react';
+'use client'
 
-const AdoptionApplicationLayout: FC<ChildrenProps> = ({ children }) => {
+import React, { FC } from 'react'
+import { ChildrenProps } from 'app/types/general-types'
+import AdoptFeeSidebar from 'app/components/adopt/application/AdoptFeeSidebar'
+
+const AdoptFeeAppLayout: FC<ChildrenProps> = ({ children }) => {
   return (
-    <div className="my-28">
-      <ProgressTracker />
-      {children}
+    <div className="flex flex-col 1200:flex-row min-h-dvh max-h-dvh overflow-hidden">
+      <AdoptFeeSidebar />
+      <main className="flex-1 px-4  760:px-28 py-[123px] w-full max-w-screen-xl mx-auto">{children}</main>
     </div>
-  );
-};
+  )
+}
 
-export default AdoptionApplicationLayout;
+export default AdoptFeeAppLayout

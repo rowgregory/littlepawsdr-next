@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { JSX } from 'react'
 import Link from 'next/link'
 import { useAppDispatch } from '@redux/store'
 import { setOpenDrawer } from '@redux/features/dashboardSlice'
