@@ -1,0 +1,10 @@
+{
+  "cron": {
+    "jobs": [
+      {
+        "path": "/api/cron/send-scheduled-ecards",
+        "schedule": "0 9 * * *"
+      }
+    ]
+  }
+}

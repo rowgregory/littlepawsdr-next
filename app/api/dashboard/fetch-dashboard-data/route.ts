@@ -1,85 +1,48 @@
-import { NextResponse } from "next/server";
-import connectDB from "app/config/db";
-import { Auction, Campaign } from "@models/campaignModel";
-// import AdoptionFee from "@models/adoptionFeeModel";
-// import Donation from "@models/donationModel";
-// import WelcomeWienerOrder from "@models/welcomeWienerOrderModel";
-// import ProductOrder from "@models/productOrderModel";
+import { NextRequest, NextResponse } from 'next/server'
+import { createLog } from 'app/utils/logHelper'
+import { getBypassCode } from 'app/api/utils/dashboard/getBypassCode'
+import { getDogBoostData } from 'app/api/utils/dashboard/getDogBoostData'
+import { getECardData } from 'app/api/utils/dashboard/getEcardData'
+import { getUserFromHeader } from 'app/api/utils/getUserFromHeader'
+import startMongoSession from 'app/api/utils/startMonogoSession'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const user = await getUserFromHeader(req)
+  if (user instanceof NextResponse) return user
+
+  let session = null
+
   try {
-    await connectDB();
+    session = await startMongoSession()
 
-    // const campaigns = await Campaign.find()
-    //   .populate([{ path: "auction", select: "settings" }])
-    //   .sort({ createdAt: -1 });
+    const bypassCode = await getBypassCode()
+    const dogBoost = await getDogBoostData()
+    const ecard = await getECardData()
 
-    // const campaignsForAdminView = campaigns.map((campaign) => ({
-    //   totalCampaignRevenue: parseFloat(
-    //     campaign.totalCampaignRevenue.toFixed(2)
-    //   ),
-    //   title: campaign.title,
-    //   _id: campaign._id,
-    //   startDate: campaign.auction.settings.startDate,
-    // }));
+    await session.commitTransaction()
 
-    // const totalAdoptionFeeResult = await AdoptionFee.aggregate([
-    //   {
-    //     $group: {
-    //       _id: null,
-    //       totalAdoptionFee: { $sum: "$feeAmount" },
-    //     },
-    //   },
-    // ]);
+    return NextResponse.json({ bypassCode, dogBoost, ecard }, { status: 200 })
+  } catch (error: any) {
+    if (session) await session.abortTransaction()
 
-    // const totalAdoptionFee = totalAdoptionFeeResult.length
-    //   ? totalAdoptionFeeResult[0].totalAdoptionFee
-    //   : 0;
-
-    // const totalAdoptionFeesCount = await AdoptionFee.countDocuments();
-
-    // const donationCount = await Donation.countDocuments();
-
-    // // Calculate the total donation amount
-    // const totalDonationAmount = await Donation.aggregate([
-    //   { $group: { _id: null, totalAmount: { $sum: "$donationAmount" } } },
-    // ]);
-
-    // // Count the total number of WelcomeWienerOrder documents
-    // const welcomeWienerOrderCount = await WelcomeWienerOrder.countDocuments();
-
-    // // Calculate the total price of all orders
-    // const totalWelcomeWienerOrdersAmount = await WelcomeWienerOrder.aggregate([
-    //   { $group: { _id: null, totalAmount: { $sum: "$totalPrice" } } },
-    // ]);
-
-    // const productOrderCount = await ProductOrder.countDocuments();
-
-    // // Calculate the total price of all orders
-    // const totalProductOrdersAmount = await ProductOrder.aggregate([
-    //   { $group: { _id: null, subtotal: { $sum: "$subtotal" } } },
-    // ]);
+    await createLog('error', 'Error in fetchDashboardData', {
+      functionName: 'GET_DASHBOARD_DATA_ADMIN',
+      name: error.name,
+      message: error.message,
+      url: req.url,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+      user: user && !(user instanceof Response) ? { id: user.id, email: user.email } : undefined
+    })
 
     return NextResponse.json(
       {
-        // campaignsForAdminView,
-        // totalGrossCampaignRevenue,
-        // totalAdoptionFee,
-        // totalAdoptionFeesCount,
-        // donationCount,
-        // totalDonationAmount: totalDonationAmount[0]?.totalAmount || 0,
-        // welcomeWienerOrderCount,
-        // totalWelcomeWienerOrdersAmount:
-        //   totalWelcomeWienerOrdersAmount[0]?.totalAmount || 0,
-        // productOrderCount,
-        // totalProductOrdersAmount: totalProductOrdersAmount[0]?.subtotal || 0,
+        message: 'Server error while fetching dashboard data',
+        sliceName: 'dashboardApi'
       },
-      { status: 200 }
-    );
-  } catch (err: any) {
-    return NextResponse.json(
-      { message: "Error fetching campaigns.", sliceName: "dashboardApi" },
       { status: 500 }
-    );
+    )
+  } finally {
+    if (session) session.endSession()
   }
 }

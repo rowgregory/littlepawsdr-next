@@ -1,58 +1,43 @@
-import { FC, useMemo } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FC, useMemo } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 interface SearchBarProps {
-  data: any;
-  setSearchResults: any;
-  loading: boolean;
-  searchQuery: string;
-  setSearchQuery: any;
+  data: any
+  setSearchResults: any
+  loading: boolean
+  searchQuery: string
+  setSearchQuery: any
 }
 
-const SearchBar: FC<SearchBarProps> = ({
-  data,
-  setSearchResults,
-  loading,
-  searchQuery,
-  setSearchQuery,
-}) => {
+const SearchBar: FC<SearchBarProps> = ({ data, setSearchResults, loading, searchQuery, setSearchQuery }) => {
   const filterData = useMemo(
-    () => (dataArray: any, query: any) =>
-      dataArray.filter((item: any) =>
-        item.name.toLowerCase().startsWith(query.toLowerCase())
-      ),
+    () => (dataArray: any, query: any) => dataArray.filter((item: any) => item.name.toLowerCase().startsWith(query.toLowerCase())),
     []
-  );
+  )
 
   const clearSearch = () => {
-    setSearchQuery('');
-    setSearchResults({});
-  };
+    setSearchQuery('')
+    setSearchResults({})
+  }
 
   const handleSearch = (query: string) => {
     if (query === '') {
-      clearSearch();
+      clearSearch()
     } else {
-      const filteredDachshunds = filterData(data?.dachshund || [], query);
-      const filteredProducts = filterData(
-        data?.searchBar?.products || [],
-        query
-      );
-      const filteredEcards = filterData(data?.searchBar?.ecards || [], query);
-      const filteredWelcomeWieners = filterData(
-        data?.searchBar?.welcomeWieners || [],
-        query
-      );
+      const filteredDachshunds = filterData(data?.dachshund || [], query)
+      const filteredProducts = filterData(data?.searchBar?.products || [], query)
+      const filteredEcards = filterData(data?.searchBar?.ecards || [], query)
+      const filteredDogBoosts = filterData(data?.searchBar?.DogBoosts || [], query)
 
       setSearchResults({
         dachshunds: [...filteredDachshunds],
         products: [...filteredProducts],
         ecards: [...filteredEcards],
-        welcomeWieners: [...filteredWelcomeWieners],
-      });
+        DogBoosts: [...filteredDogBoosts]
+      })
     }
-  };
+  }
 
   return (
     <div className="border-b border-solid border-[#cbd7db] flex my-7 mx-5 items-center relative">
@@ -64,18 +49,13 @@ const SearchBar: FC<SearchBarProps> = ({
         value={searchQuery}
         placeholder={loading ? 'Loading...' : 'Search'}
         onChange={(e: any) => {
-          setSearchQuery(e.target.value);
-          handleSearch(e.target.value);
+          setSearchQuery(e.target.value)
+          handleSearch(e.target.value)
         }}
       />
-      <FontAwesomeIcon
-        onClick={() => clearSearch()}
-        icon={faTimes}
-        className="self-end mb-2 cursor-pointer"
-        size="xs"
-      />
+      <FontAwesomeIcon onClick={() => clearSearch()} icon={faTimes} className="self-end mb-2 cursor-pointer" size="xs" />
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar

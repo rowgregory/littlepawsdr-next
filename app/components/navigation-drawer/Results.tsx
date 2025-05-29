@@ -1,49 +1,42 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 const Results = ({ searchResults, closeMenu }: any) => {
   const resultData = [
     {
       searchKey: 'dachshunds',
-      textKey: 'Dachshunds',
+      textKey: 'Dachshunds'
     },
     {
       searchKey: 'products',
-      textKey: 'Products',
+      textKey: 'Products'
     },
     {
       searchKey: 'ecards',
-      textKey: 'Ecards',
+      textKey: 'Ecards'
     },
     {
-      searchKey: 'welcomeWieners',
-      textKey: 'Welcome Wieners',
-    },
-  ];
+      searchKey: 'DogBoosts',
+      textKey: 'Dog Boosts'
+    }
+  ]
 
   const url = (data: any, item: any) => {
-    const key = data.searchKey;
+    const key = data.searchKey
     return key === 'dachshunds'
       ? `/about/type/${item.id}`
       : key === 'products'
       ? `/merch/${item._id}`
       : key === 'ecards'
       ? `/ecard/personalize/${item._id}`
-      : `/welcome-wiener/${item._id}`;
-  };
+      : `/dog-boost/${item._id}`
+  }
 
-  const showResults = !Object.values(searchResults)?.every(
-    (array: any) => array.length === 0
-  );
+  const showResults = !Object.values(searchResults)?.every((array: any) => array.length === 0)
 
   return (
     <div className={`${showResults ? 'block' : 'hidden'} px-5 pt-3`}>
       {resultData.map((data: any, i: number) => (
-        <div
-          className={`${
-            searchResults[data.searchKey]?.length > 0 ? 'block' : 'hidden'
-          } text-[#f5f5f5] mb-3`}
-          key={i}
-        >
+        <div className={`${searchResults[data.searchKey]?.length > 0 ? 'block' : 'hidden'} text-[#f5f5f5] mb-3`} key={i}>
           <div className="text-[#afbec3] mb-1">{data.textKey}</div>
           {searchResults?.[data.searchKey]
             ?.map((item: any, k: number) => (
@@ -65,7 +58,7 @@ const Results = ({ searchResults, closeMenu }: any) => {
         <hr className="my-5" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Results;
+export default Results

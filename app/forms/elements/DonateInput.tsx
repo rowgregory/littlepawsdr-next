@@ -1,4 +1,4 @@
-import { FormInputProps } from 'app/types/form-types'
+import { DonateInputProps } from 'app/types/form-types'
 import React, { FC } from 'react'
 
 const styles = {
@@ -8,7 +8,7 @@ const styles = {
   p: 'text-sm text-red-500 font-semibold'
 }
 
-const DonateInput: FC<FormInputProps> = (p) => {
+const DonateInput: FC<DonateInputProps> = (p) => {
   return (
     <div className={`${p.className} ${styles.div}`}>
       <label htmlFor={p.name} className={`${styles.label}`}>

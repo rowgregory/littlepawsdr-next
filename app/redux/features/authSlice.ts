@@ -1,53 +1,49 @@
-import { Reducer, createSlice } from "@reduxjs/toolkit";
-import { initialUserState } from "app/initial-states/user";
-import { User } from "app/types/model.types";
+import { Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface AuthStatePayload {
-  loading: boolean;
-  success: boolean;
-  error: string | false | null;
-  user: User;
-  message: string | null;
-  isAuthenticated: boolean | null;
-  isAdmin: boolean | null;
-  role: string;
-  _id: string;
-  firstName: string;
-  lastName: string;
+  loading: boolean
+  success: boolean
+  error: string | false | null
+  message: string | null
+  isAuthenticated: boolean | null
+  isAdmin: boolean | null
+  role: string
+  _id: string
+  firstName: string
+  lastName: string
 }
 
 export const initialAuthState: AuthStatePayload = {
   loading: false,
   success: false,
   error: null,
-  user: initialUserState,
-  message: "",
+  message: '',
   isAuthenticated: false,
   isAdmin: false,
-  role: "supporter",
-  _id: "",
-  firstName: "",
-  lastName: "",
-};
+  role: 'supporter',
+  _id: '',
+  firstName: '',
+  lastName: ''
+}
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: initialAuthState,
   reducers: {
     resetAuthSuccess: (state) => {
-      state.success = false;
+      state.success = false
     },
     resetAuthError: (state) => {
-      state.error = null;
-      state.message = null;
+      state.error = null
+      state.message = null
     },
     setAuthState(state, { payload }) {
-      state.isAuthenticated = payload.isAuthenticated;
-      state._id = payload._id;
-      state.role = payload.role;
-      state.isAdmin = payload.isAdmin;
-    },
-  },
+      state.isAuthenticated = payload.isAuthenticated
+      state._id = payload._id
+      state.role = payload.role
+      state.isAdmin = payload.isAdmin
+    }
+  }
   // extraReducers: (builder) => {
   //   builder
   //     .addMatcher(authApi.endpoints.login.matchFulfilled, (state: any, { payload }: any) => {
@@ -108,9 +104,8 @@ export const authSlice = createSlice({
   //       }
   //     );
   // },
-});
+})
 
-export const authReducer = authSlice.reducer as Reducer<AuthStatePayload>;
+export const authReducer = authSlice.reducer as Reducer<AuthStatePayload>
 
-export const { resetAuthSuccess, resetAuthError, setAuthState } =
-  authSlice.actions;
+export const { resetAuthSuccess, resetAuthError, setAuthState } = authSlice.actions

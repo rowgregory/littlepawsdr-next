@@ -1,19 +1,14 @@
-import React from 'react';
-import Icon from '../common/Icon';
-import { chevronRightIcon } from 'app/icons';
+import React from 'react'
+import Icon from '../common/Icon'
+import { chevronRightIcon } from 'app/lib/font-awesome/icons'
 
 const FooterBtn = ({ obj }: { obj: any }) => {
   return (
-    <div
-      onClick={() => window.open(obj.linkKey, '_blank')}
-      className="flex items-center cursor-pointer"
-    >
+    <div onClick={() => window.open(obj.linkKey, '_blank')} className="flex items-center cursor-pointer">
       <Icon icon={chevronRightIcon} className="text-teal-400 mr-3 w-3 h-3" />
-      <p className="text-white text-sm font-QLight tracking-wide">
-        {obj.textKey}
-      </p>
+      <p className="text-white text-sm font-QLight tracking-wide">{obj.textKey}</p>
     </div>
-  );
-};
+  )
+}
 
-export default FooterBtn;
+export default FooterBtn

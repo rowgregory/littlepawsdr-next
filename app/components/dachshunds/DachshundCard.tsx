@@ -1,7 +1,7 @@
 import React from 'react'
 import Picture from '../common/Picture'
 import Icon from '../common/Icon'
-import { calendarIcon, marsIcon, venusIcon } from 'app/icons'
+import { calendarIcon, marsIcon, venusIcon } from 'app/lib/font-awesome/icons'
 import { extractYears } from 'app/utils/dachshundHelpers'
 import Link from 'next/link'
 import { DACHSHUNDS_BASE_URL } from '@public/static-data/paths'

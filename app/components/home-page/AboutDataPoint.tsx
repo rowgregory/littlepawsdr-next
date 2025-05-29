@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { checkIcon } from 'app/icons';
-import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { checkIcon } from 'app/lib/font-awesome/icons'
+import React from 'react'
 
 const AboutDataPoint = ({ text }: { text: string }) => {
   return (
@@ -10,7 +10,7 @@ const AboutDataPoint = ({ text }: { text: string }) => {
       </div>
       <p className="text-[#787878] font-quicksand font-extralight">{text}</p>
     </div>
-  );
-};
+  )
+}
 
-export default AboutDataPoint;
+export default AboutDataPoint

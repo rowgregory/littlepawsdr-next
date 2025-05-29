@@ -1,21 +1,13 @@
-'use client';
+'use client'
 
-import useVideo from '@hooks/useVideo';
-import Link from 'next/link';
+import useVideo from '@hooks/useVideo'
+import Link from 'next/link'
 
 const Banner = () => {
-  const { videoRef } = useVideo();
+  const { videoRef } = useVideo()
   return (
     <div className="w-full relative">
-      <video
-        ref={videoRef}
-        className="w-full h-[850px] fade-in block object-cover z-0"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-      >
+      <video ref={videoRef} className="w-full h-[850px] fade-in block object-cover z-0" autoPlay muted loop playsInline preload="auto">
         <source src="/videos/landing.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -25,20 +17,16 @@ const Banner = () => {
             Help Abandoned Animals <br /> Find a Loving Home
           </p>
           <h1 className="mb-5 scale-in text-white font-extralight">
-            Your compassion can turn their world around. By supporting us,{' '}
-            <br />
+            Your compassion can turn their world around. By supporting us, <br />
             you help abandoned animals find the love and care they deserve.
           </h1>
-          <Link
-            href="/adoption-application"
-            className="bg-teal-400 text-white py-4 px-9 rounded-lg font-quicksand w-fit"
-          >
+          <Link href="/adoption-application" className="bg-teal-400 text-white py-4 px-9 rounded-lg font-quicksand w-fit">
             Get Started
           </Link>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Banner;
+export default Banner

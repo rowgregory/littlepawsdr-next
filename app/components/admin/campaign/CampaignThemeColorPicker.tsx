@@ -1,12 +1,7 @@
 import campaignThemeColors from '@public/static-data/campaitn-theme-colors'
 import React, { FC } from 'react'
 
-const CampaignThemeColorPicker: FC<{ setInputs: any; value: any; submitted: any; error: any }> = ({
-  setInputs,
-  value,
-  submitted,
-  error
-}) => {
+const CampaignThemeColorPicker: FC<{ setInputs: any; value: any; error: any }> = ({ setInputs, value, error }) => {
   return (
     <div className="flex flex-col w-full my-3 relative">
       <div className="flex flex-wrap gap-0.5 h-fit">
@@ -21,7 +16,7 @@ const CampaignThemeColorPicker: FC<{ setInputs: any; value: any; submitted: any;
           </div>
         ))}
       </div>
-      {submitted && error && <div className="text-xs text-red-500 font-medium absolute -bottom-1 right-0">{error}</div>}
+      {error && <div className="text-xs text-red-500 font-medium absolute -bottom-1 right-0">{error}</div>}
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { useAppDispatch } from '@redux/store'
 import { useLogoutMutation } from '@redux/services/authApi'
 import { setAuthState } from '@redux/features/authSlice'
 import AwesomeIcon from '../common/AwesomeIcon'
-import { pawIcon, signOutAltIcon } from 'app/icons'
+import { pawIcon, signOutAltIcon } from 'app/lib/font-awesome/icons'
 import useCustomPathname from '@hooks/useCustomPathname'
 import { adminNavigationLinkData } from '@public/static-data/navigation-link.data'
 

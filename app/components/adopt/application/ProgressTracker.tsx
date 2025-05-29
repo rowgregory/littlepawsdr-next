@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Icon from 'app/components/common/Icon'
-import { checkIcon } from 'app/icons'
+import { checkIcon } from 'app/lib/font-awesome/icons'
 import useCustomPathname from '@hooks/useCustomPathname'
 
 const ProgressTracker = () => {
@@ -19,7 +19,7 @@ const ProgressTracker = () => {
     if (cookies.usedBypassCode === 'true') {
       setUsedBypassCode(true)
     }
-  }, [])
+  }, [path])
 
   // Parse steps from URL, default false if missing
   const step1 = path === '/adopt/application/step1'

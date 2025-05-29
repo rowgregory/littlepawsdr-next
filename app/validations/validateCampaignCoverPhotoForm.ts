@@ -1,21 +1,18 @@
-import { Inputs, SetErrors } from "app/types/common.types";
+import { Inputs, SetErrors } from 'app/types/form-types'
 
 interface ValidationErrors {
-  coverPhoto?: string;
+  [key: string]: string
 }
 
-const validateCampaignCoverPhotoForm = (
-  inputs: Inputs,
-  setErrors: SetErrors
-) => {
-  const newErrors: ValidationErrors = {};
+const validateCampaignCoverPhotoForm = (inputs: Inputs, setErrors: SetErrors): boolean => {
+  const newErrors: ValidationErrors = {}
 
   if (!inputs?.coverPhoto?.trim()) {
-    newErrors.coverPhoto = "Cover photo is required";
+    newErrors.coverPhoto = 'Cover photo is required'
   }
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
+  setErrors(newErrors)
+  return Object.keys(newErrors).length === 0
+}
 
-export default validateCampaignCoverPhotoForm;
+export default validateCampaignCoverPhotoForm

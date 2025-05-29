@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Link from 'next/link'
 import CountdownTimer from 'app/components/common/CountdownTimer'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { gavelIcon } from 'app/icons'
+import { gavelIcon } from 'app/lib/font-awesome/icons'
 
 const CampaignCard: FC<{ title: string; campaignId: string; startDate: any; totalGrossCampaignRevenue: any }> = ({
   title,

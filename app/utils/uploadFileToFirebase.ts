@@ -1,5 +1,5 @@
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../config/firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { storage } from '../lib/firebase/storage'
 
 /**
  * Uploads a video or image file to Firebase Storage.
@@ -10,40 +10,39 @@ import { storage } from "../config/firebaseConfig";
 const uploadFileToFirebase = async (
   file: File,
   onProgress: (progress: number) => void = () => {},
-  type: "image" | "video" = "image"
+  type: 'image' | 'video' = 'image'
 ): Promise<string> => {
   if (!file) {
-    throw new Error("No file provided");
+    throw new Error('No file provided')
   }
 
   // Create a storage reference
-  const storageRef = ref(storage, `${type}s/${file.name}`);
+  const storageRef = ref(storage, `${type}s/${file.name}`)
 
   // Start the upload task
-  const uploadTask = uploadBytesResumable(storageRef, file);
+  const uploadTask = uploadBytesResumable(storageRef, file)
 
   return new Promise((resolve, reject) => {
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         // Calculate progress as a percentage
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        onProgress(progress);
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        onProgress(progress)
       },
       (error) => {
-        reject(error);
+        reject(error)
       },
       async () => {
         try {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve(downloadURL);
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+          resolve(downloadURL)
         } catch (error) {
-          reject(error);
+          reject(error)
         }
       }
-    );
-  });
-};
+    )
+  })
+}
 
-export default uploadFileToFirebase;
+export default uploadFileToFirebase

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import Spinner from 'app/components/common/Spinner'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { checkIcon } from 'app/icons'
+import { checkIcon } from 'app/lib/font-awesome/icons'
 import { useAppDispatch } from '@redux/store'
 import { resetCampaignSuccess } from '@redux/features/campaignSlice'
 

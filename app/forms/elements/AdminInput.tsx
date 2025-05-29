@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
 
-const AdminInput: FC<{ value: any; handleInput: any; submitted: any; error: any; name: string; capitalName: string; type?: string }> = ({
+const AdminInput: FC<{ value: any; handleInput: any; error: any; name: string; capitalName: string; type?: string }> = ({
   value,
   handleInput,
-  submitted,
   error,
   name,
   capitalName,
@@ -30,7 +29,7 @@ const AdminInput: FC<{ value: any; handleInput: any; submitted: any; error: any;
       >
         {capitalName}
       </label>
-      {submitted && error && <div className="text-xs text-red-500 absolute -bottom-5 right-0">{error}</div>}
+      {error && <div className="text-xs text-red-500 absolute -bottom-5 right-0">{error}</div>}
     </div>
   )
 }

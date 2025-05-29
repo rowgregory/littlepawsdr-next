@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import useCarousel from '@hooks/useCarousel';
-import Image from 'next/image';
-import React, { FC } from 'react';
+import useCarousel from '@hooks/useCarousel'
+import Image from 'next/image'
+import React, { FC } from 'react'
 
 const Carousel: FC<{ images: string[] }> = ({ images }) => {
-  const { currentIndex, setCurrentIndex } = useCarousel(images);
+  const { currentIndex, setCurrentIndex } = useCarousel(images)
 
   return (
     <div className="h-[500px] relative w-full overflow-hidden">
@@ -19,7 +19,7 @@ const Carousel: FC<{ images: string[] }> = ({ images }) => {
               currentIndex === index ? 'translate-x-0' : 'translate-x-full'
             }`}
             style={{
-              transform: `translateX(${(index - currentIndex) * 100}%)`,
+              transform: `translateX(${(index - currentIndex) * 100}%)`
             }}
             priority={true}
             width="0"
@@ -30,9 +30,7 @@ const Carousel: FC<{ images: string[] }> = ({ images }) => {
       </div>
       <div className="absolute inset-0 flex justify-between items-center p-4">
         <button
-          onClick={() =>
-            setCurrentIndex((currentIndex - 1 + images.length) % images.length)
-          }
+          onClick={() => setCurrentIndex((currentIndex - 1 + images.length) % images.length)}
           className="bg-gray-800 text-white p-2 rounded-full opacity-50 hover:opacity-75 transition-opacity duration-200"
         >
           ❮
@@ -48,15 +46,13 @@ const Carousel: FC<{ images: string[] }> = ({ images }) => {
         {images?.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full ${
-              currentIndex === index ? 'bg-white' : 'bg-gray-400'
-            }`}
+            className={`w-3 h-3 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-400'}`}
             onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Carousel;
+export default Carousel

@@ -10,7 +10,7 @@ import {
   VirtualHomeVisitSection
 } from 'app/components/adopt/application/TermSections'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { chevronRightIcon } from 'app/icons'
+import { chevronRightIcon } from 'app/lib/font-awesome/icons'
 import { useRouter } from 'next/navigation'
 
 const Step1 = () => {
@@ -38,9 +38,10 @@ const Step1 = () => {
           <button
             type="button"
             onClick={handleStep1}
-            className="text-center py-1.5 px-4 duration-200 bg-black text-white shadow-xl rounded-full active:shadow-sm group hover:tracking-wider w-[100px] active:translate-y-1 actve:bg-teal-400"
+            className="bg-black text-white shadow-xl rounded-full active:shadow-sm group duration-300 h-9 w-[100px] active:translate-y-1 actve:bg-teal-400 text-base flex justify-center items-center gap-x-1"
           >
-            Next <AwesomeIcon icon={chevronRightIcon} className="text-white w-4 h-4 group-hover:translate-x-1 duration-300" />
+            Next
+            <AwesomeIcon icon={chevronRightIcon} className="text-white w-4 h-4 group-hover:translate-x-1 duration-300" />
           </button>
         </div>
       </div>

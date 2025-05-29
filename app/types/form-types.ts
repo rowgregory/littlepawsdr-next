@@ -1,100 +1,99 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  ReactNode,
-  SetStateAction,
-} from "react";
+import { ChangeEvent, Dispatch, FormEvent, ReactNode, SetStateAction } from 'react'
 
-type Inputs = {
-  [key: string]: any;
-};
+export type Inputs = {
+  [key: string]: any
+}
 
-type Errors = {
-  [key: string]: string;
-};
+export type Errors = {
+  [key: string]: string
+}
 
-type UseFormHook = {
-  inputs: Inputs;
-  errors: Errors;
-  handleInput: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleSelect: (e: ChangeEvent<HTMLSelectElement>) => void;
-  handleToggle: (event: ChangeEvent<HTMLInputElement>) => void;
-  setInputs: Dispatch<SetStateAction<Inputs>>;
-  setErrors: Dispatch<SetStateAction<Errors>>;
-};
+export type SetErrors = (errors: Errors) => void
 
-type FormInputProps = {
-  name: string;
-  type: string | undefined;
-  textKey: string;
-  handleInput: any;
-  className?: string;
-  placeholder?: string;
-  errors?: any;
-  value?: any;
-};
+export type DonateInputProps = {
+  name: string
+  type: string | undefined
+  textKey: string
+  handleInput: any
+  className?: string
+  placeholder?: string
+  errors?: any
+  value?: any
+}
 
-type RegisterFormNavigationProps = {
-  handleNextStep?: any;
-  inputs?: any;
-  prevLinkKey?: string;
-};
+export type RegisterFormNavigationProps = {
+  handleNextStep?: any
+  inputs?: any
+  prevLinkKey?: string
+}
 
-type CheckboxProps = {
-  name: string;
-  textKey: string;
-  handleInput: any;
-  className?: string;
-  placeholder?: string;
-  value: any;
-  errors?: any;
-};
+export type CheckboxProps = {
+  name: string
+  textKey: string
+  handleInput: any
+  className?: string
+  placeholder?: string
+  value: any
+  errors?: any
+}
 
-type CheckboxWithAssociatedInputsProps = {
+export type CheckboxWithAssociatedInputsProps = {
   obj: {
-    name: string;
-    textKey: string;
-    value: any;
-    inputs: any;
-  };
-  handleToggle: (event: ChangeEvent<HTMLInputElement>) => void;
-  inputs: Record<string, boolean | string>;
-  handleInput: (event: ChangeEvent<HTMLInputElement>) => void;
-};
+    name: string
+    textKey: string
+    value: any
+    inputs: any
+  }
+  handleToggle: (event: ChangeEvent<HTMLInputElement>) => void
+  inputs: Record<string, boolean | string>
+  handleInput: (event: ChangeEvent<HTMLInputElement>) => void
+}
 
-type SelectProps = {
-  name: string;
-  textKey: string;
-  handleSelect: any;
-  options: Array<string> | undefined;
-  className?: string;
-  errors?: any;
-  value?: any;
-};
+export type SelectProps = {
+  name: string
+  textKey: string
+  handleSelect: any
+  options: Array<string> | undefined
+  className?: string
+  errors?: any
+  value?: any
+}
 
-type OneTimeStepThreeProps = {
-  name: string;
-  errorMessage: string;
-  setName: Dispatch<SetStateAction<string>>;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  stripe: any;
-};
+export type OneTimeStepThreeProps = {
+  name: string
+  errorMessage: string
+  setName: Dispatch<SetStateAction<string>>
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void
+  stripe: any
+}
 
-type InputsContainerProps = {
-  children: ReactNode;
-  title: string;
-};
+export type InputsContainerProps = {
+  children: ReactNode
+  title: string
+}
 
-export type {
-  Inputs,
-  Errors,
-  UseFormHook,
-  FormInputProps,
-  RegisterFormNavigationProps,
-  CheckboxProps,
-  CheckboxWithAssociatedInputsProps,
-  SelectProps,
-  OneTimeStepThreeProps,
-  InputsContainerProps,
-};
+export interface SetErrorsProps {
+  formName: string
+  errors: Errors
+}
+
+export interface SetInputProps {
+  formName: string
+  data: any
+}
+
+export interface HandleInputProps {
+  formName: string
+  name: string
+  value: any
+}
+
+export interface PhotoDropZoneProps {
+  inputRef: any
+  image: string
+  name: string
+  maintainAspectRatio: boolean
+  handleDrop: any
+  loading: boolean
+  handleFileChange: any
+}

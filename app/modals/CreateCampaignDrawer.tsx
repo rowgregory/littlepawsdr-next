@@ -5,26 +5,29 @@ import Drawer from 'app/components/common/Drawer'
 import { setCloseDrawer } from '@redux/features/dashboardSlice'
 import { useCreateCampaignMutation } from '@redux/services/campaignApi'
 import { RootState, useAppDispatch, useAppSelector } from '@redux/store'
-import useForm from '@hooks/useForm'
 import validateCreateCampaignForm from 'app/validations/validateCreateCampaignForm'
 import Spinner from 'app/components/common/Spinner'
 import CreateCampaignDrawerSVG from '@public/svg/CreateCampaignDrawerSVG'
+import createFormActions from '@redux/features/form/formActions'
 
 const CreateCampaignDrawer = () => {
   const dispatch = useAppDispatch()
   const { openDrawer } = useAppSelector((state: RootState) => state.dashboard)
   const [createCampaign, { isLoading: loadingCreate }] = useCreateCampaignMutation()
-  const { inputs, errors, handleInput, setInputs, setErrors, submitted, setSubmitted } = useForm({ title: '' }, validateCreateCampaignForm)
+  const { setErrors, handleInput, clearInputs } = createFormActions('createCampaignForm', dispatch)
+  const { createCampaignForm } = useAppSelector((state: RootState) => state.form)
+  const inputs = createCampaignForm?.inputs
+  const errors = createCampaignForm?.errors
 
   const handleCreateCampaign = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+
     const isValid = validateCreateCampaignForm(inputs, setErrors)
     if (!isValid) return
 
     await createCampaign(inputs).unwrap()
     dispatch(setCloseDrawer())
-    setInputs({})
+    clearInputs()
   }
 
   return (
@@ -38,11 +41,11 @@ const CreateCampaignDrawer = () => {
                 name="title"
                 type="text"
                 alt="Campaign Title"
-                value={(inputs.title as string) || ''}
+                value={(inputs?.title as string) || ''}
                 onChange={handleInput}
                 className="focus:outline-none px-3 py-2 w-full rounded-md mb-6 mt-1 border-1 bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-600 text-jet dark:text-white text-15"
               />
-              {submitted && errors.title && <div className="text-red-500 absolute bottom-2 right-0 text-xs">{errors.title}</div>}
+              {errors?.title && <div className="text-red-500 absolute bottom-2 right-0 text-xs">{errors?.title}</div>}
             </div>
             <button
               type="submit"

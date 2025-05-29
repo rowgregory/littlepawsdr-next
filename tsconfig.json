@@ -23,7 +23,7 @@
       "@redux/*": ["app/redux/*"],
       "@hooks/*": ["app/hooks/*"],
       "@public/*": ["public/*"],
-      "@models/*": ["app/models/*"]
+      "@models/*": ["models/*"]
     },
     "target": "ES2017"
   },

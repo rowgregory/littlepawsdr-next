@@ -1,9 +1,9 @@
 'use client'
 
-import React, { FC } from 'react'
+import React, { ChangeEvent, FC } from 'react'
 import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/react-stripe-js'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { chevronLeftIcon, paperPlaneIcon } from 'app/icons'
+import { chevronLeftIcon, paperPlaneIcon } from 'app/lib/font-awesome/icons'
 import Link from 'next/link'
 import Spinner from 'app/components/common/Spinner'
 import AdoptFeeInput from './elements/AdoptFeeInput'
@@ -15,7 +15,7 @@ interface AdoptFeePaymentForm {
   inputs: Inputs
   errors: Errors
   errorMessage: string
-  handleInput: any
+  handleInput: (e: ChangeEvent<HTMLInputElement>) => void
   isLoading: boolean
   handleCardInputChange: any
   handleToggle: any
@@ -53,7 +53,7 @@ const AdoptFeePaymentForm: FC<AdoptFeePaymentForm> = ({
           label="Name on Card"
           name="name"
           value={inputs?.name}
-          onChange={handleInput}
+          handleInput={handleInput}
           placeholder="Card Holder"
           inputClassName="user-input border-1 w-full border-zinc-200 py-1.5 px-4 focus:outline-none text-sm"
         />

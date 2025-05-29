@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../common/Icon'
-import { playIcon } from 'app/icons'
+import { playIcon } from 'app/lib/font-awesome/icons'
 import Picture from '../common/Picture'
 
 const DogsOnHoldIntro = () => {

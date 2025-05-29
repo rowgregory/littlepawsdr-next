@@ -4,7 +4,6 @@ import { RootState, useAppDispatch, useAppSelector } from '@redux/store'
 import Link from 'next/link'
 import React from 'react'
 import { toggleUserDropdown } from '@redux/features/navbarSlice'
-import { User } from 'app/types/model.types'
 
 const styles = `bg-gray-300 text-slate-800 h-10 w-10 rounded-full flex justify-center items-center cursor-pointer duration-300 hover:bg-gray-400 hover:no-underline`
 
@@ -30,17 +29,19 @@ const Cart = () => {
 const Auth = () => {
   const dispatch = useAppDispatch()
   const auth = useAppSelector((state: RootState) => state.auth)
-  const user: User = auth?.user
+  const { firstNameFirstInitial, lastNameFirstInitial } = useAppSelector((state: RootState) => state.user)
+  const isAdmin = auth?.isAdmin
+  const authId = auth?._id
 
-  return user?.isAdmin ? (
+  return isAdmin ? (
     <>Admin</>
-  ) : user?._id ? (
+  ) : authId ? (
     <div
       className={`uppercase cursor-pointer h-10 w-10 rounded-full flex items-center justify-center`}
       onClick={() => dispatch(toggleUserDropdown({ userDropdown: true }))}
     >
-      {user?.firstNameFirstInitial}
-      {user?.lastNameFirstInitial}
+      {firstNameFirstInitial}
+      {lastNameFirstInitial}
     </div>
   ) : (
     <Link href="/auth/login" className={styles}>

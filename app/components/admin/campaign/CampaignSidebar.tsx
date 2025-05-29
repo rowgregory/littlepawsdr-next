@@ -15,17 +15,13 @@ const CampaignSidebar = () => {
   const DETAILS_URL = getDynamicNestedPathCampaignUrl(campaignId, path, 'details', null)
   const COVER_PHOTO_URL = getDynamicNestedPathCampaignUrl(campaignId, path, 'details', 'cover-photo')
   const SHARING_URL = getDynamicNestedPathCampaignUrl(campaignId, path, 'details', 'sharing')
-  const linkStyles = (active: boolean) =>
-    `${active ? 'text-azure dark:text-amathystglow font-semibold' : 'text-black dark:text-zinc-200'} text-17`
+  const linkStyles = (active: boolean) => `${active ? 'text-azure dark:text-amathystglow font-semibold' : 'text-black dark:text-zinc-200'} text-17`
 
   const sidebar: Record<string, JSX.Element> = {}
 
   if (path === ADMIN_CAMPAIGN_BASE_URL) {
     sidebar[ADMIN_CAMPAIGN_BASE_URL] = (
-      <button
-        onClick={() => dispatch(setOpenDrawer())}
-        className="bg-azure dark:bg-celestialdrift text-white rounded-2xl px-5 py-1.5 text-xs"
-      >
+      <button onClick={() => dispatch(setOpenDrawer())} className="bg-azure dark:bg-celestialdrift text-white rounded-2xl px-5 py-1.5 text-xs">
         Create campaign
       </button>
     )

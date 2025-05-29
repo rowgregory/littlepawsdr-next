@@ -3,10 +3,10 @@
 import React, { FC } from 'react'
 import CampaignHeader from 'app/components/admin/campaign/CampaignHeader'
 import CampaignSidebar from 'app/components/admin/campaign/CampaignSidebar'
-import { ChildrenProps } from 'app/types/portal-types'
 import { useFetchCampaignsQuery } from '@redux/services/campaignApi'
+import { LayoutProps } from 'app/types/common.types'
 
-const CampaignsLayout: FC<ChildrenProps> = ({ children }) => {
+const CampaignsLayout: FC<LayoutProps> = ({ children }) => {
   useFetchCampaignsQuery()
 
   return (

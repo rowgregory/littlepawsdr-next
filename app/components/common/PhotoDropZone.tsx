@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import AwesomeIcon from '../common/AwesomeIcon'
 import Picture from '../common/Picture'
-import { uploadIcon } from 'app/icons'
-import { PhotoDropZoneProps } from 'app/types/common.types'
+import { uploadIcon } from 'app/lib/font-awesome/icons'
 import Spinner from './Spinner'
+import { PhotoDropZoneProps } from 'app/types/form-types'
 
 const PhotoDropZone: FC<PhotoDropZoneProps> = ({ inputRef, image, name, maintainAspectRatio, handleDrop, loading, handleFileChange }) => {
   return (

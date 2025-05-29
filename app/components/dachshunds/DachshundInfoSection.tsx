@@ -1,35 +1,30 @@
-import React from 'react';
-import DachshundDetailRow from './DachshundDetailRow';
-import { arrowLeftIcon, dogIcon, marsIcon, venusIcon } from 'app/icons';
-import { dachshundProfileGridData } from 'app/utils/dachshundHelpers';
-import Icon from '../common/Icon';
-import { useRouter } from 'next/navigation';
+import React from 'react'
+import DachshundDetailRow from './DachshundDetailRow'
+import { arrowLeftIcon, dogIcon, marsIcon, venusIcon } from 'app/lib/font-awesome/icons'
+import { dachshundProfileGridData } from 'app/utils/dachshundHelpers'
+import Icon from '../common/Icon'
+import { useRouter } from 'next/navigation'
 
-const Divider = () => <div className="w-full h-[1px] bg-zinc-200 my-5"></div>;
+const Divider = () => <div className="w-full h-[1px] bg-zinc-200 my-5"></div>
 
-const SectionTitle = ({ title }: { title: string }) => (
-  <p className="text-xl text-teal-400 font-QBold mb-4">{title}</p>
-);
+const SectionTitle = ({ title }: { title: string }) => <p className="text-xl text-teal-400 font-QBold mb-4">{title}</p>
 
 const ProfileGridItem = ({ obj }: { obj: any }) => (
   <div>
-    <p className="text-sm font-QBold">{obj.title}</p>
+    <p className="text-sm font-QBold">{obj?.title}</p>
     <p className="text-sm">{obj.textKey}</p>
   </div>
-);
+)
 
 const DachshundInfoSection = ({ dachshund }: { dachshund: any }) => {
-  const info = dachshund?.attributes;
-  const router = useRouter();
+  const info = dachshund?.attributes
+  const router = useRouter()
   return (
     <div className="col-span-12 xl:col-span-8">
       <div className="text-4xl font-QBold mb-10 text-color">{info?.name}</div>
       <DachshundDetailRow icon={dogIcon} text={info?.breedString} />
       <Divider />
-      <DachshundDetailRow
-        icon={info?.sex === 'Male' ? marsIcon : venusIcon}
-        text={`${info?.ageGroup} ${info?.sex}`}
-      />
+      <DachshundDetailRow icon={info?.sex === 'Male' ? marsIcon : venusIcon} text={`${info?.ageGroup} ${info?.sex}`} />
       <Divider />
       <SectionTitle title="About" />
       <div className="grid grid-cols-3 gap-6">
@@ -42,7 +37,7 @@ const DachshundInfoSection = ({ dachshund }: { dachshund: any }) => {
       <p
         className="mb-12"
         dangerouslySetInnerHTML={{
-          __html: info?.descriptionHtml,
+          __html: info?.descriptionHtml
         }}
       ></p>
       <button
@@ -52,7 +47,7 @@ const DachshundInfoSection = ({ dachshund }: { dachshund: any }) => {
         <Icon icon={arrowLeftIcon} className="mr-2" /> <span>Previous</span>
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default DachshundInfoSection;
+export default DachshundInfoSection

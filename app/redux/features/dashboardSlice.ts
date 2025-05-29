@@ -13,8 +13,8 @@ export interface DashboardStatePayload {
   totalAdoptionFeesCount: any;
   donationCount: any;
   totalDonationAmount: any;
-  welcomeWienerOrderCount: any;
-  totalWelcomeWienerOrdersAmount: any;
+  DogBoostOrderCount: any;
+  totalDogBoostOrdersAmount: any;
   productOrderCount: any;
   totalProductOrdersAmount: any;
   campaigns: any;
@@ -33,8 +33,8 @@ export const initialDashboardState: DashboardStatePayload = {
   totalAdoptionFeesCount: null,
   donationCount: null,
   totalDonationAmount: null,
-  welcomeWienerOrderCount: null,
-  totalWelcomeWienerOrdersAmount: null,
+  DogBoostOrderCount: null,
+  totalDogBoostOrdersAmount: null,
   productOrderCount: null,
   totalProductOrdersAmount: null,
   campaigns: null,
@@ -73,9 +73,9 @@ export const dashboardSlice = createSlice({
           // state.totalAdoptionFeesCount = payload.totalAdoptionFeesCount;
           // state.donationCount = payload.donationCount;
           // state.totalDonationAmount = payload.totalDonationAmount;
-          // state.welcomeWienerOrderCount = payload.welcomeWienerOrderCount;
-          // state.totalWelcomeWienerOrdersAmount =
-          //   payload.totalWelcomeWienerOrdersAmount;
+          // state.DogBoostOrderCount = payload.DogBoostOrderCount;
+          // state.totalDogBoostOrdersAmount =
+          //   payload.totalDogBoostOrdersAmount;
           // state.productOrderCount = payload.productOrderCount;
           // state.totalProductOrdersAmount = payload.totalProductOrdersAmount;
           state.loading = false;

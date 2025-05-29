@@ -5,7 +5,7 @@ import { STATES } from '@public/static-data/states'
 import Spinner from 'app/components/common/Spinner'
 import { ApplicantInfoFormProps } from 'app/types/adopt-types'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { chevronDownIcon, chevronLeftIcon, chevronRightIcon, chevronUpIcon } from 'app/icons'
+import { chevronDownIcon, chevronLeftIcon, chevronRightIcon, chevronUpIcon } from 'app/lib/font-awesome/icons'
 import AdoptFeeInput from './elements/AdoptFeeInput'
 import Link from 'next/link'
 import AdoptFeeSelect from './elements/AdoptFeeSelect'
@@ -25,7 +25,7 @@ const AdoptFeeApplicantInfoForm: FC<ApplicantInfoFormProps> = ({ handleSubmit, h
             label="First name"
             name="firstName"
             value={inputs?.firstName || ''}
-            onChange={handleInput}
+            handleInput={handleInput}
             error={errors?.firstName}
             required
             inputClassName={styles.input}
@@ -34,7 +34,7 @@ const AdoptFeeApplicantInfoForm: FC<ApplicantInfoFormProps> = ({ handleSubmit, h
             label="Last name"
             name="lastName"
             value={inputs?.lastName || ''}
-            onChange={handleInput}
+            handleInput={handleInput}
             error={errors?.lastName}
             required
             inputClassName={styles.input}
@@ -44,7 +44,7 @@ const AdoptFeeApplicantInfoForm: FC<ApplicantInfoFormProps> = ({ handleSubmit, h
           label="Email"
           name="email"
           value={inputs?.email || ''}
-          onChange={handleInput}
+          handleInput={handleInput}
           error={errors?.email}
           required
           inputClassName={styles.input}
@@ -53,7 +53,7 @@ const AdoptFeeApplicantInfoForm: FC<ApplicantInfoFormProps> = ({ handleSubmit, h
           label="State"
           name="state"
           value={inputs?.state || ''}
-          onChange={handleInput}
+          handleInput={handleInput}
           error={errors?.state}
           required
           selectClassName={styles.input}
@@ -73,7 +73,7 @@ const AdoptFeeApplicantInfoForm: FC<ApplicantInfoFormProps> = ({ handleSubmit, h
               label=""
               name="bypassCode"
               value={inputs?.bypassCode || ''}
-              onChange={handleInput}
+              handleInput={handleInput}
               error={errors?.bypassCode}
               required={false}
               inputClassName={styles.input}

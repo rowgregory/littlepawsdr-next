@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 import AwesomeIcon from '../common/AwesomeIcon'
-import { arrowRightIcon } from 'app/icons'
+import { arrowRightIcon } from 'app/lib/font-awesome/icons'
 
 interface ActionButtonProps {
   text: string

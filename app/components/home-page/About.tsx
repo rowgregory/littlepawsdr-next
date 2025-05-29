@@ -1,6 +1,6 @@
 import React from 'react'
 import AboutDataPoint from './AboutDataPoint'
-import { boneIcon, homeIcon, medkitIcon } from 'app/icons'
+import { boneIcon, homeIcon, medkitIcon } from 'app/lib/font-awesome/icons'
 import Picture from '../common/Picture'
 import Icon from '../common/Icon'
 import { aboutData } from '@public/static-data/home-page-data'
@@ -12,9 +12,8 @@ const About = () => {
         <h3 className="text-teal-400 text-xl font-semibold mb-5">About Little Paws Dachshund Rescue</h3>
         <h1 className="text-5xl  text-color font-bold mb-5">We&apos;re The World&apos;s Most Trusted Animal Rescue</h1>
         <p className="text-color font-light opacity-70 text-15 leading-6 tracking-wider mb-8">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in
-          reprehenderit.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit.
         </p>
         <div className="grid grid-cols-12 gap-3 mb-10">
           {aboutData.map((text, i) => (

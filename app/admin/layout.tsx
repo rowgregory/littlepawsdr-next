@@ -1,11 +1,11 @@
 'use client'
 
 import React, { FC } from 'react'
-import { ChildrenProps } from 'app/types/general-types'
 import AdminHeader from 'app/components/admin/AdminHeader'
 import CreateCampaignDrawer from 'app/modals/CreateCampaignDrawer'
+import { LayoutProps } from 'app/types/common.types'
 
-const AdminLayout: FC<ChildrenProps> = ({ children }) => {
+const AdminLayout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <AdminHeader />

@@ -1,10 +1,8 @@
-'use client'
-
 import React, { FC } from 'react'
-import { ChildrenProps } from 'app/types/general-types'
 import AdoptFeeSidebar from 'app/components/adopt/application/AdoptFeeSidebar'
+import { LayoutProps } from 'app/types/common.types'
 
-const AdoptFeeAppLayout: FC<ChildrenProps> = ({ children }) => {
+const AdoptFeeAppLayout: FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col 1200:flex-row min-h-dvh max-h-dvh overflow-hidden">
       <AdoptFeeSidebar />

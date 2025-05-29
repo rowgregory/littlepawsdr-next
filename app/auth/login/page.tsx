@@ -3,31 +3,33 @@
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import useForm from '@hooks/useForm'
 import validateLoginForm from 'app/validations/validateLoginForm'
 import { useLoginMutation } from '@redux/services/authApi'
 import Picture from 'app/components/common/Picture'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { eyeIcon, eyeSlashIcon } from 'app/icons'
+import { eyeIcon, eyeSlashIcon } from 'app/lib/font-awesome/icons'
+import createFormActions from '@redux/features/form/formActions'
+import { RootState, useAppDispatch, useAppSelector } from '@redux/store'
 
 const Login = () => {
   const { push } = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [login, { isLoading }] = useLoginMutation()
-  const { inputs, handleInput, setErrors, errors, submitted, setSubmitted } = useForm({ email: '', password: '' }, validateLoginForm)
+  const dispatch = useAppDispatch()
+  const { handleInput, setErrors } = createFormActions('loginForm', dispatch)
+  const { loginForm } = useAppSelector((state: RootState) => state.form)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
 
-    const isValid = validateLoginForm(inputs, setErrors)
+    const isValid = validateLoginForm(loginForm?.inputs, setErrors)
     if (!isValid) return
 
-    const data = await login({ email: inputs.email.toLowerCase(), password: inputs.password }).unwrap()
+    const data = await login({ email: loginForm?.inputs.email.toLowerCase(), password: loginForm?.inputs.password }).unwrap()
 
     if (data?.isAdmin) {
       push('/admin')
-    } else if (data?.token) {
+    } else if (data?.isSupporter) {
       push('/')
     }
   }
@@ -47,10 +49,10 @@ const Login = () => {
               onChange={handleInput}
               type="email"
               alt="Email"
-              value={inputs.email || ''}
+              value={loginForm?.inputs.email || ''}
             />
-            {submitted && errors.email && (
-              <span className="text-red-500 flex self-end mt-1 text-11 absolute -bottom-5 animate-fadeIn">{errors.email}</span>
+            {loginForm?.errors.email && (
+              <span className="text-red-500 flex self-end mt-1 text-11 absolute -bottom-5 animate-fadeIn">{loginForm?.errors.email}</span>
             )}
           </div>
           <div className="flex flex-col mb-7 w-full relative">
@@ -60,10 +62,10 @@ const Login = () => {
               onChange={handleInput}
               type={showPassword ? 'text' : 'password'}
               alt="Password"
-              value={inputs.password}
+              value={loginForm?.inputs.password}
             />
-            {submitted && errors.password && (
-              <span className="text-red-500 flex self-end mt-1 text-11 absolute -bottom-5 animate-fadeIn">{errors.password}</span>
+            {loginForm?.errors.password && (
+              <span className="text-red-500 flex self-end mt-1 text-11 absolute -bottom-5 animate-fadeIn">{loginForm?.errors.password}</span>
             )}
             <AwesomeIcon
               icon={showPassword ? eyeIcon : eyeSlashIcon}

@@ -32,17 +32,13 @@ const CampaignHeader = () => {
         <div className="flex items-center gap-x-4 w-full font-sf">
           <Link
             href={DETAILS_URL.url}
-            className={`${
-              DETAILS_URL.active ? 'text-azure dark:text-amathystglow' : 'text-black dark:text-zinc-200'
-            } text-[19px] 860:text-21`}
+            className={`${DETAILS_URL.active ? 'text-azure dark:text-amathystglow' : 'text-black dark:text-zinc-200'} text-[19px] 860:text-21`}
           >
             Details
           </Link>
           <Link
             href={AUCTION_URL.url}
-            className={`${
-              AUCTION_URL.active ? 'text-azure dark:text-amathystglow' : 'text-black dark:text-zinc-200'
-            } text-[19px] 860:text-21`}
+            className={`${AUCTION_URL.active ? 'text-azure dark:text-amathystglow' : 'text-black dark:text-zinc-200'} text-[19px] 860:text-21`}
           >
             Auction
           </Link>

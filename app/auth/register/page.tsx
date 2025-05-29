@@ -5,67 +5,52 @@ import { LogoPurple } from '@public/images'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRegisterMutation } from '@redux/services/authApi'
-import useForm from '@hooks/useForm'
 import validateRegisterForm from 'app/validations/validateRegisterForm'
 import AwesomeIcon from 'app/components/common/AwesomeIcon'
-import { eyeIcon, eyeSlashIcon } from 'app/icons'
+import { eyeIcon, eyeSlashIcon } from 'app/lib/font-awesome/icons'
+import { useRouter } from 'next/navigation'
+import createFormActions from '@redux/features/form/formActions'
+import { RootState, useAppDispatch, useAppSelector } from '@redux/store'
+import { setShowConfetti } from '@redux/features/stripeSlice'
 
 const Register = () => {
-  // const router = useRouter();
-  // const state = router.query.state;
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false
-  })
-  // const [modal, setModal] = useState({ open: false, help: false, text: '' });
-  // const openModal = (text: string) => setModal({ open: true, help: false, text });
+  const { push } = useRouter()
+  const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false })
   const [register, { isLoading }] = useRegisterMutation()
-  // const auth = useAppSelector((state: RootState) => state.auth);
-  const { inputs, handleInput, setErrors } = useForm(
-    { firstName: '', lastName: '', email: '', password: '', passwordConfirmation: '' },
-    validateRegisterForm
-  )
+  const dispatch = useAppDispatch()
+  const { handleInput, setErrors } = createFormActions('registerForm', dispatch)
+  const { registerForm } = useAppSelector((state: RootState) => state.form)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const isValid = validateRegisterForm(inputs, setErrors)
+
+    const isValid = validateRegisterForm(registerForm?.inputs, setErrors)
     if (!isValid) return
 
-    await register({
-      firstName: inputs.firstName,
-      lastName: inputs.lastName,
-      email: inputs.email,
-      password: inputs.password
-      // confirmPassword: inputs.confirmPassword,
-      // strength: auth.strength,
-      // cameFromAuction: state?.cameFromAuction,
-      // customCampaignLink: state?.customCampaignLink,
-    }).unwrap()
+    try {
+      await register({
+        firstName: registerForm?.inputs.firstName,
+        lastName: registerForm?.inputs.lastName,
+        email: registerForm?.inputs.email,
+        password: registerForm?.inputs.password
+        // cameFromAuction: state?.cameFromAuction,
+        // customCampaignLink: state?.customCampaignLink,
+      }).unwrap()
+
+      push('/profile')
+      setShowConfetti()
+    } catch {}
   }
-
-  // useEffect(() => {
-  //   if (inputs.password) {
-  //     dispatch(setPasswordStrength(inputs.password));
-  //   }
-  // }, [dispatch, inputs.password]);
-
-  // const handleClose = () => {
-  //   setModal({ open: false, help: false, text: '' });
-  //   reset();
-  // };
 
   return (
     <Fragment>
-      {/* <RegisterModal modal={modal} handleClose={handleClose} auth={auth} /> */}
       <div className="bg-white min-h-screen flex items-center justify-center p-8">
         <div className="max-w-md w-full">
           <Link href="/">
             <Image src={LogoPurple} alt="Little Paws Dachshund Rescue" className="w-44 mb-4 mx-auto" />
           </Link>
           <p className="font-Matter-Medium text-2xl text-center mb-2.5">Register</p>
-          <p className="text-gray-400 text-sm font-Matter-Regular text-center mb-4">
-            Sign up or sign in to an existing account to start bidding
-          </p>
+          <p className="text-gray-400 text-sm font-Matter-Regular text-center mb-4">Sign up or sign in to an existing account to start bidding</p>
           <form onSubmit={handleSubmit} className="flex flex-col w-full">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex flex-col">
@@ -78,7 +63,7 @@ const Register = () => {
                   onChange={handleInput}
                   type="text"
                   alt="First Name"
-                  value={inputs.firstName || ''}
+                  value={registerForm?.inputs.firstName || ''}
                 />
               </div>
               <div className="flex flex-col">
@@ -91,7 +76,7 @@ const Register = () => {
                   onChange={handleInput}
                   type="text"
                   alt="Last Name"
-                  value={inputs.lastName || ''}
+                  value={registerForm?.inputs.lastName || ''}
                 />
               </div>
             </div>
@@ -104,7 +89,7 @@ const Register = () => {
               onChange={handleInput}
               type="email"
               alt="Email"
-              value={inputs.email || ''}
+              value={registerForm?.inputs.email || ''}
             />
             <label className="font-Matter-Medium text-sm mb-1" htmlFor="password">
               Password*{' '}
@@ -120,7 +105,7 @@ const Register = () => {
                 onChange={handleInput}
                 type={showPassword.password ? 'text' : 'password'}
                 alt="Password"
-                value={inputs.password || ''}
+                value={registerForm?.inputs.password || ''}
               />
               <i
                 onClick={() =>
@@ -142,7 +127,7 @@ const Register = () => {
                 onChange={handleInput}
                 type={showPassword.confirmPassword ? 'text' : 'password'}
                 alt="Confirm Password"
-                value={inputs.confirmPassword || ''}
+                value={registerForm?.inputs.confirmPassword || ''}
               />
               <AwesomeIcon
                 icon={showPassword.confirmPassword ? eyeIcon : eyeSlashIcon}

@@ -1,50 +1,43 @@
 'use client'
 
-import React, { useEffect, useState, useCallback } from 'react'
-import { useValidateBypassCodeMutation } from '@redux/services/adoptionApplicationFeeApi'
+import React, { useEffect, useState, useMemo, ChangeEvent } from 'react'
+import { useValidateBypassCodeMutation } from '@redux/services/adoptFeeApi'
 import validateApplicantInfo from 'app/validations/validateApplicantInfo'
 import { useDispatch } from 'react-redux'
 import { RootState, useAppSelector } from '@redux/store'
-import { createFormActions } from '@redux/features/formSlice'
+import createFormActions from '@redux/features/form/formActions'
 import AdoptFeeApplicantInfoForm from 'app/forms/AdoptFeeApplicantInfoForm'
 import { useRouter } from 'next/navigation'
-import { Confetti3D } from 'app/components/Confetti3D'
+import { setShowConfetti } from '@redux/features/stripeSlice'
 
 const Step2 = () => {
   const dispatch = useDispatch()
   const { push } = useRouter()
-  const [validateBypassCode, { isLoading }] = useValidateBypassCodeMutation()
-
-  // Memoize createFormActions once per dispatch so handlers don’t change
-  const formActions = React.useMemo(() => createFormActions('adoptFeeForm', dispatch), [dispatch])
-  const { setErrors, handleInput: rawHandleInput } = formActions
-
-  // Memoize handleInput callback to keep stable reference for useEffect deps
-  const handleInput = useCallback(
-    (args: { name: string; value: any }) => {
-      rawHandleInput(args)
-    },
-    [rawHandleInput]
-  )
-
+  const [validateBypassCode] = useValidateBypassCodeMutation()
+  const [isLoading, setIsLoading] = useState(false)
   const { adoptFeeForm } = useAppSelector((state: RootState) => state.form)
-  const [showConfetti, setShowConfetti] = useState(false)
+  const { setErrors, handleInput } = useMemo(() => createFormActions('adoptFeeForm', dispatch), [dispatch])
 
   useEffect(() => {
     const savedForm = localStorage.getItem('adoptFeeForm')
     if (savedForm) {
       const parsedInputs = JSON.parse(savedForm)
+      // Because handleInput expects a ChangeEvent, create a mock event here
       for (const [name, value] of Object.entries(parsedInputs)) {
-        handleInput({ name, value })
+        handleInput({ target: { name, value } } as ChangeEvent<HTMLInputElement>)
       }
     }
-  }, [handleInput]) // safe to include handleInput because it’s memoized
+  }, [handleInput])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
 
     const isValid = validateApplicantInfo(adoptFeeForm?.inputs, setErrors)
-    if (!isValid) return
+    if (!isValid) {
+      setIsLoading(false)
+      return
+    }
 
     localStorage.setItem('adoptFeeForm', JSON.stringify(adoptFeeForm?.inputs))
 
@@ -61,27 +54,25 @@ const Step2 = () => {
         }
 
         if (response.message === 'SEND_TO_APPLICATION') {
-          setShowConfetti(true)
-          setTimeout(() => {
-            document.cookie = 'adoptStep2Complete=true; path=/'
-            document.cookie = 'usedBypassCode=true; path=/'
-            push('/adopt/application/step4')
-            setShowConfetti(false)
-          }, 2000)
+          dispatch(setShowConfetti())
+          push('/adopt/application/step4')
+          document.cookie = 'adoptStep2Complete=true; path=/'
+          document.cookie = 'usedBypassCode=true; path=/'
+
           return
         }
       } else {
         document.cookie = 'adoptStep2Complete=true; path=/'
         push('/adopt/application/step3')
       }
-    } catch (error) {
-      // Handle error if needed
+    } catch {
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <div className="max-w-lg h-full">
-      <Confetti3D trigger={showConfetti} duration={3000} />
       <h1 className="font-lg font-semibold mb-4">Applicant Info</h1>
       <AdoptFeeApplicantInfoForm
         handleSubmit={handleSubmit}

@@ -1,7 +1,9 @@
+'use client'
+
 import useCountdown, { Countdown } from '@hooks/useCountdown'
-import useCustomPathname from '@hooks/useCustomPathname'
 import ProgressTracker from './ProgressTracker'
 import { RootState, useAppSelector } from '@redux/store'
+import useCustomPathname from '@hooks/useCustomPathname'
 
 const steps1Through3 = {
   one: 'Click next to accept Terms and Conditions',

@@ -1,57 +1,35 @@
-import { NextResponse } from "next/server";
-import { Campaign } from "@models/campaignModel";
-import connectDB from "app/config/db";
-import { startSession } from "mongoose";
-import { createLog } from "app/utils/logHelper";
+import { NextResponse } from 'next/server'
+import { Campaign } from 'models/campaignModel'
+import { createLog } from 'app/utils/logHelper'
+import startMongoSession from 'app/api/utils/startMonogoSession'
+import { sliceCampaign } from '@public/data/api.data'
 
-// GET /api/campaign/fetch-campaigns
 export async function GET() {
-  let session;
+  const session = await startMongoSession()
 
   try {
-    await connectDB();
-    session = await startSession();
-
-    // Optional: start a transaction if you want read consistency, but not mandatory for reads
-    // session.startTransaction();
-
-    // Fetch campaigns with populated fields
     const campaigns = await Campaign.find({})
-      .populate([{ path: "auction", populate: [{ path: "settings" }] }])
-      .session(session);
+      .populate([{ path: 'auction', populate: [{ path: 'settings' }] }])
+      .session(session)
 
-    const totalGrossCampaignRevenue = campaigns.reduce(
-      (total, campaign) => total + (campaign.totalCampaignRevenue || 0),
-      0
-    );
+    const totalGrossCampaignRevenue = campaigns.reduce((total, campaign) => total + (campaign.totalCampaignRevenue || 0), 0)
 
-    // Optional: await session.commitTransaction();
+    await session.commitTransaction()
+    session.endSession()
 
-    session.endSession();
-
-    return NextResponse.json(
-      { campaigns, totalGrossCampaignRevenue, sliceName: "campaignApi" },
-      { status: 200 }
-    );
+    return NextResponse.json({ campaigns, totalGrossCampaignRevenue, sliceName: sliceCampaign }, { status: 200 })
   } catch (error: any) {
-    if (session) {
-      try {
-        // Optional: abort transaction if started
-        // await session.abortTransaction();
-        session.endSession();
-      } catch {}
-    }
-    await createLog("error", "Error fetching campaigns", {
-      functionName: "GET_FETCH_CAMPAIGNS",
+    await session.abortTransaction()
+    session.endSession()
+
+    await createLog('error', 'Error fetching campaigns', {
+      functionName: 'GET_FETCH_CAMPAIGNS',
       name: error.name,
       message: error.message,
-      location: ["campaign/fetch-campaigns GET"],
-      timestamp: new Date().toISOString(),
-    });
+      location: ['campaign/fetch-campaigns GET'],
+      timestamp: new Date().toISOString()
+    })
 
-    return NextResponse.json(
-      { message: "Error fetching campaigns", sliceName: "campaignApi" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Error fetching campaigns', sliceName: sliceCampaign }, { status: 500 })
   }
 }

@@ -41,8 +41,8 @@ export const sideLinkData: SideLinkSection[] = [
         linkText: 'One-Time/Monthly'
       },
       {
-        linkKey: '/welcome-wieners',
-        linkText: 'Welcome Wieners'
+        linkKey: '/dog-boosts',
+        linkText: 'Dog Boosts'
       },
       {
         linkKey: '/donate/shop-to-help',
