@@ -26,7 +26,14 @@ export async function sendScheduledEcards() {
           recipientsFullName: ecard.recipientsFullName,
           name: ecard.name,
           message: ecard.message,
-          ecardImage: ecard.image
+          subMessage: ecard.subMessage,
+          recipientName: ecard.recipientName,
+          theme: ecard.theme,
+          background: ecard.background,
+          textColor: ecard.textColor,
+          fontSize: ecard.fontSize,
+          font: ecard.font,
+          icon: ecard.icon
         },
         process.env.SPARKPOST_API_KEY
       )

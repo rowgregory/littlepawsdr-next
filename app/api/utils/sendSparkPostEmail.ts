@@ -2,58 +2,105 @@ export async function sendSparkPostEmail(
   data: Record<string, any>, // ecard details like name, image, message, price, etc.
   apiKey?: string
 ) {
-  const SPARKPOST_API_KEY = apiKey ?? process.env.SPARKPOST_API_KEY!;
-  const url = "https://api.sparkpost.com/api/v1/transmissions";
+  const SPARKPOST_API_KEY = apiKey ?? process.env.SPARKPOST_API_KEY!
+  const url = 'https://api.sparkpost.com/api/v1/transmissions'
 
   // Basic email template example using substitution data.
   // You can create a template in SparkPost dashboard and reference it here by template_id.
   // Or build the HTML here directly.
   const payload = {
     options: {
-      sandbox: false, // true = test mode (won't send to actual recipients)
+      sandbox: false // true = test mode (won't send to actual recipients)
     },
     content: {
       from: {
-        email: "no-reply@littlepawsdr.org",
-        name: "Little Paws Dachshund Rescue",
+        email: 'no-reply@littlepawsdr.org',
+        name: 'Little Paws Dachshund Rescue'
       },
-      reply_to: "lpdr@littlepawsdr.org",
+      reply_to: 'lpdr@littlepawsdr.org',
       subject: `Your Ecard: ${data.ecardName}`,
       html: `
-        <html>
-          <body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color: #f9f9f9;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9f9f9; padding: 20px 0;">
-              <tr>
-                <td align="center">
-                  <table width="600" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <tr>
-                      <td style="padding: 30px; text-align: center; border-bottom: 1px solid #e0e0e0;">
-                        <h1 style="color: #333333; margin: 0; font-size: 28px;">You've received an ecard!</h1>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 20px 30px; text-align: center;">
-                        <p style="font-size: 18px; color: #555555; margin: 0 0 10px;">Hi <strong>{{RECIPIENT_NAME}}</strong>,</p>
-                        <p style="font-size: 16px; color: #555555; margin: 0 0 20px;"><strong>{{SENDER_NAME}}</strong> sent you a message:</p>
-                        <blockquote style="font-size: 16px; font-style: italic; color: #333333; margin: 0 0 20px;">"{{MESSAGE}}"</blockquote>
-                        <img 
-                          src="{{ECARD_IMAGE_URL}}" 
-                          alt="Ecard Image" 
-                          style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-top: 20px;" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 20px 30px; background-color: #f1f1f1; border-radius: 0 0 8px 8px; text-align: center; font-size: 14px; color: #999999;">
-                        Little Paws Dachshund Rescue &copy; {{YEAR}}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </body>
-        </html>
-`,
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eCard Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .aspect-4-3 {
+        aspect-ratio: 4 / 3;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+    <div class="flex-1 overflow-y-auto bg-gray-50">
+      <div class="px-6 py-8 min-h-full">
+        <div class="bg-white rounded-lg shadow-sm border max-w-2xl mx-auto">
+          <div class="p-6 text-gray-700 leading-relaxed">
+            <p class="mb-4">Hi <strong>${data.recipientName || data.recipientsFullName}</strong>,</p>
+            <p class="mb-6">
+              Someone special has sent you a personalized eCard! We hope this brings a smile to your day.
+            </p>
+          </div>
+          <div class="px-6 pb-6">
+            <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 bg-gray-50">
+              <div class="text-center text-sm text-gray-600 mb-4 font-medium">✨ Your Personal eCard ✨</div>
+              <div class="bg-teal-200 rounded-xl p-8 aspect-4-3 flex flex-col items-center justify-center text-center shadow-lg relative overflow-hidden text-teal-900">
+                <div class="absolute top-4 left-4 opacity-20 text-teal-900" style="font-size: 2rem">★</div>
+                <div class="absolute top-4 right-4 opacity-20 text-teal-900" style="font-size: 2rem">★</div>
+                <div class="absolute bottom-4 left-4 opacity-20 text-teal-900" style="font-size: 1.5rem">★</div>
+                <div class="absolute bottom-4 right-4 opacity-20 text-teal-900" style="font-size: 1.5rem">★</div>
+                <div class="z-10 space-y-4">
+                  <div class="text-6xl mx-auto mb-4 drop-shadow-lg">${data.icon || '🎉'}</div>
+                  <h1 class="text-3xl font-bold drop-shadow-lg">${data.message || 'Hope you have a wonderful day!'}</h1>
+                  <p class="text-lg drop-shadow-md opacity-90">${data.subMessage || 'Looking forward to catching up soon.'}</p>
+                  <div class="pt-4 border-t border-white/20">
+                    <p class="text-sm drop-shadow-md">To: ${data.recipientName || data.recipientsFullName}</p>
+                    <p class="text-sm drop-shadow-md mt-1">From: ${data.senderName || data.name}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 pb-6 text-gray-600 text-sm leading-relaxed">
+            <p class="mb-4">
+              We hope you enjoyed this special message! If you'd like to send your own personalized eCards to support our rescue mission, visit our website.
+            </p>
+            <div class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg mb-4">
+              <p class="text-teal-800 font-medium mb-1">About Little Paws Dachshund Rescue</p>
+              <p class="text-teal-700 text-sm">
+                We're dedicated to rescuing, rehabilitating, and rehoming dachshunds in need. Every eCard purchase helps support our mission to give these wonderful dogs a second chance at happiness.
+              </p>
+            </div>
+            <p class="text-gray-500 text-xs border-t pt-4 mt-4">
+              This eCard was sent through Little Paws Dachshund Rescue's eCard system.<br />
+              Questions? Contact us at support@littlepawsdr.org<br />
+              &copy; ${new Date().getFullYear()} Little Paws Dachshund Rescue. All rights reserved.
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-center gap-3 mt-8 pb-8">
+          <button
+            onclick="window.location.href = \`mailto:?subject=Check out this eCard from Little Paws Dachshund Rescue&body=Hi,%0D%0A%0D%0AI wanted to share this eCard with you! Check it out here: https://www.littlepawsdr.org/store/ecard-studio\`"
+            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors font-medium"
+          >
+            Forward
+          </button>
+          <a
+            href="https://www.littlepawsdr.org/store/ecard-studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-6 py-2 border bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors font-medium inline-block text-center duration-300"
+          >
+            Send Your Own eCard
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+`
 
       // alternatively, use 'template_id' if you created a SparkPost template
       // template_id: "your-template-id",
@@ -61,32 +108,39 @@ export async function sendSparkPostEmail(
     recipients: [
       {
         address: {
-          email: data.recipientsEmail,
+          email: data.recipientsEmail
         },
         substitution_data: {
-          RECIPIENT_NAME: data.recipientsFullName,
-          SENDER_NAME: data.name,
-          MESSAGE: data.message || "Enjoy your ecard!",
-          ECARD_IMAGE_URL: data.ecardImage,
+          RECIPIENT_NAME: data.recipientName || data.recipientsFullName,
+          SENDER_NAME: data.senderName || data.name,
+          MESSAGE: data.message || 'Enjoy your ecard!',
+          SUBMESSAGE: data.subMessage || '',
+          THEME: data.theme || '',
+          BACKGROUND: data.background || '',
+          TEXTCOLOR: data.textColor || '',
+          FONTSIZE: data.fontSize || '',
+          FONT: data.font || '',
+          ICON: data.icon || '',
           YEAR: new Date().getFullYear(),
-        },
-      },
-    ],
-  };
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${SPARKPOST_API_KEY}`,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`SparkPost API error: ${res.status} - ${errorText}`);
+          ECARD_NAME: data.ecardName || ''
+        }
+      }
+    ]
   }
 
-  return await res.json();
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${SPARKPOST_API_KEY}`
+    },
+    body: JSON.stringify(payload)
+  })
+
+  if (!res.ok) {
+    const errorText = await res.text()
+    throw new Error(`SparkPost API error: ${res.status} - ${errorText}`)
+  }
+
+  return await res.json()
 }

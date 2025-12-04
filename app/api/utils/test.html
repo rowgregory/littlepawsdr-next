@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eCard Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom aspect ratio for eCard */
+      .aspect-4-3 {
+        aspect-ratio: 4 / 3;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+    <div class="flex-1 overflow-y-auto bg-gray-50">
+      <div class="px-6 py-8 min-h-full">
+        <!-- Email Content Container -->
+        <div class="bg-white rounded-lg shadow-sm border max-w-2xl mx-auto">
+          <!-- Email Body Text -->
+          <div class="p-6 text-gray-700 leading-relaxed">
+            <p class="mb-4">Hi <strong>John Doe</strong>,</p>
+            <p class="mb-6">
+              Someone special has sent you a personalized eCard! We hope this
+              brings a smile to your day.
+            </p>
+          </div>
+
+          <!-- eCard Container -->
+          <div class="px-6 pb-6">
+            <div
+              class="border-2 border-dashed border-gray-200 rounded-xl p-4 bg-gray-50"
+            >
+              <div class="text-center text-sm text-gray-600 mb-4 font-medium">
+                ✨ Your Personal eCard ✨
+              </div>
+
+              <!-- Actual Card -->
+              <div
+                class="bg-teal-200 rounded-xl p-8 aspect-4-3 flex flex-col items-center justify-center text-center shadow-lg relative overflow-hidden text-teal-900"
+              >
+                <!-- Decorative elements -->
+                <div
+                  class="absolute top-4 left-4 opacity-20 text-teal-900"
+                  style="font-size: 2rem"
+                >
+                  ★
+                </div>
+                <div
+                  class="absolute top-4 right-4 opacity-20 text-teal-900"
+                  style="font-size: 2rem"
+                >
+                  ★
+                </div>
+                <div
+                  class="absolute bottom-4 left-4 opacity-20 text-teal-900"
+                  style="font-size: 1.5rem"
+                >
+                  ★
+                </div>
+                <div
+                  class="absolute bottom-4 right-4 opacity-20 text-teal-900"
+                  style="font-size: 1.5rem"
+                >
+                  ★
+                </div>
+
+                <!-- Main content -->
+                <div class="z-10 space-y-4">
+                  <div class="text-6xl mx-auto mb-4 drop-shadow-lg">🎉</div>
+
+                  <h1 class="text-3xl font-bold drop-shadow-lg">
+                    Hope you have a wonderful day!
+                  </h1>
+
+                  <p class="text-lg drop-shadow-md opacity-90">
+                    Looking forward to catching up soon.
+                  </p>
+
+                  <div class="pt-4 border-t border-white/20">
+                    <p class="text-sm drop-shadow-md">To: John Doe</p>
+                    <p class="text-sm drop-shadow-md mt-1">From: Jane Smith</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Footer -->
+          <div class="px-6 pb-6 text-gray-600 text-sm leading-relaxed">
+            <p class="mb-4">
+              We hope you enjoyed this special message! If you'd like to send
+              your own personalized eCards to support our rescue mission, visit
+              our website.
+            </p>
+
+            <div
+              class="bg-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg mb-4"
+            >
+              <p class="text-teal-800 font-medium mb-1">
+                About Little Paws Dachshund Rescue
+              </p>
+              <p class="text-teal-700 text-sm">
+                We're dedicated to rescuing, rehabilitating, and rehoming
+                dachshunds in need. Every eCard purchase helps support our
+                mission to give these wonderful dogs a second chance at
+                happiness.
+              </p>
+            </div>
+
+            <p class="text-gray-500 text-xs border-t pt-4 mt-4">
+              This eCard was sent through Little Paws Dachshund Rescue's eCard
+              system.<br />
+              Questions? Contact us at support@littlepawsdr.org<br />
+              &copy; 2024 Little Paws Dachshund Rescue. All rights reserved.
+            </p>
+          </div>
+        </div>
+
+        <!-- Gmail-style action buttons -->
+        <div class="flex justify-center gap-3 mt-8 pb-8">
+          <button
+            onclick="window.location.href = `mailto:?subject=Check out this eCard from Little Paws Dachshund Rescue&body=Hi,%0D%0A%0D%0AI wanted to share this eCard with you! Check it out here: https://www.littlepawsdr.org/store/ecard-studio`"
+            class="px-6 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors font-medium"
+          >
+            Forward
+          </button>
+          <a
+            href="https://www.littlepawsdr.org/store/ecard-studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-6 py-2 border bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors font-medium inline-block text-center duration-300"
+          >
+            Send Your Own eCard
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
