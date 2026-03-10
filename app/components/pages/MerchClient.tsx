@@ -63,7 +63,7 @@ export default function MerchClient({ products }: { products: IProduct[] }) {
 
         {/* ── Grid ── */}
         <AnimatePresence mode="wait">
-          {filtered.length > 0 ? (
+          {filtered?.length > 0 ? (
             <motion.ul
               initial="hidden"
               animate="show"
@@ -71,21 +71,21 @@ export default function MerchClient({ products }: { products: IProduct[] }) {
               role="list"
               aria-label="Products"
             >
-              {filtered.map((product, i) => {
+              {filtered?.map((product, i) => {
                 return (
-                  <motion.li key={product.id} variants={fadeUp} custom={i % 8} className="group bg-bg-light dark:bg-bg-dark flex flex-col">
+                  <motion.li key={product?.id} variants={fadeUp} custom={i % 8} className="group bg-bg-light dark:bg-bg-dark flex flex-col">
                     <Link
-                      href={`/merch/${product.id}`}
-                      aria-label={`${product.name ?? 'Product'} — $${Number(product.price).toFixed(2)}`}
+                      href={`/merch/${product?.id}`}
+                      aria-label={`${product?.name ?? 'Product'} — $${Number(product?.price).toFixed(2)}`}
                       className="flex flex-col flex-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                     >
                       {/* Image */}
                       <div className="relative aspect-square overflow-hidden bg-surface-light dark:bg-surface-dark">
-                        {product.images?.[0] ? (
+                        {product?.images?.[0] ? (
                           <Picture
                             priority={false}
-                            src={product.images?.[0] ?? product.image ?? ''}
-                            alt={product.name ?? 'Product'}
+                            src={product?.images?.[0] ?? product?.image ?? ''}
+                            alt={product?.name ?? 'Product'}
                             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                           />
                         ) : (
@@ -98,9 +98,9 @@ export default function MerchClient({ products }: { products: IProduct[] }) {
                       {/* Info */}
                       <div className="p-3 sm:p-4 flex flex-col gap-1 flex-1 justify-between">
                         <p className="text-xs sm:text-sm font-semibold text-text-light dark:text-text-dark leading-snug group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors line-clamp-2">
-                          {product.name}
+                          {product?.name}
                         </p>
-                        <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1">${product.price.toFixed(2)} USD</p>
+                        <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1">${product?.price.toFixed(2)} USD</p>
                       </div>
                     </Link>
                   </motion.li>

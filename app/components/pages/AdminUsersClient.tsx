@@ -131,7 +131,7 @@ export default function AdminUsersClient({ users }: { users: IUser[] }) {
     })
   }, [users, roleFilter, search])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const totalPages = Math.max(1, Math.ceil(filtered?.length / PAGE_SIZE))
   const safePage = Math.min(page, totalPages)
   const paginated = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE)
 
@@ -155,7 +155,7 @@ export default function AdminUsersClient({ users }: { users: IUser[] }) {
           <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3">
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark shrink-0">
               All Users
-              <span className="ml-2 text-primary-light dark:text-primary-dark">{filtered.length}</span>
+              <span className="ml-2 text-primary-light dark:text-primary-dark">{filtered?.length}</span>
             </p>
 
             <div className="flex items-center gap-2 w-full xs:w-auto flex-wrap">
@@ -227,7 +227,7 @@ export default function AdminUsersClient({ users }: { users: IUser[] }) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.15 }}
               >
-                {paginated.length > 0 ? (
+                {paginated?.length > 0 ? (
                   paginated.map((user) => (
                     <tr
                       key={user.id}
@@ -286,8 +286,8 @@ export default function AdminUsersClient({ users }: { users: IUser[] }) {
           </div>
 
           {/* ── Pagination ── */}
-          {filtered.length > PAGE_SIZE && (
-            <Pagination page={safePage} totalPages={totalPages} onPage={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />
+          {filtered?.length > PAGE_SIZE && (
+            <Pagination page={safePage} totalPages={totalPages} onPage={setPage} totalItems={filtered?.length} pageSize={PAGE_SIZE} />
           )}
         </div>
       </div>

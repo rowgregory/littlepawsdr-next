@@ -165,7 +165,7 @@ export default function CartPage() {
   const shipping = items.some((i) => i.isPhysicalProduct) ? 5.99 : 0
   const total = subtotal + shipping
   const itemCount = items.reduce((s, i) => s + i.quantity, 0)
-  const isEmpty = items.length === 0
+  const isEmpty = items?.length === 0
 
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">

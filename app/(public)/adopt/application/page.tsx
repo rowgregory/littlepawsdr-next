@@ -397,7 +397,7 @@ export default function AdoptionApplicationPage() {
                       {STEP_LABELS[s]}
                     </span>
                   </div>
-                  {index < STEPS.length - 1 && (
+                  {index < STEPS?.length - 1 && (
                     <div
                       aria-hidden="true"
                       className={`w-16 sm:w-24 h-px mx-2 mb-5 transition-colors duration-300 ${

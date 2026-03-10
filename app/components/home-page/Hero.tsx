@@ -34,7 +34,7 @@ const SLIDES = [
 export const Hero = () => {
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)
-  const slideCount = SLIDES.length
+  const slideCount = SLIDES?.length
 
   const goTo = useCallback((index: number) => setCurrent((index + slideCount) % slideCount), [slideCount])
   const goNext = useCallback(() => goTo(current + 1), [current, goTo])
@@ -153,7 +153,7 @@ export const Hero = () => {
             <span className="w-16 mx-2 h-px bg-on-dark/10" aria-hidden="true" />
 
             <span className="text-on-dark text-xs font-mono tabular-nums" aria-live="polite" aria-atomic="true">
-              {current + 1}/{SLIDES.length}
+              {current + 1}/{SLIDES?.length}
             </span>
           </div>
         </div>

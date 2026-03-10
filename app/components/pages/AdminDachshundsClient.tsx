@@ -19,8 +19,8 @@ export default function AdminDachshundsClient({ available, hold }) {
   const filtered = tabData[activeTab]
   console.log('filtered: ', filtered)
   const counts = {
-    Available: available.length,
-    Hold: hold.length
+    Available: available?.length,
+    Hold: hold?.length
   }
 
   return (

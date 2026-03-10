@@ -19,7 +19,7 @@ export const Typewriter = ({ sentence, speed = 50, className, showCursor = true,
     indexRef.current = 0
 
     const timer = setInterval(() => {
-      if (indexRef.current < sentence.length) {
+      if (indexRef.current < sentence?.length) {
         setDisplayText(sentence.slice(0, indexRef.current + 1))
         indexRef.current++
       } else {

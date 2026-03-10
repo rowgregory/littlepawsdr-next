@@ -179,9 +179,9 @@ export default function MemberPortalClient({ user, donations, subscriptions, wie
           <div className="mt-8 grid grid-cols-2 xs:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
             {[
               { label: 'Total Given', value: formatMoney(totalGiven) },
-              { label: 'Subscriptions', value: subscriptions.filter((s) => s.status === 'active').length.toString() },
-              { label: 'Dogs Supported', value: wienerSupports.length.toString() },
-              { label: 'Auctions', value: auctionBids.length.toString() }
+              { label: 'Subscriptions', value: subscriptions.filter((s) => s.status === 'active')?.length.toString() },
+              { label: 'Dogs Supported', value: wienerSupports?.length.toString() },
+              { label: 'Auctions', value: auctionBids?.length.toString() }
             ].map(({ label, value }) => (
               <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4 sm:py-5">
                 <p className="text-[9px] font-mono tracking-[0.18em] uppercase text-muted-light dark:text-muted-dark mb-1">{label}</p>
@@ -196,7 +196,7 @@ export default function MemberPortalClient({ user, donations, subscriptions, wie
           {/* ── Subscriptions ── */}
           <motion.section variants={fadeUp} initial="hidden" animate="show" custom={1} aria-labelledby="subscriptions-heading">
             <SectionLabel label="Subscriptions" />
-            {subscriptions.length === 0 ? (
+            {subscriptions?.length === 0 ? (
               <EmptyState message="No active subscriptions." />
             ) : (
               <ul
@@ -227,7 +227,7 @@ export default function MemberPortalClient({ user, donations, subscriptions, wie
           {/* ── One-time donations ── */}
           <motion.section variants={fadeUp} initial="hidden" animate="show" custom={2} aria-labelledby="donations-heading">
             <SectionLabel label="One-Time Donations" />
-            {donations.length === 0 ? (
+            {donations?.length === 0 ? (
               <EmptyState message="No donations yet." />
             ) : (
               <div className="border border-border-light dark:border-border-dark overflow-hidden">
@@ -283,7 +283,7 @@ export default function MemberPortalClient({ user, donations, subscriptions, wie
           {/* ── Welcome Wieners ── */}
           <motion.section variants={fadeUp} initial="hidden" animate="show" custom={3} aria-labelledby="wieners-heading">
             <SectionLabel label="Welcome Wieners Supported" />
-            {wienerSupports.length === 0 ? (
+            {wienerSupports?.length === 0 ? (
               <EmptyState message="You haven't supported any dogs yet." />
             ) : (
               <ul
@@ -316,7 +316,7 @@ export default function MemberPortalClient({ user, donations, subscriptions, wie
           {/* ── Auctions ── */}
           <motion.section variants={fadeUp} initial="hidden" animate="show" custom={4} aria-labelledby="auctions-heading">
             <SectionLabel label="Auction Participation" />
-            {auctionBids.length === 0 ? (
+            {auctionBids?.length === 0 ? (
               <EmptyState message="You haven't participated in any auctions yet." />
             ) : (
               <ul

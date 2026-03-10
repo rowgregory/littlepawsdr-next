@@ -24,7 +24,7 @@ export default function DonationForm() {
   const [success, setSuccess] = useState(false)
   const donationAmount = useCustom ? Math.max(5, parseFloat(customAmount) || 0) : (selectedAmount ?? 0)
 
-  const isValid = donationAmount >= 5 && name.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && cardComplete
+  const isValid = donationAmount >= 5 && name.trim()?.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && cardComplete
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

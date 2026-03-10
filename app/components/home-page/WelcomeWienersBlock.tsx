@@ -5,15 +5,17 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Picture from '../common/Picture'
 
+const getTotalPages = (length: number) => Math.ceil(length / 4)
+
 export const WelcomeWienersBlock = ({ data }) => {
   const [page, setPage] = useState(0)
   const scrollRef = useRef<HTMLUListElement>(null)
+  const dachshunds = data?.data?.data ?? []
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [leftOffset, setLeftOffset] = useState(0)
-  const TOTAL_PAGES = (data) => Math.ceil(data.length / 4)
-  const totalPages = useMemo(() => TOTAL_PAGES(data), [data])
   const SLIDES_PER_VIEW = { mobile: 1, sm: 2, lg: 4 }
+  const totalPages = useMemo(() => getTotalPages(dachshunds?.length ?? 0), [dachshunds?.length])
 
   useEffect(() => {
     const measure = () => {
@@ -26,31 +28,30 @@ export const WelcomeWienersBlock = ({ data }) => {
     return () => window.removeEventListener('resize', measure)
   }, [])
 
-  // Sync dot indicator with scroll position
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
 
     const onScroll = () => {
-      const cardWidth = el.scrollWidth / data?.length
+      const cardWidth = el.scrollWidth / (dachshunds?.length ?? 1)
       const newPage = Math.round(el.scrollLeft / (cardWidth * SLIDES_PER_VIEW.lg))
       setPage(Math.min(newPage, totalPages - 1))
     }
 
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
-  }, [SLIDES_PER_VIEW.lg, data, totalPages])
+  }, [SLIDES_PER_VIEW.lg, dachshunds?.length, totalPages])
 
   // Scroll to page when dot/arrow clicked
   const scrollToPage = useCallback(
     (p: number) => {
       const el = scrollRef.current
       if (!el) return
-      const cardWidth = el.scrollWidth / data?.length
+      const cardWidth = el.scrollWidth / (dachshunds?.length ?? 1)
       el.scrollTo({ left: p * cardWidth * SLIDES_PER_VIEW.lg, behavior: 'smooth' })
       setPage(p)
     },
-    [SLIDES_PER_VIEW.lg, data?.length]
+    [SLIDES_PER_VIEW.lg, dachshunds?.length]
   )
 
   const prev = useCallback(() => scrollToPage(Math.max(0, page - 1)), [page, scrollToPage])
@@ -141,7 +142,7 @@ export const WelcomeWienersBlock = ({ data }) => {
           className="flex overflow-x-auto snap-x snap-mandatory gap-x-3 scroll-smooth mb-12.5"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {data?.map((dog, i) => (
+          {dachshunds?.map((dog, i) => (
             <li key={dog.id} className="shrink-0 w-full sm:w-145">
               <Link
                 href={`/welcome-wieners/${dog.slug}`}

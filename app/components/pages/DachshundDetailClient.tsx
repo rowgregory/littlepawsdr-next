@@ -89,12 +89,12 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
   const searchParams = useSearchParams()
   const from = searchParams.get('from')
 
-  const prevPhoto = () => setActivePhoto((p) => (p - 1 + a?.photos.length) % a?.photos.length)
-  const nextPhoto = () => setActivePhoto((p) => (p + 1) % a?.photos.length)
+  const prevPhoto = () => setActivePhoto((p) => (p - 1 + a?.photos?.length) % a?.photos?.length)
+  const nextPhoto = () => setActivePhoto((p) => (p + 1) % a?.photos?.length)
 
   const visibleThumbs = a?.photos.slice(thumbStart, thumbStart + THUMB_PAGE)
   const canScrollBack = thumbStart > 0
-  const canScrollFwd = thumbStart + THUMB_PAGE < a?.photos.length
+  const canScrollFwd = thumbStart + THUMB_PAGE < a?.photos?.length
 
   const cleanHtml = (a?.descriptionHtml ?? a?.descriptionText)
     ?.replace(/<img[^>]*tracker\.rescuegroups\.org[^>]*>/gi, '')
@@ -144,7 +144,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               <Picture
                 priority={true}
                 src={a?.photos[activePhoto]}
-                alt={`${a?.name}, photo ${activePhoto + 1} of ${a?.photos.length}`}
+                alt={`${a?.name}, photo ${activePhoto + 1} of ${a?.photos?.length}`}
                 className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300"
               />
 
@@ -170,7 +170,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
 
               {/* Counter */}
               <div className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-mono px-2.5 py-1 rounded-full" aria-live="polite">
-                {activePhoto + 1} / {a?.photos.length}
+                {activePhoto + 1} / {a?.photos?.length}
               </div>
 
               {/* Special needs badge */}

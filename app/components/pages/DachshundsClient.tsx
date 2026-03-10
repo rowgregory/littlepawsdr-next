@@ -36,7 +36,7 @@ export default function DachshundsClient({ data }) {
               role="list"
               aria-label="Available dachshunds"
             >
-              {data?.data?.data?.map((dog, i) => (
+              {data?.data?.data?.map((dog, i: number) => (
                 <DogCard key={dog.id} dog={dog} index={i} />
               ))}
             </motion.ul>

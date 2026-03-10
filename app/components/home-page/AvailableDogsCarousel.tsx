@@ -10,7 +10,7 @@ const getTotalPages = (length: number) => Math.ceil(length / 4)
 export const AvailableDogsBlock = ({ data }) => {
   const [page, setPage] = useState(0)
   const scrollRef = useRef<HTMLUListElement>(null)
-  const dachshunds = data?.data?.data
+  const dachshunds = data?.data?.data ?? []
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [leftOffset, setLeftOffset] = useState(0)
@@ -140,7 +140,7 @@ export const AvailableDogsBlock = ({ data }) => {
           className="flex overflow-x-auto snap-x snap-mandatory gap-x-3 scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {data?.data?.data?.map((dog, i) => (
+          {dachshunds?.map((dog, i) => (
             <li key={dog.id} className="shrink-0 w-[80vw] sm:w-[45vw] lg:w-[25vw] min-w-65 max-w-[288px]">
               <Link
                 href={`/dachshunds/${dog.id}`}

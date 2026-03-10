@@ -16,7 +16,7 @@ export const HomeClient = ({ data }) => {
       <LPDRLogo />
       <DogGalleryBlock />
       <WaysToHelpBlock />
-      <WelcomeWienersBlock data={data?.dachshunds?.data?.data} />
+      <WelcomeWienersBlock data={data?.dachshunds} />
       <InstagramBlock />
     </div>
   )

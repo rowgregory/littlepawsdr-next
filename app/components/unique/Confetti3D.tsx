@@ -47,7 +47,7 @@ export const Confetti3D: React.FC<Confetti3DProps> = () => {
     for (let i = 0; i < count; i++) {
       const geometry = new THREE.PlaneGeometry(0.15, 0.08)
       const material = new THREE.MeshBasicMaterial({
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: colors[Math.floor(Math.random() * colors?.length)],
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 1.0
