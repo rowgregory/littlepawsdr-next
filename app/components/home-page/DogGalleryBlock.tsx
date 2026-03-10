@@ -79,7 +79,7 @@ export const DogGalleryBlock = () => {
         </div>
 
         <Link
-          href="/available"
+          href="/dachshunds"
           aria-label="View all dachshunds available for adoption"
           className="group relative font-nunito text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded pb-1 text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark self-start sm:self-auto whitespace-nowrap"
         >

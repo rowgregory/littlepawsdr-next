@@ -187,7 +187,7 @@ export const AvailableDogsBlock = ({ data }) => {
       {/* Mobile: view all CTA */}
       <div className="mt-8 flex justify-center lg:hidden px-4">
         <Link
-          href="/available"
+          href="/dachshunds"
           className="inline-flex items-center px-8 py-3 border-2 border-primary-light dark:border-primary-dark text-text-light dark:text-text-dark text-sm font-semibold font-nunito tracking-wide hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
         >
           View all available dogs

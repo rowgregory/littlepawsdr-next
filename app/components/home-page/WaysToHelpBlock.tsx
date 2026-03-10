@@ -76,7 +76,7 @@ const ROWS: HelpRow[] = [
     label: 'Adopt',
     description: 'Give a dachshund a forever home',
     cost: '$15 app fee',
-    href: '/available',
+    href: '/dachshunds',
     cta: 'Apply'
   }
 ]
