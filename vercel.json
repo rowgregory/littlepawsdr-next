@@ -1,14 +1,8 @@
 {
-  "cron": {
-    "jobs": [
-      {
-        "path": "/api/cron/send-scheduled-ecards",
-        "schedule": "0 9 * * *"
-      },
-      {
-        "path": "/api/cron/expire-adoption-fees",
-        "schedule": "0 0 * * *"
-      }
-    ]
-  }
+  "crons": [
+    {
+      "path": "/api/cron/expire-adoption-fees",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }
