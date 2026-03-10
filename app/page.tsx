@@ -9,5 +9,7 @@ export default async function HomePage() {
     dachshunds,
     welcomeWieners
   }
+
+  console.log('HOME PAGE: ', data)
   return <HomeClient data={data} />
 }

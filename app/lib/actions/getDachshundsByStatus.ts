@@ -33,6 +33,8 @@ export async function getDachshundsByStatus({ status, pageLimit, currentPage }: 
       getPicturesAndVideos(data).reverse()
     }
 
+    console.log('GET DACHSHUNDS BY STATUS: ', data)
+
     return { success: true, data }
   } catch (error) {
     await createLog('error', 'Error fetching dachshunds by status', {
