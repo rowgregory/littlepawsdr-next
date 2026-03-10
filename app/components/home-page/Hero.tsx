@@ -19,7 +19,7 @@ const SLIDES = [
     heading: 'Open Your Home, Change a Life',
     subheading: 'Foster families are the backbone of our rescue. Provide a temporary safe haven while we find forever homes.',
     primaryCta: { label: 'Become a Foster', href: '/foster' },
-    secondaryCta: { label: 'Learn More', href: '/about' }
+    secondaryCta: { label: 'Learn More', href: '/' }
   },
   {
     id: 3,

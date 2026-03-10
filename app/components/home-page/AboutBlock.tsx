@@ -80,7 +80,7 @@ export const AboutBlock = () => {
             {/* CTA */}
             <div className="pt-2">
               <Link
-                href="/about"
+                href="/"
                 aria-label="Learn more about Little Paws Dachshund Rescue"
                 className="inline-flex items-center px-11 py-3.5 border-2 border-primary-light dark:border-primary-dark text-text-light dark:text-text-dark text-sm font-semibold font-nunito tracking-wide hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >

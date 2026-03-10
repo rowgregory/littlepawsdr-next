@@ -3,11 +3,9 @@ import Picture from '../common/Picture'
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Adopt', href: '/adopt' },
-  { label: 'Foster', href: '/foster' },
-  { label: 'Donate', href: '/donate' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' }
+  { label: 'Adopt', href: '/adopt/application' },
+  { label: 'Foster', href: '/volunteer/foster' },
+  { label: 'Donate', href: '/donate' }
 ]
 
 const SOCIAL_LINKS = [
