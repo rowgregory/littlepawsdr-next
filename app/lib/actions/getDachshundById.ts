@@ -1,5 +1,3 @@
-'use server'
-
 import { Dog } from 'app/components/pages/DachshundDetailClient'
 import { createLog } from './createLog'
 import { getPicturesAndVideos } from '../../utils/rescueGroupsHelpers'

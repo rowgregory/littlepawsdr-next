@@ -1,5 +1,3 @@
-'use server'
-
 import { createLog } from './createLog'
 import { getPicturesAndVideos } from '../../utils/rescueGroupsHelpers'
 
@@ -30,10 +28,8 @@ export async function getDachshundsByStatus({ status, pageLimit, currentPage }: 
     const data = await response.json()
 
     if (data?.data) {
-      getPicturesAndVideos(data).reverse()
+      data.data = getPicturesAndVideos(data)?.reverse() ?? []
     }
-
-    console.log('GET DACHSHUNDS BY STATUS: ', data)
 
     return { success: true, data }
   } catch (error) {
