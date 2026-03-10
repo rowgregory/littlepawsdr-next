@@ -1,0 +1,612 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+enum AuctionStatus {
+  DRAFT
+  ACTIVE
+  ENDED
+}
+
+enum BidderStatus {
+  REGISTERED
+  ACTIVE
+  DISQUALIFIED
+}
+
+enum BidStatus {
+  TOP_BID
+  OUTBID
+}
+
+enum SellingFormat {
+  AUCTION
+  FIXED
+  BOTH
+}
+
+enum AuctionItemStatus {
+  UNSOLD
+  ACTIVE
+  SOLD
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum WinningBidPaymentStatus {
+  AWAITING_PAYMENT
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ShippingStatus {
+  PENDING_FULFILLMENT
+  PENDING_PAYMENT_CONFIRMATION
+  SHIPPED
+  DELIVERED
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+}
+
+enum Role {
+  SUPERUSER
+  ADMIN
+  SUPPORTER
+}
+
+enum OrderType {
+  ONE_TIME_DONATION
+  RECURRING_DONATION
+  ADOPTION_FEE
+  ECARD
+  PRODUCT
+  WELCOME_WIENER
+}
+
+enum OrderStatus {
+  PENDING // Cart/checkout in progress
+  PROCESSING // Payment being processed
+  CONFIRMED // Payment successful
+  CANCELLED // Order cancelled
+  REFUNDED // Order refunded
+  FAILED // Payment failed
+}
+
+enum OrderItemType {
+  ONE_TIME_DONATION
+  RECURRING_DONATION
+  ADOPTION_FEE
+  ECARD
+  PRODUCT
+  WELCOME_WIENER
+}
+
+enum EcardTheme {
+  BIRTHDAY
+  LOVE
+  CELEBRATION
+  NATURE
+  COZY
+  MUSIC
+}
+
+enum EcardBackground {
+  GRADIENT_SUNSET
+  GRADIENT_OCEAN
+  GRADIENT_FOREST
+  GRADIENT_LAVENDER
+  GRADIENT_GOLDEN
+  GRADIENT_NIGHT
+}
+
+enum EcardFont {
+  ELEGANT
+  MODERN
+  PLAYFUL
+  SCRIPT
+}
+
+enum EcardIcon {
+  GIFT
+  HEART
+  STAR
+  SPARKLES
+  SUN
+  MOON
+  FLOWER
+  COFFEE
+  MUSIC
+}
+
+enum RecurringFrequency {
+  MONTHLY
+  YEARLY
+}
+
+enum AdoptionFeeStatus {
+  ACTIVE
+  EXPIRED
+  APPROVED
+  REJECTED
+}
+
+// ─── Next Auth ────────────────────────────────────────────────────────────────────
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Address ───────────────────────────────────────────────────
+model Address {
+  id String @id @default(cuid())
+
+  name          String
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  state         String
+  zipPostalCode String
+  country       String  @default("US")
+
+  isDefault Boolean     @default(false)
+  type      AddressType @default(SHIPPING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId, isDefault])
+}
+
+// ─── User ────────────────────────────────────────────────────────────────────
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  role        Role
+  lastLoginAt DateTime?
+
+  // Generic person info (optional)
+  firstName String?
+  lastName  String?
+  phone     String?
+
+  emailVerified DateTime?
+
+  // Flexible user-specific data
+  metadata Json? // ← Future-proof
+
+  anonymousBidding Boolean @default(true)
+
+  stripeCustomerId String?
+  paymentMethods   PaymentMethod[]
+  accounts         Account[]
+  sessions         Session[]
+  orders           Order[]
+  address          Address?
+  bidder           AuctionBidder[]
+  winningBids      AuctionWinningBidder[]
+  instantBuys      AuctionItemInstantBuyer[]
+  bids             AuctionBid[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Payment Method ────────────────────────────────────────────────────────────────────
+model PaymentMethod {
+  id              String @id @default(cuid())
+  stripePaymentId String @unique // stripe_pm_xxxxx
+
+  cardholderName String?
+  cardBrand      String // visa, mastercard, etc
+  cardLast4      String // 4242
+  cardExpMonth   Int
+  cardExpYear    Int
+
+  isDefault Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ─── Order ────────────────────────────────────────────────────────────────────
+model Order {
+  id        String      @id @default(cuid())
+  type      OrderType
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Payment
+  totalAmount     Decimal   @db.Decimal(10, 2) // Total cost
+  paymentMethodId String? // stripe payment method ID used
+  paymentIntentId String? // Stripe payment intent ID
+  paidAt          DateTime? // When payment was completed
+
+  // Customer info (denormalized for easy access)
+  customerEmail String
+  customerName  String
+  customerPhone String?
+
+  // Fees
+  coverFees   Boolean @default(false)
+  feesCovered Decimal @default(0) @db.Decimal(10, 2) // Amount in cents
+
+  notes         String?
+  failureReason String? // Store the failure reason
+  failureCode   String? // Store the failure code (optional)
+
+  // User info (nullable - guest checkout allowed)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Recurring donation fields
+  stripeSubscriptionId String?             @unique // For recurring donations
+  isRecurring          Boolean             @default(false)
+  recurringFrequency   RecurringFrequency?
+  nextBillingDate      DateTime? // Next charge date
+
+  // snapshot of address at time of purchase
+  addressLine1  String
+  addressLine2  String?
+  city          String?
+  state         String?
+  zipPostalCode String?
+  country       String?
+
+  isPhysical Boolean @default(false)
+
+  items OrderItem[]
+
+  @@index([type])
+  @@index([status])
+  @@index([userId])
+  @@index([customerEmail])
+  @@index([createdAt])
+}
+
+// ─── Order Item ─────────────────────────────────────────────────────────────────
+model OrderItem {
+  id         String        @id @default(cuid())
+  orderId    String
+  type       OrderItemType
+  price      Decimal       @db.Decimal(10, 2)
+  quantity   Int?
+  subtotal   Decimal?      @db.Decimal(10, 2)
+  totalPrice Decimal?      @db.Decimal(10, 2)
+  isPhysical Boolean       @default(false)
+  email      String?
+
+  // Shared snapshot fields
+  itemName  String?
+  itemImage String?
+  images    String[]
+
+  // WelcomeWiener snapshot
+  age String?
+
+  // Ecard specific
+  recipientsFullName String?
+  recipientsEmail    String?
+  dateToSend         DateTime?
+  senderName         String?
+  recipientName      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+// ─── Auction ─────────────────────────────────────────────────────────────────
+model Auction {
+  id                  String        @id @default(cuid())
+  title               String
+  status              AuctionStatus @default(DRAFT)
+  goal                Decimal       @default(1000) @db.Decimal(10, 2)
+  totalAuctionRevenue Decimal       @default(0) @db.Decimal(10, 2)
+  supporters          Int           @default(0)
+  supporterEmails     String[]
+  customAuctionLink   String?
+  anonymousBidding    Boolean       @default(true)
+  startDate           DateTime
+  endDate             DateTime
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  items          AuctionItem[]
+  bidders        AuctionBidder[]
+  bids           AuctionBid[]
+  instantBuyers  AuctionItemInstantBuyer[]
+  winningBidders AuctionWinningBidder[]
+}
+
+// ─── Auction Item ─────────────────────────────────────────────────────────────
+model AuctionItem {
+  id               String            @id @default(cuid())
+  auctionId        String
+  auction          Auction           @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  name             String
+  description      String?
+  sellingFormat    SellingFormat
+  startingPrice    Decimal?          @db.Decimal(10, 2)
+  buyNowPrice      Decimal?          @db.Decimal(10, 2)
+  currentPrice     Decimal?          @db.Decimal(10, 2)
+  currentBid       Decimal?          @db.Decimal(10, 2)
+  minimumBid       Decimal?          @db.Decimal(10, 2)
+  highestBidAmount Decimal?          @db.Decimal(10, 2)
+  soldPrice        Decimal?          @db.Decimal(10, 2)
+  retailValue      String?
+  totalQuantity    Int?
+  totalBids        Int               @default(0)
+  requiresShipping Boolean           @default(true)
+  shippingCosts    Decimal?          @db.Decimal(10, 2)
+  status           AuctionItemStatus @default(UNSOLD)
+  topBidder        String?
+  itemBtnText      String?
+  isAuction        Boolean           @default(false)
+  isFixed          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  photos         AuctionItemPhoto[]
+  bids           AuctionBid[]
+  instantBuyers  AuctionItemInstantBuyer[]
+  winningBidders AuctionWinningBidder[]
+
+  @@index([auctionId])
+}
+
+// ─── Auction Item Photo ───────────────────────────────────────────────────────
+model AuctionItemPhoto {
+  id        String      @id @default(cuid())
+  itemId    String
+  item      AuctionItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  url       String
+  name      String?
+  size      String?
+  isPrimary Boolean     @default(false)
+  sortOrder Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([itemId])
+}
+
+// ─── Auction Bidder ───────────────────────────────────────────────────────────
+model AuctionBidder {
+  id        String       @id @default(cuid())
+  auctionId String
+  auction   Auction      @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    BidderStatus @default(REGISTERED)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  bids AuctionBid[]
+
+  @@unique([auctionId, userId]) // prevent duplicate registrations
+  @@index([auctionId])
+  @@index([userId])
+}
+
+// ─── Auction Bid ──────────────────────────────────────────────────────────────
+model AuctionBid {
+  id              String        @id @default(cuid())
+  auctionId       String
+  auction         Auction       @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  auctionItemId   String
+  auctionItem     AuctionItem   @relation(fields: [auctionItemId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  bidderId        String
+  bidder          AuctionBidder @relation(fields: [bidderId], references: [id])
+  bidAmount       Decimal       @db.Decimal(10, 2)
+  bidderName      String? // for anonymous display
+  email           String?
+  status          BidStatus     @default(TOP_BID)
+  sentWinnerEmail Boolean       @default(false)
+  emailCount      Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([auctionId])
+  @@index([auctionItemId])
+  @@index([userId])
+}
+
+// ─── Auction Item Instant Buyer ───────────────────────────────────────────────
+model AuctionItemInstantBuyer {
+  id             String         @id @default(cuid())
+  auctionId      String
+  auction        Auction        @relation(fields: [auctionId], references: [id])
+  auctionItemId  String
+  auctionItem    AuctionItem    @relation(fields: [auctionItemId], references: [id])
+  userId         String
+  user           User           @relation(fields: [userId], references: [id])
+  name           String?
+  email          String?
+  totalPrice     Decimal?       @db.Decimal(10, 2)
+  paymentStatus  PaymentStatus  @default(PAID)
+  shippingStatus ShippingStatus @default(PENDING_FULFILLMENT)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([auctionId])
+  @@index([auctionItemId])
+}
+
+// ─── Auction Winning Bidder ───────────────────────────────────────────────────
+model AuctionWinningBidder {
+  id                                         String                  @id @default(cuid())
+  auctionId                                  String
+  auction                                    Auction                 @relation(fields: [auctionId], references: [id])
+  userId                                     String
+  user                                       User                    @relation(fields: [userId], references: [id])
+  winningBidPaymentStatus                    WinningBidPaymentStatus @default(AWAITING_PAYMENT)
+  auctionItemPaymentStatus                   PaymentStatus           @default(PENDING)
+  auctionPaymentNotificationEmailHasBeenSent Boolean                 @default(false)
+  emailNotificationCount                     Int                     @default(0)
+  elapsedTimeSinceAuctionItemWon             String?
+  processingFee                              Decimal?                @db.Decimal(10, 2)
+  totalPrice                                 Decimal?                @db.Decimal(10, 2)
+  itemSoldPrice                              Decimal?                @db.Decimal(10, 2)
+  shipping                                   Decimal?                @db.Decimal(10, 2)
+  shippingStatus                             ShippingStatus          @default(PENDING_PAYMENT_CONFIRMATION)
+  shippingProvider                           String?
+  trackingNumber                             String?
+  payPalId                                   String?
+  paidOn                                     DateTime?
+  createdAt                                  DateTime                @default(now())
+  updatedAt                                  DateTime                @updatedAt
+
+  auctionItems AuctionItem[]
+
+  @@index([auctionId])
+  @@index([userId])
+}
+
+// ─── Adoption Application Bypass Code ───────────────────────────────────────────────────
+model AdoptionApplicationBypassCode {
+  id         String @id @default(cuid())
+  bypassCode String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Ecard ───────────────────────────────────────────────────
+model Ecard {
+  id                 String           @id @default(cuid())
+  recipientsFullName String
+  recipientsEmail    String
+  senderName         String?
+  message            String?
+  dateToSend         DateTime
+  sentAt             DateTime?
+  isSent             Boolean          @default(false)
+  theme              EcardTheme?
+  background         EcardBackground?
+  font               EcardFont?
+  icon               EcardIcon?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+}
+
+// ─── Product ───────────────────────────────────────────────────
+model Product {
+  id                String   @id @default(cuid())
+  name              String?
+  image             String?
+  images            String[]
+  description       String?
+  price             Decimal  @default(0) @db.Decimal(10, 2)
+  shippingPrice     Decimal  @default(0) @db.Decimal(10, 2)
+  countInStock      Int      @default(0)
+  isOutOfStock      Boolean?
+  isPhysicalProduct Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// ─── WelcomeWiener ───────────────────────────────────────────────────
+model WelcomeWiener {
+  id                String   @id @default(cuid())
+  displayUrl        String?
+  name              String?
+  bio               String?
+  age               String?
+  isLive            Boolean  @default(false)
+  isDogBoost        Boolean  @default(true)
+  images            String[]
+  isPhysicalProduct Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  associatedProducts Json[]
+}
+
+// ─── Newsletter ───────────────────────────────────────────────────
+model Newsletter {
+  id              String   @id @default(cuid())
+  newsletterEmail String   @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AdoptionFee {
+  id           String            @id @default(cuid())
+  firstName    String?
+  lastName     String?
+  emailAddress String?
+  state        String?
+  feeAmount    Decimal?          @db.Decimal(10, 2)
+  bypassCode   String?
+  expiresAt    DateTime?
+  status       AdoptionFeeStatus @default(ACTIVE)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
+
+// ─── Log ───────────────────────────────────────────────────
+model Log {
+  id        String   @id @default(cuid())
+  level     String
+  message   String
+  metadata  Json?
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

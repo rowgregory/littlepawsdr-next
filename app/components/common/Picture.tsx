@@ -1,28 +1,55 @@
 import Image from 'next/image'
-import React, { FC } from 'react'
+import { FC, memo, MouseEventHandler } from 'react'
 
-interface PitureProps {
+interface PictureProps {
   src: string
-  className: string
-  priority: boolean
-  imgRef?: any
-  onClick?: () => void
+  alt?: string
+  className?: string
+  priority?: boolean
+  onClick?: MouseEventHandler<HTMLImageElement>
+  width?: number
+  height?: number
+  sizes?: string
+  role?: string
+  decorative?: boolean
+  style?: any
 }
 
-const Picture: FC<PitureProps> = ({ src, className, priority = false, imgRef, onClick }) => {
+const Picture: FC<PictureProps> = ({
+  src,
+  alt,
+  className,
+  priority = false,
+  onClick,
+  width,
+  height,
+  sizes = '100vw',
+  role,
+  decorative = false,
+  style
+}) => {
+  // Decorative images must have empty alt and aria-hidden
+  // If decorative prop is passed, override whatever alt was given
+  const resolvedAlt = decorative ? '' : alt || 'Boys & Girls Club of Lynn'
+  const ariaHidden = decorative ? true : undefined
+
   return (
     <Image
       onClick={onClick}
-      ref={imgRef}
-      src={src}
-      alt="Little Paws Dachshund Rescue"
-      width="0"
-      height="0"
-      sizes="100vw"
+      src={src || '/images/no-img.jpg'}
+      alt={resolvedAlt}
+      width={width || 1}
+      height={height || 1}
       className={className}
       priority={priority}
+      loading={priority ? 'eager' : 'lazy'}
+      sizes={sizes}
+      unoptimized
+      role={role}
+      aria-hidden={ariaHidden}
+      style={style}
     />
   )
 }
 
-export default Picture
+export default memo(Picture)

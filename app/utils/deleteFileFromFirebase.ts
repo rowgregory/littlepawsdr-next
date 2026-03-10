@@ -1,4 +1,4 @@
-import { storage } from 'app/lib/firebase/storage'
+import { storage } from 'app/lib/firebase'
 import { deleteObject, ref } from 'firebase/storage'
 
 /**
@@ -7,7 +7,7 @@ import { deleteObject, ref } from 'firebase/storage'
  * @param {"image" | "video"} type - The type of the file (image or video).
  * @returns {Promise<void>} - Resolves if the deletion is successful.
  */
-const deleteFileFromFirebase = async (fileName: string, type: 'image' | 'video' = 'image'): Promise<void> => {
+export const deleteFileFromFirebase = async (fileName: string, type: 'image' | 'video' = 'image'): Promise<void> => {
   if (!fileName) {
     throw new Error('No file name provided')
   }
@@ -19,11 +19,7 @@ const deleteFileFromFirebase = async (fileName: string, type: 'image' | 'video' 
 
     // Delete the file
     await deleteObject(fileRef)
-    console.log(`File "${fileName}" of type "${type}" has been deleted successfully.`)
   } catch (error) {
-    console.error(`Failed to delete file "${fileName}" of type "${type}":`, error)
     throw error // Optionally rethrow the error
   }
 }
-
-export default deleteFileFromFirebase

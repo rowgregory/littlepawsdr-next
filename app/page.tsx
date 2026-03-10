@@ -1,21 +1,13 @@
-import About from './components/home-page/About'
-import Banner from './components/home-page/Banner'
-import Contact from './components/home-page/Contact'
-import FunFacts from './components/home-page/FunFacts'
-import HighlightCards from './components/home-page/HighlightCards'
-import SafeAndEasyDonations from './components/home-page/SafeAndEasyDonations'
+import { HomeClient } from './components/pages/HomeClient'
+import { getDachshundsByStatus } from './lib/actions/getDachshundsByStatus'
+import { getWelcomeWieners } from './lib/actions/getWelcomeWieners'
 
-const HomePage = () => {
-  return (
-    <div className="min-h-dvh">
-      <Banner />
-      <HighlightCards />
-      <About />
-      <Contact />
-      <SafeAndEasyDonations />
-      <FunFacts />
-    </div>
-  )
+export default async function HomePage() {
+  const dachshunds = await getDachshundsByStatus({ status: 'Available', pageLimit: 250, currentPage: 1 })
+  const welcomeWieners = await getWelcomeWieners()
+  const data = {
+    dachshunds,
+    welcomeWieners
+  }
+  return <HomeClient data={data} />
 }
-
-export default HomePage

@@ -1,5 +1,5 @@
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { storage } from '../lib/firebase/storage'
+import { storage } from '../lib/firebase'
 
 /**
  * Uploads a video or image file to Firebase Storage.
@@ -7,7 +7,7 @@ import { storage } from '../lib/firebase/storage'
  * @param {(progress: number) => void} onProgress - Callback for upload progress (optional).
  * @returns {Promise<string>} - The download URL of the uploaded video.
  */
-const uploadFileToFirebase = async (
+export const uploadFileToFirebase = async (
   file: File,
   onProgress: (progress: number) => void = () => {},
   type: 'image' | 'video' = 'image'
@@ -44,5 +44,3 @@ const uploadFileToFirebase = async (
     )
   })
 }
-
-export default uploadFileToFirebase

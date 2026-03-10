@@ -1,7 +1,6 @@
 # *
 User-agent: *
 Allow: /
-Disallow: /search?q=
 
 # Host
 Host: https://www.littlepawsdr.org

@@ -1,0 +1,95 @@
+import Link from 'next/link'
+import Picture from '../common/Picture'
+
+export const AboutBlock = () => {
+  return (
+    <section aria-labelledby="about-heading" className="relative w-full min-h-256 bg-bg-light dark:bg-bg-dark">
+      {/* Texture background */}
+      <div
+        className="absolute inset-0 bg-repeat opacity-40 dark:opacity-20 pointer-events-none"
+        style={{ backgroundImage: `url('/images/cubes.png')`, backgroundSize: '80px 80px' }}
+        aria-hidden="true"
+      />
+
+      {/* Full width layout layer */}
+      <div className="relative flex">
+        {/* Image — outside max-w, pinned to left edge */}
+        <div className="absolute hidden 1200:block shrink-0 w-[calc((100vw-75rem)/2+24rem)] max-w-3xl overflow-hidden">
+          <Picture
+            priority={false}
+            src="/images/geo-dachshund.png"
+            alt="Geometric zentangle illustration of a dachshund"
+            className="w-full h-full object-cover object-center opacity-20 dark:opacity-30 pt-35"
+          />
+          <Picture
+            priority={false}
+            src="/images/geo-dachshund.png"
+            alt=""
+            aria-hidden="true"
+            className="dachshund-tint absolute inset-0 w-full h-full object-cover object-center opacity-20 dark:opacity-30 pt-35"
+            style={{
+              clipPath: 'polygon(0 0, 100% 0, 0% 100%, 0 100%)'
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="mx-auto max-w-180 1000:max-w-240 1200:max-w-300 w-full mb-68 grid grid-cols-12 py-35 shrink-0">
+          <div className="col-span-12 1200:col-span-7 1200:col-start-6 space-y-6">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3" aria-hidden="true">
+              <div className="w-8 h-px bg-primary-light dark:bg-primary-dark" />
+              <p className="text-xs font-bold uppercase tracking-tight text-muted-light dark:text-muted-dark font-nunito">About Little Paws</p>
+            </div>
+
+            {/* Heading */}
+            <h2 id="about-heading" className="text-[40px] font-light text-text-light dark:text-text-dark leading-tight font-quicksand">
+              <span className="font-black">Little Paws</span> Dachshund Rescue
+            </h2>
+
+            {/* Body copy */}
+            <div className="space-y-4">
+              <p className="font-nunito text-text-light dark:text-text-dark font-semibold leading-relaxed">
+                We are a volunteer-based nonprofit dedicated to rescuing, rehabilitating, and rehoming dachshunds and dachshund mixes across the
+                United States.
+              </p>
+              <p className="font-nunito text-muted-light dark:text-muted-dark leading-relaxed">
+                Every dog in our care receives veterinary attention, foster love, and the chance at a forever home. We believe every dachshund
+                deserves a safe, loving family.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <dl className="grid grid-cols-3 gap-8 pt-4 border-t border-border-light dark:border-border-dark">
+              {[
+                { label: 'Dogs Rescued', value: '1,500' },
+                { label: 'Adoptions', value: '1,200' },
+                { label: 'Volunteers', value: '300' }
+              ].map((stat) => (
+                <div key={stat.label} className="pt-6">
+                  <dd className="text-[clamp(2.5rem,5vw,3.75rem)] font-quicksand font-bold text-primary-light dark:text-primary-dark tabular-nums leading-none">
+                    {stat.value}
+                  </dd>
+                  <dt className="font-nunito text-sm font-semibold text-stat-label-light dark:text-stat-label-dark mt-1 uppercase tracking-wide">
+                    {stat.label}
+                  </dt>
+                </div>
+              ))}
+            </dl>
+
+            {/* CTA */}
+            <div className="pt-2">
+              <Link
+                href="/about"
+                aria-label="Learn more about Little Paws Dachshund Rescue"
+                className="inline-flex items-center px-11 py-3.5 border-2 border-primary-light dark:border-primary-dark text-text-light dark:text-text-dark text-sm font-semibold font-nunito tracking-wide hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+              >
+                More about us
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

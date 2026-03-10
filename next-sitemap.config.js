@@ -1,32 +1,29 @@
-const config = {
+// next-sitemap.config.cjs
+/* eslint-disable @typescript-eslint/no-require-imports */
+const fs = require("fs");
+const path = require("path");
+
+/** @type {import('next-sitemap').IConfig} */
+module.exports = {
   siteUrl: "https://www.littlepawsdr.org",
-  generateRobotsTxt: true, // Generate robots.txt
-  sitemapSize: 7000,
-  changefreq: "daily",
-  priority: 0.7,
+  generateRobotsTxt: true,
+  exclude: ["/admin/*", "/member/*", "/auth/*"],
+
   additionalPaths: async () => {
-    return [
-      { loc: "/", lastmod: new Date().toISOString() },
-      { loc: "/dachshunds", lastmod: new Date().toISOString() },
-      { loc: "/dachshunds/hold", lastmod: new Date().toISOString() },
-      { loc: "/adopt", lastmod: new Date().toISOString() },
-      {
-        loc: "/volunteer/foster-application",
-        lastmod: new Date().toISOString(),
-      },
-      { loc: "/store", lastmod: new Date().toISOString() },
-    ];
-  },
-  robotsTxtOptions: {
-    policies: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/search?q="],
-      },
-    ],
-    additionalSitemaps: ["https://www.littlepawsdr.org/sitemap.xml"],
+    const manifestPath = path.join(
+      process.cwd(),
+      ".next/server/app-paths-manifest.json",
+    );
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+
+    return Object.keys(manifest)
+      .filter(
+        (route) =>
+          !route.startsWith("/admin") &&
+          !route.startsWith("/member") &&
+          !route.startsWith("/auth") &&
+          !route.startsWith("/_"),
+      )
+      .map((route) => ({ loc: route.replace("/page", "") || "/" }));
   },
 };
-
-export default config;
