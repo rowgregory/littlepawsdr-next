@@ -57,14 +57,6 @@ const ROWS: HelpRow[] = [
   },
   {
     id: 6,
-    label: 'Send an Ecard',
-    description: "Brighten someone's day and support rescue dogs",
-    cost: '$5',
-    href: '/ecards',
-    cta: 'Send a Card'
-  },
-  {
-    id: 7,
     label: 'Bid at Auction',
     description: 'Win unique items while funding our mission',
     cost: 'Your Bid',
@@ -72,7 +64,7 @@ const ROWS: HelpRow[] = [
     cta: 'View Auction'
   },
   {
-    id: 8,
+    id: 7,
     label: 'Adopt',
     description: 'Give a dachshund a forever home',
     cost: '$15 app fee',

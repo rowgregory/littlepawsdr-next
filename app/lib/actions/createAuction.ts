@@ -2,9 +2,18 @@
 
 import prisma from 'prisma/client'
 import { createLog } from './createLog'
-import { IAuction } from 'types/entities/auction'
 
-export const createAuction = async (data: Omit<IAuction, 'id' | 'createdAt' | 'updatedAt'>) => {
+type CreateAuctionInput = {
+  title: string
+  startDate: Date
+  endDate: Date
+  status?: 'DRAFT' | 'ACTIVE' | 'ENDED'
+  goal?: number
+  anonymousBidding?: boolean
+  customAuctionLink?: string
+}
+
+export const createAuction = async (data: CreateAuctionInput) => {
   try {
     if (!data.title?.trim()) {
       return {
@@ -34,11 +43,11 @@ export const createAuction = async (data: Omit<IAuction, 'id' | 'createdAt' | 'u
       data: {
         title: data.title.trim(),
         status: data.status ?? 'DRAFT',
-        goal: data.goal,
+        goal: data.goal ?? 1000,
         customAuctionLink: data.customAuctionLink?.trim(),
         anonymousBidding: data.anonymousBidding,
-        startDate: data.startDate,
-        endDate: data.endDate
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate)
       }
     })
 

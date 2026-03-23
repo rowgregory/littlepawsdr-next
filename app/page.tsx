@@ -1,15 +1,10 @@
 import { HomeClient } from './components/pages/HomeClient'
 import { getDachshundsByStatus } from './lib/actions/getDachshundsByStatus'
-import { getWelcomeWieners } from './lib/actions/getWelcomeWieners'
+import { getLiveWelcomeWieners } from './lib/actions/getLiveWelcomeWieners'
 
 export default async function HomePage() {
   const dachshunds = await getDachshundsByStatus({ status: 'Available', pageLimit: 250, currentPage: 1 })
-  const welcomeWieners = await getWelcomeWieners()
-  const data = {
-    dachshunds,
-    welcomeWieners
-  }
+  const welcomeWieners = await getLiveWelcomeWieners()
 
-  console.log('HOME PAGE: ', data)
-  return <HomeClient data={data} />
+  return <HomeClient dachshunds={dachshunds} welcomeWieners={welcomeWieners} />
 }

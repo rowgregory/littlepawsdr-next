@@ -1,72 +1,16 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Minus, Plus, X, ShoppingBag } from 'lucide-react'
 import { fadeUp } from 'app/lib/constants/motion'
 import Picture from 'app/components/common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface CartItem {
-  id: string
-  name: string
-  image: string | null
-  price: number
-  quantity: number
-  isPhysicalProduct: boolean
-}
-
-const mockCartItems: CartItem[] = [
-  {
-    id: 'p1',
-    name: 'Little Paws Dachshund Rescue Tote Bag',
-    image: null,
-    price: 18.99,
-    quantity: 1,
-    isPhysicalProduct: true
-  },
-  {
-    id: 'p2',
-    name: 'Doxie Dad Enamel Pin',
-    image: null,
-    price: 8.5,
-    quantity: 2,
-    isPhysicalProduct: true
-  },
-  {
-    id: 'p3',
-    name: 'Happy Tails E-Card Bundle',
-    image: null,
-    price: 5.0,
-    quantity: 1,
-    isPhysicalProduct: false
-  },
-  {
-    id: 'p4',
-    name: 'Little Paws Crew Neck Sweatshirt',
-    image: null,
-    price: 42.0,
-    quantity: 1,
-    isPhysicalProduct: true
-  }
-]
+import { store, useCartSelector } from 'app/lib/store/store'
+import { CartItem, clearCart, decrementQuantity, incrementQuantity, removeFromCart } from 'app/lib/store/slices/cartSlice'
 
 // ─── Cart Item Row ────────────────────────────────────────────────────────────
-function CartItemRow({
-  item,
-  index,
-  onIncrement,
-  onDecrement,
-  onRemove
-}: {
-  item: CartItem
-  index: number
-  onIncrement: (id: string) => void
-  onDecrement: (id: string) => void
-  onRemove: (id: string) => void
-}) {
+function CartItemRow({ item, index }: { item: CartItem; index: number }) {
   return (
     <motion.li
       layout
@@ -93,7 +37,7 @@ function CartItemRow({
         <div>
           <p className="font-quicksand font-black text-sm sm:text-base text-text-light dark:text-text-dark leading-snug truncate">{item.name}</p>
           <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
-            {item.isPhysicalProduct ? 'Physical item' : 'Digital item'}
+            {item.isPhysicalProduct ? 'Ships to your address' : 'Donated directly to a dachshund in our care'}
           </p>
         </div>
 
@@ -104,7 +48,7 @@ function CartItemRow({
           aria-label={`Quantity for ${item.name}`}
         >
           <button
-            onClick={() => onDecrement(item.id)}
+            onClick={() => store.dispatch(decrementQuantity(item.id))}
             aria-label={`Decrease quantity of ${item.name}`}
             disabled={item.quantity <= 1}
             className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark border-r border-border-light dark:border-border-dark"
@@ -119,7 +63,7 @@ function CartItemRow({
             {item.quantity}
           </span>
           <button
-            onClick={() => onIncrement(item.id)}
+            onClick={() => store.dispatch(incrementQuantity(item.id))}
             aria-label={`Increase quantity of ${item.name}`}
             className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark border-l border-border-light dark:border-border-dark"
           >
@@ -131,7 +75,7 @@ function CartItemRow({
       {/* Price + remove */}
       <div className="flex flex-col items-end justify-between">
         <button
-          onClick={() => onRemove(item.id)}
+          onClick={() => store.dispatch(removeFromCart(item.id))}
           aria-label={`Remove ${item.name} from cart`}
           className="p-1 text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
         >
@@ -146,23 +90,11 @@ function CartItemRow({
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function CartPage() {
-  const [items, setItems] = useState<CartItem[]>(mockCartItems)
-
-  function increment(id: string) {
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, quantity: i.quantity + 1 } : i)))
-  }
-
-  function decrement(id: string) {
-    setItems((prev) => prev.map((i) => (i.id === id && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i)))
-  }
-
-  function remove(id: string) {
-    setItems((prev) => prev.filter((i) => i.id !== id))
-  }
+export default function CartPage({}) {
+  const { items } = useCartSelector()
 
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0)
-  const shipping = items.some((i) => i.isPhysicalProduct) ? 5.99 : 0
+  const shipping = items.filter((i) => i.isPhysicalProduct).reduce((sum, i) => sum + i.shippingPrice * i.quantity, 0)
   const total = subtotal + shipping
   const itemCount = items.reduce((s, i) => s + i.quantity, 0)
   const isEmpty = items?.length === 0
@@ -173,7 +105,7 @@ export default function CartPage() {
         {/* ── Header ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-12">
           <Link
-            href="/store"
+            href="/merch"
             className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200 mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
           >
             <svg
@@ -250,7 +182,7 @@ export default function CartPage() {
                 >
                   <AnimatePresence>
                     {items.map((item, i) => (
-                      <CartItemRow key={item.id} item={item} index={i} onIncrement={increment} onDecrement={decrement} onRemove={remove} />
+                      <CartItemRow key={item.id} item={item} index={i} />
                     ))}
                   </AnimatePresence>
                 </ul>
@@ -258,7 +190,7 @@ export default function CartPage() {
                 {/* Clear cart */}
                 <div className="mt-3 flex justify-end">
                   <button
-                    onClick={() => setItems([])}
+                    onClick={() => store.dispatch(clearCart())}
                     className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                   >
                     Clear Cart
@@ -317,14 +249,13 @@ export default function CartPage() {
 
                 {/* CTA */}
                 <div className="px-5 pb-5 flex flex-col gap-2">
-                  <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-3.5 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono font-black tracking-[0.25em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                  <Link
+                    href="/checkout"
+                    className="w-full text-center py-3.5 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono font-black tracking-[0.25em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                     aria-label={`Proceed to checkout — total ${formatMoney(total)}`}
                   >
                     Checkout
-                  </motion.button>
+                  </Link>
                   <p className="text-[9px] font-mono text-center text-muted-light dark:text-muted-dark mt-1">Proceeds support dachshund rescue</p>
                 </div>
               </motion.aside>

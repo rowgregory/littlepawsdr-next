@@ -1,0 +1,6 @@
+// ───── Admin Forms ───────────────────────────────────────────────────
+export const fieldClass = `w-full px-3.5 py-3 text-sm font-mono border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 transition-colors duration-200 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark`
+export const labelClass = `block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2`
+export const errorClass = `text-[11px] text-red-500 dark:text-red-400 font-mono mt-1.5`
+export const cancelButtonClass = `px-5 py-3 text-[10px] font-mono tracking-[0.2em] uppercase border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:border-primary-light dark:hover:border-primary-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark`
+export const submitButtonClass = `px-6 py-3 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark `

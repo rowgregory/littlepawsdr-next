@@ -10,7 +10,7 @@ const getTotalPages = (length: number) => Math.ceil(length / 4)
 export const AvailableDogsBlock = ({ data }) => {
   const [page, setPage] = useState(0)
   const scrollRef = useRef<HTMLUListElement>(null)
-  const dachshunds = data?.data?.data ?? []
+  const dachshunds = data ?? []
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [leftOffset, setLeftOffset] = useState(0)

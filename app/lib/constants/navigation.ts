@@ -7,11 +7,13 @@ import {
   Handshake,
   Heart,
   Home,
+  Info,
   LayoutDashboard,
   LucideIcon,
   Mail,
   Repeat,
   ShoppingBag,
+  User,
   Users
 } from 'lucide-react'
 
@@ -27,13 +29,18 @@ export interface Section {
   linkKey?: string
 }
 
-export const HIDDEN_PATHS = ['/auth', '/admin', '/member', '/checkout', '/order-confirmation']
+export const HIDDEN_PATHS = ['/auth', '/admin', '/member', '/checkout', '/order-confirmation', '/auctions/', '/subscriptions']
 
 export const mainNavigationLinks: Section[] = [
   {
     title: 'Home',
     icon: Home,
     linkKey: '/'
+  },
+  {
+    title: 'About',
+    icon: Info,
+    linkKey: '/about'
   },
   {
     title: 'Dachshunds',
@@ -129,6 +136,11 @@ export const mainNavigationLinks: Section[] = [
     title: 'Subscriptions',
     linkKey: '/subscriptions',
     icon: Repeat
+  },
+  {
+    title: 'Auctions',
+    linkKey: '/auctions',
+    icon: Gavel
   }
 ]
 
@@ -148,13 +160,17 @@ export const ADMIN_NAV_ITEMS = [
   {
     label: 'Commerce',
     items: [
-      { href: '/admin/wieners', label: 'Welcome Wieners', icon: Heart },
       { href: '/admin/auctions', label: 'Auctions', icon: Gavel },
+      { href: '/admin/welcome-wieners', label: 'Welcome Wieners', icon: Heart },
       { href: '/admin/merch', label: 'Merch', icon: ShoppingBag }
     ]
   },
   {
     label: 'Content',
     items: [{ href: '/admin/newsletter', label: 'Newsletter', icon: Mail }]
+  },
+  {
+    label: 'Portal',
+    items: [{ href: '/member/portal', label: 'Member Portal', icon: User }]
   }
 ]

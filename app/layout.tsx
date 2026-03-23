@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Nunito, Quicksand, Work_Sans } from 'next/font/google'
+import { Bebas_Neue, Nunito, Quicksand, Work_Sans } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from './lib/auth'
@@ -25,6 +25,13 @@ const nunito = Nunito({
   variable: '--font-nunito'
 })
 
+const bebas = Bebas_Neue({
+  subsets: ['latin'],
+  weight: ['400'],
+  preload: false,
+  variable: '--font-bebas'
+})
+
 export const metadata: Metadata = {
   title: 'Little Paws Dachshund Rescue',
   description:
@@ -35,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await auth()
   return (
     <html lang="en">
-      <body className={`${quicksand.variable} ${workSans.variable} ${nunito.variable}`}>
+      <body className={`${quicksand.variable} ${workSans.variable} ${bebas.variable} ${nunito.variable} `}>
         <SessionProvider session={session}>
           <RootLayoutWrapper>{children}</RootLayoutWrapper>
         </SessionProvider>

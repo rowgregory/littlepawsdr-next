@@ -1,4 +1,4 @@
-import { BidStatus } from '@prisma/client'
+export type BidStatus = 'TOP_BID' | 'OUTBID'
 
 export interface IAuctionBid {
   id: string
@@ -14,4 +14,32 @@ export interface IAuctionBid {
   emailCount: number
   createdAt: Date
   updatedAt: Date
+
+  user?: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    anonymousBidding: boolean
+  }
+  bidder?: {
+    id: string
+  }
+}
+
+export interface IBidModalProps {
+  isOpen: boolean
+  onClose: () => void
+  itemName: string
+  currentBid?: number | null
+  startingPrice?: number | null
+  minimumBid?: number | null
+  itemId: string
+  auctionId: string
+  user?: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+  } | null
 }

@@ -34,3 +34,4 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useFormSelector = () => useAppSelector((state: RootState) => state.form)
 export const useUiSelector = () => useAppSelector((state: RootState) => state.ui)
 export const useToastSelector = () => useAppSelector((state: RootState) => state.toast)
+export const useCartSelector = () => useAppSelector((state: RootState) => state.cart)

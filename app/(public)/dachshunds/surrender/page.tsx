@@ -1,6 +1,7 @@
 'use client'
 
 import { fadeUp } from 'app/lib/constants/motion'
+import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 
 const surrenderStatesData = [
@@ -42,6 +43,7 @@ const SECTIONS = [
 ]
 
 export default function SurrenderPage() {
+  const { isDark } = useUiSelector()
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
@@ -120,12 +122,21 @@ export default function SurrenderPage() {
             To be considered for surrender, please complete and submit the following Surrender Questionnaire:
           </p>
           <div className="border border-border-light dark:border-border-dark overflow-hidden">
-            <iframe
-              title="Surrender Application"
-              width="100%"
-              className="h-150 sm:h-175 block"
-              src="https://toolkit.rescuegroups.org/of/f?c=QCVXZJTH"
-            />
+            {isDark ? (
+              <iframe
+                title="Surrender Application"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=RXYMKGSJ"
+              ></iframe>
+            ) : (
+              <iframe
+                title="Surrender Application"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=QCVXZJTH"
+              />
+            )}
           </div>
         </motion.section>
       </div>

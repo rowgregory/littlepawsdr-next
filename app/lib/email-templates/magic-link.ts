@@ -4,112 +4,96 @@ export const magicLinkTemplate = (url: string) => `
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign in to Education Comes First</title>
+  <title>Sign in to Little Paws Dachshund Rescue</title>
   <style>
     @media only screen and (max-width: 480px) {
-      .header-title {
-        font-size: 28px !important;
-      }
-      .main-text {
-        font-size: 15px !important;
-      }
-      .button {
-        padding: 14px 28px !important;
-        font-size: 15px !important;
-      }
-      .link-text {
-        font-size: 11px !important;
-      }
+      .main-heading { font-size: 22px !important; }
+      .main-text    { font-size: 14px !important; }
+      .button       { padding: 14px 28px !important; font-size: 10px !important; }
+      .link-text    { font-size: 10px !important; }
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; background: #ffffff; font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-  <div style="max-width: 560px; margin: 0 auto; padding: 60px 20px;">
-    
-    <!-- Logo/Header -->
-    <div style="margin-bottom: 56px;">
-      <h1 class="header-title" style="margin: 0 0 4px 0; color: #000000; font-size: 32px; font-weight: 700; letter-spacing: -0.5px; font-family: 'Kanit', sans-serif;">
+<body style="margin: 0; padding: 0; background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <div style="max-width: 540px; margin: 0 auto; padding: 56px 24px;">
+
+    <!-- Header label -->
+    <div style="margin-bottom: 48px; display: flex; align-items: center; gap: 12px;">
+      <div style="width: 24px; height: 1px; background: #0891b2;"></div>
+      <p style="margin: 0; color: #0891b2; font-size: 10px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Little Paws Dachshund Rescue
-      </h1>
-      <div style="width: 48px; height: 3px; background: #2bd4c0; border-radius: 2px;"></div>
+      </p>
     </div>
 
-    <!-- Main Heading -->
-    <h2 style="margin: 0 0 16px 0; color: #000000; font-size: 28px; font-weight: 700; font-family: 'Kanit', sans-serif; line-height: 1.3;">
+    <!-- Main heading -->
+    <h1 class="main-heading" style="margin: 0 0 12px 0; color: #09090b; font-size: 26px; font-weight: 900; line-height: 1.2;">
       Your secure sign-in link
-    </h2>
+    </h1>
 
-    <!-- Main Message -->
-    <p class="main-text" style="margin: 0 0 40px 0; color: #666666; font-size: 17px; line-height: 1.6;">
+    <!-- Body text -->
+    <p class="main-text" style="margin: 0 0 36px 0; color: #71717a; font-size: 15px; line-height: 1.7;">
       Click the button below to sign in to your account. This link expires in 15 minutes.
     </p>
 
-    <!-- Sign In Button -->
+    <!-- Button -->
     <div style="margin-bottom: 40px;">
-      <a href="${url}" class="button" style="display: inline-block; background: #2bd4c0; color: #000000; text-decoration: none; padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 16px; font-family: 'Lato', sans-serif; transition: transform 0.2s;">
+      <a href="${url}" class="button" style="display: inline-block; background: #0891b2; color: #ffffff; text-decoration: none; padding: 13px 32px; font-weight: 700; font-size: 11px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Sign in to your account
       </a>
     </div>
 
     <!-- Divider -->
-    <div style="margin: 48px 0 32px 0;">
-      <div style="height: 1px; background: #e5e5e5;"></div>
-    </div>
+    <div style="margin: 40px 0; height: 1px; background: #e4e4e7;"></div>
 
-    <!-- Copy Link Section -->
-    <div style="margin-bottom: 48px;">
-      <p style="margin: 0 0 12px 0; color: #999999; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">
+    <!-- Copy link -->
+    <div style="margin-bottom: 40px;">
+      <p style="margin: 0 0 10px 0; color: #71717a; font-size: 9px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Or copy this link
       </p>
-      <p class="link-text" style="margin: 0; word-break: break-all; font-family: 'SF Mono', Monaco, 'Courier New', monospace; font-size: 12px; color: #2bd4c0; line-height: 1.8; padding: 12px 16px; background: #f8fafc; border-radius: 8px;">
+      <p class="link-text" style="margin: 0; word-break: break-all; font-family: 'Courier New', monospace; font-size: 11px; color: #0891b2; line-height: 1.8; padding: 12px 16px; background: #f4f4f5; border: 1px solid #e4e4e7;">
         ${url}
       </p>
     </div>
 
-    <!-- Security Notice -->
-    <div style="margin-bottom: 56px; padding-left: 16px; border-left: 3px solid #2bd4c0;">
-      <p style="margin: 0; color: #666666; font-size: 15px; line-height: 1.6;">
-        <strong style="color: #000000;">Didn't request this?</strong><br>
+    <!-- Security notice -->
+    <div style="margin-bottom: 40px; padding: 16px; background: #f4f4f5; border: 1px solid #e4e4e7; border-left: 3px solid #0891b2;">
+      <p style="margin: 0; color: #71717a; font-size: 13px; line-height: 1.7;">
+        <strong style="color: #09090b;">Didn't request this?</strong><br>
         You can safely ignore this email. Your account is secure.
       </p>
     </div>
 
     <!-- Divider -->
-    <div style="margin: 56px 0 32px 0;">
-      <div style="height: 1px; background: #2bd4c0;"></div>
-    </div>
+    <div style="margin: 40px 0; height: 1px; background: #e4e4e7;"></div>
 
     <!-- Footer -->
     <div style="margin-bottom: 24px;">
-      <p style="margin: 0 0 12px 0; color: #999999; font-size: 14px; line-height: 1.6;">
-        Questions? We're here to help.
+      <p style="margin: 0 0 10px 0; color: #71717a; font-size: 9px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+        Questions? We&apos;re here to help.
       </p>
-      <p style="margin: 0 0 8px 0;">
-        <a href="mailto:info@littlepawsdr.org" style="color: #2bd4c0; text-decoration: none; font-size: 14px; font-weight: 500;">
+      <p style="margin: 0 0 6px 0;">
+        <a href="mailto:info@littlepawsdr.org" style="color: #0891b2; text-decoration: none; font-size: 13px;">
           info@littlepawsdr.org
         </a>
       </p>
-      <p style="margin: 0;">
-        <a href="https://www.littlepawsdr.org" style="color: #2bd4c0; text-decoration: none; font-size: 14px; font-weight: 500;">
-          www.littlepawsdr.org
-        </a>
+    </div>
+
+    <!-- Legal -->
+    <div style="margin-top: 24px;">
+      <p style="margin: 0; font-size: 11px; color: #a1a1aa;">
+        <a href="https://www.littlepawsdr.org/privacy" style="color: #a1a1aa; text-decoration: none; margin-right: 16px;">Privacy Policy</a>
+        <a href="https://www.littlepawsdr.org/terms" style="color: #a1a1aa; text-decoration: none;">Terms of Service</a>
       </p>
     </div>
 
-    <!-- Legal Links -->
-    <div style="margin-top: 32px;">
-      <p style="margin: 0; font-size: 12px; color: #bbbbbb; line-height: 1.5;">
-        <a href="https://www.littlepawsdr.org/privacy" style="color: #bbbbbb; text-decoration: none; margin-right: 16px;">Privacy Policy</a>
-        <a href="https://www.littlepawsdr.org/terms" style="color: #bbbbbb; text-decoration: none;">Terms of Service</a>
-      </p>
-    </div>
-
-    <!-- Bottom Tagline -->
-    <div style="margin-top: 48px;">
-      <p style="margin: 0; color: #cccccc; font-size: 13px; line-height: 1.5;">
+    <!-- Bottom label -->
+    <div style="margin-top: 40px; display: flex; align-items: center; gap: 12px;">
+      <div style="width: 24px; height: 1px; background: #e4e4e7;"></div>
+      <p style="margin: 0; color: #a1a1aa; font-size: 9px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Little Paws Dachshund Rescue
       </p>
     </div>
+
   </div>
 </body>
 </html>

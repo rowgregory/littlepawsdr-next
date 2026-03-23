@@ -18,6 +18,8 @@ enum BidderStatus {
   REGISTERED
   ACTIVE
   DISQUALIFIED
+  LOST
+  WINNER
 }
 
 enum BidStatus {
@@ -28,7 +30,6 @@ enum BidStatus {
 enum SellingFormat {
   AUCTION
   FIXED
-  BOTH
 }
 
 enum AuctionItemStatus {
@@ -73,9 +74,10 @@ enum OrderType {
   ONE_TIME_DONATION
   RECURRING_DONATION
   ADOPTION_FEE
-  ECARD
   PRODUCT
   WELCOME_WIENER
+  AUCTION_PURCHASE
+  MIXED
 }
 
 enum OrderStatus {
@@ -85,52 +87,6 @@ enum OrderStatus {
   CANCELLED // Order cancelled
   REFUNDED // Order refunded
   FAILED // Payment failed
-}
-
-enum OrderItemType {
-  ONE_TIME_DONATION
-  RECURRING_DONATION
-  ADOPTION_FEE
-  ECARD
-  PRODUCT
-  WELCOME_WIENER
-}
-
-enum EcardTheme {
-  BIRTHDAY
-  LOVE
-  CELEBRATION
-  NATURE
-  COZY
-  MUSIC
-}
-
-enum EcardBackground {
-  GRADIENT_SUNSET
-  GRADIENT_OCEAN
-  GRADIENT_FOREST
-  GRADIENT_LAVENDER
-  GRADIENT_GOLDEN
-  GRADIENT_NIGHT
-}
-
-enum EcardFont {
-  ELEGANT
-  MODERN
-  PLAYFUL
-  SCRIPT
-}
-
-enum EcardIcon {
-  GIFT
-  HEART
-  STAR
-  SPARKLES
-  SUN
-  MOON
-  FLOWER
-  COFFEE
-  MUSIC
 }
 
 enum RecurringFrequency {
@@ -233,6 +189,7 @@ model User {
   winningBids      AuctionWinningBidder[]
   instantBuys      AuctionItemInstantBuyer[]
   bids             AuctionBid[]
+  adoptionFees     AdoptionFee[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -298,7 +255,7 @@ model Order {
   nextBillingDate      DateTime? // Next charge date
 
   // snapshot of address at time of purchase
-  addressLine1  String
+  addressLine1  String?
   addressLine2  String?
   city          String?
   state         String?
@@ -306,6 +263,8 @@ model Order {
   country       String?
 
   isPhysical Boolean @default(false)
+
+  shippingStatus ShippingStatus?
 
   items OrderItem[]
 
@@ -318,30 +277,19 @@ model Order {
 
 // ─── Order Item ─────────────────────────────────────────────────────────────────
 model OrderItem {
-  id         String        @id @default(cuid())
-  orderId    String
-  type       OrderItemType
-  price      Decimal       @db.Decimal(10, 2)
-  quantity   Int?
-  subtotal   Decimal?      @db.Decimal(10, 2)
-  totalPrice Decimal?      @db.Decimal(10, 2)
-  isPhysical Boolean       @default(false)
-  email      String?
+  id            String   @id @default(cuid())
+  orderId       String
+  price         Decimal  @db.Decimal(10, 2)
+  quantity      Int?
+  subtotal      Decimal? @db.Decimal(10, 2)
+  totalPrice    Decimal? @db.Decimal(10, 2)
+  isPhysical    Boolean  @default(false)
+  shippingPrice Decimal  @default(0) @db.Decimal(10, 2)
 
   // Shared snapshot fields
   itemName  String?
   itemImage String?
   images    String[]
-
-  // WelcomeWiener snapshot
-  age String?
-
-  // Ecard specific
-  recipientsFullName String?
-  recipientsEmail    String?
-  dateToSend         DateTime?
-  senderName         String?
-  recipientName      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -358,7 +306,7 @@ model Auction {
   totalAuctionRevenue Decimal       @default(0) @db.Decimal(10, 2)
   supporters          Int           @default(0)
   supporterEmails     String[]
-  customAuctionLink   String?
+  customAuctionLink   String?       @unique
   anonymousBidding    Boolean       @default(true)
   startDate           DateTime
   endDate             DateTime
@@ -400,10 +348,12 @@ model AuctionItem {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 
-  photos         AuctionItemPhoto[]
-  bids           AuctionBid[]
-  instantBuyers  AuctionItemInstantBuyer[]
-  winningBidders AuctionWinningBidder[]
+  photos        AuctionItemPhoto[]
+  bids          AuctionBid[]
+  instantBuyers AuctionItemInstantBuyer[]
+
+  auctionWinningBidderId String?
+  winningBidder          AuctionWinningBidder? @relation(fields: [auctionWinningBidderId], references: [id])
 
   @@index([auctionId])
 }
@@ -527,36 +477,17 @@ model AdoptionApplicationBypassCode {
   updatedAt DateTime @updatedAt
 }
 
-// ─── Ecard ───────────────────────────────────────────────────
-model Ecard {
-  id                 String           @id @default(cuid())
-  recipientsFullName String
-  recipientsEmail    String
-  senderName         String?
-  message            String?
-  dateToSend         DateTime
-  sentAt             DateTime?
-  isSent             Boolean          @default(false)
-  theme              EcardTheme?
-  background         EcardBackground?
-  font               EcardFont?
-  icon               EcardIcon?
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-}
-
 // ─── Product ───────────────────────────────────────────────────
 model Product {
   id                String   @id @default(cuid())
   name              String?
-  image             String?
   images            String[]
   description       String?
   price             Decimal  @default(0) @db.Decimal(10, 2)
   shippingPrice     Decimal  @default(0) @db.Decimal(10, 2)
   countInStock      Int      @default(0)
-  isOutOfStock      Boolean?
   isPhysicalProduct Boolean  @default(true)
+  isLive            Boolean  @default(false)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
@@ -587,17 +518,20 @@ model Newsletter {
 }
 
 model AdoptionFee {
-  id           String            @id @default(cuid())
-  firstName    String?
-  lastName     String?
-  emailAddress String?
-  state        String?
-  feeAmount    Decimal?          @db.Decimal(10, 2)
-  bypassCode   String?
-  expiresAt    DateTime?
-  status       AdoptionFeeStatus @default(ACTIVE)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
+  id         String            @id @default(cuid())
+  firstName  String?
+  lastName   String?
+  email      String?
+  state      String?
+  feeAmount  Decimal?          @default(15) @db.Decimal(10, 2)
+  bypassCode String?
+  expiresAt  DateTime?
+  status     AdoptionFeeStatus @default(ACTIVE)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
 
 // ─── Log ───────────────────────────────────────────────────

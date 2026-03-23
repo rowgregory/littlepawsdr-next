@@ -25,6 +25,14 @@ export async function proxy(request) {
     return response
   }
 
+  if (pathname === '/adopt/application' && session?.user?.id) {
+    const hasFeeCookie = request.cookies.get('lpdr_active_adoption_fee')?.value === '1'
+    if (hasFeeCookie) {
+      return NextResponse.redirect(new URL('/adopt/application/apply', request.url))
+    }
+    return NextResponse.next()
+  }
+
   // Protected routes
   const isProtected = ['/member/', '/admin/'].some((r) => pathname.startsWith(r))
   if (!isProtected) return NextResponse.next()
@@ -38,7 +46,7 @@ export async function proxy(request) {
     return NextResponse.next()
   }
 
-  // Supporter routes — redirect admins away from entry point
+  // Supporter routes
   if (pathname.startsWith('/member/')) {
     return NextResponse.next()
   }
@@ -47,11 +55,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: [
-    '/member/:path*',
-    '/admin/:path*',
-    '/auth/login'
-
-    // Add old URL paths to the matcher so middleware checks them
-  ]
+  matcher: ['/member/:path*', '/admin/:path*', '/auth/login', '/adopt/application']
 }

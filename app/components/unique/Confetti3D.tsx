@@ -40,7 +40,21 @@ export const Confetti3D: React.FC<Confetti3DProps> = () => {
     if (!sceneRef.current) return []
 
     const scene = sceneRef.current
-    const colors: number[] = [0xff0080, 0x00ff80, 0x8000ff, 0xff8000, 0x0080ff, 0xff0040, 0x40ff00, 0x8040ff, 0xff4080, 0x80ff40, 0x4080ff, 0xff8040]
+    // const colors: number[] = [0xff0080, 0x00ff80, 0x8000ff, 0xff8000, 0x0080ff, 0xff0040, 0x40ff00, 0x8040ff, 0xff4080, 0x80ff40, 0x4080ff, 0xff8040]
+    const colors: number[] = [
+      0x0891b2, // primary teal
+      0xa78bfa, // primary dark purple
+      0xf472b6, // secondary dark pink
+      0x0e7490, // secondary teal
+      0x38bdf8, // sky blue
+      0xc084fc, // violet
+      0xfb7185, // rose
+      0x34d399, // emerald
+      0x22d3ee, // cyan
+      0xe879f9, // fuchsia
+      0x818cf8, // indigo
+      0xf9a8d4 // light pink
+    ]
 
     const confettiPieces: THREE.Mesh[] = []
 

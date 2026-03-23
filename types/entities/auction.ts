@@ -1,6 +1,17 @@
-import { AuctionStatus } from '@prisma/client'
+import { IAuctionBid } from './auction-bid'
+import { IAuctionBidder } from './auction-bidder'
+import { IAuctionItemInstantBuyer } from './auction-instant-buyer'
+import { IAuctionItem } from './auction-item'
+import { IAuctionWinningBidder } from './auction-winning-bidder'
+
+export type AuctionStatus = 'DRAFT' | 'ACTIVE' | 'ENDED'
 
 export interface IAuction {
+  bids: IAuctionBid[]
+  items: IAuctionItem[]
+  bidders: IAuctionBidder[]
+  instantBuyers: IAuctionItemInstantBuyer[]
+  winningBidders: IAuctionWinningBidder[]
   id: string
   title: string
   status: AuctionStatus
@@ -9,7 +20,6 @@ export interface IAuction {
   supporters: number
   supporterEmails: string[]
   customAuctionLink?: string | null
-  anonymousBidding: boolean
   startDate: Date
   endDate: Date
   createdAt: Date

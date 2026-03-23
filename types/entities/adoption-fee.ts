@@ -2,15 +2,21 @@ import { AdoptionFeeStatus } from '@prisma/client'
 
 export interface IAdoptionFee {
   id: string
-  firstName?: string | null
-  lastName?: string | null
-  emailAddress?: string | null
-  state?: string | null
-  feeAmount?: number | null
-  paypalOrderId?: string | null
-  bypassCode?: string | null
-  expiresAt?: Date | null
+  firstName: string | null
+  lastName: string | null
+  feeAmount: number | null
+  emailAddress: string
+  state?: string
+  bypassCode?: string
   status: AdoptionFeeStatus
+  expiresAt: Date | null
   createdAt: Date
-  updatedAt: Date
+}
+
+export interface UpdateAdoptionFeeInputs {
+  adoptionFeeId: string
+  firstName: string
+  lastName: string
+  email: string
+  state: string
 }

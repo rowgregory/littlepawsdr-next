@@ -7,16 +7,16 @@ import { WaysToHelpBlock } from '../home-page/WaysToHelpBlock'
 import { WelcomeWienersBlock } from '../home-page/WelcomeWienersBlock'
 import InstagramBlock from '../home-page/InstagramBlock'
 
-export const HomeClient = ({ data }) => {
+export const HomeClient = ({ dachshunds, welcomeWieners }) => {
   return (
     <div className="min-h-dvh">
       <Hero />
       <AboutBlock />
-      <AvailableDogsBlock data={data?.dachshunds} />
+      <AvailableDogsBlock data={dachshunds?.data?.data} />
       <LPDRLogo />
       <DogGalleryBlock />
       <WaysToHelpBlock />
-      <WelcomeWienersBlock data={data?.dachshunds} />
+      <WelcomeWienersBlock data={welcomeWieners?.data} />
       <InstagramBlock />
     </div>
   )

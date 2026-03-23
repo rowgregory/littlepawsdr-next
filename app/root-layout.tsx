@@ -4,7 +4,6 @@ import { FC, ReactNode } from 'react'
 import { Provider } from 'react-redux'
 import { store } from './lib/store/store'
 import { Elements } from '@stripe/react-stripe-js'
-import { stripe } from './lib/stripe'
 import { Confetti3D } from './components/unique/Confetti3D'
 import { Toast } from './components/common/Toast'
 import Header from './components/unique/Header'
@@ -12,6 +11,12 @@ import Footer from './components/unique/Footer'
 import { ThemeProvider } from './lib/providers/ThemeProvider'
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import { HIDDEN_PATHS } from './lib/constants/navigation'
+import AuctionEndedModal from './components/modals/AuctionEndedModal'
+import AuctionStartedModal from './components/modals/AuctionStartedModal'
+import AuctionBidModal from './components/modals/AuctionBidModal'
+import { stripePromise } from './lib/stripe-promise'
+import { CartBar } from './components/unique/CartBar'
+import { CartToast } from './components/unique/CartToast'
 
 export const RootLayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => {
   const segments = useSelectedLayoutSegments()
@@ -23,9 +28,14 @@ export const RootLayoutWrapper: FC<{ children: ReactNode }> = ({ children }) => 
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <Elements stripe={stripe}>
-          <Confetti3D />
+        <Elements stripe={stripePromise}>
           <Toast />
+          <Confetti3D />
+          <AuctionEndedModal />
+          <AuctionStartedModal />
+          <AuctionBidModal />
+          <CartBar />
+          <CartToast />
           {!isHidden && <Header />}
           {children}
           {!isHidden && <Footer />}

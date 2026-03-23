@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { usePathname, useRouter } from 'next/navigation'
 import { Menu, ShoppingBasket, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { store, useUiSelector } from 'app/lib/store/store'
+import { store, useCartSelector, useUiSelector } from 'app/lib/store/store'
 import GoogleTranslate from './GoogleTranslate'
 import { useIsAtTop } from '@hooks/useIsAtTop'
 import { setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
@@ -17,6 +17,8 @@ export default function Header() {
   const router = useRouter()
   const isAtTop = useIsAtTop()
   const { mobileNavigation } = useUiSelector()
+  const { items } = useCartSelector()
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const getLaunchPath = () => {
     if (status !== 'authenticated') return '/auth/login'
@@ -37,9 +39,9 @@ export default function Header() {
       {/* Top Bar */}
       <header
         role="banner"
-        className={`${pathname === '/' ? 'max-w-334' : ''} w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}
+        className={`${pathname === '/' ? 'max-w-334' : ''} pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}
       >
-        <div className={`${pathname !== '/' ? 'max-w-334' : ''} mx-auto flex items-center justify-between h-11`}>
+        <div className={`${pathname !== '/' ? 'max-w-334' : ''} 13pr-6 mx-auto flex items-center justify-between h-11`}>
           <div className="flex items-center space-x-4 lg:space-x-10">
             <GoogleTranslate />
             <address
@@ -74,13 +76,21 @@ export default function Header() {
               <li>
                 <Link
                   href="/cart"
-                  aria-label="View shopping cart"
-                  className="inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded p-1"
+                  aria-label={`View shopping cart${totalItems > 0 ? ` — ${totalItems} item${totalItems !== 1 ? 's' : ''}` : ''}`}
+                  className="relative inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded p-1"
                 >
                   <ShoppingBasket
                     className="w-4 h-4 text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors"
                     aria-hidden="true"
                   />
+                  {totalItems > 0 && (
+                    <span
+                      className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-white text-[9px] font-mono font-bold rounded-full"
+                      aria-hidden="true"
+                    >
+                      {totalItems > 9 ? '9+' : totalItems}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li>
@@ -100,7 +110,7 @@ export default function Header() {
 
       {/* Main Nav */}
       <motion.nav
-        className={`${pathname === '/' ? 'max-w-334 pl-13.75 pr-7.5' : ''} w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-50 flex`}
+        className={`${pathname === '/' ? 'max-w-334 pl-13.75 pr-7.5' : 'px-6'}  w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-50 flex`}
         animate={{ height: isAtTop ? '124.5px' : '84.5px' }}
         transition={{ duration: 0.3 }}
       >

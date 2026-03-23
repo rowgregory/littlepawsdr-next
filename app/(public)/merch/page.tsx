@@ -1,7 +1,7 @@
-import MerchClient from 'app/components/pages/MerchClient'
-import getProducts from 'app/lib/actions/getProducts'
+import PublicMerchClient from 'app/components/pages/PublicMerchClient'
+import { getLiveProducts } from 'app/lib/actions/getLiveProducts'
 
 export default async function MerchPage() {
-  const data = await getProducts()
-  return <MerchClient products={data} />
+  const result = await getLiveProducts()
+  return <PublicMerchClient products={result?.data} />
 }

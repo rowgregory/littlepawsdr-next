@@ -57,11 +57,51 @@
   --breakpoint-1000: 1000px;
   --breakpoint-1150: 1150px;
   --breakpoint-1200: 1200px;
+  --breakpoint-1336: 1336px;
+
+  --text-f6: 0.375rem;
+  --text-f6--line-height: 1rem;
+  --text-f7: 0.4375rem;
+  --text-f7--line-height: 1rem;
+  --text-f8: 0.5rem;
+  --text-f8--line-height: 1rem;
+  --text-f9: 0.5625rem;
+  --text-f9--line-height: 1rem;
+  --text-f10: 0.625rem;
+  --text-f10--line-height: 1rem;
 }
 
 @theme inline {
   --font-nunito: var(--font-nunito);
   --font-quicksand: var(--font-quicksand);
+  --font-bebas: var(--font-bebas);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+@keyframes ticker-flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 body {
@@ -70,6 +110,8 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
+
+  @apply bg-bg-light dark:bg-bg-dark;
 }
 
 .dachshund-tint {
@@ -82,17 +124,6 @@ body {
     opacity: 0.6;
   }
 }
-/* @media (prefers-color-scheme: light) {
-  :root {
-    --color-gradient: var(--color-primary-light);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-gradient: var(--color-primary-dark);
-  }
-} */
 
 @keyframes gradient {
   0% {
@@ -117,4 +148,13 @@ body {
   -webkit-background-clip: text;
   color: transparent;
   animation: gradient 4s linear infinite;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
 }

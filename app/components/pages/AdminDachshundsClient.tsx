@@ -17,7 +17,6 @@ export default function AdminDachshundsClient({ available, hold }) {
   }
 
   const filtered = tabData[activeTab]
-  console.log('filtered: ', filtered)
   const counts = {
     Available: available?.length,
     Hold: hold?.length
@@ -95,7 +94,6 @@ export default function AdminDachshundsClient({ available, hold }) {
               <motion.tbody key={activeTab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>
                 {filtered?.length > 0 ? (
                   filtered?.map((dog) => {
-                    console.log('dog: ', dog?.attributes)
                     function formatQuality(quality: string): string {
                       return quality
                         .replace(/([A-Z])/g, ' $1')

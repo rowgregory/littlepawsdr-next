@@ -1,11 +1,15 @@
-export interface AssociatedProduct {
+export type WelcomeWienerCategory = 'gear' | 'medical' | 'food' | 'comfort' | 'training' | 'enrichment'
+
+export interface WelcomeWienerProduct {
   id: string
   name: string
+  description: string
   price: number
+  category: WelcomeWienerCategory
   image?: string
 }
 
-export interface WelcomeWiener {
+export interface IWelcomeWiener {
   id: string
   displayUrl: string | null
   name: string | null
@@ -17,5 +21,17 @@ export interface WelcomeWiener {
   isPhysicalProduct: boolean
   createdAt: Date
   updatedAt: Date
-  associatedProducts: AssociatedProduct[]
+  associatedProducts: WelcomeWienerProduct[]
+}
+
+export type WelcomeWienerInputs = {
+  displayUrl?: string
+  name?: string
+  bio?: string
+  age?: string
+  isLive?: boolean
+  isDogBoost?: boolean
+  images?: string[]
+  isPhysicalProduct?: boolean
+  associatedProducts?: WelcomeWienerProduct[]
 }

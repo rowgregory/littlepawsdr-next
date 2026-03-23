@@ -1,8 +1,12 @@
+'use server'
+
 import prisma from 'prisma/client'
-import { IAuction } from 'types/entities/auction'
 import { createLog } from './createLog'
 
-export const updateAuction = async (id: string, data: Partial<Omit<IAuction, 'id' | 'createdAt' | 'updatedAt'>>) => {
+export const updateAuction = async (
+  id: string,
+  data: { startDate: Date; endDate: Date; title: string; goal: number; customAuctionLink: string; anonymousBidding: boolean }
+) => {
   try {
     if (!id) {
       return {
@@ -20,7 +24,7 @@ export const updateAuction = async (id: string, data: Partial<Omit<IAuction, 'id
       }
     }
 
-    const auction = await prisma.auction.update({
+    await prisma.auction.update({
       where: { id },
       data: {
         ...(data.title && { title: data.title.trim() }),
@@ -33,8 +37,7 @@ export const updateAuction = async (id: string, data: Partial<Omit<IAuction, 'id
     })
 
     return {
-      success: true,
-      data: auction
+      success: true
     }
   } catch (error) {
     await createLog('error', 'Failed to update auction', {

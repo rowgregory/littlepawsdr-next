@@ -128,7 +128,6 @@ export default function GoogleTranslate() {
       }
 
       if (!select) {
-        console.error('Google Translate select element not found after retries')
         setIsTranslating(false)
         return false
       }
@@ -171,7 +170,6 @@ export default function GoogleTranslate() {
     const success = await attemptTranslation()
 
     if (!success) {
-      console.warn('Translation may not have completed successfully')
       // Force a page reload as last resort if translation completely fails
       setTimeout(() => {
         if (getCurrentLanguage() !== langCode) {

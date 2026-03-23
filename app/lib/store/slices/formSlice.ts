@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const formInitialState = {
-  adoptFeeForm: { inputs: { subtotal: 15, totalPrice: 15 }, errors: {} }
+  isLoading: false,
+  adoptFeeForm: { inputs: { subtotal: 15, totalPrice: 15 }, errors: {} },
+  auctionItemForm: { inputs: { requiresShipping: false, showStartingPrice: true, sellingFormat: 'AUCTION' }, errors: {} },
+  welcomeWienerForm: { inputs: { isLive: true }, errors: {} },
+  checkoutForm: { inputs: { firstName: '', lastName: '', email: '' }, errors: {} },
+  productForm: { inputs: { isLive: true }, errors: {} }
 } as any
 
 export const formSlice = createSlice({
   name: 'form',
   initialState: formInitialState,
   reducers: {
-    setIsCreating: (state) => {
-      state.isCreating = true
+    setIsLoading: (state) => {
+      state.isLoading = true
     },
-    setIsNotCreating: (state) => {
-      state.isCreating = false
+    setIsNotLoading: (state) => {
+      state.isLoading = false
     },
     resetForm: (state, { payload }) => {
       if (state[payload] && state[payload].inputs !== undefined) {
@@ -103,12 +108,12 @@ export const formSlice = createSlice({
     },
     setUploadProgress: (state, { payload }: any) => {
       state.progress = payload
-      if ((state.progress = 100)) {
+      if (state.progress === 100) {
         state.progress = -1
       }
     }
   }
 })
 
-export const { resetForm, setIsCreating, setIsNotCreating, setInputs, clearInputs, clearErrors } = formSlice.actions
+export const { resetForm, setIsLoading, setIsNotLoading, setInputs, clearInputs, clearErrors } = formSlice.actions
 export const formReducer = formSlice.reducer

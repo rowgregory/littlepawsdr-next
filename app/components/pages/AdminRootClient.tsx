@@ -7,8 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { signOut } from 'next-auth/react'
 import { Dog, Menu, X, LogOut, ChevronRight } from 'lucide-react'
 import { ADMIN_NAV_ITEMS } from 'app/lib/constants/navigation'
-
-// ─── Nav items ────────────────────────────────────────────────────────────────
+import AdminAuctionDrawer from '../drawers/AdminAuctionDrawer'
+import AdminAuctionItemDrawer from '../drawers/AdminAuctionItemDrawer'
+import AdminWinningBidderDrawer from '../drawers/AdminWinningBidderDrawer'
+import { WelcomeWienerDrawer } from '../drawers/WelcomeWienerDrawer'
+import { ProductDrawer } from '../drawers/ProductDrawer'
+import { AdminOrderDrawer } from '../drawers/AdminOrderDrawer'
 
 // ─── Nav Link ─────────────────────────────────────────────────────────────────
 function NavLink({
@@ -124,6 +128,14 @@ export default function AdminRootClient({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark flex">
+      {/* Drawers  */}
+      <AdminAuctionDrawer />
+      <AdminAuctionItemDrawer />
+      <AdminWinningBidderDrawer />
+      <WelcomeWienerDrawer />
+      <ProductDrawer />
+      <AdminOrderDrawer />
+
       {/* ── Desktop sidebar ── */}
       <aside
         className="hidden 1000:flex flex-col w-56 shrink-0 border-r border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark fixed top-0 left-0 bottom-0 z-30"
