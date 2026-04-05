@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import { useSession } from 'next-auth/react'
 import { store, useFormSelector } from 'app/lib/store/store'
@@ -21,10 +21,11 @@ import { CoverFeesToggle } from '../common/CoverFeesToggle'
 import { SaveCardToggle } from '../common/SaveCardToggle'
 import { FormError } from '../common/FormError'
 import { SubmitButton } from '../common/SubmitButton'
+import { useInitializeForm } from '@hooks/useInitializeForm'
 
 const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'subscriptionForm', data }))
 
-export function SubscriptionPaymentForm({ tier, billing, savedCards }: SubscriptionPaymentFormProps) {
+export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }: SubscriptionPaymentFormProps) {
   // ── Stripe ────────────────────────────────────────────────────────────────
   const stripe = useStripe()
   const elements = useElements()
@@ -56,18 +57,9 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards }: Subscript
 
   useDefaultCard(savedCards, setDefaultCard)
 
-  // ── Effects ───────────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (!session.data?.user?.email) return
+  useInitializeForm(setForm, { session, savedCards, userName })
 
-    setForm({
-      email: session.data.user.email,
-      useNewCard: savedCards?.length === 0,
-      selectedCardId: savedCards?.find((c) => c.isDefault)?.stripePaymentId ?? null,
-      coverFees: true
-    })
-  }, [savedCards, savedCards?.length, session.data.user.email])
-
+  // ── Handlde Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     if (!stripe || !elements || !isValid) return
@@ -116,7 +108,7 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards }: Subscript
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
 
-        const { error: stripeError } = await stripe.confirmCardSetup(setupResult.clientSecret!, {
+        const { error: stripeError, setupIntent } = await stripe.confirmCardSetup(setupResult.clientSecret!, {
           payment_method: {
             card: cardElement,
             billing_details: { email, name }
@@ -133,9 +125,11 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards }: Subscript
           setupIntentId: setupResult.setupIntentId!
         })
 
+        const paymentMethodId = setupIntent?.payment_method // string | PaymentMethod | null
+
         if (!subscriptionResult.success) throw new Error(subscriptionResult.error ?? 'Failed to create subscription')
 
-        setupPusherListenerRecurring(subscriptionResult, inputs?.processingStatus, ...pusherCallbacks)
+        setupPusherListenerRecurring(subscriptionResult, inputs?.processingStatus, ...pusherCallbacks, inputs?.saveCard, paymentMethodId)
       }
     } catch (err) {
       setForm({

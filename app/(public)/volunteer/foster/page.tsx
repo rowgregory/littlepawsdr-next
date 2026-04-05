@@ -1,6 +1,7 @@
 'use client'
 
 import { fadeUp } from 'app/lib/constants/motion'
+import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 
 const STEPS = [
@@ -11,6 +12,7 @@ const STEPS = [
 ]
 
 export default function FosterApplication() {
+  const { isDark } = useUiSelector()
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
@@ -126,7 +128,21 @@ export default function FosterApplication() {
             </h2>
           </div>
           <div className="border border-border-light dark:border-border-dark overflow-hidden">
-            <iframe title="Foster Application" width="100%" className="h-150 sm:h-175 block" src="https://toolkit.rescuegroups.org/of/f?c=DGKQZWCQ" />
+            {isDark ? (
+              <iframe
+                title="Foster Application"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=NXGDQBDV"
+              />
+            ) : (
+              <iframe
+                title="Foster Application"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=DGKQZWCQ"
+              />
+            )}
           </div>
         </motion.section>
       </div>

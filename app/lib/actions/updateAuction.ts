@@ -3,10 +3,7 @@
 import prisma from 'prisma/client'
 import { createLog } from './createLog'
 
-export const updateAuction = async (
-  id: string,
-  data: { startDate: Date; endDate: Date; title: string; goal: number; customAuctionLink: string; anonymousBidding: boolean }
-) => {
+export const updateAuction = async (id: string, data: { startDate: Date; endDate: Date; title: string; goal: number; customAuctionLink: string }) => {
   try {
     if (!id) {
       return {
@@ -30,7 +27,6 @@ export const updateAuction = async (
         ...(data.title && { title: data.title.trim() }),
         ...(data.goal && { goal: data.goal }),
         ...(data.customAuctionLink && { customAuctionLink: data.customAuctionLink.trim() }),
-        ...(data.anonymousBidding !== undefined && { anonymousBidding: data.anonymousBidding }),
         ...(data.startDate && { startDate: data.startDate }),
         ...(data.endDate && { endDate: data.endDate })
       }

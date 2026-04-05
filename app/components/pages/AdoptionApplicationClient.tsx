@@ -5,13 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { signIn, useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
-import { STATES } from 'app/lib/constants/states'
 import { AdoptionApplicationPaymentForm } from 'app/components/forms/AdoptionApplicationPaymentForm'
 import { verifyBypassCode } from 'app/lib/actions/verifyBypassCode'
-import { store } from 'app/lib/store/store'
+import { store, useFormSelector } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { updateAdoptionFee } from 'app/lib/actions/updateAdoptionFee'
 import { slideVariants } from 'app/lib/constants/motion'
+import { IPaymentForm } from 'types/common'
+import { setInputs } from 'app/lib/store/slices/formSlice'
+import { useInitializeForm } from '@hooks/useInitializeForm'
+import { CustomSwitch } from '../common/CustomSwitch'
 
 const TERMS_AND_CONDITIONS = [
   {
@@ -113,7 +116,9 @@ const STEP_LABELS: Record<string, string> = {
   payment: 'Payment'
 }
 
-export const AdoptionApplicationClient = () => {
+const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'adoptionFeeForm', data }))
+
+export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm) => {
   const router = useRouter()
   const session = useSession()
   const [step, setStep] = useState<STEPS_TYPES>(session.data?.user?.id ? 'terms' : 'sign-in')
@@ -126,14 +131,12 @@ export const AdoptionApplicationClient = () => {
   const [isSendingMagicLink, setIsSendingMagicLink] = useState(false)
 
   // Form state
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState(session.data?.user?.email ?? '')
-  const [state, setState] = useState('')
-  const [bypassCode, setBypassCode] = useState('')
-  const [bypassError, setBypassError] = useState('')
-  const [verifyingCode, setVerifyingCode] = useState(false)
-  const [isProceeding, setIsProceeding] = useState(false)
+  const { adoptionFeeForm } = useFormSelector()
+  const inputs = adoptionFeeForm?.inputs
+
+  useInitializeForm(setForm, { session, savedCards, userName })
+
+  console.log(inputs)
 
   const handleContinueToInfo = () => {
     if (!agreedToTerms) {
@@ -143,41 +146,45 @@ export const AdoptionApplicationClient = () => {
   }
 
   const handleVerifyBypassCode = async () => {
-    if (!bypassCode.trim()) return
+    if (!inputs?.bypassCode.trim()) return
 
-    setVerifyingCode(true)
-    setBypassError('')
+    setForm({ verifyingCode: true, bypassError: '' })
 
     try {
-      const result = await verifyBypassCode(bypassCode.trim())
+      const result = await verifyBypassCode(inputs?.bypassCode.trim())
       if (result.isValid) {
         setBypassPayment(true)
         setAdoptionFeeId(result.data.adoptionFeeId)
         store.dispatch(setShowConfetti())
       } else {
-        setBypassError(result.error ?? 'Invalid bypass code')
-        setBypassPayment(false)
+        setForm({ bypassPayment: false, bypassError: result.error ?? 'Invalid bypass code' })
       }
     } catch {
-      setBypassError('Error verifying code. Please try again.')
-      setBypassPayment(false)
+      setForm({ bypassPayment: false, bypassError: 'Error verifying code. Please try again.' })
     } finally {
-      setVerifyingCode(false)
+      setForm({ verifyingCode: false })
     }
   }
 
   const handleProceed = async () => {
     if (bypassPayment && adoptionFeeId) {
-      setIsProceeding(true)
+      setForm({ isProceeding: true })
       try {
-        const result = await updateAdoptionFee({ adoptionFeeId, firstName, lastName, email, state })
+        const result = await updateAdoptionFee({
+          adoptionFeeId,
+          firstName: inputs?.firstName,
+          lastName: inputs?.lastName,
+          email: inputs?.email,
+          state: inputs?.state
+        })
         if (!result.success) {
-          setBypassError(result.error ?? 'Something went wrong. Please try again.')
+          setForm({ bypassError: result.error ?? 'Something went wrong. Please try again.' })
+
           return
         }
         router.push('/adopt/application/apply')
       } catch {
-        setBypassError('Something went wrong. Please try again.')
+        setForm({ bypassError: 'Something went wrong. Please try again.' })
       }
     } else {
       setStep('payment')
@@ -406,14 +413,8 @@ export const AdoptionApplicationClient = () => {
 
               <div className="border-t border-border-light dark:border-border-dark pt-6 space-y-6">
                 <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id="agree-terms"
-                    checked={agreedToTerms}
-                    onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 border-border-light dark:border-border-dark text-primary-light dark:text-primary-dark focus:ring-primary-light dark:focus:ring-primary-dark bg-bg-light dark:bg-bg-dark"
-                  />
-                  <span className="text-sm text-muted-light dark:text-on-dark leading-relaxed">
+                  <CustomSwitch id="agree-terms" checked={agreedToTerms} onChange={(checked) => setAgreedToTerms(checked)} />
+                  <span className="text-sm font-mono text-muted-light dark:text-on-dark leading-relaxed">
                     I have read and agree to the terms and conditions. I understand that the{' '}
                     <strong className="text-text-light dark:text-text-dark">$15 application fee is non-refundable</strong> and that approval is not
                     guaranteed.
@@ -457,34 +458,30 @@ export const AdoptionApplicationClient = () => {
                   <input
                     id="bypassCode"
                     type="text"
-                    value={bypassCode}
-                    onChange={(e) => {
-                      setBypassCode(e.target.value)
-                      setBypassPayment(false)
-                      setBypassError('')
-                    }}
+                    value={inputs?.bypassCode || ''}
+                    onChange={(e) => setForm({ bypassCode: e.target.value, bypassPayment: false, bypassError: '' })}
                     placeholder="Enter bypass code"
                     className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
                   />
                   <button
                     type="button"
                     onClick={handleVerifyBypassCode}
-                    disabled={!bypassCode.trim() || verifyingCode}
-                    aria-disabled={!bypassCode.trim() || verifyingCode}
+                    disabled={!inputs?.bypassCode?.trim() || inputs?.verifyingCode}
+                    aria-disabled={!inputs?.bypassCode?.trim() || inputs?.verifyingCode}
                     className="px-5 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-text-light dark:text-text-dark disabled:opacity-40 disabled:cursor-not-allowed text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                   >
-                    {verifyingCode ? 'Verifying…' : 'Verify'}
+                    {inputs?.verifyingCode ? 'Verifying…' : 'Verify'}
                   </button>
                 </div>
 
-                {bypassError && (
+                {inputs?.bypassError && (
                   <motion.p
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-2 text-xs text-secondary-light dark:text-secondary-dark"
                     role="alert"
                   >
-                    {bypassError}
+                    {inputs?.bypassError}
                   </motion.p>
                 )}
                 {bypassPayment && (
@@ -513,37 +510,18 @@ export const AdoptionApplicationClient = () => {
 
               <div className="space-y-5">
                 <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
-                  <Input id="firstName" label="First Name" value={firstName} onChange={setFirstName} required />
-                  <Input id="lastName" label="Last Name" value={lastName} onChange={setLastName} required />
+                  <Input id="firstName" label="First Name" value={inputs?.firstName} onChange={(value) => setForm({ firstName: value })} required />
+                  <Input id="lastName" label="Last Name" value={inputs?.lastName} onChange={(value) => setForm({ lastName: value })} required />
                 </div>
-                <Input id="email" label="Email Address" type="email" value={session.data?.user?.email} onChange={setEmail} required disabled />
-
-                <div>
-                  <label htmlFor="state" className="block text-xs font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mb-2">
-                    State{' '}
-                    <span className="text-secondary-light dark:text-secondary-dark" aria-hidden="true">
-                      *
-                    </span>
-                    <span className="sr-only">(required)</span>
-                  </label>
-                  <select
-                    id="state"
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    required
-                    aria-required="true"
-                    className="w-full px-4 py-3 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition appearance-none cursor-pointer"
-                  >
-                    <option value="" disabled>
-                      Select your state
-                    </option>
-                    {STATES.map((s) => (
-                      <option key={s.value} value={s.value}>
-                        {s.text}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <Input
+                  id="email"
+                  label="Email Address"
+                  type="email"
+                  value={session.data?.user?.email}
+                  onChange={(value) => setForm({ email: value })}
+                  required
+                  disabled
+                />
 
                 {/* ── Fee info box ── */}
                 <div
@@ -605,11 +583,11 @@ export const AdoptionApplicationClient = () => {
                 {/* ── CTA ── */}
                 <button
                   onClick={handleProceed}
-                  disabled={!firstName || !lastName || !email || !state || isProceeding}
-                  aria-disabled={!firstName || !lastName || !email || !state || isProceeding}
+                  disabled={!inputs?.firstName || !inputs?.lastName || !inputs?.email || inputs?.isProceeding}
+                  aria-disabled={!inputs?.firstName || !inputs?.lastName || !inputs?.email || inputs?.isProceeding}
                   className="w-full bg-button-light dark:bg-button-dark hover:bg-primary-light dark:hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3.5 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark flex items-center justify-center gap-2"
                 >
-                  {isProceeding ? (
+                  {inputs?.isProceeding ? (
                     <>
                       <motion.div
                         animate={{ rotate: 360 }}
@@ -660,7 +638,7 @@ export const AdoptionApplicationClient = () => {
                 <span className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark">$15.00</span>
               </div>
 
-              <AdoptionApplicationPaymentForm />
+              <AdoptionApplicationPaymentForm savedCards={savedCards} />
 
               <button
                 onClick={() => setStep('info')}

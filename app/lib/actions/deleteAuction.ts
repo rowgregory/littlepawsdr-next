@@ -1,24 +1,31 @@
+'use server'
+
 import prisma from 'prisma/client'
 import { createLog } from './createLog'
-
 export const deleteAuction = async (id: string) => {
   try {
-    if (!id) {
+    if (!id) return { success: false, error: 'Missing id', data: null }
+
+    const auction = await prisma.auction.findUnique({
+      where: { id },
+      select: { status: true, title: true }
+    })
+
+    if (!auction) return { success: false, error: 'Auction not found', data: null }
+
+    if (auction.status !== 'DRAFT') {
       return {
         success: false,
-        error: 'Missing id',
+        error: 'Only draft auctions can be deleted.',
         data: null
       }
     }
 
-    await prisma.auction.delete({
-      where: { id }
-    })
+    await prisma.auction.delete({ where: { id } })
 
-    return {
-      success: true,
-      data: null
-    }
+    await createLog('info', 'Auction deleted', { id, title: auction.title })
+
+    return { success: true, data: null }
   } catch (error) {
     await createLog('error', 'Failed to delete auction', {
       error: error instanceof Error ? error.message : 'Unknown error',

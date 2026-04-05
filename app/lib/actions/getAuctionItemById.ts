@@ -57,7 +57,6 @@ export const getAuctionItemById = async (id: string) => {
             id: true,
             title: true,
             status: true,
-            anonymousBidding: true,
             startDate: true,
             endDate: true,
             customAuctionLink: true

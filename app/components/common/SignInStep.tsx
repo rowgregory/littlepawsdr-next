@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles'
 import { Mail } from 'lucide-react'
 
-export function StepSignIn() {
+export function StepSignIn({ redirectTo }) {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
@@ -15,7 +15,7 @@ export function StepSignIn() {
     setLoading(true)
     setError(null)
     try {
-      const res = await signIn('email', { email, redirect: false, redirectTo: '/checkout' })
+      const res = await signIn('email', { email, redirect: false, redirectTo })
       if (res?.error) throw new Error(res.error)
       setSent(true)
     } catch {
@@ -26,7 +26,7 @@ export function StepSignIn() {
   }
 
   async function handleGoogle() {
-    await signIn('google', { redirect: true, redirectTo: '/checkout' })
+    await signIn('google', { redirect: true, redirectTo })
   }
 
   return (
@@ -42,7 +42,7 @@ export function StepSignIn() {
         <h2 className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-1">
           Sign in to <span className="font-light text-muted-light dark:text-muted-dark">continue</span>
         </h2>
-        <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">Sign in or create an account to complete your donation.</p>
+        <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">Use any of the options below to continue.</p>
       </div>
 
       {sent ? (

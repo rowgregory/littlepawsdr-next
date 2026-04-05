@@ -2,6 +2,7 @@
 
 import prisma from 'prisma/client'
 import { createLog } from './createLog'
+import { serializeAuction } from 'app/utils/serializers'
 
 type CreateAuctionInput = {
   title: string
@@ -9,7 +10,6 @@ type CreateAuctionInput = {
   endDate: Date
   status?: 'DRAFT' | 'ACTIVE' | 'ENDED'
   goal?: number
-  anonymousBidding?: boolean
   customAuctionLink?: string
 }
 
@@ -45,7 +45,6 @@ export const createAuction = async (data: CreateAuctionInput) => {
         status: data.status ?? 'DRAFT',
         goal: data.goal ?? 1000,
         customAuctionLink: data.customAuctionLink?.trim(),
-        anonymousBidding: data.anonymousBidding,
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate)
       }
@@ -53,7 +52,7 @@ export const createAuction = async (data: CreateAuctionInput) => {
 
     return {
       success: true,
-      data: auction
+      data: serializeAuction(auction)
     }
   } catch (error) {
     await createLog('error', 'Failed to create auction', {

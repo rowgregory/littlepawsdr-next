@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Picture from '../common/Picture'
-import { CheckCircle, CreditCard, Gavel, Gift, MapPin, Pencil, Plus, Receipt, Repeat } from 'lucide-react'
+import { CheckCircle, CreditCard, Gavel, Gift, MapPin, Package, Pencil, Plus, Receipt, Repeat } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
@@ -334,15 +334,20 @@ export default function MemberPortalClient({
           {/* ── Merch & Wiener Gifts ── */}
           <motion.section variants={fadeUp} initial="hidden" animate="show" custom={0} aria-labelledby="merch-wiener-heading">
             <div className="flex items-center justify-between mb-5">
-              <SectionLabel label="Merch & Wiener Gifts" />
-              {merchAndWWOrders?.length > 5 && (
-                <Link
-                  href="/member/portal/merch-and-ww"
-                  className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline"
-                >
-                  View all ({merchAndWWOrders?.length}) →
-                </Link>
-              )}
+              <div className="flex items-center gap-3">
+                <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+                <h2 id="address-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                  Merch & Welcome Wieners
+                </h2>
+              </div>
+              <Link
+                href="/merch"
+                className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                aria-label="Purchase merch or welcome wiener"
+              >
+                <Package className="w-3 h-3 shrink-0" aria-hidden="true" />
+                Purchase
+              </Link>
             </div>
 
             {merchAndWWOrders?.length === 0 ? (

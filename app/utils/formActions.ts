@@ -4,6 +4,7 @@ import { formSlice } from 'app/lib/store/slices/formSlice'
 export const createFormActions = (formName: string, dispatch: any) => ({
   setInputs: (data: any) => dispatch(formSlice.actions.setInputs({ formName, data })),
   clearInputs: () => dispatch(formSlice.actions.clearInputs({ formName })),
+  resetForm: () => dispatch(formSlice.actions.resetForm(formName)),
   setErrors: (errors: any) => dispatch(formSlice.actions.setErrors({ formName, errors })),
   handleInput: (e: ChangeEvent<HTMLInputElement> | { target: { name: string; value: any } }) =>
     dispatch(

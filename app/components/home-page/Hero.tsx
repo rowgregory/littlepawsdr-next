@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Picture from '../common/Picture'
 import { Play } from 'lucide-react'
+import Link from 'next/link'
 
 const SLIDES = [
   {
@@ -51,43 +52,42 @@ export const Hero = () => {
   return (
     <section
       aria-label="Hero carousel"
-      className="relative w-full bg-bg-dark -mt-[168.5px] h-200 1200:h-225"
+      className="relative w-full bg-bg-light dark:bg-bg-dark -mt-[168.5px] h-200 1200:h-225"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       {/* Background video */}
       <div className="absolute inset-0" aria-hidden="true">
-        <video src="/videos/landing.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover object-top" />
-        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+        <video src="/videos/landing-2.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover object-top" />
+        <div className="absolute inset-0 bg-linear-to-r from-bg-light/90 dark:from-bg-dark/90 via-bg-light/40 dark:via-bg-dark/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-bg-light/70 dark:from-bg-dark/70 via-transparent to-transparent" />
       </div>
 
       {/* Slide content */}
       <div className="max-w-180 1000:max-w-240 1200:max-w-300 mx-auto relative z-10 flex h-full min-h-[inherit] flex-col justify-between">
         <div className="flex flex-1 items-center py-16">
-          <div className="w-full tracking-tighter">
-            <div className="tracking-tighter">
-              <h1
-                className="font-light tracking-tighter leading-none text-white font-quicksand m-0"
-                style={{ fontSize: 'clamp(1.5rem, 4vw, 60px)' }}
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {slide.heading.split(' ').slice(0, 3).join(' ')}
-              </h1>
+          <div className="w-full">
+            <h1
+              className="font-light tracking-tighter leading-none text-muted-light dark:text-on-dark font-quicksand m-0"
+              style={{ fontSize: 'clamp(1.5rem, 4vw, 60px)' }}
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {slide.heading.split(' ').slice(0, 3).join(' ')}
+            </h1>
 
-              <h1
-                className="font-bold leading-none text-white font-quicksand m-0"
-                style={{ fontSize: 'clamp(2.5rem, 8vw, 100px)' }}
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {slide.heading.split(' ').slice(3).join(' ')}
-              </h1>
-            </div>
+            <h1
+              className="font-bold tracking-tighter leading-none text-text-light dark:text-text-dark font-quicksand m-0 mb-6"
+              style={{ fontSize: 'clamp(2.5rem, 8vw, 100px)' }}
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {slide.heading.split(' ').slice(3).join(' ')}
+            </h1>
+
             {/* Subheading */}
             <p
-              className="mb-8 leading-relaxed text-white/80 font-nunito max-w-xl"
+              className="mb-8 leading-relaxed text-muted-light dark:text-muted-dark font-nunito max-w-xl"
               style={{ fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}
               aria-live="polite"
               aria-atomic="true"
@@ -97,25 +97,24 @@ export const Hero = () => {
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3">
-              <a
+              <Link
                 href={slide.primaryCta.href}
-                className="inline-flex items-center justify-center bg-transparent border-2 border-primary-light dark:border-primary-dark px-6 py-3 font-semibold font-nunito text-white hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black active:scale-95"
-                style={{ minWidth: '140px', fontSize: 'clamp(0.8rem, 1.5vw, 0.9rem)' }}
+                className="inline-flex items-center justify-center px-6 py-3 bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark text-[10px] font-mono tracking-[0.2em] uppercase hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-bg-light dark:focus-visible:ring-offset-bg-dark active:scale-95"
               >
                 {slide.primaryCta.label}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="relative z-10 w-full" style={{ backgroundColor: 'rgba(13,10,20,0.90)', backdropFilter: 'blur(8px)' }}>
+        <div className="relative z-10 w-full bg-navbar-light dark:bg-navbar-dark border-t border-border-light dark:border-border-dark">
           {/* Live cam thumbnail */}
           <div className="absolute left-0 bottom-0 1200:-bottom-10 w-70 1200:w-117.5 h-42.5 1200:h-55">
             <Picture src="/images/random/img-9.jpg" priority className="w-full h-full object-cover relative z-10" alt="Live cam preview" />
-            <div className="absolute inset-0 bg-black/50 z-20 w-full h-full flex items-center justify-center gap-x-20">
-              <h2 className="text-white text-lg font-nunito font-semibold">Live Cam</h2>
-              <div className="w-14 h-14 rounded-full bg-primary-light dark:bg-primary-dark flex items-center justify-center" aria-hidden="true">
+            <div className="absolute inset-0 bg-bg-light/60 dark:bg-bg-dark/60 z-20 w-full h-full flex items-center justify-center gap-x-20">
+              <h2 className="text-text-light dark:text-text-dark text-lg font-nunito font-semibold">Live Cam</h2>
+              <div className="w-14 h-14 bg-primary-light dark:bg-primary-dark flex items-center justify-center" aria-hidden="true">
                 <Play className="w-4 h-4 text-white dark:text-bg-dark" />
               </div>
             </div>
@@ -123,7 +122,7 @@ export const Hero = () => {
 
           {/* Dot indicators */}
           <div
-            className="absolute bottom-0 1200:-bottom-10 left-70 1200:left-117.5 z-20 flex items-center gap-10 bg-navbar-light dark:bg-navbar-dark px-17.5 py-12.5 flex-1 w-[calc(100%-280px)] 1200:w-107.5"
+            className="absolute bottom-0 1200:-bottom-10 left-70 1200:left-117.5 z-20 flex items-center gap-10 bg-navbar-light dark:bg-navbar-dark border-l border-border-light dark:border-border-dark px-17.5 py-12.5 flex-1 w-[calc(100%-280px)] 1200:w-107.5"
             role="tablist"
             aria-label="Slide indicators"
           >
@@ -134,7 +133,7 @@ export const Hero = () => {
                 aria-selected={i === current}
                 aria-label={`Go to slide ${i + 1}`}
                 onClick={() => goTo(i)}
-                className="relative flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded-full cursor-pointer"
+                className="relative flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark cursor-pointer"
               >
                 {i === current ? (
                   <span className="relative flex items-center justify-center w-5 h-5" aria-hidden="true">
@@ -143,16 +142,20 @@ export const Hero = () => {
                   </span>
                 ) : (
                   <span
-                    className="w-2 h-2 rounded-full bg-on-dark/40 hover:bg-primary-light dark:hover:bg-primary-dark transition-colors"
+                    className="w-2 h-2 rounded-full bg-muted-light/40 dark:bg-on-dark/40 hover:bg-primary-light dark:hover:bg-primary-dark transition-colors"
                     aria-hidden="true"
                   />
                 )}
               </button>
             ))}
 
-            <span className="w-16 mx-2 h-px bg-on-dark/10" aria-hidden="true" />
+            <span className="w-16 mx-2 h-px bg-border-light dark:bg-border-dark" aria-hidden="true" />
 
-            <span className="text-on-dark text-xs font-mono tabular-nums" aria-live="polite" aria-atomic="true">
+            <span
+              className="text-muted-light dark:text-muted-dark text-[10px] font-mono tracking-[0.2em] tabular-nums"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {current + 1}/{SLIDES?.length}
             </span>
           </div>
@@ -164,7 +167,7 @@ export const Hero = () => {
         <button
           onClick={goPrev}
           aria-label="Previous slide"
-          className="flex h-11 w-11 items-center justify-center border border-on-dark/20 bg-black/30 text-on-dark hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white hover:border-transparent backdrop-blur-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+          className="flex h-11 w-11 items-center justify-center border border-border-light dark:border-border-dark bg-surface-light/60 dark:bg-surface-dark/60 text-text-light dark:text-on-dark hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark hover:border-transparent backdrop-blur-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
         >
           <svg
             width="18"
@@ -183,7 +186,7 @@ export const Hero = () => {
         <button
           onClick={goNext}
           aria-label="Next slide"
-          className="flex h-11 w-11 items-center justify-center border border-on-dark/20 bg-black/30 text-on-dark hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white hover:border-transparent backdrop-blur-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+          className="flex h-11 w-11 items-center justify-center border border-border-light dark:border-border-dark bg-surface-light/60 dark:bg-surface-dark/60 text-text-light dark:text-on-dark hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark hover:border-transparent backdrop-blur-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
         >
           <svg
             width="18"
@@ -203,8 +206,7 @@ export const Hero = () => {
 
       {/* Slide counter */}
       <div
-        className="absolute right-4 top-4 z-20 px-3 py-1 text-xs font-mono font-medium text-on-dark sm:right-6 sm:top-6"
-        style={{ backgroundColor: 'rgba(13,10,20,0.6)', backdropFilter: 'blur(4px)' }}
+        className="absolute right-4 top-4 z-20 px-3 py-1 text-[10px] font-mono tracking-[0.2em] font-medium text-muted-light dark:text-muted-dark bg-surface-light/60 dark:bg-surface-dark/60 border border-border-light dark:border-border-dark backdrop-blur-sm sm:right-6 sm:top-6"
         aria-live="polite"
         aria-label={`Slide ${current + 1} of ${slideCount}`}
       >

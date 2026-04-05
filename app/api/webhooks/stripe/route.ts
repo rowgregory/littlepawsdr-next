@@ -181,7 +181,6 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         price: number
         quantity: number
         shippingPrice: number
-        image: string
         isPhysicalProduct: boolean
       }>
 
@@ -195,7 +194,6 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
             totalPrice: (item.price + item.shippingPrice) * item.quantity,
             shippingPrice: item.shippingPrice,
             itemName: item.name,
-            itemImage: item.image,
             isPhysical: item.isPhysicalProduct
           }
         })
@@ -256,6 +254,34 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         }
       })
     }
+
+    let adoptionFee
+    let existingAdoptionFee
+
+    if (orderType === 'ADOPTION_FEE') {
+      const userId = metadata.userId
+
+      existingAdoptionFee = await prisma.adoptionFee.findFirst({
+        where: {
+          userId,
+          status: 'ACTIVE',
+          expiresAt: { gt: new Date() }
+        },
+        select: { id: true }
+      })
+
+      if (!existingAdoptionFee) {
+        adoptionFee = await prisma.adoptionFee.create({
+          data: {
+            userId,
+            feeAmount: paymentIntent.amount / 100,
+            status: 'ACTIVE',
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+          }
+        })
+      }
+    }
+
     // Send confirmation email
     await sendConfirmationEmail(order, orderType, amount)
 
@@ -266,7 +292,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       amount: order.totalAmount,
       status: order.status,
       type: order.type,
-      createdAt: order.createdAt
+      createdAt: order.createdAt,
+      adoptionFeeId: adoptionFee?.id ?? existingAdoptionFee?.id ?? null
     })
 
     await createLog('info', 'Order created from payment intent', {

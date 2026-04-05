@@ -6,7 +6,7 @@ export const AboutBlock = () => {
     <section aria-labelledby="about-heading" className="relative w-full min-h-256 bg-bg-light dark:bg-bg-dark">
       {/* Texture background */}
       <div
-        className="absolute inset-0 bg-repeat opacity-40 dark:opacity-20 pointer-events-none"
+        className="absolute inset-0 bg-repeat  dark:opacity-20 pointer-events-none"
         style={{ backgroundImage: `url('/images/cubes.png')`, backgroundSize: '80px 80px' }}
         aria-hidden="true"
       />

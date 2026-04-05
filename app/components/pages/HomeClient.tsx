@@ -6,6 +6,7 @@ import { DogGalleryBlock } from '../home-page/DogGalleryBlock'
 import { WaysToHelpBlock } from '../home-page/WaysToHelpBlock'
 import { WelcomeWienersBlock } from '../home-page/WelcomeWienersBlock'
 import InstagramBlock from '../home-page/InstagramBlock'
+import { ApplicationsBlock } from '../home-page/ApplicationsBlock'
 
 export const HomeClient = ({ dachshunds, welcomeWieners }) => {
   return (
@@ -16,6 +17,7 @@ export const HomeClient = ({ dachshunds, welcomeWieners }) => {
       <LPDRLogo />
       <DogGalleryBlock />
       <WaysToHelpBlock />
+      <ApplicationsBlock />
       <WelcomeWienersBlock data={welcomeWieners?.data} />
       <InstagramBlock />
     </div>

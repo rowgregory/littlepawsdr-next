@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -50,11 +51,11 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-sm">
         {/* ── Logo / wordmark ── */}
         <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
+          <Link href="/" className="flex items-center justify-center gap-2 mb-3">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-primary-light dark:text-primary-dark">Little Paws</span>
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-          </div>
+          </Link>
           <h1 className="font-quicksand font-black text-3xl text-text-light dark:text-text-dark leading-tight">Welcome back</h1>
           <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1.5">Sign in to your account</p>
         </motion.div>

@@ -16,11 +16,11 @@ export interface IAuctionBid {
   updatedAt: Date
 
   user?: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    anonymousBidding: boolean
+    id?: string
+    firstName?: string
+    lastName?: string
+    email?: string
+    anonymousBidding?: boolean
   }
   bidder?: {
     id: string

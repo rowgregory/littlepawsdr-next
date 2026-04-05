@@ -158,10 +158,10 @@ export default function CartPage({}) {
                 <p className="text-xs font-mono text-muted-light dark:text-muted-dark">Add some items from the store to get started.</p>
               </div>
               <Link
-                href="/store"
+                href="/merch"
                 className="px-6 py-3 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono font-black tracking-[0.25em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
-                Browse Store
+                Browse Merch
               </Link>
             </motion.div>
           ) : (

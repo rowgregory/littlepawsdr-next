@@ -91,7 +91,6 @@ export async function createPaymentIntent({
                 price: i.price,
                 quantity: i.quantity,
                 shippingPrice: i.shippingPrice,
-                image: i.image,
                 isPhysicalProduct: i.isPhysicalProduct
               }))
             )

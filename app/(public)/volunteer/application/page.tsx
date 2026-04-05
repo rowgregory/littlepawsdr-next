@@ -1,5 +1,6 @@
 'use client'
 
+import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -13,6 +14,7 @@ const fadeUp = {
 }
 
 export default function VolunteerApplication() {
+  const { isDark } = useUiSelector()
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
@@ -124,12 +126,21 @@ export default function VolunteerApplication() {
             </h2>
           </div>
           <div className="border border-border-light dark:border-border-dark overflow-hidden">
-            <iframe
-              title="Volunteer Application"
-              width="100%"
-              className="h-150 sm:h-175 block"
-              src="https://toolkit.rescuegroups.org/of/f?c=FPGYBJHM"
-            />
+            {isDark ? (
+              <iframe
+                title="Volunteer Application - dark mode"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=WCVGSBQJ"
+              />
+            ) : (
+              <iframe
+                title="Volunteer Application - light mode"
+                width="100%"
+                className="h-150 sm:h-175 block"
+                src="https://toolkit.rescuegroups.org/of/f?c=FPGYBJHM"
+              />
+            )}
           </div>
         </motion.section>
       </div>

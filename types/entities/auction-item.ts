@@ -1,5 +1,6 @@
 import { IAuction } from './auction'
 import { IAuctionBid } from './auction-bid'
+import { IAuctionItemInstantBuyer } from './auction-instant-buyer'
 import { IAuctionItemPhoto } from './auction-item-photo'
 import { IAuctionWinningBidder } from './auction-winning-bidder'
 
@@ -35,6 +36,7 @@ export interface IAuctionItem {
   winningBidder?: IAuctionWinningBidder | null
   winningBidderId?: string
   sortOrder?: number
+  instantBuyers?: IAuctionItemInstantBuyer[]
 
   auction?: Pick<IAuction, 'id' | 'title' | 'status' | 'startDate' | 'endDate' | 'customAuctionLink'>
   bids?: IAuctionBid[]

@@ -15,7 +15,7 @@ export interface AddressSectionProps {
 }
 
 export interface UpdateAddressInput {
-  name: string
+  name?: string
   addressLine1: string
   addressLine2: string | null
   city: string

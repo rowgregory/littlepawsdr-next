@@ -15,6 +15,8 @@ interface UiState {
   auctionItem: IAuctionItem | null
   auctionEndedModal: boolean
   auctionEndedData: any | null
+  auctionStartedModal: boolean
+  auctionStartedData: any | null
   adminWinningBidderDrawer: boolean
   adminWinningBidderData: any | null
   addPaymentMethodModal: boolean
@@ -24,6 +26,9 @@ interface UiState {
   productDrawer: boolean
   orderDrawer: boolean
   order: IOrder | null
+  adoptionFeeWelcomeModal: boolean
+  adminCreateNewsletterIssueModal: boolean
+  contactModal: boolean
 }
 
 const initialState: UiState = {
@@ -38,6 +43,8 @@ const initialState: UiState = {
   auctionItem: null,
   auctionEndedModal: false,
   auctionEndedData: null,
+  auctionStartedModal: false,
+  auctionStartedData: null,
   adminWinningBidderDrawer: false,
   adminWinningBidderData: null,
   addPaymentMethodModal: false,
@@ -46,7 +53,10 @@ const initialState: UiState = {
   item: null,
   productDrawer: false,
   orderDrawer: false,
-  order: null
+  order: null,
+  adoptionFeeWelcomeModal: false,
+  adminCreateNewsletterIssueModal: false,
+  contactModal: false
 }
 
 const uiSlice = createSlice({
@@ -111,6 +121,14 @@ const uiSlice = createSlice({
       state.auctionEndedModal = false
       state.auctionEndedData = null
     },
+    setOpenAuctionStartedModal: (state, { payload }) => {
+      state.auctionStartedModal = true
+      state.auctionStartedData = payload
+    },
+    setCloseAuctionStartedModal: (state) => {
+      state.auctionStartedModal = false
+      state.auctionStartedData = null
+    },
     setOpenWinningBidderDrawer: (state, { payload }) => {
       state.adminWinningBidderDrawer = true
       state.adminWinningBidderData = payload
@@ -152,6 +170,24 @@ const uiSlice = createSlice({
     setCloseOrderDrawer: (state) => {
       state.orderDrawer = false
       state.order = null
+    },
+    setOpenAdoptionFeeWelcomeModal: (state) => {
+      state.adoptionFeeWelcomeModal = true
+    },
+    setCloseAdoptionFeeWelcomeModal: (state) => {
+      state.adoptionFeeWelcomeModal = false
+    },
+    setOpenCreateAdminNewsletterIssueModal: (state) => {
+      state.adminCreateNewsletterIssueModal = true
+    },
+    setCloseCreateAdminNewsletterIssueModal: (state) => {
+      state.adminCreateNewsletterIssueModal = false
+    },
+    setOpenContactModal: (state) => {
+      state.contactModal = true
+    },
+    setCloseContactModal: (state) => {
+      state.contactModal = false
     }
   }
 })
@@ -186,7 +222,15 @@ export const {
   setOpenProductDrawer,
   setCloseProductDrawer,
   setCloseOrderDrawer,
-  setOpenOrderDrawer
+  setOpenOrderDrawer,
+  setCloseAdoptionFeeWelcomeModal,
+  setOpenAdoptionFeeWelcomeModal,
+  setCloseCreateAdminNewsletterIssueModal,
+  setOpenCreateAdminNewsletterIssueModal,
+  setCloseContactModal,
+  setOpenContactModal,
+  setCloseAuctionStartedModal,
+  setOpenAuctionStartedModal
 } = uiSlice.actions
 
 export const uiReducer = uiSlice.reducer

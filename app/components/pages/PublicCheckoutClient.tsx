@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import { ArrowRight, ArrowLeft, Check, CreditCard, CheckCircle, Plus } from 'lucide-react'
@@ -26,6 +26,7 @@ import { StepIndicator } from '../common/StepIndicator'
 import { StepSignIn } from '../common/SignInStep'
 import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles'
 import { SignedInRow } from '../common/SignedInRow'
+import { useInitializeForm } from '@hooks/useInitializeForm'
 
 // ─────────────────────────────────────────────
 // Order summary sidebar
@@ -244,10 +245,22 @@ function StepAddress({ inputs, errors, handleInput, onNext, onBack, userAddress,
   const [showReplaceModal, setShowReplaceModal] = useState(false)
   const router = useRouter()
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!useSaved && userAddress) {
       setShowReplaceModal(true)
     } else {
+      if (!userAddress) {
+        await updateAddress({
+          name: `${inputs?.firstName?.trim()} ${inputs?.lastName?.trim()}`,
+          addressLine1: inputs?.addressLine1?.trim(),
+          addressLine2: inputs?.addressLine2?.trim() || null,
+          city: inputs?.city?.trim(),
+          state: inputs?.state,
+          zipPostalCode: inputs?.zipPostalCode?.trim(),
+          country: 'US'
+        })
+        router.refresh()
+      }
       onNext()
     }
   }
@@ -875,11 +888,19 @@ function StepPayment({
   )
 }
 
+const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'checkoutForm', data }))
+
 // ─────────────────────────────────────────────
 // Main checkout
 // ─────────────────────────────────────────────
 
-export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: IPaymentMethod[]; userAddress: IAddress }) {
+type IPublicCheckoutClient = {
+  savedCards: IPaymentMethod[]
+  userAddress: IAddress
+  userName: { firstName: string; lastName: string }
+}
+
+export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPublicCheckoutClient) {
   // ── Stripe ────────────────────────────────────────────────────────────────
   const stripe = useStripe()
   const elements = useElements()
@@ -893,15 +914,15 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
   // ── Hooks ────────────────────────────────────────────────────────────────
   const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
 
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(savedCards?.find((c) => c.isDefault).stripePaymentId ?? null)
-  const [useNewCard, setUseNewCard] = useState(savedCards?.length === 0)
-  const [saveCard, setSaveCard] = useState(false)
-  const [coverFees, setCoverFees] = useState(true)
-  const [processingStatus, setProcessingStatus] = useState('idle')
-  const [cardComplete, setCardComplete] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [useSavedAddress, setUseSavedAddress] = useState(!!userAddress)
+  // const [selectedCardId, setSelectedCardId] = useState<string | null>(savedCards?.find((c) => c.isDefault).stripePaymentId ?? null)
+  // const [useNewCard, setUseNewCard] = useState(savedCards?.length === 0)
+  // const [saveCard, setSaveCard] = useState(false)
+  // const [coverFees, setCoverFees] = useState(true)
+  // const [processingStatus, setProcessingStatus] = useState('idle')
+  // const [cardComplete, setCardComplete] = useState(false)
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
+  // const [useSavedAddress, setUseSavedAddress] = useState(!!userAddress)
 
   const inputs = checkoutForm?.inputs
   const errors = checkoutForm?.errors
@@ -925,20 +946,22 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
   const shipping = items.filter((i) => i.isPhysicalProduct).reduce((sum, i) => sum + i.shippingPrice * i.quantity, 0)
 
   const processingFee = Math.round(((total + 0.3) / (1 - 0.029) - total) * 100) / 100
-  const finalAmount = Math.round((total + shipping + (coverFees ? processingFee : 0)) * 100) / 100
-  const feesCovered = coverFees ? processingFee : 0
-
+  const finalAmount = Math.round((total + shipping + (inputs?.coverFees ? processingFee : 0)) * 100) / 100
+  const feesCovered = inputs?.coverFees ? processingFee : 0
   const isValid =
     inputs?.firstName?.trim().length > 0 &&
     inputs?.lastName?.trim().length > 0 &&
     EMAIL_REGEX.test(session.data.user ? session.data.user.email : inputs?.email) &&
-    (selectedCardId && !useNewCard ? true : cardComplete)
-
-  const usingSavedCard = !!selectedCardId && !useNewCard && session.data?.user
-
-  useDefaultCard(savedCards, setSelectedCardId)
-
+    (inputs?.selectedCardId && !inputs?.useNewCard ? true : inputs?.cardComplete)
+  const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
   const email = isAuthed ? session.data?.user?.email : inputs?.email
+
+  // ── Hooks ─────────────────────────────────────────────────────────────────
+  const setDefaultCard = useCallback((value: string) => setForm({ selectedCardId: value }), [])
+
+  useDefaultCard(savedCards, setDefaultCard)
+
+  useInitializeForm(setForm, { session, savedCards, userName })
 
   const validateName = () => {
     const errs: Record<string, string> = {}
@@ -964,7 +987,7 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
 
   const handleNext = () => {
     if (effectiveStep === 2 && !validateName()) return
-    if (effectiveStep === 3 && !useSavedAddress && !validateAddress()) return
+    if (effectiveStep === 3 && !inputs?.useSavedAddress && !validateAddress()) return
 
     setStep((prev) => (hasPhysical ? prev + 1 : prev === 2 ? 4 : prev + 1))
   }
@@ -977,50 +1000,54 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
     e.preventDefault()
     if (!stripe || !elements || !isValid) return
 
-    setLoading(true)
-    setError(null)
-    setProcessingStatus('processing')
-
-    const name = `${inputs.firstName} ${inputs.lastName}`
-
-    const address = hasPhysical
-      ? {
-          addressLine1: useSavedAddress ? (userAddress?.addressLine1 ?? null) : (inputs?.addressLine1 ?? null),
-          addressLine2: useSavedAddress ? (userAddress?.addressLine2 ?? null) : (inputs?.addressLine2 ?? null),
-          city: useSavedAddress ? (userAddress?.city ?? null) : (inputs?.city ?? null),
-          state: useSavedAddress ? (userAddress?.state ?? null) : (inputs?.state ?? null),
-          zipPostalCode: useSavedAddress ? (userAddress?.zipPostalCode ?? null) : (inputs?.zipPostalCode ?? null),
-          country: 'US'
-        }
-      : null
-
-    const intentPayload = {
-      amount: Math.round(finalAmount * 100),
-      name,
-      email,
-      orderType: getOrderType(items),
-      userId: session.data?.user?.id,
-      coverFees,
-      feesCovered,
-      items,
-      ...(address != null && { address })
-    }
+    setForm({ loading: true, error: null, processingStatus: 'processing' })
 
     try {
+      const name = `${inputs.firstName} ${inputs.lastName}`
+      const amountInCents = Math.round(finalAmount * 100)
+
+      const pusherCallbacks = [
+        (value: string) => setForm({ error: value }),
+        (value: string) => setForm({ processingStatus: value }),
+        () => setForm({ loading: false })
+      ] as const
+
+      const address = hasPhysical
+        ? {
+            addressLine1: inputs?.useSavedAddress ? (userAddress?.addressLine1 ?? null) : (inputs?.addressLine1 ?? null),
+            addressLine2: inputs?.useSavedAddress ? (userAddress?.addressLine2 ?? null) : (inputs?.addressLine2 ?? null),
+            city: inputs?.useSavedAddress ? (userAddress?.city ?? null) : (inputs?.city ?? null),
+            state: inputs?.useSavedAddress ? (userAddress?.state ?? null) : (inputs?.state ?? null),
+            zipPostalCode: inputs?.useSavedAddress ? (userAddress?.zipPostalCode ?? null) : (inputs?.zipPostalCode ?? null),
+            country: 'US'
+          }
+        : null
+
+      const basePayload = {
+        amount: amountInCents,
+        name,
+        email,
+        orderType: getOrderType(items),
+        userId: session.data?.user?.id,
+        coverFees: inputs?.coverFees,
+        feesCovered,
+        items,
+        ...(address != null && { address })
+      }
       if (usingSavedCard) {
         const result = await createPaymentIntent({
-          ...intentPayload,
-          savedCardId: selectedCardId
+          ...basePayload,
+          savedCardId: inputs?.selectedCardId
         })
 
         if (!result.success) throw new Error(result.error)
 
-        setupPusherListenerOneTime(result.paymentIntentId!, false, selectedCardId, processingStatus, setError, setProcessingStatus, setLoading)
+        setupPusherListenerOneTime(result.paymentIntentId!, false, inputs?.selectedCardId, inputs?.processingStatus, ...pusherCallbacks)
       } else {
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
 
-        const intentResult = await createPaymentIntent(intentPayload)
+        const intentResult = await createPaymentIntent({ ...basePayload, saveCard: inputs?.saveCard })
         if (!intentResult.success) throw new Error(intentResult.error)
 
         const result = await stripe.confirmCardPayment(intentResult.clientSecret!, {
@@ -1031,23 +1058,23 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
         })
 
         if (result.error) {
-          setProcessingStatus('failed')
-          setError(result.error.message || 'Payment failed')
+          setForm({ processingStatus: 'failed', error: result.error.message || 'Payment failed' })
         } else if (result.paymentIntent?.status === 'succeeded') {
           setupPusherListenerOneTime(
             result.paymentIntent.id,
-            saveCard,
+            inputs?.saveCard,
             getPaymentMethodId(result.paymentIntent.payment_method),
-            processingStatus,
-            setError,
-            setProcessingStatus,
-            setLoading
+            inputs?.processingStatus,
+            ...pusherCallbacks
           )
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
-      setLoading(false)
+      setForm({
+        loading: false,
+        error: err instanceof Error ? err.message : 'Something went wrong. Please try again.',
+        processingStatus: 'failed'
+      })
     }
   }
 
@@ -1110,7 +1137,7 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
                     <div className="min-w-0">
                       <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Ships to</p>
                       <p className="text-xs font-mono text-text-light dark:text-text-dark">
-                        {useSavedAddress ? (
+                        {inputs?.useSavedAddress ? (
                           <>
                             {userAddress?.addressLine1}
                             {userAddress?.addressLine2 && `, ${userAddress.addressLine2}`}
@@ -1133,7 +1160,7 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
             )}
 
             <AnimatePresence mode="wait">
-              {effectiveStep === 1 && <StepSignIn key="signin" />}
+              {effectiveStep === 1 && <StepSignIn key="signin" redirectTo="/checkout" />}
               {effectiveStep === 2 && (
                 <StepName key="name" inputs={inputs} errors={errors} handleInput={handleInput} onNext={handleNext} isAuthed={isAuthed} />
               )}
@@ -1146,8 +1173,8 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
                   onNext={handleNext}
                   onBack={handleBack}
                   userAddress={userAddress}
-                  useSaved={useSavedAddress}
-                  setUseSaved={setUseSavedAddress}
+                  useSaved={inputs?.useSavedAddress}
+                  setUseSaved={(value) => setForm({ useSavedAddress: value })}
                 />
               )}
               {effectiveStep === 4 && (
@@ -1156,21 +1183,21 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
                   inputs={inputs}
                   onBack={handleBack}
                   onSubmit={handleSubmit}
-                  loading={loading}
+                  loading={inputs?.loading}
                   savedCards={savedCards}
-                  useNewCard={useNewCard}
-                  setSelectedCardId={setSelectedCardId}
-                  selectedCardId={selectedCardId}
-                  setUseNewCard={setUseNewCard}
-                  setError={setError}
-                  coverFees={coverFees}
-                  setCoverFees={setCoverFees}
+                  useNewCard={inputs?.useNewCard}
+                  setSelectedCardId={(value) => setForm({ selectedCardId: value })}
+                  selectedCardId={inputs?.selectedCardId}
+                  setUseNewCard={(value) => setForm({ useNewCard: value })}
+                  setError={(value) => setForm({ error: value })}
+                  coverFees={inputs?.coverFees}
+                  setCoverFees={(value) => setForm({ coverFees: value })}
                   processingFee={processingFee}
-                  error={error}
-                  setSaveCard={setSaveCard}
-                  saveCard={saveCard}
-                  setCardComplete={setCardComplete}
-                  cardComplete={cardComplete}
+                  error={inputs?.error}
+                  setSaveCard={(value) => setForm({ saveCard: value })}
+                  saveCard={inputs?.saveCard}
+                  setCardComplete={(value) => setForm({ cardComplete: value })}
+                  cardComplete={inputs?.cardComplete}
                   finalAmount={finalAmount}
                   total={total}
                   userAddress={userAddress}
@@ -1181,7 +1208,14 @@ export function PublicCheckoutClient({ savedCards, userAddress }: { savedCards: 
 
           {/* ── Order summary column ── */}
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1}>
-            <OrderSummary items={items} finalAmount={finalAmount} total={total} coverFees={coverFees} step={effectiveStep} shipping={shipping} />
+            <OrderSummary
+              items={items}
+              finalAmount={finalAmount}
+              total={total}
+              coverFees={inputs?.coverFees}
+              step={effectiveStep}
+              shipping={shipping}
+            />
           </motion.div>
         </div>
       </div>

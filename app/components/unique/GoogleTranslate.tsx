@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import { store } from 'app/lib/store/store'
+import { motion } from 'framer-motion'
 import { setIsNotSpanish, setIsSpanish } from 'app/lib/store/slices/uiSlice'
 
 const LANGUAGES = [
@@ -190,32 +191,50 @@ export default function GoogleTranslate() {
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex items-center gap-5 pl-6 pr-4 py-2.5 bg-button-light dark:bg-surface-dark/50 hover:bg-primary-light dark:hover:bg-primary-dark/20 transition-colors notranslate disabled:opacity-50 disabled:cursor-not-allowed h-11 cursor-pointer w-[126.41px]"
           disabled={!isReady || isTranslating}
+          className="inline-flex items-center gap-3 px-4 py-2.5 bg-button-light dark:bg-surface-dark/50 transition-colors notranslate disabled:opacity-50 disabled:cursor-not-allowed h-11 cursor-pointer w-[126.41px] border-l-2 border-l-primary-light dark:border-l-primary-dark"
         >
-          <span className="text-sm font-medium text-on-dark font-nunito">
-            {isTranslating ? 'Translating...' : LANGUAGES.find((l) => l.code === currentLang)?.name}
+          <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-on-dark">
+            {isTranslating ? 'Translating…' : LANGUAGES.find((l) => l.code === currentLang)?.name}
           </span>
-          <ChevronDown strokeWidth={3} className={`w-4 h-4 text-on-dark transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <motion.span
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="inline-flex text-on-dark ml-auto"
+            aria-hidden="true"
+          >
+            <ChevronDown className="w-3 h-3" strokeWidth={2.5} />
+          </motion.span>
         </button>
 
         {/* Dropdown */}
         {isOpen && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-            <div className="w-[127.41px] absolute left-0 bg-topbar-light dark:bg-topbar-dark shadow-xl z-50 notranslate px-7.5 py-4" translate="no">
+            <div
+              className="absolute left-0 w-[126.41px] bg-topbar-light dark:bg-topbar-dark border border-border-dark border-t-2 border-t-primary-light dark:border-t-primary-dark shadow-xl z-50 notranslate px-5 py-4 space-y-1"
+              translate="no"
+            >
               {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => changeLanguage(lang.code)}
                   disabled={isTranslating}
-                  className={`w-fit text-left py-1.5 text-sm transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed border-b-2 border-transparent font-nunito ${
+                  className={`group relative w-full text-left py-1.5 text-[10px] font-mono tracking-[0.15em] uppercase transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed ${
                     currentLang === lang.code
-                      ? 'border-b-primary-light dark:border-b-primary-dark text-on-dark font-semibold'
-                      : 'text-on-dark hover:text-white hover:border-b-primary-light dark:hover:border-b-primary-dark'
+                      ? 'text-primary-light dark:text-primary-dark'
+                      : 'text-on-dark hover:text-primary-light dark:hover:text-primary-dark'
                   }`}
                 >
-                  {lang.name}
+                  <span className="relative whitespace-nowrap">
+                    {lang.name}
+                    <span
+                      aria-hidden="true"
+                      className={`absolute bottom-0 left-0 h-px bg-primary-light dark:bg-primary-dark transition-all duration-300 ease-out ${
+                        currentLang === lang.code ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </span>
                 </button>
               ))}
             </div>

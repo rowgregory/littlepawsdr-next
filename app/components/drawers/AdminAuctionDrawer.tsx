@@ -77,7 +77,6 @@ export default function AdminAuctionDrawer() {
       title: title.trim(),
       status: 'DRAFT',
       goal: 1000,
-      anonymousBidding: true,
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       customAuctionLink

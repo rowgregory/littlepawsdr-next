@@ -1,101 +1,197 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { useUiSelector } from 'app/lib/store/store'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { store, useFormSelector } from 'app/lib/store/store'
+import { useSession } from 'next-auth/react'
+import { setInputs } from 'app/lib/store/slices/formSlice'
+import { calculateStripeFees } from 'app/utils/calculateStripeFees'
+import { OrderType } from '@prisma/client'
+import { createPaymentIntent } from 'app/lib/actions/createPaymentIntent'
+import { usePaymentProcessor } from '@hooks/usePaymentProcessor'
+import { EMAIL_REGEX } from 'app/utils/regex'
+import { CardElementField } from '../common/CardElementField'
+import { CoverFeesToggle } from '../common/CoverFeesToggle'
+import { SaveCardToggle } from '../common/SaveCardToggle'
+import { FormError } from '../common/FormError'
+import { SubmitButton } from '../common/SubmitButton'
+import { SavedCardSelector } from '../common/SavedCardSelector'
+import { useCallback } from 'react'
+import { useDefaultCard } from '@hooks/useDefaultCard'
+import { IPaymentForm } from 'types/common'
 
-export function AdoptionApplicationPaymentForm() {
+const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'adoptionFeeForm', data }))
+
+export function AdoptionApplicationPaymentForm({ savedCards }: IPaymentForm) {
+  // ── Stripe ────────────────────────────────────────────────────────────────
   const stripe = useStripe()
   const elements = useElements()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const { isDark } = useUiSelector()
-  const [cardComplete, setCardComplete] = useState(false)
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  // ── Session / UI ──────────────────────────────────────────────────────────
+  const session = useSession()
+  const isAuthed = session.status === 'authenticated'
+
+  // ── Form ──────────────────────────────────────────────────────────────────
+  const { adoptionFeeForm } = useFormSelector()
+  const inputs = adoptionFeeForm?.inputs
+
+  // ── Payment processor ─────────────────────────────────────────────────────
+  const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
+
+  // ── Derived values ────────────────────────────────────────────────────────
+  const feeAmount = 15
+  const processingFee = calculateStripeFees(feeAmount)
+  const feesCovered = inputs?.coverFees ? processingFee : 0
+  const finalAmount = inputs?.coverFees ? feeAmount + processingFee : feeAmount
+  const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
+  const isValid =
+    feeAmount >= 15 &&
+    !!inputs?.firstName?.trim() &&
+    !!inputs?.lastName?.trim() &&
+    EMAIL_REGEX.test(inputs?.email) &&
+    (usingSavedCard ? true : inputs?.cardComplete)
+
+  // ── Hooks ─────────────────────────────────────────────────────────────────
+  const setDefaultCard = useCallback((value: string) => setForm({ selectedCardId: value }), [])
+
+  useDefaultCard(savedCards, setDefaultCard)
+
+  // ── Handlde Submit ─────────────────────────────────────────────────────────────────
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault()
-
     if (!stripe || !elements) return
 
-    setLoading(true)
-    setError(null)
+    setForm({ loading: true, error: null, processingStatus: 'processing' })
 
-    const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY
-    const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER
+    try {
+      const name = `${inputs?.firstName?.trim()} ${inputs?.lastName?.trim()}`
+      const email = inputs?.email?.trim()
+      const amountInCents = Math.round(finalAmount * 100)
 
-    if (!pusherKey || !pusherCluster) {
-      console.error('Missing Pusher credentials')
-      setError('Configuration error')
-      setLoading(false)
-      return
+      const pusherCallbacks = [
+        (value: string) => setForm({ error: value }),
+        (value: string) => setForm({ processingStatus: value }),
+        () => setForm({ loading: false })
+      ] as const
+
+      const basePayload = {
+        userId: session.data?.user?.id,
+        email,
+        name,
+        amount: amountInCents,
+        coverFees: inputs?.coverFees,
+        feesCovered,
+        orderType: 'ADOPTION_FEE' as OrderType
+      }
+
+      if (usingSavedCard) {
+        const result = await createPaymentIntent({
+          ...basePayload,
+          savedCardId: inputs?.selectedCardId
+        })
+
+        if (!result.success) {
+          throw new Error(result.error)
+        }
+
+        setupPusherListenerOneTime(
+          result.paymentIntentId!,
+          false, // saved card — already saved
+          inputs?.selectedCardId,
+          inputs?.processingStatus,
+          ...pusherCallbacks
+        )
+      } else {
+        // ── New card — confirmed client-side ──
+        const cardElement = elements.getElement(CardElement)
+        if (!cardElement) throw new Error('Card element not found')
+
+        const intentResult = await createPaymentIntent({
+          amount: amountInCents,
+          name,
+          email,
+          orderType: 'ADOPTION_FEE',
+          userId: session.data?.user?.id,
+          saveCard: inputs?.saveCard,
+          coverFees: inputs?.coverFees,
+          feesCovered
+        })
+
+        if (!intentResult.success) throw new Error(intentResult.error)
+
+        const result = await stripe.confirmCardPayment(intentResult.clientSecret!, {
+          payment_method: {
+            card: cardElement,
+            billing_details: { name, email }
+          }
+        })
+
+        if (result.error) {
+          setForm({ processingStatus: 'failed', error: result.error.message || 'Payment failed' })
+        } else if (result.paymentIntent?.status === 'succeeded') {
+          setupPusherListenerOneTime(
+            result.paymentIntent.id,
+            inputs?.saveCard,
+            getPaymentMethodId(result.paymentIntent.payment_method),
+            inputs?.processingStatus,
+            ...pusherCallbacks
+          )
+        }
+      }
+    } catch (err) {
+      setForm({
+        loading: false,
+        error: err instanceof Error ? err.message : 'Something went wrong. Please try again.',
+        processingStatus: 'failed'
+      })
     }
   }
 
   return (
-    <section className="space-y-6">
-      <div
-        role="group"
-        aria-labelledby="card-details-label"
-        className="px-3.5 py-3.5 border-l-2 border-l-cyan-600 dark:border-l-violet-400 border-t border-r border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-[#13131f] transition-colors duration-200 focus-within:border-cyan-600 dark:focus-within:border-violet-400"
-      >
-        <CardElement
-          onChange={(e) => {
-            setCardComplete(e.complete)
-            if (e.error) setError(e.error.message ?? null)
-            else setError(null)
-          }}
-          options={{
-            style: {
-              base: {
-                color: isDark ? '#f1f0ff' : '#09090b',
-                backgroundColor: isDark ? '#13131f' : '#f9fafb',
-                fontSize: '14px',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                '::placeholder': { color: isDark ? '#4a4a6a' : '#a1a1aa' },
-                iconColor: isDark ? '#7c3aed' : '#0891b2'
-              },
-              invalid: { color: '#ef4444' }
-            }
-          }}
+    <form onSubmit={handleSubmit} noValidate aria-label="Adoption fee form" className="space-y-6">
+      {/* ── Saved cards ── */}
+      {isAuthed && (
+        <SavedCardSelector
+          savedCards={savedCards}
+          selectedCardId={inputs?.selectedCardId}
+          useNewCard={inputs?.useNewCard}
+          onSelectCard={(id) => setForm({ selectedCardId: id })}
+          onUseNewCard={() => setForm({ useNewCard: true, selectedCardId: null })}
+          onUseSavedCard={() => setForm({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null })}
         />
-      </div>
-      {error && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          role="alert"
-          className="p-4 bg-bg-light dark:bg-bg-dark border border-secondary-light dark:border-secondary-dark text-secondary-light dark:text-secondary-dark text-sm"
-        >
-          {error}
-        </motion.div>
       )}
 
-      <button
-        type="button"
-        onClick={handleSubmit}
-        disabled={!stripe || loading || !cardComplete}
-        aria-disabled={!stripe || loading || !cardComplete}
-        className="w-full bg-button-light dark:bg-button-dark hover:bg-primary-light dark:hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3.5 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-      >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2" aria-live="polite">
-            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Processing…
-          </span>
-        ) : (
-          'Pay $15'
-        )}
-      </button>
+      {/* ── Card element ── */}
+      {(!isAuthed || savedCards.length === 0 || inputs?.useNewCard) && <CardElementField formName="adoptionFeeForm" />}
 
-      <p className="text-xs text-muted-light dark:text-muted-dark text-center">
-        Your payment is secure and encrypted. You&apos;ll receive a receipt via email.
+      {/* ── Cover fees ── */}
+      <CoverFeesToggle formName="adoptionFeeForm" processingFee={processingFee} />
+
+      {/* ── Save card ── */}
+      <SaveCardToggle formName="adoptionFeeForm" />
+
+      {/* ── Error ── */}
+      <FormError formName="adoptionFeeForm" />
+
+      {/* ── Submit ── */}
+      <SubmitButton
+        formName="adoptionFeeForm"
+        isValid={isValid}
+        label={`Pay $${inputs?.coverFees ? finalAmount?.toFixed(2) : feeAmount?.toFixed(2)}`}
+      />
+
+      <p className="flex items-center justify-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark">
+        <svg
+          viewBox="0 0 24 24"
+          className="w-3 h-3 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="square"
+          aria-hidden="true"
+        >
+          <rect x="3" y="11" width="18" height="11" />
+          <path d="M7 11V7a5 5 0 0110 0v4" />
+        </svg>
+        Secured by Stripe. We never store your card details. All donations are final and non-refundable.
       </p>
-    </section>
+    </form>
   )
 }

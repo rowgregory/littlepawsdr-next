@@ -91,7 +91,7 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
             bidderId: bidder.id,
             bidAmount,
             email,
-            bidderName: auctionItem.auction.anonymousBidding ? null : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || null,
+            bidderName: user?.anonymousBidding ? null : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || null,
             status: 'TOP_BID'
           }
         })
@@ -104,7 +104,7 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
             minimumBid: bidAmount + 1,
             highestBidAmount: bidAmount,
             totalBids: { increment: 1 },
-            topBidder: auctionItem.auction.anonymousBidding ? 'Anonymous' : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Anonymous'
+            topBidder: user?.anonymousBidding ? 'Anonymous' : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Anonymous'
           }
         })
 
@@ -167,7 +167,18 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
 
     // Prisma serialization failure — another bid won the race
     if (error?.code === 'P2034') {
-      return { success: false, error: 'Another bid was placed at the same time. Please try again.' }
+      const freshItem = await prisma.auctionItem.findUnique({
+        where: { id: auctionItemId },
+        select: { minimumBid: true, currentBid: true }
+      })
+      return {
+        success: false,
+        error: 'LOCK_NOT_ACQUIRED',
+        data: {
+          newMinimumBid: freshItem?.minimumBid ? Number(freshItem.minimumBid) : null,
+          currentBid: freshItem?.currentBid ? Number(freshItem.currentBid) : null
+        }
+      }
     }
 
     return { success: false, error: error?.message ?? 'Something went wrong. Please try again.' }

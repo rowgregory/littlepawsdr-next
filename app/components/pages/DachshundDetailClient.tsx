@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import Picture from '../common/Picture'
+import { store } from 'app/lib/store/store'
+import { setOpenContactModal } from 'app/lib/store/slices/uiSlice'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface DogAttributes {
@@ -354,12 +356,12 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               >
                 Apply to Adopt {a?.name}
               </a>
-              <a
-                href="mailto:autenlinda@yahoo.com"
+              <button
+                onClick={() => store.dispatch(setOpenContactModal())}
                 className="block w-full text-center border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark font-medium text-sm py-3 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
                 Ask a Question
-              </a>
+              </button>
             </div>
 
             {/* ── Description ── */}

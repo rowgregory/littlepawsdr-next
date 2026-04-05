@@ -1,5 +1,5 @@
 import { User as NextAuthUser } from 'next-auth'
-// import { createStripeCustomer } from '../actions/createStripeCustomer'
+import { createStripeCustomer } from '../actions/createStripeCustomer'
 import { Account } from 'next-auth'
 import { User, Account as PrismaAccount } from '@prisma/client'
 import prisma from 'prisma/client'
@@ -31,6 +31,11 @@ export async function handleGoogleCallback(user: NextAuthUser, account: Account,
   if (existingUser) {
     await linkGoogleAccount(existingUser, account)
     await updateUserFromProfile(existingUser, profile)
+
+    if (!existingUser.stripeCustomerId) {
+      await createStripeCustomer(existingUser.id, existingUser.email, `${existingUser.firstName} ${existingUser.lastName}`.trim())
+    }
+
     user.id = existingUser.id
   } else {
     // Create new user with SUPPORTER role
@@ -45,7 +50,7 @@ export async function handleGoogleCallback(user: NextAuthUser, account: Account,
 
     await linkGoogleAccount(newUser, account)
 
-    // await createStripeCustomer(newUser.id, newUser.email, `${newUser.firstName} ${newUser.lastName}`.trim())
+    await createStripeCustomer(newUser.id, newUser.email, `${newUser.firstName} ${newUser.lastName}`.trim())
 
     user.id = newUser.id
 

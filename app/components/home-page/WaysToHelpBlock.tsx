@@ -85,7 +85,10 @@ const rowVariants = {
 
 export const WaysToHelpBlock = () => {
   return (
-    <section aria-labelledby="ways-to-help-heading" className="relative w-full py-16 sm:py-34.75 bg-bg-light dark:bg-bg-dark px-4 sm:px-6 lg:px-8">
+    <section
+      aria-labelledby="ways-to-help-heading"
+      className="relative w-full py-10 sm:py-20 1200:py-34.75 bg-bg-light dark:bg-bg-dark px-4 xs:px-5 sm:px-6"
+    >
       {/* Texture */}
       <div
         className="absolute inset-0 bg-repeat opacity-40 dark:opacity-20 pointer-events-none"
@@ -95,18 +98,34 @@ export const WaysToHelpBlock = () => {
 
       <div className="relative max-w-300 mx-auto">
         {/* Header */}
-        <div className="text-center mb-12 sm:mb-16 space-y-2">
-          <p className="font-nunito text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark">Ways to Help</p>
+        <div className="text-center mb-10 sm:mb-14 1200:mb-16 space-y-2">
+          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Ways to Help</p>
           <h2
             id="ways-to-help-heading"
             className="font-quicksand text-text-light dark:text-text-dark leading-tight"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)' }}
           >
             <span className="font-black">SUPPORT</span> <span className="font-light">LITTLE PAWS RESCUE</span>
           </h2>
         </div>
 
-        {/* Table */}
+        {/* Column headers — hidden on mobile */}
+        <div
+          className="hidden sm:flex sm:items-center gap-3 sm:gap-6 px-5 sm:px-8 pb-3 border-b border-border-light dark:border-border-dark"
+          aria-hidden="true"
+        >
+          <div className="flex-1 min-w-0">
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Initiative</span>
+          </div>
+          <div className="sm:w-36 shrink-0">
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Cost</span>
+          </div>
+          <div className="sm:w-40 shrink-0 flex sm:justify-end">
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Action</span>
+          </div>
+        </div>
+
+        {/* Rows */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -123,44 +142,49 @@ export const WaysToHelpBlock = () => {
                 key={row.id}
                 variants={rowVariants}
                 role="listitem"
-                className={`flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-5 sm:px-8 py-5 sm:py-6 transition-colors ${
+                className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 px-4 xs:px-5 sm:px-8 py-4 sm:py-5 1200:py-6 border-b border-border-light dark:border-border-dark transition-colors ${
                   isShaded ? 'bg-surface-light dark:bg-surface-dark' : 'bg-transparent'
                 }`}
               >
                 {/* Label + description */}
                 <div className="flex-1 min-w-0">
-                  <p className="font-quicksand font-bold text-base sm:text-lg text-text-light dark:text-text-dark">{row.label}</p>
-                  <p className="font-nunito text-sm text-muted-light dark:text-muted-dark mt-0.5">{row.description}</p>
+                  <p className="font-quicksand font-bold text-sm sm:text-base 1200:text-lg text-text-light dark:text-text-dark">{row.label}</p>
+                  <p className="font-nunito text-xs sm:text-sm text-muted-light dark:text-muted-dark mt-0.5 leading-relaxed">{row.description}</p>
                 </div>
 
-                {/* Cost */}
-                <div className="sm:w-36 shrink-0">
-                  <span
-                    className={`font-quicksand font-semibold text-base sm:text-lg tabular-nums ${
-                      row.free ? 'text-muted-light dark:text-muted-dark' : 'text-primary-light dark:text-primary-dark'
-                    }`}
-                  >
-                    {row.cost}
-                  </span>
-                </div>
-
-                {/* CTA */}
-                <div className="sm:w-40 shrink-0 flex sm:justify-end">
-                  {row.cta ? (
-                    <Link
-                      href={row.href}
-                      aria-label={`${row.cta} — ${row.label}`}
-                      className="group relative font-nunito font-semibold text-sm text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded whitespace-nowrap pb-0.5"
+                {/* Cost + CTA — inline on mobile, separate columns on sm+ */}
+                <div className="flex items-center justify-between sm:contents gap-4">
+                  {/* Cost */}
+                  <div className="sm:w-36 shrink-0">
+                    <span
+                      className={`text-[10px] font-mono tracking-[0.2em] uppercase tabular-nums ${
+                        row.free ? 'text-muted-light dark:text-muted-dark' : 'text-primary-light dark:text-primary-dark'
+                      }`}
                     >
-                      {row.cta}
-                      <span
-                        className="absolute bottom-0 left-0 w-0 group-hover:w-full h-px bg-primary-light dark:bg-primary-dark transition-all duration-300"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  ) : (
-                    <span className="font-nunito text-sm text-muted-light dark:text-muted-dark italic">Just share the love</span>
-                  )}
+                      {row.cost}
+                    </span>
+                  </div>
+
+                  {/* CTA */}
+                  <div className="sm:w-40 shrink-0 flex sm:justify-end">
+                    {row.cta ? (
+                      <Link
+                        href={row.href}
+                        aria-label={`${row.cta} — ${row.label}`}
+                        className="group relative text-[10px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark whitespace-nowrap pb-0.5"
+                      >
+                        {row.cta}
+                        <span
+                          className="absolute bottom-0 left-0 w-0 group-hover:w-full h-px bg-primary-light dark:bg-primary-dark transition-all duration-300"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    ) : (
+                      <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                        Just share the love
+                      </span>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             )

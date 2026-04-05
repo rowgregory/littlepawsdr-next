@@ -29,7 +29,13 @@ const DogCard = ({ dog, index }: { dog: GalleryImage; index: number }) => (
     exit={{ opacity: 0, scale: 0.96 }}
     transition={{ duration: 0.35, delay: index * 0.15, ease: 'easeOut' }}
     className={`relative overflow-hidden group z-40 ${
-      dog.span === 'tall' ? 'row-span-2' : dog.span === 'wide' ? 'col-span-2' : dog.span === 'featured' ? 'col-span-2 row-span-2' : ''
+      dog.span === 'tall'
+        ? 'col-span-2 sm:col-span-1 row-span-2'
+        : dog.span === 'wide'
+          ? 'col-span-2'
+          : dog.span === 'featured'
+            ? 'col-span-2 row-span-2'
+            : ''
     }`}
   >
     <Picture
@@ -38,13 +44,13 @@ const DogCard = ({ dog, index }: { dog: GalleryImage; index: number }) => (
       alt={dog.alt ?? 'Dachshund rescue dog'}
       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
       style={{
-        minHeight: dog.span === 'tall' || dog.span === 'featured' ? '520px' : '260px'
+        minHeight: dog.span === 'tall' || dog.span === 'featured' ? 'clamp(260px, 40vw, 520px)' : 'clamp(130px, 20vw, 260px)'
       }}
     />
 
     {/* Slide-up label on hover */}
     <div
-      className="absolute bottom-0 h-30 w-full bg-primary-light dark:bg-primary-dark transition-all duration-500 z-30 translate-y-full group-hover:translate-y-0 flex items-center text-lg font-nunito px-10 text-white dark:text-bg-dark font-bold"
+      className="absolute bottom-0 h-20 sm:h-30 w-full bg-primary-light dark:bg-primary-dark transition-all duration-500 z-30 translate-y-full group-hover:translate-y-0 flex items-center text-sm sm:text-lg font-nunito px-4 sm:px-10 text-white dark:text-bg-dark font-bold"
       aria-hidden="true"
     >
       {dog?.alt}
@@ -62,16 +68,16 @@ export const DogGalleryBlock = () => {
   return (
     <section aria-labelledby="gallery-heading" className="w-full bg-bg-light dark:bg-bg-dark">
       {/* Header */}
-      <div className="max-w-300 mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+      <div className="max-w-300 mx-auto px-4 xs:px-5 sm:px-6 py-10 sm:py-14 1200:py-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
         <div className="space-y-1">
           <div className="flex items-center gap-3" aria-hidden="true">
             <div className="w-8 h-px bg-primary-light dark:bg-primary-dark" />
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark font-nunito">Our Gallery</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Our Gallery</p>
           </div>
           <h2
             id="gallery-heading"
             className="font-quicksand leading-tight text-text-light dark:text-text-dark"
-            style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)' }}
           >
             <span className="font-black block">GALLERY</span>
             <span className="font-light">OF OUR DACHSHUNDS</span>
@@ -81,7 +87,7 @@ export const DogGalleryBlock = () => {
         <Link
           href="/dachshunds"
           aria-label="View all dachshunds available for adoption"
-          className="group relative font-nunito text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded pb-1 text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark self-start sm:self-auto whitespace-nowrap"
+          className="group relative text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark pb-1 text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark self-start sm:self-auto whitespace-nowrap"
         >
           View Dachshunds
           <span
@@ -92,7 +98,11 @@ export const DogGalleryBlock = () => {
       </div>
 
       {/* Full-bleed grid */}
-      <div role="list" aria-label="Dog gallery — all dogs" className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[330px]">
+      <div
+        role="list"
+        aria-label="Dog gallery — all dogs"
+        className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[160px] sm:auto-rows-[220px] 1200:auto-rows-[280px]"
+      >
         <AnimatePresence mode="popLayout">
           {DOGS.map((dog, i) => (
             <DogCard key={dog.id} dog={dog} index={i} />

@@ -4,6 +4,7 @@ import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from './lib/auth'
 import { RootLayoutWrapper } from './root-layout'
+import getDraftOrActiveAuction from './lib/actions/getDraftOrActiveAuction'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -40,11 +41,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
+  const result = await getDraftOrActiveAuction()
   return (
     <html lang="en">
       <body className={`${quicksand.variable} ${workSans.variable} ${bebas.variable} ${nunito.variable} `}>
         <SessionProvider session={session}>
-          <RootLayoutWrapper>{children}</RootLayoutWrapper>
+          <RootLayoutWrapper auction={result.data}>{children}</RootLayoutWrapper>
         </SessionProvider>
       </body>
     </html>

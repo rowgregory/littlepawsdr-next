@@ -10,7 +10,12 @@ export async function GET() {
         status: 'DRAFT',
         startDate: { lte: new Date() }
       },
-      select: { id: true }
+      select: {
+        id: true,
+        title: true,
+        endDate: true,
+        _count: { select: { items: true } }
+      }
     })
 
     if (auctions.length === 0) return NextResponse.json({ success: true, activated: 0 })
@@ -23,6 +28,9 @@ export async function GET() {
     for (const auction of auctions) {
       await pusher.trigger(`auction-${auction.id}`, 'auction-started', {
         auctionId: auction.id,
+        auctionTitle: auction.title,
+        itemCount: auction._count.items,
+        endDate: auction.endDate.toISOString(),
         timestamp: new Date().toISOString()
       })
     }

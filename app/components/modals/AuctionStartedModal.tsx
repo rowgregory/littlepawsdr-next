@@ -1,17 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Gavel, Zap, X, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useCountdown } from '@hooks/useCountdown'
-
-interface IAuctionStartedModal {
-  auctionTitle?: string
-  itemCount?: number
-  endDate?: Date
-  auctionId?: string
-}
+import { store, useUiSelector } from 'app/lib/store/store'
+import { setCloseAuctionStartedModal } from 'app/lib/store/slices/uiSlice'
 
 function CountUnit({ value, label }: { value: number; label: string }) {
   return (
@@ -24,21 +18,14 @@ function CountUnit({ value, label }: { value: number; label: string }) {
   )
 }
 
-export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, auctionId }: IAuctionStartedModal) {
-  const [open, setOpen] = useState(false)
-  const { days, hours, minutes, done } = useCountdown(endDate)
-
-  //   useEffect(() => {
-  //     const t = setTimeout(() => {
-  //       store.dispatch(setShowConfetti())
-  //       setOpen(true)
-  //     }, 800)
-  //     return () => clearTimeout(t)
-  //   }, [])
+export default function AuctionStartedModal() {
+  const { auctionStartedModal, auctionStartedData } = useUiSelector()
+  const { days, hours, minutes, done } = useCountdown(auctionStartedData?.endDate)
+  const onClose = () => store.dispatch(setCloseAuctionStartedModal())
 
   return (
     <AnimatePresence>
-      {open && (
+      {auctionStartedModal && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -47,8 +34,8 @@ export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-110 bg-black/60 backdrop-blur-sm"
+            onClick={onClose}
             aria-hidden="true"
           />
 
@@ -62,7 +49,7 @@ export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+            className="fixed inset-0 z-120 flex items-center justify-center p-4 pointer-events-none"
           >
             <div className="relative w-full max-w-md bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark pointer-events-auto overflow-hidden">
               {/* Animated top accent */}
@@ -77,7 +64,7 @@ export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, 
 
               {/* Close */}
               <button
-                onClick={() => setOpen(false)}
+                onClick={onClose}
                 aria-label="Close"
                 className="absolute top-4 right-4 p-1.5 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark border border-transparent hover:border-border-light dark:hover:border-border-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
@@ -120,10 +107,10 @@ export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, 
                 </div>
 
                 <h2 id="auction-started-heading" className="font-quicksand font-black text-xl text-text-light dark:text-text-dark leading-snug mb-2">
-                  {auctionTitle}
+                  {auctionStartedData?.auctionTitle}
                 </h2>
                 <p className="text-xs font-mono text-muted-light dark:text-muted-dark">
-                  The auction is now open — {itemCount} item{itemCount !== 1 ? 's' : ''} up for bidding.
+                  The auction is now open — {auctionStartedData?.itemCount} item{auctionStartedData?.itemCount !== 1 ? 's' : ''} up for bidding.
                 </p>
               </div>
 
@@ -146,15 +133,15 @@ export default function AuctionStartedModal({ auctionTitle, itemCount, endDate, 
               {/* Footer */}
               <div className="px-8 py-6 flex flex-col gap-3">
                 <Link
-                  href={`/auctions/${auctionId}`}
+                  href={`/auctions/${auctionStartedData?.auctionId}`}
                   className="group flex items-center justify-between px-5 py-3.5 bg-emerald-500 text-white hover:bg-emerald-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-                  aria-label={`Go to ${auctionTitle}`}
+                  aria-label={`Go to ${auctionStartedData?.auctionTitle}`}
                 >
                   <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Start Bidding</span>
                   <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                 </Link>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={onClose}
                   className="px-5 py-3 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark border border-border-light dark:border-border-dark hover:border-primary-light/40 dark:hover:border-primary-dark/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                 >
                   Dismiss

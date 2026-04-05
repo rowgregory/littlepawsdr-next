@@ -93,7 +93,7 @@ export default function AdminAuctionItemDrawer() {
     }
 
     const payload = {
-      auctionId: inputs?.auctionId,
+      auctionId: inputs?.auction?.id,
       name: inputs?.name.trim(),
       description: inputs?.description?.trim() || null,
       sellingFormat: inputs?.sellingFormat,
@@ -102,7 +102,7 @@ export default function AdminAuctionItemDrawer() {
       totalQuantity: inputs?.totalQuantity ? Number(inputs.totalQuantity) : 1,
       requiresShipping: inputs?.requiresShipping,
       shippingCosts: inputs?.shippingCosts ? Number(inputs.shippingCosts) : null,
-      photos: photos.length > 0 ? photos : inputs?.photos
+      photos: photos.length > 0 ? photos : (inputs?.photos?.map((p: any) => (typeof p === 'string' ? p : p.url)) ?? [])
     }
 
     const result = isUpdating ? await updateAuctionItem(inputs.id!, payload) : await createAuctionItem(payload)
@@ -117,6 +117,7 @@ export default function AdminAuctionItemDrawer() {
     store.dispatch(setCloseAuctionItemDrawer())
     store.dispatch(resetForm('auctionItemForm'))
     setLoading(false)
+    setPendingPhotos([])
   }
 
   const handleDelete = async () => {
@@ -124,6 +125,7 @@ export default function AdminAuctionItemDrawer() {
       setConfirmDel(true)
       return
     }
+
     setDeleting(true)
     const result = await deleteAuctionItem(inputs.id!, inputs?.auctionId)
     if (!result.success) {
@@ -355,7 +357,16 @@ export default function AdminAuctionItemDrawer() {
                           )}
                           <button
                             type="button"
-                            onClick={() => deleteAuctionItemPhoto(photo.id, inputs?.auctionId)}
+                            onClick={() => {
+                              deleteAuctionItemPhoto(photo.id, inputs?.auctionId)
+                              router.refresh()
+                              store.dispatch(
+                                setInputs({
+                                  formName: 'auctionItemForm',
+                                  data: { ...inputs, photos: inputs.photos.filter((item) => item.id !== photo.id) }
+                                })
+                              )
+                            }}
                             aria-label="Remove photo"
                             className="w-7 h-7 flex items-center justify-center bg-white/20 hover:bg-red-500 text-white backdrop-blur-sm transition-colors"
                           >
@@ -452,7 +463,6 @@ export default function AdminAuctionItemDrawer() {
                       onChange={handleInput}
                       placeholder="0.00"
                       className={`${inputClass} ${isActive ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-                      aria-hidden="true"
                     />
                     {isActive && <div className="absolute inset-0 cursor-not-allowed" aria-hidden="true" />}
                   </div>
@@ -470,7 +480,7 @@ export default function AdminAuctionItemDrawer() {
                       type="number"
                       min="1"
                       step="1"
-                      value={inputs?.totalQuantity}
+                      value={inputs?.totalQuantity || ''}
                       onChange={handleInput}
                       placeholder="1"
                       className={inputClass}

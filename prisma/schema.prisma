@@ -307,7 +307,6 @@ model Auction {
   supporters          Int           @default(0)
   supporterEmails     String[]
   customAuctionLink   String?       @unique
-  anonymousBidding    Boolean       @default(true)
   startDate           DateTime
   endDate             DateTime
   createdAt           DateTime      @default(now())
@@ -318,6 +317,7 @@ model Auction {
   bids           AuctionBid[]
   instantBuyers  AuctionItemInstantBuyer[]
   winningBidders AuctionWinningBidder[]
+  anomalies      AuctionAnomaly[]
 }
 
 // ─── Auction Item ─────────────────────────────────────────────────────────────
@@ -356,22 +356,6 @@ model AuctionItem {
   winningBidder          AuctionWinningBidder? @relation(fields: [auctionWinningBidderId], references: [id])
 
   @@index([auctionId])
-}
-
-// ─── Auction Item Photo ───────────────────────────────────────────────────────
-model AuctionItemPhoto {
-  id        String      @id @default(cuid())
-  itemId    String
-  item      AuctionItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  url       String
-  name      String?
-  size      String?
-  isPrimary Boolean     @default(false)
-  sortOrder Int         @default(0)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@index([itemId])
 }
 
 // ─── Auction Bidder ───────────────────────────────────────────────────────────
@@ -468,10 +452,27 @@ model AuctionWinningBidder {
   @@index([userId])
 }
 
+// ─── Auction Item Photo ───────────────────────────────────────────────────────
+model AuctionItemPhoto {
+  id        String      @id @default(cuid())
+  itemId    String
+  item      AuctionItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  url       String
+  name      String?
+  size      String?
+  isPrimary Boolean     @default(false)
+  sortOrder Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([itemId])
+}
+
 // ─── Adoption Application Bypass Code ───────────────────────────────────────────────────
 model AdoptionApplicationBypassCode {
-  id         String @id @default(cuid())
-  bypassCode String @unique
+  id             String   @id @default(cuid())
+  bypassCode     String   @unique
+  nextRotationAt DateTime @default(now())
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -543,4 +544,30 @@ model Log {
   userId    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model NewsletterIssue {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  pdfUrl      String
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AuctionAnomaly {
+  id        String   @id @default(cuid())
+  auctionId String
+  auction   Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  type      String
+  itemId    String
+  itemName  String
+  message   String
+  metadata  Json?
+  dismissed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([auctionId])
 }

@@ -13,6 +13,7 @@ import AdminWinningBidderDrawer from '../drawers/AdminWinningBidderDrawer'
 import { WelcomeWienerDrawer } from '../drawers/WelcomeWienerDrawer'
 import { ProductDrawer } from '../drawers/ProductDrawer'
 import { AdminOrderDrawer } from '../drawers/AdminOrderDrawer'
+import AdminCreateNewsletterIssueModal from '../modals/AdminCreateNewsletterIssueModal'
 
 // ─── Nav Link ─────────────────────────────────────────────────────────────────
 function NavLink({
@@ -107,7 +108,7 @@ function SidebarContent({ pathname, onNavClick }: { pathname: string; onNavClick
           <span>View Site</span>
         </Link>
         <button
-          onClick={() => signOut({ callbackUrl: '/' })}
+          onClick={() => signOut({ redirectTo: '/auth/login' })}
           className="w-full flex items-center gap-3 px-3 py-2.5 text-xs font-mono text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 hover:bg-red-500/5 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
         >
           <LogOut size={14} className="shrink-0" aria-hidden="true" />
@@ -135,6 +136,7 @@ export default function AdminRootClient({ children }: { children: React.ReactNod
       <WelcomeWienerDrawer />
       <ProductDrawer />
       <AdminOrderDrawer />
+      <AdminCreateNewsletterIssueModal />
 
       {/* ── Desktop sidebar ── */}
       <aside

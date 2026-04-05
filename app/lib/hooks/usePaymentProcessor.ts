@@ -6,6 +6,7 @@ import { useRef } from 'react'
 import { store } from '../store/store'
 import { savePaymentMethod } from '../actions/savePaymentMethod'
 import { setHideConfetti, setShowConfetti } from '../store/slices/uiSlice'
+import { setAdoptionFeeCookie } from '../actions/setAdoptionFeeCookie'
 
 export function usePaymentProcessor() {
   const router = useRouter()
@@ -40,7 +41,7 @@ export function usePaymentProcessor() {
       }
     }, 10000)
 
-    channel.bind('order-created', (data: any) => {
+    channel.bind('order-created', async (data: any) => {
       if (hasProcessedOrder.current) return
       hasProcessedOrder.current = true
 
@@ -51,7 +52,14 @@ export function usePaymentProcessor() {
         savePaymentMethod(session?.data?.user?.id, paymentMethod as string, true).catch(console.error)
       }
 
-      router.push(`/order-confirmation/${data.orderId}`)
+      if (data.type === 'ADOPTION_FEE') {
+        if (data.adoptionFeeId) {
+          await setAdoptionFeeCookie(data.adoptionFeeId)
+        }
+        router.push(`/adopt/application/apply`)
+      } else {
+        router.push(`/order-confirmation/${data.orderId}`)
+      }
       channel.unbind_all()
       pusher.unsubscribe(`payment-${channelId}`)
 
@@ -77,7 +85,9 @@ export function usePaymentProcessor() {
     processingStatus?: string,
     setError?: any,
     setProcessingStatus?: any,
-    setLoading?: any
+    setLoading?: any,
+    saveCard?: boolean,
+    paymentMethodId?: string | PaymentMethod
   ) => {
     const channelId = `payment-${subscriptionResult.subscriptionId}`
 
@@ -101,6 +111,11 @@ export function usePaymentProcessor() {
 
       clearTimeout(timeout)
       setProcessingStatus('success')
+
+      if (saveCard && session?.data?.user?.id && paymentMethodId) {
+        savePaymentMethod(session?.data?.user?.id, paymentMethodId as string, true).catch(console.error)
+      }
+
       router.push(`/order-confirmation/${data.orderId}`)
       channel.unbind_all()
       pusher.unsubscribe(channelId)

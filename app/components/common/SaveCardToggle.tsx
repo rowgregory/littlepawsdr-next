@@ -1,19 +1,46 @@
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { store, useFormSelector } from 'app/lib/store/store'
 import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
-type Props = {
-  formName: string
-}
-
-export function SaveCardToggle({ formName }: Props) {
+export function SaveCardToggle({ formName }: { formName: string }) {
   const session = useSession()
   const isAuthed = session.status === 'authenticated'
   const form = useFormSelector()
   const inputs = form?.[formName]?.inputs
   const checked = !!inputs?.saveCard
+  const isSubscriptionForm = formName === 'subscriptionForm'
+  const hasExistingCard = !!inputs?.selectedCardId // or however you track existing cards
+
+  // Auto-check for subscription form
+  useEffect(() => {
+    if (isSubscriptionForm && isAuthed && !checked) {
+      store.dispatch(setInputs({ formName, data: { saveCard: !hasExistingCard } }))
+    }
+  }, [isSubscriptionForm, isAuthed, checked, formName, hasExistingCard])
+
+  useEffect(() => {
+    if (inputs?.useNewCard && hasExistingCard) {
+      store.dispatch(setInputs({ formName, data: { saveCard: false } }))
+    }
+  }, [inputs?.useNewCard, hasExistingCard, formName])
 
   if (!isAuthed || (inputs?.selectedCardId && !inputs?.useNewCard)) return null
+
+  // Subscription form — locked on with explanation
+  if (isSubscriptionForm && !hasExistingCard && !inputs?.useNewCard) {
+    return (
+      <div className="w-full flex items-center justify-between px-3.5 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark opacity-70">
+        <div className="text-left">
+          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark">Save card for future donations</p>
+          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">Required to process your recurring subscription</p>
+        </div>
+        <div aria-hidden="true" className={`relative shrink-0 w-10 h-5 ml-4 transition-colors duration-200 bg-primary-light dark:bg-primary-dark`}>
+          <span className={`absolute top-0.5 w-4 h-4 bg-white transition-transform duration-200 translate-x-5.5`} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <button

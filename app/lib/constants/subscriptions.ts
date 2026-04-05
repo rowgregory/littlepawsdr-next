@@ -33,6 +33,7 @@ export type SubscriptionPaymentFormProps = {
   tier: Tier
   billing: RecurringFrequency
   savedCards: IPaymentMethod[]
+  userName: { firstName: string; lastName: string }
 }
 
 export type TierKey = 'bronze' | 'silver' | 'gold' | 'elite'

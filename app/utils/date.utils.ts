@@ -1,46 +1,49 @@
+/** Formats a date as "Jan 1, 2026", optionally with time as "Jan 1, 2026, 12:00 PM" */
 export function formatDate(date: Date | string, includeTime = false) {
   return new Date(date).toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
-    ...(includeTime && {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    })
+    ...(includeTime && { hour: 'numeric', minute: '2-digit', hour12: true })
   })
 }
 
-export function getDaysRemaining(endDate: Date) {
-  const now = new Date()
-  const end = new Date(endDate)
-  const diff = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-  return diff
+/** Formats a date as "Jan 1, 2026, 12:00 PM" — shorthand for formatDate(date, true) */
+export function formatDateTime(date: Date | string) {
+  return formatDate(date, true)
 }
 
-export function formatDateTime(date: Date) {
-  return new Date(date).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
+/** Formats a date as "12:00 PM" or "12:00:00 PM" with optional seconds */
+export function formatTime(date: Date | string, includeSeconds = false) {
+  return new Date(date).toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    ...(includeSeconds && { second: '2-digit' }),
+    hour12: true
+  })
 }
 
-/**
- * Converts a Date object or ISO string to the format required by HTML input type="date" (YYYY-MM-DD)
- */
-export const formatDateForInput = (date: Date | string | number | boolean | null | undefined): string => {
+/** Returns the number of days remaining until a given end date (rounded up) */
+export function getDaysRemaining(endDate: Date | string) {
+  const diff = new Date(endDate).getTime() - Date.now()
+  return Math.ceil(diff / (1000 * 60 * 60 * 24))
+}
+
+/** Converts a date to the YYYY-MM-DD format required by HTML input[type="date"] */
+export function formatDateForInput(date: Date | string | number | boolean | null | undefined): string {
   if (!date || typeof date === 'boolean' || typeof date === 'number') return ''
-
   try {
-    const dateObj = date instanceof Date ? date : new Date(date)
-    if (isNaN(dateObj.getTime())) return ''
-    return dateObj.toISOString().split('T')[0]
+    const d = new Date(date as Date | string)
+    return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0]
   } catch {
     return ''
   }
 }
 
+/** Converts a date to the YYYY-MM-DDTHH:MM format required by HTML input[type="datetime-local"] */
 export function toDatetimeLocal(date: Date | string | null | undefined): string {
   if (!date) return ''
   const d = new Date(date)
   if (isNaN(d.getTime())) return ''
-  const offset = d.getTimezoneOffset() * 60000
-  return new Date(d.getTime() - offset).toISOString().slice(0, 16)
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
 }

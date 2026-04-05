@@ -213,6 +213,7 @@ function BidsTable({ bids }: { bids: IAuctionBid[] }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AdminAuctionItemClient({ auctionItem }: { auctionItem: any }) {
   const item = auctionItem
+
   const statusConfig = getItemStatusConfig(item.status)
   const isActive = item.auction.status === 'ACTIVE'
 

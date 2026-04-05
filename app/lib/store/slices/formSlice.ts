@@ -3,10 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const formInitialState = {
   isLoading: false,
   adoptFeeForm: { inputs: { subtotal: 15, totalPrice: 15 }, errors: {} },
-  auctionItemForm: { inputs: { requiresShipping: false, showStartingPrice: true, sellingFormat: 'AUCTION' }, errors: {} },
+  auctionItemForm: { inputs: { requiresShipping: true, showStartingPrice: true, sellingFormat: 'AUCTION' }, errors: {} },
   welcomeWienerForm: { inputs: { isLive: true }, errors: {} },
   checkoutForm: { inputs: { firstName: '', lastName: '', email: '' }, errors: {} },
-  productForm: { inputs: { isLive: true }, errors: {} }
+  productForm: { inputs: { isLive: true }, errors: {} },
+  donateForm: { inputs: { selectedAmount: 50 }, errors: {} },
+  adoptionFeeForm: { inputs: { isProceeding: false }, errors: {} },
+  contactForm: { inputs: { email: '' }, errors: {} }
 } as any
 
 export const formSlice = createSlice({

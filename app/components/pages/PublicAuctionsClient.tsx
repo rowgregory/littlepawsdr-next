@@ -7,10 +7,8 @@ import Link from 'next/link'
 import { IAuctionItem } from 'types/entities/auction-item'
 import Picture from '../common/Picture'
 import { IAuction } from 'types/entities/auction'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { formatMoney } from 'app/utils/currency.utils'
-import { useRouter } from 'next/navigation'
-import { pusherClient } from 'app/lib/pusher-client'
 
 // ─── Countdown unit ───────────────────────────────────────────────────────────
 function CountUnit({ value, label }: { value: number; label: string }) {
@@ -313,27 +311,9 @@ function EmptyState() {
 export default function PublicAuctionsClient({ auctions }) {
   const active = auctions.filter((a) => a.status === 'ACTIVE')
   const past = auctions.filter((a) => a.status === 'ENDED')
-  const router = useRouter()
-  const routerRef = useRef(router)
+
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
-
-  const activeAuctionId = active[0]?.id
-
-  useEffect(() => {
-    if (!activeAuctionId) return
-
-    const channel = pusherClient.subscribe(`auction-${activeAuctionId}`)
-
-    channel.bind('auction-started', () => routerRef.current.refresh())
-    channel.bind('auction-ended', () => routerRef.current.refresh())
-    channel.bind('auction-updated', () => routerRef.current.refresh())
-
-    return () => {
-      channel.unbind_all()
-      pusherClient.unsubscribe(`auction-${activeAuctionId}`)
-    }
-  }, [activeAuctionId])
 
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark">

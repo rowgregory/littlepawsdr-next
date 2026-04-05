@@ -352,7 +352,6 @@ function AllOrdersTab({ orders }: { orders: IOrder[] }) {
       setShippingOrder(null)
       router.refresh()
     } catch (err) {
-      console.log('ERROR: ', err)
       store.dispatch(showToast({ message: 'Failed to update shipping status', type: 'error' }))
     } finally {
       setShipLoading(false)
