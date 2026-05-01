@@ -1,19 +1,23 @@
-import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { initializeApp } from 'firebase/app'
+import { getStorage } from 'firebase/storage'
+
+export const firebaseApiKey = 'AIzaSyBDhJ4lexSGP1Caj7uw3yDPrxUR-R7sw9A'
+export const firebaseStorageBucket = 'little-paws-dachshund-re-a1632.appspot.com'
+export const firebaseProjectId = 'little-paws-dachshund-re-a1632'
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_TOKEN,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-};
+  apiKey: firebaseApiKey,
+  authDomain: 'little-paws-dachshund-re-a1632.firebaseapp.com',
+  projectId: firebaseProjectId,
+  storageBucket: firebaseStorageBucket,
+  messagingSenderId: '617318842008',
+  appId: '1:617318842008:web:f651769b81d54f6b3e5aed',
+  measurementId: 'G-2S8YWJRZC4'
+}
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
-const storage = getStorage(app);
+const storage = getStorage(app)
 
-export { storage };
+export { storage }

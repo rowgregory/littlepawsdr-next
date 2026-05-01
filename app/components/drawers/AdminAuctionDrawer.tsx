@@ -6,7 +6,7 @@ import { X, Gavel, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { store, useUiSelector } from 'app/lib/store/store'
 import { setCloseAuctionDrawer } from 'app/lib/store/slices/uiSlice'
-import { createAuction } from 'app/lib/actions/createAuction'
+import { createAuction } from 'app/lib/actions/auction/createAuction'
 
 // ─── Input ────────────────────────────────────────────────────────────────────
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {

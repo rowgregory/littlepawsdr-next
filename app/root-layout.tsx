@@ -13,7 +13,6 @@ import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigati
 import { HIDDEN_PATHS } from './lib/constants/navigation'
 import AuctionEndedModal from './components/modals/AuctionEndedModal'
 import AuctionStartedModal from './components/modals/AuctionStartedModal'
-import AuctionBidModal from './components/modals/AuctionBidModal'
 import { stripePromise } from './lib/stripe-promise'
 import { CartBar } from './components/unique/CartBar'
 import { CartToast } from './components/unique/CartToast'
@@ -21,6 +20,7 @@ import { AdoptionFeeWelcomeModal } from './components/modals/AdoptionFeeModal'
 import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher-client'
 import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
+import NavigationDrawer from './components/drawers/NavigationDrawer'
 
 export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ children, auction }) => {
   const segments = useSelectedLayoutSegments()
@@ -58,17 +58,19 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
         <Elements stripe={stripePromise}>
           <Toast />
           <Confetti3D />
+
           <AuctionEndedModal />
           <AuctionStartedModal />
-          <AuctionBidModal />
           <CartBar />
           <CartToast />
           <AdoptionFeeWelcomeModal />
           <PublicContactModal />
+          <NavigationDrawer auction={auction} />
 
           {!isHidden && <Header auction={auction} />}
 
           {children}
+
           {!isHidden && <Footer />}
         </Elements>
       </ThemeProvider>

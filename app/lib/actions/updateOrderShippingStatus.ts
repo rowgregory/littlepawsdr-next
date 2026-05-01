@@ -3,22 +3,49 @@
 import { ShippingStatus } from '@prisma/client'
 import prisma from 'prisma/client'
 import { createLog } from './createLog'
-import { pusher } from '../pusher'
+import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
+import { auth } from '../auth'
 
 export const updateOrderShippingStatus = async ({ id, shippingStatus }: { id: string; shippingStatus: ShippingStatus }) => {
   try {
-    const order = await prisma.order.update({
-      where: { id },
-      data: { shippingStatus }
-    })
+    const [order, session] = await Promise.all([
+      prisma.order.update({
+        where: { id },
+        data: { shippingStatus }
+      }),
+      auth()
+    ])
 
-    // Notify the user via Pusher
     if (shippingStatus === 'SHIPPED' && order.userId) {
-      await pusher.trigger(`user-${order.userId}`, 'order-shipped', {
+      await pusherTrigger(`user-${order.userId}`, 'order-shipped', {
         orderId: order.id,
         customerName: order.customerName
       })
     }
+
+    const sessionUser = await prisma.user.findUnique({
+      where: { id: session?.user?.id },
+      select: { firstName: true, lastName: true, email: true }
+    })
+
+    const updatedBy = sessionUser?.firstName
+      ? `${sessionUser.firstName}${sessionUser.lastName ? ` ${sessionUser.lastName}` : ''}`
+      : (sessionUser?.email ?? 'Unknown')
+
+    await createLog('info', 'Order shipping status updated', {
+      orderId: id,
+      shippingStatus,
+      customerName: order.customerName,
+      updatedBy
+    })
+
+    await pusherSuperuser('order-shipped', {
+      orderId: id,
+      shippingStatus,
+      customerName: order.customerName,
+      email: order.customerEmail,
+      updatedBy
+    })
 
     return { success: true, error: null }
   } catch (error) {

@@ -4,6 +4,7 @@ import { sendWinnerEmail } from '../end-auction/route'
 import { createLog } from 'app/lib/actions/createLog'
 
 export async function GET() {
+  const start = Date.now()
   try {
     const unpaidWinners = await prisma.auctionWinningBidder.findMany({
       where: {
@@ -28,6 +29,12 @@ export async function GET() {
     })
 
     if (unpaidWinners.length === 0) {
+      await createLog('info', '[CRON] winner-payment-reminder', {
+        cronName: 'winner-payment-reminder',
+        status: 'skipped',
+        durationMs: Date.now() - start,
+        detail: 'No unpaid winners past 24hrs'
+      })
       return NextResponse.json({ success: true, reminded: 0 })
     }
 
@@ -53,16 +60,20 @@ export async function GET() {
       })
     }
 
-    await createLog('info', 'Cron: winner-payment-reminders', {
-      reminded: unpaidWinners.length,
-      ids: unpaidWinners.map((w) => w.id),
-      timestamp: new Date().toISOString()
+    await createLog('info', '[CRON] winner-payment-reminder', {
+      cronName: 'winner-payment-reminder',
+      status: 'success',
+      durationMs: Date.now() - start,
+      detail: `${unpaidWinners.length} reminder(s) sent — ${unpaidWinners.map((w) => w.user.email).join(', ')}`
     })
 
     return NextResponse.json({ success: true, reminded: unpaidWinners.length })
   } catch (error) {
-    await createLog('error', 'Cron: winner-payment-reminders failed', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+    await createLog('error', '[CRON] winner-payment-reminder', {
+      cronName: 'winner-payment-reminder',
+      status: 'error',
+      durationMs: Date.now() - start,
+      detail: error instanceof Error ? error.message : 'Unknown error'
     })
     return NextResponse.json({ error: 'Failed to send payment reminders' }, { status: 500 })
   }

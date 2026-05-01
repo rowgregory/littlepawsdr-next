@@ -5,11 +5,11 @@
       "schedule": "0 0 * * *"
     },
     {
-      "path": "/api/cron/start-auctions",
+      "path": "/api/cron/start-auction",
       "schedule": "* * * * *"
     },
     {
-      "path": "/api/cron/end-auctions",
+      "path": "/api/cron/end-auction",
       "schedule": "* * * * *"
     },
     {

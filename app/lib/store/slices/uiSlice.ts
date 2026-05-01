@@ -29,6 +29,8 @@ interface UiState {
   adoptionFeeWelcomeModal: boolean
   adminCreateNewsletterIssueModal: boolean
   contactModal: boolean
+  auctionSignInModal: boolean
+  auctionSignInRedirectTo: string | null
 }
 
 const initialState: UiState = {
@@ -56,7 +58,9 @@ const initialState: UiState = {
   order: null,
   adoptionFeeWelcomeModal: false,
   adminCreateNewsletterIssueModal: false,
-  contactModal: false
+  contactModal: false,
+  auctionSignInModal: false,
+  auctionSignInRedirectTo: null
 }
 
 const uiSlice = createSlice({
@@ -188,6 +192,14 @@ const uiSlice = createSlice({
     },
     setCloseContactModal: (state) => {
       state.contactModal = false
+    },
+    setOpenAuctionSignInModal: (state, { payload }) => {
+      state.auctionSignInModal = true
+      state.auctionSignInRedirectTo = payload
+    },
+    setCloseAuctionSignInModal: (state) => {
+      state.auctionSignInModal = false
+      state.auctionSignInRedirectTo = null
     }
   }
 })
@@ -230,7 +242,9 @@ export const {
   setCloseContactModal,
   setOpenContactModal,
   setCloseAuctionStartedModal,
-  setOpenAuctionStartedModal
+  setOpenAuctionStartedModal,
+  setCloseAuctionSignInModal,
+  setOpenAuctionSignInModal
 } = uiSlice.actions
 
 export const uiReducer = uiSlice.reducer

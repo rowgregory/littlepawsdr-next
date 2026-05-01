@@ -136,8 +136,6 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
 
   useInitializeForm(setForm, { session, savedCards, userName })
 
-  console.log(inputs)
-
   const handleContinueToInfo = () => {
     if (!agreedToTerms) {
       return

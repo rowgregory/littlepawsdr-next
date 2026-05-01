@@ -1,11 +1,12 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
 import { createLog } from 'app/lib/actions/createLog'
-import { pusher } from 'app/lib/pusher'
 import { stripeClient } from 'app/lib/stripe-client'
+import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
 import sendConfirmationEmail from 'app/utils/sendConfirmationEmail'
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
+import { IAdoptionFee } from 'types/entities/adoption-fee'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
@@ -200,63 +201,130 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       }
     }
 
-    if (orderType === 'AUCTION_PURCHASE' && metadata?.winningBidderId) {
-      await prisma.$transaction(async (tx) => {
-        const winningBidder = await tx.auctionWinningBidder.update({
-          where: { id: metadata.winningBidderId },
-          data: {
-            winningBidPaymentStatus: 'PAID',
-            auctionItemPaymentStatus: 'PAID',
-            shippingStatus: 'PENDING_FULFILLMENT',
-            paidOn: new Date(),
-            processingFee: metadata?.coverFees === 'true' ? metadata.feesCovered : 0
-          },
-          include: {
-            user: { select: { email: true } },
-            auction: { select: { id: true, supporterEmails: true, totalAuctionRevenue: true } },
-            auctionItems: {
-              include: {
-                photos: { take: 1 }
-              }
+    if (orderType === 'AUCTION_PURCHASE') {
+      // ── Instant buy (fixed price) ────────────────────────────────
+      if (metadata?.auctionItemId && !metadata?.winningBidderId) {
+        await prisma.$transaction(async (tx) => {
+          const auctionItem = await tx.auctionItem.findUnique({
+            where: { id: metadata.auctionItemId },
+            include: {
+              auction: { select: { id: true, supporterEmails: true, totalAuctionRevenue: true } },
+              photos: { take: 1 }
             }
-          }
-        })
-
-        const auction = winningBidder.auction
-        const userEmail = winningBidder.user?.email
-
-        const updatedEmails =
-          userEmail && !auction.supporterEmails.includes(userEmail) ? [...auction.supporterEmails, userEmail] : auction.supporterEmails
-
-        await tx.auction.update({
-          where: { id: auction.id },
-          data: {
-            supporterEmails: updatedEmails,
-            supporters: updatedEmails.length,
-            totalAuctionRevenue: { increment: winningBidder.totalPrice ?? 0 }
-          }
-        })
-
-        // ── Order items ──────────────────────────────────────────────
-        if (winningBidder.auctionItems?.length > 0) {
-          await tx.orderItem.createMany({
-            data: winningBidder.auctionItems.map((item) => ({
-              orderId: order.id,
-              itemName: item.name,
-              itemImage: null,
-              price: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
-              quantity: 1,
-              subtotal: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
-              totalPrice: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
-              isPhysical: item.requiresShipping
-            }))
           })
-        }
-      })
+
+          if (!auctionItem) throw new Error(`AuctionItem not found: ${metadata.auctionItemId}`)
+
+          // Create instant buyer record
+          await tx.auctionItemInstantBuyer.create({
+            data: {
+              auctionId: auctionItem.auctionId,
+              auctionItemId: auctionItem.id,
+              userId: metadata.userId,
+              name: metadata.name,
+              email: metadata.email,
+              totalPrice: Number(auctionItem.buyNowPrice ?? 0),
+              paymentStatus: 'PAID',
+              shippingStatus: auctionItem.requiresShipping ? 'PENDING_FULFILLMENT' : 'DIGITAL'
+            }
+          })
+
+          // Decrement quantity and conditionally mark as sold
+          const newQuantity = (auctionItem.totalQuantity ?? 1) - 1
+
+          await tx.auctionItem.update({
+            where: { id: auctionItem.id },
+            data: {
+              totalQuantity: newQuantity,
+              ...(newQuantity <= 0 ? { status: 'SOLD' } : {})
+            }
+          })
+
+          // Update auction revenue and supporter emails
+          const auction = auctionItem.auction
+          const updatedEmails =
+            metadata.email && !auction.supporterEmails.includes(metadata.email)
+              ? [...auction.supporterEmails, metadata.email]
+              : auction.supporterEmails
+
+          await tx.auction.update({
+            where: { id: auction.id },
+            data: {
+              supporterEmails: updatedEmails,
+              supporters: updatedEmails.length,
+              totalAuctionRevenue: { increment: Number(auctionItem.buyNowPrice ?? 0) }
+            }
+          })
+
+          // Create order item
+          await tx.orderItem.create({
+            data: {
+              orderId: order.id,
+              itemName: auctionItem.name,
+              itemImage: auctionItem.photos[0]?.url ?? null,
+              price: Number(auctionItem.buyNowPrice ?? 0),
+              quantity: 1,
+              subtotal: Number(auctionItem.buyNowPrice ?? 0),
+              totalPrice: Number(auctionItem.buyNowPrice ?? 0),
+              isPhysical: auctionItem.requiresShipping
+            }
+          })
+        })
+      }
+
+      // ── Auction winner (bid) ─────────────────────────────────────
+      else if (metadata?.winningBidderId) {
+        await prisma.$transaction(async (tx) => {
+          const winningBidder = await tx.auctionWinningBidder.update({
+            where: { id: metadata.winningBidderId },
+            data: {
+              winningBidPaymentStatus: 'PAID',
+              auctionItemPaymentStatus: 'PAID',
+              shippingStatus: 'PENDING_FULFILLMENT',
+              paidOn: new Date(),
+              processingFee: metadata?.coverFees === 'true' ? metadata.feesCovered : 0
+            },
+            include: {
+              user: { select: { email: true } },
+              auction: { select: { id: true, supporterEmails: true, totalAuctionRevenue: true } },
+              auctionItems: { include: { photos: { take: 1 } } }
+            }
+          })
+
+          const auction = winningBidder.auction
+          const userEmail = winningBidder.user?.email
+          const updatedEmails =
+            userEmail && !auction.supporterEmails.includes(userEmail) ? [...auction.supporterEmails, userEmail] : auction.supporterEmails
+
+          await tx.auction.update({
+            where: { id: auction.id },
+            data: {
+              supporterEmails: updatedEmails,
+              supporters: updatedEmails.length,
+              totalAuctionRevenue: { increment: winningBidder.totalPrice ?? 0 }
+            }
+          })
+
+          if (winningBidder.auctionItems?.length > 0) {
+            await tx.orderItem.createMany({
+              data: winningBidder.auctionItems.map((item) => ({
+                orderId: order.id,
+                itemName: item.name,
+                itemImage: null,
+                price: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
+                quantity: 1,
+                subtotal: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
+                totalPrice: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
+                isPhysical: item.requiresShipping
+              }))
+            })
+          }
+        })
+      }
     }
 
-    let adoptionFee
-    let existingAdoptionFee
+    let adoptionFee: IAdoptionFee
+    let existingAdoptionFee: { id: string }
 
     if (orderType === 'ADOPTION_FEE') {
       const userId = metadata.userId
@@ -276,7 +344,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
             userId,
             feeAmount: paymentIntent.amount / 100,
             status: 'ACTIVE',
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            email: metadata.email
           }
         })
       }
@@ -286,14 +355,25 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     await sendConfirmationEmail(order, orderType, amount)
 
     // Push to Pusher
-    const channelId = userId || `guest-${paymentIntent.id}`
-    await pusher.trigger(`payment-${channelId}`, 'order-created', {
+    const channelId = userId
+
+    await pusherTrigger(`payment-${channelId}`, 'order-created', {
       orderId: order.id,
       amount: order.totalAmount,
       status: order.status,
       type: order.type,
       createdAt: order.createdAt,
       adoptionFeeId: adoptionFee?.id ?? existingAdoptionFee?.id ?? null
+    })
+
+    await pusherSuperuser('order-created', {
+      userId: userId ?? null,
+      email: order.customerEmail,
+      name: order.customerName,
+      amount: order.totalAmount,
+      type: orderType,
+      orderId: order.id,
+      paymentIntentId: id
     })
 
     await createLog('info', 'Order created from payment intent', {
@@ -334,11 +414,24 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
     })
 
     // Push to same channel as successful orders
-    const channelId = userId || `guest-${paymentIntent.id}`
-    await pusher.trigger(`payment-${channelId}`, 'order-failed', {
+    const channelId = userId
+
+    await pusherTrigger(`payment-${channelId}`, 'order-failed', {
       orderId: order.id,
       error: last_payment_error?.message || 'Payment failed',
       type: orderType
+    })
+
+    await pusherSuperuser('order-failed', {
+      userId: userId ?? null,
+      email: order.customerEmail,
+      name: order.customerName,
+      amount: order.totalAmount,
+      type: orderType,
+      orderId: order.id,
+      paymentIntentId: id,
+      failureReason: last_payment_error?.message ?? null,
+      failureCode: last_payment_error?.code ?? null
     })
 
     await createLog('error', 'Payment failed from Stripe webhook', {
@@ -398,6 +491,13 @@ async function handlePaymentMethodAttached(paymentMethod: Stripe.PaymentMethod) 
       paymentMethodId: paymentMethod.id,
       userId: user.id
     })
+
+    await pusherSuperuser('payment-method-attached', {
+      userId: user.id,
+      email: user.email,
+      brand: paymentMethod.card?.brand,
+      last4: paymentMethod.card?.last4
+    })
   } catch (error) {
     await createLog('error', 'Error handling payment method attached', {
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -408,12 +508,30 @@ async function handlePaymentMethodAttached(paymentMethod: Stripe.PaymentMethod) 
 
 async function handlePaymentMethodDetached(paymentMethod: Stripe.PaymentMethod) {
   try {
+    // Fetch before deleting so we have user info for the superuser event
+    const existing = await prisma.paymentMethod.findFirst({
+      where: { stripePaymentId: paymentMethod.id },
+      select: {
+        user: {
+          select: { id: true, email: true, firstName: true }
+        }
+      }
+    })
+
     await prisma.paymentMethod.deleteMany({
       where: { stripePaymentId: paymentMethod.id }
     })
 
     await createLog('info', 'Payment method detached', {
       paymentMethodId: paymentMethod.id
+    })
+
+    await pusherSuperuser('payment-method-detached', {
+      userId: existing?.user.id ?? null,
+      email: existing?.user.email ?? null,
+      name: existing?.user.firstName ?? null,
+      brand: paymentMethod.card?.brand ?? null,
+      last4: paymentMethod.card?.last4 ?? null
     })
   } catch (error) {
     await createLog('error', 'Error handling payment method detach', {
@@ -426,6 +544,15 @@ async function handlePaymentMethodDetached(paymentMethod: Stripe.PaymentMethod) 
 async function handlePaymentMethodUpdated(paymentMethod: Stripe.PaymentMethod) {
   try {
     if (!paymentMethod.customer) return
+
+    const existing = await prisma.paymentMethod.findFirst({
+      where: { stripePaymentId: paymentMethod.id },
+      select: {
+        user: {
+          select: { id: true, email: true, firstName: true }
+        }
+      }
+    })
 
     await prisma.paymentMethod.update({
       where: { stripePaymentId: paymentMethod.id },
@@ -440,6 +567,14 @@ async function handlePaymentMethodUpdated(paymentMethod: Stripe.PaymentMethod) {
     await createLog('info', 'Payment method updated', {
       paymentMethodId: paymentMethod.id,
       customerId: typeof paymentMethod.customer === 'string' ? paymentMethod.customer : paymentMethod.customer?.id
+    })
+
+    await pusherSuperuser('payment-method-updated', {
+      userId: existing?.user.id ?? null,
+      email: existing?.user.email ?? null,
+      name: existing?.user.firstName ?? null,
+      brand: paymentMethod.card?.brand ?? null,
+      last4: paymentMethod.card?.last4 ?? null
     })
   } catch (error) {
     await createLog('error', 'Error updating payment method', {
@@ -462,6 +597,14 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
       createdAt: new Date(subscription.created * 1000)
     })
+
+    await pusherSuperuser('subscription-created', {
+      email: subscription.metadata?.email ?? null,
+      status: subscription.status,
+      frequency: subscription.metadata?.frequency ?? 'monthly',
+      amount: subscription.items.data[0]?.price.unit_amount ?? 0,
+      stripeSubscriptionId: subscription.id
+    })
   } catch (error) {
     console.error('Error handling subscription created:', error)
     await createLog('error', 'Failed to log subscription creation', {
@@ -475,7 +618,10 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   try {
     const latestOrder = await prisma.order.findFirst({
       where: { stripeSubscriptionId: subscription.id },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { id: true, email: true, firstName: true } }
+      }
     })
 
     await createLog('info', 'Recurring donation cancelled', {
@@ -485,11 +631,19 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     })
 
     if (latestOrder?.userId) {
-      await pusher.trigger(`user-${latestOrder.userId}`, 'subscription-cancelled', {
+      await pusherTrigger(`user-${latestOrder.userId}`, 'subscription-cancelled', {
         subscriptionId: subscription.id,
         orderId: latestOrder.id
       })
     }
+
+    await pusherSuperuser('subscription-cancelled', {
+      userId: latestOrder?.user?.id ?? null,
+      email: latestOrder?.user?.email ?? null,
+      name: latestOrder?.user?.firstName ?? null,
+      stripeSubscriptionId: subscription.id,
+      orderId: latestOrder?.id ?? null
+    })
   } catch (error) {
     await createLog('error', 'Error cancelling recurring donation', {
       subscriptionId: subscription.id,
@@ -502,7 +656,10 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   try {
     const latestOrder = await prisma.order.findFirst({
       where: { stripeSubscriptionId: subscription.id },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: { select: { id: true, email: true, firstName: true } }
+      }
     })
 
     if (!latestOrder) return
@@ -530,13 +687,22 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     })
 
     if (order?.userId) {
-      await pusher.trigger(`user-${order.userId}`, 'subscription-updated', {
+      await pusherTrigger(`user-${order.userId}`, 'subscription-updated', {
         subscriptionId: subscription.id,
         status: order.status,
         cancelAtPeriodEnd: isCancellingAtPeriodEnd,
         nextBillingDate: order.nextBillingDate
       })
     }
+
+    await pusherSuperuser('subscription-updated', {
+      userId: latestOrder.user?.id ?? null,
+      email: latestOrder.user?.email ?? null,
+      name: latestOrder.user?.firstName ?? null,
+      stripeSubscriptionId: subscription.id,
+      status: isCancellingAtPeriodEnd ? 'CANCELLING' : subscription.status,
+      cancelAtPeriodEnd: isCancellingAtPeriodEnd
+    })
   } catch (error) {
     await createLog('error', 'Error updating subscription', {
       subscriptionId: subscription.id,
@@ -632,7 +798,8 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     }
 
     const channelId = `payment-${subscriptionId}`
-    await pusher.trigger(channelId, 'order-created', {
+
+    await pusherTrigger(channelId, 'order-created', {
       orderId: order.id,
       amount: order.totalAmount,
       status: order.status,
@@ -641,6 +808,17 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       coverFees,
       feesCovered,
       createdAt: order.createdAt
+    })
+
+    await pusherSuperuser('recurring-donation', {
+      userId: userId ?? null,
+      email: order.customerEmail,
+      name: order.customerName,
+      amount,
+      frequency,
+      isFirstPayment,
+      orderId: order.id,
+      stripeSubscriptionId: subscriptionId
     })
   } catch (error) {
     await createLog('error', 'Error handling invoice payment', {

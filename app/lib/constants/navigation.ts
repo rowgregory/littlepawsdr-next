@@ -33,7 +33,18 @@ export interface Section {
   priority: number
 }
 
-export const HIDDEN_PATHS = ['/auth', '/admin', '/member', '/checkout', '/order-confirmation', '/auctions/', '/subscriptions']
+export const HIDDEN_PATHS = [
+  '/auth',
+  '/admin',
+  '/member',
+  '/checkout',
+  '/order-confirmation',
+  '/auctions/',
+  '/subscriptions',
+  '/super',
+  '/privacy-policy',
+  '/terms'
+]
 
 export const mainNavigationLinks: Section[] = [
   {
@@ -159,7 +170,7 @@ export const mainNavigationLinks: Section[] = [
     title: 'Newsletters',
     linkKey: '/newsletters',
     icon: Newspaper,
-    priority: 3
+    priority: 4
   }
 ]
 

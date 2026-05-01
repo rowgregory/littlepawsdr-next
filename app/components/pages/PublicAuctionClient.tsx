@@ -73,7 +73,7 @@ function AuctionItemCard({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.45, delay: (index % 3) * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
       aria-label={item.name}
-      className="group relative bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark overflow-hidden flex flex-col"
+      className="group relative bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark overflow-hidden flex flex-col h-full"
     >
       {/* Status ribbon */}
       {(isSold || isEnded) && (
@@ -126,13 +126,20 @@ function AuctionItemCard({
 
       {/* Info */}
       <div className="flex flex-col flex-1 p-4">
-        <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug mb-2 line-clamp-2">{item.name}</h3>
-
-        {item.description && (
+        <div className="flex-1">
+          <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug mb-2 line-clamp-2">{item.name}</h3>
           <p className="text-[11px] font-nunito text-muted-light dark:text-muted-dark leading-relaxed mb-3 line-clamp-2">{item.description}</p>
-        )}
+        </div>
 
-        <div className="mt-auto space-y-2">
+        <div className="space-y-2">
+          {/* Bid count */}
+          {item.sellingFormat !== 'FIXED' && (
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Bids</span>
+              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">{bidCount}</span>
+            </div>
+          )}
+
           {/* Price */}
           {displayPrice != null && (
             <div className="flex items-center justify-between">
@@ -140,14 +147,6 @@ function AuctionItemCard({
                 {item.sellingFormat === 'FIXED' ? 'Price' : item.currentBid ? 'Current Bid' : 'Starting'}
               </span>
               <span className="font-mono font-black text-sm text-text-light dark:text-text-dark">{formatMoney(displayPrice)}</span>
-            </div>
-          )}
-
-          {/* Bid count */}
-          {item.sellingFormat !== 'FIXED' && (
-            <div className="flex items-center justify-between">
-              <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Bids</span>
-              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">{bidCount}</span>
             </div>
           )}
 
@@ -403,7 +402,7 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
             )}
           </div>
 
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px items-stretch bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
             {available.map((item, i) => (
               <div key={item.id} className="bg-bg-light dark:bg-bg-dark" id={`item-${item.id}`}>
                 <AuctionItemCard item={item} auctionStatus={auction.status} index={i} customAuctionLink={customAuctionLink} />
@@ -421,7 +420,7 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
                 {sold.length} Item{sold.length !== 1 ? 's' : ''} Sold
               </h2>
             </div>
-            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-px items-stretch bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
               {sold.map((item, i) => (
                 <div key={item.id} className="bg-bg-light dark:bg-bg-dark">
                   <AuctionItemCard item={item} auctionStatus={auction.status} index={i} customAuctionLink={customAuctionLink} />

@@ -49,6 +49,10 @@ interface AuctionParticipationGroup {
   totalBids: number
   paidOn: Date | null
   bids: {
+    lastBidAt: Date
+    totalBids: number
+    auctionItemId: any
+    status: string
     id: string
     itemName: string
     itemImage: string | null

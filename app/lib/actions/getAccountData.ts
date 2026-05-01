@@ -5,6 +5,7 @@ import { createLog } from './createLog'
 export const getAccountData = async () => {
   try {
     const session = await auth()
+
     if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
 
     const [user, orders, auctionBids, paymentMethods, adoptionFees] = await Promise.all([
@@ -121,13 +122,17 @@ export const getAccountData = async () => {
             winningBidderPaymentLink: string
             winningBidPaymentStatus: string
             totalBids: number
-            paidOn: Date
+            paidOn: Date | null
             bids: {
               id: string
               itemName: string
               itemImage: string | null
               bidAmount: number
               isWinner: boolean
+              status: string
+              auctionItemId: string
+              totalBids: number
+              lastBidAt: Date
             }[]
           }
         >
@@ -144,23 +149,25 @@ export const getAccountData = async () => {
             winningBidderPaymentLink:
               bid.auctionItem.winningBidder?.userId === session.user.id ? `/auctions/winner/${bid.auctionItem.winningBidder.id}` : null,
             winningBidPaymentStatus:
-              bid.auctionItem.winningBidder?.userId === session.user.id
-                ? bid.auctionItem.winningBidder.winningBidPaymentStatus // need to select this too
-                : null,
+              bid.auctionItem.winningBidder?.userId === session.user.id ? bid.auctionItem.winningBidder.winningBidPaymentStatus : null,
             totalBids: 0,
             bids: [],
             paidOn: new Date()
           }
         }
 
-        acc[auctionId].paidOn = bid.auctionItem.winningBidder.paidOn
+        acc[auctionId].paidOn = bid.auctionItem.winningBidder?.paidOn ?? null
         acc[auctionId].totalBids += 1
         acc[auctionId].bids.push({
           id: bid.id,
           itemName: bid.auctionItem.name,
           itemImage: bid.auctionItem.photos[0]?.url ?? null,
           bidAmount: Number(bid.bidAmount),
-          isWinner: bid.auctionItem.winningBidder?.userId === session.user.id
+          isWinner: bid.auctionItem.winningBidder?.userId === session.user.id,
+          status: bid.status,
+          auctionItemId: bid.auctionItemId,
+          totalBids: bid.auctionItem.totalBids,
+          lastBidAt: bid.createdAt
         })
 
         return acc
@@ -200,8 +207,10 @@ export const getAccountData = async () => {
     }
   } catch (error) {
     await createLog('error', 'Failed to fetch account data', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : null
     })
+
     return { success: false, error: 'Failed to fetch account data', data: null }
   }
 }

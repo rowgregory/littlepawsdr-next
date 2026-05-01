@@ -29,6 +29,7 @@ export type CreatePaymentIntentParams = {
   address?: PaymentAddress | null
   items?: any
   winningBidderId?: string
+  auctionItemId?: string
 }
 
 export async function createPaymentIntent({
@@ -43,7 +44,8 @@ export async function createPaymentIntent({
   savedCardId,
   address,
   items,
-  winningBidderId
+  winningBidderId,
+  auctionItemId
 }: CreatePaymentIntentParams) {
   try {
     if (orderType === 'ONE_TIME_DONATION') {
@@ -71,7 +73,7 @@ export async function createPaymentIntent({
       setup_future_usage: saveCard ? 'on_session' : undefined,
       metadata: {
         orderType,
-        userId: userId ?? 'guest',
+        userId,
         name,
         email,
         saveCard: saveCard ? 'true' : 'false',
@@ -91,11 +93,13 @@ export async function createPaymentIntent({
                 price: i.price,
                 quantity: i.quantity,
                 shippingPrice: i.shippingPrice,
-                isPhysicalProduct: i.isPhysicalProduct
+                isPhysicalProduct: i.isPhysicalProduct,
+                sellingFormat: i.sellingFormat
               }))
             )
           : '',
-        winningBidderId
+        winningBidderId,
+        auctionItemId: auctionItemId ?? ''
       }
     }
 

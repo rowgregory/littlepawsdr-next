@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ─── Enums ───────────────────────────────────────────────────────────────────
@@ -57,6 +58,7 @@ enum ShippingStatus {
   PENDING_PAYMENT_CONFIRMATION
   SHIPPED
   DELIVERED
+  DIGITAL
 }
 
 enum AddressType {
@@ -99,6 +101,12 @@ enum AdoptionFeeStatus {
   EXPIRED
   APPROVED
   REJECTED
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  TERMINATED
 }
 
 // ─── Next Auth ────────────────────────────────────────────────────────────────────
@@ -190,6 +198,8 @@ model User {
   instantBuys      AuctionItemInstantBuyer[]
   bids             AuctionBid[]
   adoptionFees     AdoptionFee[]
+
+  status UserStatus @default(ACTIVE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

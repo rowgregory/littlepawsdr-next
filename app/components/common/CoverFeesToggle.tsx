@@ -1,5 +1,5 @@
 import { setInputs } from 'app/lib/store/slices/formSlice'
-import { store, useFormSelector } from 'app/lib/store/store'
+import { RootState, store, useAppSelector } from 'app/lib/store/store'
 
 type Props = {
   formName: string
@@ -7,8 +7,8 @@ type Props = {
 }
 
 export function CoverFeesToggle({ formName, processingFee }: Props) {
-  const form = useFormSelector()
-  const inputs = form?.[formName]?.inputs
+  const form = useAppSelector((state: RootState) => state.form[formName])
+  const inputs = form?.inputs
   const checked = !!inputs?.coverFees
 
   return (

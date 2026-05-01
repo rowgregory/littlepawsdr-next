@@ -1,11 +1,12 @@
 import { createLog } from 'app/lib/actions/createLog'
 import { auctionWinningBidderTemplate } from 'app/lib/email-templates/winning-bidder'
-import { pusher } from 'app/lib/pusher'
 import { resend } from 'app/lib/resend'
+import { pusherTrigger } from 'app/utils/pusherTrigger'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 
 export async function GET() {
+  const start = Date.now()
   try {
     const now = new Date()
 
@@ -16,12 +17,7 @@ export async function GET() {
           id: true,
           title: true,
           customAuctionLink: true,
-          _count: {
-            select: {
-              items: true,
-              bidders: true
-            }
-          }
+          _count: { select: { items: true, bidders: true } }
         }
       }),
       prisma.auctionBid.aggregate({
@@ -33,15 +29,22 @@ export async function GET() {
       })
     ])
 
-    if (!auction) return NextResponse.json({ error: 'No auctions found with ACTIVE status past their end date' }, { status: 500 })
+    if (!auction) {
+      await createLog('info', '[CRON] end-auction', {
+        cronName: 'end-auction',
+        status: 'skipped',
+        durationMs: Date.now() - start,
+        detail: 'No active auctions past end date'
+      })
+      return NextResponse.json({ error: 'No auctions found with ACTIVE status past their end date' }, { status: 500 })
+    }
 
-    // 1. End immediately and fire Pusher
     await prisma.auction.update({
       where: { id: auction.id },
       data: { status: 'ENDED' }
     })
 
-    await pusher.trigger(`auction-${auction.id}`, 'auction-ended', {
+    await pusherTrigger(`auction-${auction.id}`, 'auction-ended', {
       customAuctionLink: auction.customAuctionLink,
       auctionTitle: auction.title,
       totalRaised: Number(topBidsAggregate._sum.bidAmount ?? 0),
@@ -50,10 +53,8 @@ export async function GET() {
       endedAt: now.toISOString()
     })
 
-    // 2. Process winners, create records, update items
     const winners = await endAuction(auction.id)
 
-    // 3. Send winner emails
     for (const winner of winners) {
       await sendWinnerEmail({
         email: winner.user.email,
@@ -65,10 +66,20 @@ export async function GET() {
       })
     }
 
+    await createLog('info', '[CRON] end-auction', {
+      cronName: 'end-auction',
+      status: 'success',
+      durationMs: Date.now() - start,
+      detail: `Ended auction ${auction.id} — ${winners.length} winner(s)`
+    })
+
     return NextResponse.json({ success: true })
   } catch (error) {
-    await createLog('error', 'Cron: end-auctions failed', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+    await createLog('error', '[CRON] end-auction', {
+      cronName: 'end-auction',
+      status: 'error',
+      durationMs: Date.now() - start,
+      detail: error instanceof Error ? error.message : 'Unknown error'
     })
     return NextResponse.json({ error: 'Failed to end auctions' }, { status: 500 })
   }

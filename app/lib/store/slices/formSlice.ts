@@ -9,7 +9,8 @@ const formInitialState = {
   productForm: { inputs: { isLive: true }, errors: {} },
   donateForm: { inputs: { selectedAmount: 50 }, errors: {} },
   adoptionFeeForm: { inputs: { isProceeding: false }, errors: {} },
-  contactForm: { inputs: { email: '' }, errors: {} }
+  contactForm: { inputs: { email: '' }, errors: {} },
+  instantBuyForm: { inputs: { coverFees: true, saveCard: false, useNewCard: false }, errors: {} }
 } as any
 
 export const formSlice = createSlice({

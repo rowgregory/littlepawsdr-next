@@ -1,6 +1,7 @@
 'use client'
 
-import { useUiSelector } from 'app/lib/store/store'
+import { setHideConfetti } from 'app/lib/store/slices/uiSlice'
+import { store, useUiSelector } from 'app/lib/store/store'
 import React, { useRef, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -216,6 +217,7 @@ export const Confetti3D: React.FC<Confetti3DProps> = () => {
 
       const resetTimeout = setTimeout(() => {
         isActiveRef.current = false
+        store.dispatch(setHideConfetti()) // reset Redux state so next dispatch works
       }, duration)
 
       return () => {

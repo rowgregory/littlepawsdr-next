@@ -51,7 +51,7 @@ export default async function getActiveAuctionForSuperuser() {
       success: true,
       data: {
         ...auction,
-        goal: Number(auction.goal),
+        goal: auction.goal !== null ? Number(auction.goal) : null,
         totalAuctionRevenue: Number(auction.totalAuctionRevenue),
         items: auction.items.map((item) => ({
           ...item,

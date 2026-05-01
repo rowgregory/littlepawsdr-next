@@ -60,6 +60,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (dbUser.firstName && dbUser.lastName) {
               token.name = `${dbUser.firstName} ${dbUser.lastName}`.trim()
             }
+
+            await prisma.user.update({
+              where: { email: user.email! },
+              data: { lastLoginAt: new Date() }
+            })
           }
         } catch (error) {
           await createLog('error', 'JWT callback error', {

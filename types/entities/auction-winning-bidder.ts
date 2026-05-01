@@ -24,7 +24,7 @@ export interface IAuctionWinningBidder {
   createdAt: Date
   updatedAt: Date
 
-  auctionItems: IAuctionItem[]
-  user: IUser
-  auction: IAuction
+  auctionItems?: IAuctionItem[]
+  user?: IUser
+  auction?: IAuction
 }

@@ -4,6 +4,7 @@ import { Account } from 'next-auth'
 import { User, Account as PrismaAccount } from '@prisma/client'
 import prisma from 'prisma/client'
 import { createLog } from '../actions/createLog'
+import { pusherSuperuser } from 'app/utils/pusherTrigger'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
@@ -22,39 +23,52 @@ type UserWithAccounts = User & {
   accounts: PrismaAccount[]
 }
 
-export async function handleGoogleCallback(user: NextAuthUser, account: Account, profile?: GoogleProfile): Promise<boolean> {
+export async function handleGoogleCallback(user: NextAuthUser, account: Account, profile?: GoogleProfile): Promise<boolean | string> {
   const existingUser = await prisma.user.findUnique({
     where: { email: user.email! },
     include: { accounts: true }
   })
 
   if (existingUser) {
-    await linkGoogleAccount(existingUser, account)
-    await updateUserFromProfile(existingUser, profile)
+    if (existingUser.status === 'SUSPENDED') return '/auth/suspended'
+    if (existingUser.status === 'TERMINATED') return '/auth/terminated'
+
+    await Promise.all([
+      linkGoogleAccount(existingUser, account),
+      updateUserFromProfile(existingUser, profile),
+      prisma.user.update({
+        where: { id: existingUser.id },
+        data: { lastLoginAt: new Date() }
+      })
+    ])
 
     if (!existingUser.stripeCustomerId) {
       await createStripeCustomer(existingUser.id, existingUser.email, `${existingUser.firstName} ${existingUser.lastName}`.trim())
     }
 
     user.id = existingUser.id
+
+    await pusherSuperuser('user-signed-in', { email: existingUser.email, name: existingUser.firstName, userId: existingUser.id })
   } else {
-    // Create new user with SUPPORTER role
     const newUser = await prisma.user.create({
       data: {
         email: user.email!,
         firstName: profile?.given_name || '',
         lastName: profile?.family_name || '',
-        role: 'SUPPORTER'
+        role: 'SUPPORTER',
+        status: 'ACTIVE',
+        lastLoginAt: new Date()
       }
     })
 
     await linkGoogleAccount(newUser, account)
-
     await createStripeCustomer(newUser.id, newUser.email, `${newUser.firstName} ${newUser.lastName}`.trim())
 
     user.id = newUser.id
 
     await logNewGoogleUser(user, account)
+
+    await pusherSuperuser('user-registered', { email: newUser.email, name: newUser.firstName, userId: newUser.id, method: 'google' })
   }
 
   return true

@@ -13,7 +13,7 @@ import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
 import { getSubscriptionById } from 'app/lib/actions/getSubscriptionById'
 import { updateSubscriptionPaymentMethod } from 'app/lib/actions/updateSubscriptionPaymentMethod'
-import { cancelSubscription } from 'app/lib/actions/cancelSubscription'
+import { cancelSubscription } from 'app/lib/actions/subscriptions/cancelSubscription'
 
 type Subscription = Awaited<ReturnType<typeof getSubscriptionById>>['data']
 

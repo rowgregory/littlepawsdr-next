@@ -5,19 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { createFormActions } from 'app/utils/formActions'
 import { setCloseContactModal } from 'app/lib/store/slices/uiSlice'
-import { store, useFormSelector, useUiSelector } from 'app/lib/store/store'
+import { RootState, store, useAppSelector, useUiSelector } from 'app/lib/store/store'
 import sendContactEmail from 'app/lib/actions/sendContactEmail'
 import { EMAIL_REGEX } from 'app/utils/regex'
 
 const FORM_NAME = 'contactForm'
+const { handleInput, setErrors, resetForm } = createFormActions(FORM_NAME, store.dispatch)
 
 export default function PublicContactModal() {
-  const { contactForm } = useFormSelector()
+  const contactForm = useAppSelector((state: RootState) => state.form[FORM_NAME])
+  const inputs = contactForm?.inputs
+  const errors = contactForm?.errors
   const { contactModal } = useUiSelector()
-  const inputs = contactForm.inputs
-  const errors = contactForm.errors
-
-  const { handleInput, setErrors, resetForm } = createFormActions(FORM_NAME, store.dispatch)
 
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)

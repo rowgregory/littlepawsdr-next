@@ -1,17 +1,20 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo } from 'react'
 import { X, Zap, DollarSign, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react'
-import { store, useUiSelector } from 'app/lib/store/store'
+import { store } from 'app/lib/store/store'
 import { setCloseAuctionBidModal, setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { placeBid } from 'app/lib/actions/placeBid'
+import { placeBid } from 'app/lib/actions/auction/placeBid'
 import { useEscapeKey } from '@hooks/useEscapeKey'
 import { useRouter } from 'next/navigation'
 import { pusherClient } from 'app/lib/pusher-client'
+import { useSelector } from 'react-redux'
+import { IAuctionItem } from 'types/entities/auction-item'
+import { useSoundEffect } from '@hooks/useSoundEffect'
 
-export default function AuctionBidModal() {
+const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auctionItem: IAuctionItem }) {
   const router = useRouter()
-  const { auctionItem, auctionBidModal } = useUiSelector()
+  const auctionBidModal = useSelector((state: any) => state.ui.auctionBidModal)
   const [placedBidAmount, setPlacedBidAmount] = useState<number | null>(null)
   const [customAmount, setCustomAmount] = useState('')
   const [isPlacingBid, setIsPlacingBid] = useState(false)
@@ -24,6 +27,9 @@ export default function AuctionBidModal() {
     newMinimumBid: number
     currentBid: number | null
   } | null>(null)
+
+  const { play: playQuickBid } = useSoundEffect('/sound-effects/sound-1.mp3', true)
+  const { play: playCustomBid } = useSoundEffect('/sound-effects/sound-2.mp3', true)
 
   const inputRef = useRef<HTMLInputElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
@@ -70,6 +76,7 @@ export default function AuctionBidModal() {
     const result = await placeBid(auctionItem.id, quickBidAmount)
 
     setIsQuickBidding(false)
+    playQuickBid()
 
     if (!result.success) {
       if (result.error === 'LOCK_NOT_ACQUIRED' && result.data?.newMinimumBid) {
@@ -107,6 +114,7 @@ export default function AuctionBidModal() {
     const result = await placeBid(auctionItem.id, amount)
 
     setIsPlacingBid(false)
+    playCustomBid()
 
     if (!result.success) {
       if (result.error === 'LOCK_NOT_ACQUIRED' && result.data?.newMinimumBid) {
@@ -142,7 +150,7 @@ export default function AuctionBidModal() {
       aria-modal="true"
       aria-labelledby="bid-modal-title"
       aria-describedby="bid-modal-desc"
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70"
+      className="fixed inset-0 z-60 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70"
     >
       <div
         className="relative w-full sm:max-w-md max-h-[90dvh] overflow-y-auto bg-white dark:bg-bg-dark border border-zinc-200 dark:border-border-dark"
@@ -489,4 +497,5 @@ export default function AuctionBidModal() {
       </div>
     </div>
   )
-}
+})
+export default AuctionBidModal

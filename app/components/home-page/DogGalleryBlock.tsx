@@ -12,13 +12,13 @@ type GalleryImage = {
 }
 
 const DOGS: GalleryImage[] = [
-  { id: 1, image: '/images/gallery/gallery-3.jpg', span: 'tall', alt: 'Dachshund yawning on gravel' },
-  { id: 2, image: '/images/gallery/gallery-9.jpg', span: 'featured', alt: 'Wirehaired dachshund wearing a checkered bandana' },
-  { id: 3, image: '/images/gallery/gallery-2.jpg', span: 'normal', alt: 'Miniature dachshund standing on a sidewalk' },
-  { id: 4, image: '/images/gallery/gallery-8.jpg', span: 'normal', alt: 'Two dachshunds resting on a blanket' },
+  { id: 1, image: '/images/gallery/gallery-3.jpg', span: 'tall', alt: 'Cruz' },
+  { id: 2, image: '/images/gallery/gallery-9.jpg', span: 'featured', alt: 'Sammy' },
+  { id: 3, image: '/images/gallery/gallery-2.jpg', span: 'normal', alt: 'Hoss & Little Joe' },
+  { id: 4, image: '/images/gallery/gallery-8.jpg', span: 'normal', alt: 'Fred & Rudy' },
   { id: 5, image: '/images/gallery/gallery-6.jpg', span: 'normal', alt: 'Dachshund cuddling with a colorful patchwork pillow' },
-  { id: 6, image: '/images/gallery/gallery-7.jpg', span: 'normal', alt: 'One small dachshund playing on a sandy beach' },
-  { id: 7, image: '/images/gallery/gallery-1.jpg', span: 'wide', alt: 'Piebald dachshund standing on pavement looking at camera' }
+  { id: 6, image: '/images/gallery/gallery-7.jpg', span: 'normal', alt: 'Daisy' },
+  { id: 7, image: '/images/gallery/gallery-1.jpg', span: 'wide', alt: 'Hoss & Little Joe' }
 ]
 
 const DogCard = ({ dog, index }: { dog: GalleryImage; index: number }) => (
@@ -101,7 +101,7 @@ export const DogGalleryBlock = () => {
       <div
         role="list"
         aria-label="Dog gallery — all dogs"
-        className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[160px] sm:auto-rows-[220px] 1200:auto-rows-[280px]"
+        className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[160px] sm:auto-rows-[220px] lg:auto-rows-[300px] xl:auto-rows-[360px] 2xl:auto-rows-[420px]"
       >
         <AnimatePresence mode="popLayout">
           {DOGS.map((dog, i) => (

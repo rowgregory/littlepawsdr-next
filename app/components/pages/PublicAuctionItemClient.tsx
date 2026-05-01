@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Gavel, Clock, Tag, ChevronRight, ChevronLeft, ArrowLeft, Package, TrendingUp, Users, Truck, ShieldCheck, Zap, Trophy } from 'lucide-react'
 import Link from 'next/link'
@@ -11,13 +11,17 @@ import { formatDateTime } from 'app/utils/date.utils'
 import { formatMoney } from 'app/utils/currency.utils'
 import { useCountdown } from '@hooks/useCountdown'
 import { store } from 'app/lib/store/store'
-import { setOpenAuctionBidModal } from 'app/lib/store/slices/uiSlice'
+import { setOpenAuctionBidModal, setOpenAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
+import AuctionBidModal from '../modals/AuctionBidModal'
+import { useSession } from 'next-auth/react'
+import AuctionSignInModal from '../modals/AuctionSignInModal'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function bidderDisplay(bid: IAuctionBid) {
   if (bid.user.anonymousBidding) return bid.bidderName ?? 'Anonymous'
   return `${bid.user.firstName} ${bid.user.lastName[0]}.`
 }
-// ─── Section label ────────────────────────────────────────────────────────────
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-1">
@@ -27,9 +31,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ─── Photo gallery ────────────────────────────────────────────────────────────
 function PhotoGallery({ photos, name }: { photos: IAuctionItemPhoto[]; name: string }) {
-  const sorted = [...photos].sort((a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0) || a.sortOrder - b.sortOrder)
+  const sorted = [...(photos ?? [])].sort((a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0) || a.sortOrder - b.sortOrder)
   const [idx, setIdx] = useState(0)
   const current = sorted[idx]
 
@@ -118,7 +121,6 @@ function PhotoGallery({ photos, name }: { photos: IAuctionItemPhoto[]; name: str
   )
 }
 
-// ─── Countdown ────────────────────────────────────────────────────────────────
 function CountUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center min-w-9">
@@ -130,7 +132,6 @@ function CountUnit({ value, label }: { value: number; label: string }) {
   )
 }
 
-// ─── Bid row ──────────────────────────────────────────────────────────────────
 function BidRow({ bid, rank, delay }: { bid: IAuctionBid; rank: number; delay: number }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-20px' })
@@ -165,8 +166,425 @@ function BidRow({ bid, rank, delay }: { bid: IAuctionBid; rank: number; delay: n
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function PublicAuctionItemClient({ item }) {
+function StickyBar({ customAuctionLink, item, isActive, isEnded, days, hours, minutes, seconds, done }) {
+  const auctionHref = `/auctions/${customAuctionLink}`
+
+  return (
+    <div className="sticky top-0 z-40 border-b border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 h-11 flex items-center justify-between gap-4">
+        <Link
+          href={auctionHref}
+          className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus:outline-none focus-visible:underline shrink-0"
+          aria-label={`Back to ${item?.auction?.title}`}
+        >
+          <ArrowLeft size={11} aria-hidden="true" />
+          <span className="hidden xs:inline">{item?.auction?.title}</span>
+          <span className="xs:hidden">Back</span>
+        </Link>
+
+        {isActive && !done && (
+          <div
+            className="flex items-center gap-1.5 shrink-0"
+            aria-live="polite"
+            aria-atomic="true"
+            aria-label={`${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
+          >
+            <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
+            <span className="text-[10px] font-mono text-emerald-500 tabular-nums font-black">
+              {days > 0 ? `${days}d ` : ''}
+              {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+            </span>
+          </div>
+        )}
+        {isEnded && <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>}
+      </div>
+    </div>
+  )
+}
+
+function TitleBlock({ headerInView, isFixed, isSold, isActive, item }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.45, delay: 0.08 }}>
+      {/* Format + status badges */}
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 border border-border-light dark:border-border-dark">
+          {isFixed ? (
+            <>
+              <Tag size={10} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
+              <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">Fixed Price</span>
+            </>
+          ) : (
+            <>
+              <Gavel size={10} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
+              <span className="text-[9px] font-mono text-primary-light dark:text-primary-dark">Auction</span>
+            </>
+          )}
+        </div>
+        {isSold && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 bg-emerald-500/10">
+            <ShieldCheck size={10} className="text-emerald-500" aria-hidden="true" />
+            <span className="text-[9px] font-mono text-emerald-500 font-black">Sold</span>
+          </div>
+        )}
+        {isActive && !isSold && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 bg-emerald-500/10">
+            <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
+            <span className="text-[9px] font-mono text-emerald-500 font-black">Live</span>
+          </div>
+        )}
+        {item?.requiresShipping && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1 border border-border-light dark:border-border-dark">
+            <Truck size={10} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
+            <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">
+              {item?.shippingCosts ? `Ships +${formatMoney(item?.shippingCosts)}` : 'Shipping Included'}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <h1 className="font-quicksand font-black text-2xl xs:text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight mb-3">
+        {item?.name}
+      </h1>
+
+      {item?.description && <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{item?.description}</p>}
+    </motion.div>
+  )
+}
+
+function BidHistory({ item, topBid }) {
+  return (
+    <section aria-labelledby="bids-heading" className="mt-12 sm:mt-16">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <SectionLabel>Bid History</SectionLabel>
+          <h2 id="bids-heading" className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark mt-1">
+            {item?.bids.length} Bid{item?.bids.length !== 1 ? 's' : ''}
+          </h2>
+        </div>
+        <div className="flex items-center gap-1.5 px-3 py-2 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+          <TrendingUp size={11} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
+          <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+            Top: <span className="text-text-light dark:text-text-dark font-black">{topBid ? formatMoney(topBid.bidAmount) : '—'}</span>
+          </span>
+        </div>
+      </div>
+
+      <div className="border border-border-light dark:border-border-dark">
+        <div className="grid grid-cols-3 gap-px bg-border-light dark:bg-border-dark border-b border-border-light dark:border-border-dark">
+          {[
+            { icon: TrendingUp, label: 'Top Bid', value: topBid ? formatMoney(topBid.bidAmount) : '—' },
+            { icon: Users, label: 'Bidders', value: String(new Set(item?.bids.map((b) => b.userId)).size) },
+            { icon: Gavel, label: 'Total Bids', value: String(item?.bids.length) }
+          ].map(({ icon: Icon, label, value }) => (
+            <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4">
+              <Icon size={11} className="text-muted-light dark:text-muted-dark mb-1.5" aria-hidden="true" />
+              <p className="font-mono font-black text-base text-text-light dark:text-text-dark leading-none">{value}</p>
+              <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">{label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div role="list" aria-label="Bid history">
+          {item?.bids.map((bid, i) => (
+            <div key={bid.id} role="listitem">
+              <BidRow bid={bid} rank={i + 1} delay={i * 0.04} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FixedFooterNav({ auctionItems, item, customAuctionLink, isFixed, isAuthed }) {
+  return (
+    <nav
+      aria-label="Auction item navigation"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-bg-light dark:bg-bg-dark border-t border-border-light dark:border-border-dark"
+    >
+      <div className="max-w-4xl mx-auto flex items-stretch">
+        {/* Prev */}
+        {(() => {
+          const currentIndex = auctionItems.findIndex((i) => i.id === item.id)
+          const prev = auctionItems[currentIndex - 1]
+          return prev ? (
+            <Link
+              href={`/auctions/${customAuctionLink}/${prev.id}`}
+              className="flex items-center gap-2 px-4 py-3 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none shrink-0"
+              aria-label={`Previous item: ${prev.name}`}
+            >
+              <ChevronLeft size={14} aria-hidden="true" />
+              <div className="hidden sm:block text-left">
+                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">Prev</p>
+                <p className="text-[10px] font-mono font-black truncate max-w-25">{prev.name}</p>
+              </div>
+            </Link>
+          ) : (
+            <div className="px-4 py-3 shrink-0 opacity-0 pointer-events-none">
+              <ChevronLeft size={14} />
+            </div>
+          )
+        })()}
+
+        {/* Bid / Buy */}
+        <div className="flex-1 flex items-stretch">
+          {!isFixed ? (
+            <button
+              onClick={() =>
+                isAuthed
+                  ? store.dispatch(setOpenAuctionBidModal(item))
+                  : store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}?bidModal=true`))
+              }
+              type="button"
+              className="group w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+              aria-label={`Place a bid on ${item?.name}`}
+            >
+              <Gavel size={14} aria-hidden="true" />
+              <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
+              {item?.currentBid && <span className="text-[10px] font-mono font-black opacity-80">— {formatMoney(item.currentBid)}</span>}
+            </button>
+          ) : item?.buyNowPrice != null ? (
+            isAuthed ? (
+              <Link
+                href={`/auctions/${customAuctionLink}/${item.id}/instant-buy`}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
+              >
+                <Zap size={14} aria-hidden="true" />
+                <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Buy Now</span>
+                <span className="text-[10px] font-mono font-black opacity-80">— {formatMoney(item.buyNowPrice)}</span>
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
+              >
+                <Zap size={14} aria-hidden="true" />
+                <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Buy Now</span>
+                <span className="text-[10px] font-mono font-black opacity-80">— {formatMoney(item.buyNowPrice)}</span>
+              </button>
+            )
+          ) : null}
+        </div>
+
+        {/* Next */}
+        {(() => {
+          const currentIndex = auctionItems.findIndex((i) => i.id === item.id)
+          const next = auctionItems[currentIndex + 1]
+          return next ? (
+            <Link
+              href={`/auctions/${customAuctionLink}/${next.id}`}
+              className="flex items-center gap-2 px-4 py-3 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none shrink-0"
+              aria-label={`Next item: ${next.name}`}
+            >
+              <div className="hidden sm:block text-right">
+                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">Next</p>
+                <p className="text-[10px] font-mono font-black truncate max-w-25">{next.name}</p>
+              </div>
+              <ChevronRight size={14} aria-hidden="true" />
+            </Link>
+          ) : (
+            <div className="px-4 py-3 shrink-0 opacity-0 pointer-events-none">
+              <ChevronRight size={14} />
+            </div>
+          )
+        })()}
+      </div>
+    </nav>
+  )
+}
+
+function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isAuthed, customAuctionLink, isEnded }) {
+  const displayBid = item?.currentBid ?? item?.startingPrice
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={headerInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.45, delay: 0.14 }}
+      className="border border-border-light dark:border-border-dark"
+    >
+      {/* Accent line */}
+      <div
+        className={`h-0.5 ${isActive && !isSold ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'}`}
+        aria-hidden="true"
+      />
+
+      <div className="p-5 space-y-4">
+        {/* Current bid / price */}
+        {!isFixed && displayBid != null && (
+          <div>
+            <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
+              {item?.currentBid ? 'Current Bid' : 'Starting Bid'}
+            </p>
+            <p className="font-mono font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-none" aria-live="polite">
+              {formatMoney(displayBid)}
+            </p>
+            {item?.bids.length > 0 && (
+              <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1.5">
+                {item?.bids.length} bid{item?.bids.length !== 1 ? 's' : ''}
+                {topBid && (
+                  <>
+                    {' '}
+                    · Top bidder: <span className="text-text-light dark:text-text-dark">{bidderDisplay(topBid)}</span>
+                  </>
+                )}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Fixed price */}
+        {isFixed && item?.buyNowPrice != null && (
+          <div className={isFixed ? '' : 'pt-4 border-t border-border-light dark:border-border-dark'}>
+            <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
+              {isFixed ? 'Price' : 'Buy Now Price'}
+            </p>
+            <p
+              className={`font-mono font-black leading-none ${isFixed ? 'text-3xl xs:text-4xl text-text-light dark:text-text-dark' : 'text-xl text-primary-light dark:text-primary-dark'}`}
+            >
+              {formatMoney(item?.buyNowPrice)}
+            </p>
+          </div>
+        )}
+
+        {/* Minimum bid info */}
+        {item?.minimumBid != null && !isFixed && (
+          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+            Minimum bid: <span className="text-text-light dark:text-text-dark font-black">{formatMoney(item?.minimumBid)}</span>
+          </p>
+        )}
+
+        {/* CTA */}
+        {isActive && !isSold && (
+          <div className="pt-2 space-y-2">
+            {!isFixed ? (
+              <button
+                onClick={() =>
+                  isAuthed
+                    ? store.dispatch(setOpenAuctionBidModal(item))
+                    : store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}?bidModal=true`))
+                }
+                type="button"
+                className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
+                aria-label={`Place a bid on ${item?.name}`}
+              >
+                <div className="flex items-center gap-2">
+                  <Gavel size={14} aria-hidden="true" />
+                  <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
+                </div>
+                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+              </button>
+            ) : item?.buyNowPrice != null ? (
+              isAuthed ? (
+                <Link
+                  href={`/auctions/${customAuctionLink}/${item.id}/instant-buy`}
+                  className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
+                  aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Zap size={14} aria-hidden="true" />
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Buy Now</span>
+                  </div>
+                  <span className="text-[10px] font-mono font-black">{formatMoney(item.buyNowPrice)}</span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))}
+                  className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
+                  aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Zap size={14} aria-hidden="true" />
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Buy Now</span>
+                  </div>
+                  <span className="text-[10px] font-mono font-black">{formatMoney(item.buyNowPrice)}</span>
+                </button>
+              )
+            ) : null}
+          </div>
+        )}
+
+        {/* Ended state */}
+        {isEnded && (
+          <div className="pt-2 flex items-center gap-2 px-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
+            <Package size={13} className="text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
+            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+              {isSold ? 'This item has been sold.' : 'This auction has ended.'}
+            </p>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+function ItemDetails({ headerInView, isFixed, item }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={headerInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: 0.25 }}
+      className="border border-border-light dark:border-border-dark"
+    >
+      <div className="px-5 py-3.5 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+        <SectionLabel>Item Details</SectionLabel>
+      </div>
+      <div className="divide-y divide-border-light dark:divide-border-dark">
+        {[
+          { label: 'Format', value: isFixed ? 'Fixed Price' : 'Auction' },
+          { label: 'Quantity', value: String(item?.totalQuantity) },
+          {
+            label: 'Shipping',
+            value: item?.requiresShipping ? (item?.shippingCosts ? `+${formatMoney(item?.shippingCosts)}` : 'Included') : 'No Shipping'
+          },
+          ...(item?.startingPrice != null && !isFixed ? [{ label: 'Starting Bid', value: formatMoney(item?.startingPrice) }] : []),
+          ...(item?.buyNowPrice != null ? [{ label: 'Buy Now Price', value: formatMoney(item?.buyNowPrice) }] : [])
+        ].map(({ label, value }) => (
+          <div key={label} className="flex items-center justify-between px-5 py-3">
+            <span className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark">{label}</span>
+            <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">{value}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
+function Countdown({ headerInView, days, hours, minutes, seconds }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={headerInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: 0.2 }}
+      className="border border-border-light dark:border-border-dark p-5"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <Clock size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
+        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Auction Closes In</span>
+      </div>
+      <div
+        className="flex items-end gap-5"
+        aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {days > 0 && <CountUnit value={days} label="days" />}
+        <CountUnit value={hours} label="hrs" />
+        <CountUnit value={minutes} label="min" />
+        <CountUnit value={seconds} label="sec" />
+      </div>
+    </motion.div>
+  )
+}
+
+export default function PublicAuctionItemClient({ item, auctionItems }) {
+  const session = useSession()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const isAuthed = session.status === 'authenticated'
   const { days, hours, minutes, seconds, done } = useCountdown(new Date(item?.auction?.endDate))
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
@@ -175,46 +593,41 @@ export default function PublicAuctionItemClient({ item }) {
   const isEnded = item?.auction?.status === 'ENDED'
   const isSold = item?.status === 'SOLD'
   const isFixed = item?.sellingFormat === 'FIXED'
-
-  const auctionHref = item?.auction?.customAuctionLink ? `/auctions/${item?.auction?.customAuctionLink}` : `/auctions/${item?.auction?.id}`
+  const customAuctionLink = item?.auction?.customAuctionLink
 
   const topBid = item?.bids[0]
-  const displayBid = item?.currentBid ?? item?.startingPrice
+
+  useEffect(() => {
+    if (searchParams.get('bidModal') === 'true' && session?.data?.user) {
+      store.dispatch(setOpenAuctionBidModal(item))
+      // clear the param from the URL so it doesn't persist on refresh
+      router.replace(`/auctions/${customAuctionLink}/${item.id}`, { scroll: false })
+    }
+  }, [customAuctionLink, item, router, searchParams, session])
 
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark">
+      {/* Modals */}
+      <AuctionBidModal auctionItem={item} />
+      <AuctionSignInModal />
+
+      {/* Fixed Footer Nav */}
+      <FixedFooterNav auctionItems={auctionItems} customAuctionLink={customAuctionLink} isAuthed={isAuthed} isFixed={isFixed} item={item} />
+
       {/* ── Sticky bar ── */}
-      <div className="sticky top-0 z-40 border-b border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 h-11 flex items-center justify-between gap-4">
-          <Link
-            href={auctionHref}
-            className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors focus:outline-none focus-visible:underline shrink-0"
-            aria-label={`Back to ${item?.auction?.title}`}
-          >
-            <ArrowLeft size={11} aria-hidden="true" />
-            <span className="hidden xs:inline">{item?.auction?.title}</span>
-            <span className="xs:hidden">Back</span>
-          </Link>
+      <StickyBar
+        customAuctionLink={customAuctionLink}
+        days={days}
+        done={done}
+        hours={hours}
+        isActive={isActive}
+        isEnded={isEnded}
+        item={item}
+        minutes={minutes}
+        seconds={seconds}
+      />
 
-          {isActive && !done && (
-            <div
-              className="flex items-center gap-1.5 shrink-0"
-              aria-live="polite"
-              aria-atomic="true"
-              aria-label={`${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
-            >
-              <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
-              <span className="text-[10px] font-mono text-emerald-500 tabular-nums font-black">
-                {days > 0 ? `${days}d ` : ''}
-                {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-              </span>
-            </div>
-          )}
-          {isEnded && <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>}
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 pt-8 pb-14 sm:pb-32 sm:pt-18">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
           {/* ══ LEFT — Photos ══ */}
           <motion.div
@@ -229,262 +642,30 @@ export default function PublicAuctionItemClient({ item }) {
           {/* ══ RIGHT — Info + Bid ══ */}
           <div className="space-y-5">
             {/* Title block */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.08 }}
-            >
-              {/* Format + status badges */}
-              <div className="flex items-center gap-2 mb-3 flex-wrap">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 border border-border-light dark:border-border-dark">
-                  {isFixed ? (
-                    <>
-                      <Tag size={10} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                      <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">Fixed Price</span>
-                    </>
-                  ) : (
-                    <>
-                      <Gavel size={10} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
-                      <span className="text-[9px] font-mono text-primary-light dark:text-primary-dark">Auction</span>
-                    </>
-                  )}
-                </div>
-                {isSold && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 bg-emerald-500/10">
-                    <ShieldCheck size={10} className="text-emerald-500" aria-hidden="true" />
-                    <span className="text-[9px] font-mono text-emerald-500 font-black">Sold</span>
-                  </div>
-                )}
-                {isActive && !isSold && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 bg-emerald-500/10">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
-                    <span className="text-[9px] font-mono text-emerald-500 font-black">Live</span>
-                  </div>
-                )}
-                {item?.requiresShipping && (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 border border-border-light dark:border-border-dark">
-                    <Truck size={10} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                    <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">
-                      {item?.shippingCosts ? `Ships +${formatMoney(item?.shippingCosts)}` : 'Shipping Included'}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <h1 className="font-quicksand font-black text-2xl xs:text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight mb-3">
-                {item?.name}
-              </h1>
-
-              {item?.description && <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{item?.description}</p>}
-            </motion.div>
+            <TitleBlock headerInView={headerInView} isActive={isActive} isFixed={isFixed} isSold={isSold} item={item} />
 
             {/* Price block */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.14 }}
-              className="border border-border-light dark:border-border-dark"
-            >
-              {/* Accent line */}
-              <div
-                className={`h-0.5 ${isActive && !isSold ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'}`}
-                aria-hidden="true"
-              />
-
-              <div className="p-5 space-y-4">
-                {/* Current bid / price */}
-                {!isFixed && displayBid != null && (
-                  <div>
-                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
-                      {item?.currentBid ? 'Current Bid' : 'Starting Bid'}
-                    </p>
-                    <p className="font-mono font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-none" aria-live="polite">
-                      {formatMoney(displayBid)}
-                    </p>
-                    {item?.bids.length > 0 && (
-                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1.5">
-                        {item?.bids.length} bid{item?.bids.length !== 1 ? 's' : ''}
-                        {topBid && (
-                          <>
-                            {' '}
-                            · Top bidder: <span className="text-text-light dark:text-text-dark">{bidderDisplay(topBid)}</span>
-                          </>
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Fixed price */}
-                {isFixed && item?.buyNowPrice != null && (
-                  <div className={isFixed ? '' : 'pt-4 border-t border-border-light dark:border-border-dark'}>
-                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
-                      {isFixed ? 'Price' : 'Buy Now Price'}
-                    </p>
-                    <p
-                      className={`font-mono font-black leading-none ${isFixed ? 'text-3xl xs:text-4xl text-text-light dark:text-text-dark' : 'text-xl text-primary-light dark:text-primary-dark'}`}
-                    >
-                      {formatMoney(item?.buyNowPrice)}
-                    </p>
-                  </div>
-                )}
-
-                {/* Minimum bid info */}
-                {item?.minimumBid != null && !isFixed && (
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                    Minimum bid: <span className="text-text-light dark:text-text-dark font-black">{formatMoney(item?.minimumBid)}</span>
-                  </p>
-                )}
-
-                {/* CTA */}
-                {isActive && !isSold && (
-                  <div className="pt-2 space-y-2">
-                    {!isFixed && (
-                      <button
-                        onClick={() => store.dispatch(setOpenAuctionBidModal(item))}
-                        type="button"
-                        className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
-                        aria-label={`Place a bid on ${item?.name}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Gavel size={14} aria-hidden="true" />
-                          <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
-                        </div>
-                        <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                      </button>
-                    )}
-                    {isFixed && item?.buyNowPrice != null && (
-                      <button
-                        type="button"
-                        className={`group w-full flex items-center justify-between px-5 py-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                          isFixed
-                            ? 'bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark'
-                            : 'border border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark hover:bg-primary-light/10 dark:hover:bg-primary-dark/10 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark'
-                        }`}
-                        aria-label={`Buy ${item?.name} now for ${item?.buyNowPrice ? formatMoney(item?.buyNowPrice) : ''}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Zap size={14} aria-hidden="true" />
-                          <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Buy Now</span>
-                        </div>
-                        <span className="text-[10px] font-mono font-black">{formatMoney(item?.buyNowPrice)}</span>
-                      </button>
-                    )}
-                  </div>
-                )}
-
-                {/* Ended state */}
-                {isEnded && (
-                  <div className="pt-2 flex items-center gap-2 px-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                    <Package size={13} className="text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
-                    <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                      {isSold ? 'This item has been sold.' : 'This auction has ended.'}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-
+            <PriceBlock
+              customAuctionLink={customAuctionLink}
+              headerInView={headerInView}
+              isActive={isActive}
+              isAuthed={isAuthed}
+              isEnded={isEnded}
+              isFixed={isFixed}
+              isSold={isSold}
+              item={item}
+              topBid={topBid}
+            />
             {/* Countdown */}
-            {isActive && !done && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={headerInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="border border-border-light dark:border-border-dark p-5"
-              >
-                <div className="flex items-center gap-2 mb-4">
-                  <Clock size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                  <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Auction Closes In</span>
-                </div>
-                <div
-                  className="flex items-end gap-5"
-                  aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {days > 0 && <CountUnit value={days} label="days" />}
-                  <CountUnit value={hours} label="hrs" />
-                  <CountUnit value={minutes} label="min" />
-                  <CountUnit value={seconds} label="sec" />
-                </div>
-              </motion.div>
-            )}
+            {isActive && !done && <Countdown days={days} headerInView={headerInView} hours={hours} minutes={minutes} seconds={seconds} />}
 
             {/* Item details */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.25 }}
-              className="border border-border-light dark:border-border-dark"
-            >
-              <div className="px-5 py-3.5 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-                <SectionLabel>Item Details</SectionLabel>
-              </div>
-              <div className="divide-y divide-border-light dark:divide-border-dark">
-                {[
-                  { label: 'Format', value: isFixed ? 'Fixed Price' : 'Auction' },
-                  { label: 'Quantity', value: String(item?.totalQuantity) },
-                  {
-                    label: 'Shipping',
-                    value: item?.requiresShipping ? (item?.shippingCosts ? `+${formatMoney(item?.shippingCosts)}` : 'Included') : 'No Shipping'
-                  },
-                  ...(item?.startingPrice != null && !isFixed ? [{ label: 'Starting Bid', value: formatMoney(item?.startingPrice) }] : []),
-                  ...(item?.buyNowPrice != null ? [{ label: 'Buy Now Price', value: formatMoney(item?.buyNowPrice) }] : [])
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between px-5 py-3">
-                    <span className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark">{label}</span>
-                    <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+            <ItemDetails headerInView={headerInView} isFixed={isFixed} item={item} />
           </div>
         </div>
 
         {/* ══ BID HISTORY ══ */}
-        {item?.bids.length > 0 && (
-          <section aria-labelledby="bids-heading" className="mt-12 sm:mt-16">
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <SectionLabel>Bid History</SectionLabel>
-                <h2 id="bids-heading" className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark mt-1">
-                  {item?.bids.length} Bid{item?.bids.length !== 1 ? 's' : ''}
-                </h2>
-              </div>
-              <div className="flex items-center gap-1.5 px-3 py-2 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-                <TrendingUp size={11} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
-                <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                  Top: <span className="text-text-light dark:text-text-dark font-black">{topBid ? formatMoney(topBid.bidAmount) : '—'}</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="border border-border-light dark:border-border-dark">
-              <div className="grid grid-cols-3 gap-px bg-border-light dark:bg-border-dark border-b border-border-light dark:border-border-dark">
-                {[
-                  { icon: TrendingUp, label: 'Top Bid', value: topBid ? formatMoney(topBid.bidAmount) : '—' },
-                  { icon: Users, label: 'Bidders', value: String(new Set(item?.bids.map((b) => b.userId)).size) },
-                  { icon: Gavel, label: 'Total Bids', value: String(item?.bids.length) }
-                ].map(({ icon: Icon, label, value }) => (
-                  <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4">
-                    <Icon size={11} className="text-muted-light dark:text-muted-dark mb-1.5" aria-hidden="true" />
-                    <p className="font-mono font-black text-base text-text-light dark:text-text-dark leading-none">{value}</p>
-                    <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">{label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div role="list" aria-label="Bid history">
-                {item?.bids.map((bid, i) => (
-                  <div key={bid.id} role="listitem">
-                    <BidRow bid={bid} rank={i + 1} delay={i * 0.04} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        {item?.bids.length > 0 && <BidHistory item={item} topBid={topBid} />}
 
         {/* Empty bid state */}
         {item?.bids.length === 0 && !isFixed && (

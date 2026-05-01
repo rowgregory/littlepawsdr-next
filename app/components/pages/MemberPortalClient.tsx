@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Picture from '../common/Picture'
-import { CheckCircle, CreditCard, Gavel, Gift, MapPin, Package, Pencil, Plus, Receipt, Repeat } from 'lucide-react'
+import { CheckCircle, ChevronRight, CreditCard, Gavel, Gift, MapPin, Package, Pencil, Plus, Receipt, Repeat } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
@@ -18,7 +18,7 @@ import { UpdateAddressModal } from '../modals/UpdateAddressModal'
 import { MemberPortalPageProps } from 'types/member-portal'
 import { StatusPill } from '../ui/StatusPill'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { updateUserName } from 'app/lib/actions/updateUserName'
+import { updateUserName } from 'app/lib/actions/user/updateUserName'
 import { pusherClient } from 'app/lib/pusher-client'
 import { ShippedCelebration } from '../unique/ShippedCelebration'
 
@@ -59,18 +59,18 @@ export default function MemberPortalClient({
   const [setDefaultSuccess, setSetDefaultSuccess] = useState<string | null>(null)
   const [deleteError, setDeleteError] = useState<Record<string, string>>({})
 
-  const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || 'Member'
-  const initials = [user.firstName?.[0], user.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
+  const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || 'Member'
+  const initials = [user?.firstName?.[0], user?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
 
   const isAuthed = session.status === 'authenticated'
 
   const totalGiven = [
-    ...donations.map((d) => d.amount),
-    ...subscriptions.map((s) => s.amount),
-    ...auctionParticipation.flatMap((a) => a.bids.filter((b) => b.isWinner).map((b) => b.bidAmount)),
-    ...adoptionFees.map((a) => a.feeAmount),
-    ...merchAndWWOrders.map((o) => o.totalAmount)
-  ].reduce((sum, amount) => sum + Number(amount), 0)
+    ...donations?.map((d) => d.amount),
+    ...subscriptions?.map((s) => s.amount),
+    ...auctionParticipation?.flatMap((a) => a.bids.filter((b) => b.isWinner).map((b) => b.bidAmount)),
+    ...adoptionFees?.map((a) => a.feeAmount),
+    ...merchAndWWOrders?.map((o) => o.totalAmount)
+  ].reduce((sum, amount) => Number(sum) + Number(amount), 0)
 
   const handleSetDefaultPaymentMethod = async (id: string) => {
     const result = await setDefaultPaymentMethod(id)
@@ -316,7 +316,7 @@ export default function MemberPortalClient({
           {/* Stats strip */}
           <div className="mt-8 grid grid-cols-2 xs:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
             {[
-              { label: 'Total Given', value: formatMoney(totalGiven) },
+              { label: 'Total Given', value: formatMoney(Number(totalGiven)) },
               { label: 'Subscriptions', value: subscriptions.filter((s) => s.status === 'CONFIRMED')?.length.toString() },
               { label: 'Merch & Welcome Wieners', value: merchAndWWOrders?.length.toString() },
               { label: 'Auctions', value: auctionParticipation?.reduce((sum, a) => sum + a.totalBids, 0).toString() }
@@ -886,16 +886,43 @@ export default function MemberPortalClient({
                           <div className="min-w-0 flex-1">
                             <div className="flex items-start justify-between gap-2 mb-1 flex-wrap">
                               <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug">{bid.itemName}</p>
-                              {bid.isWinner && (
-                                <span className="text-[9px] font-black tracking-widest uppercase px-2 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark shrink-0">
-                                  Won
-                                </span>
-                              )}
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                {bid.isWinner && (
+                                  <span className="text-[9px] font-black tracking-widest uppercase px-2 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark">
+                                    Won
+                                  </span>
+                                )}
+                                {bid.status === 'TOP_BID' && !bid.isWinner && (
+                                  <span className="text-[9px] font-black tracking-widest uppercase px-2 py-0.5 bg-green-500/10 text-green-500 dark:text-green-400">
+                                    Top Bid
+                                  </span>
+                                )}
+                                {bid.status === 'OUTBID' && !bid.isWinner && (
+                                  <span className="text-[9px] font-black tracking-widest uppercase px-2 py-0.5 bg-red-500/10 text-red-500 dark:text-red-400">
+                                    Outbid
+                                  </span>
+                                )}
+                              </div>
                             </div>
+
                             <p className="font-quicksand font-black text-lg text-text-light dark:text-text-dark">
                               {formatMoney(bid.bidAmount)}
                               <span className="text-[10px] font-mono font-normal text-muted-light dark:text-muted-dark ml-1">your bid</span>
                             </p>
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                              {bid.totalBids} total bid{bid.totalBids !== 1 ? 's' : ''} on this item
+                            </p>
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                              Last bid {formatDate(bid.lastBidAt, true)}
+                            </p>
+                            <Link
+                              href={`/auctions/${auction.customAuctionLink}/${bid.auctionItemId}`}
+                              className="group inline-flex items-center gap-1.5 mt-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                              aria-label={`View ${bid.itemName}`}
+                            >
+                              View Item
+                              <ChevronRight size={10} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                            </Link>
                           </div>
                         </li>
                       ))}

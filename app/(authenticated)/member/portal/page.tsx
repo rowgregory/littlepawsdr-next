@@ -3,6 +3,7 @@ import { getAccountData } from 'app/lib/actions/getAccountData'
 
 export default async function MemberPortalPage() {
   const result = await getAccountData()
+
   return (
     <MemberPortalClient
       user={result?.data?.user}

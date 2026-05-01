@@ -1,4 +1,4 @@
-import createAuctionAnomaly from 'app/lib/actions/createAuctionAnomaly'
+import createAuctionAnomaly from 'app/lib/actions/super-user/createAuctionAnomaly'
 import { Anomaly, LiveBidEvent } from 'app/lib/mock/live-auction'
 import { IAuctionItem } from 'types/entities/auction-item'
 

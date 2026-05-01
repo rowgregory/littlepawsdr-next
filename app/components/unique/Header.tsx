@@ -1,23 +1,22 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { usePathname, useRouter } from 'next/navigation'
-import { ShoppingBasket } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Menu, ShoppingBasket } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { store, useCartSelector } from 'app/lib/store/store'
+import { store, useCartSelector, useUiSelector } from 'app/lib/store/store'
 import GoogleTranslate from './GoogleTranslate'
 import { useIsAtTop } from '@hooks/useIsAtTop'
-import { setOpenContactModal } from 'app/lib/store/slices/uiSlice'
+import { setOpenContactModal, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
 import Picture from '../common/Picture'
 import { NavDropdown } from '../header/NavDropdown'
 import { mainNavigationLinks } from 'app/lib/constants/navigation'
-import AuctionAnnouncementStrip from './AuctionAnnouncementStripe'
+import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
 
 export default function Header({ auction }) {
   const { data, status } = useSession()
-  const pathname = usePathname()
   const router = useRouter()
   const isAtTop = useIsAtTop()
-  // const { mobileNavigation } = useUiSelector()
+  const { mobileNavigation } = useUiSelector()
   const { items } = useCartSelector()
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
 
@@ -38,11 +37,8 @@ export default function Header({ auction }) {
       </a>
 
       {/* Top Bar */}
-      <header
-        role="banner"
-        className={`${pathname === '/' ? 'max-w-334' : ''} pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}
-      >
-        <div className={`${pathname !== '/' ? 'max-w-334' : ''}  mx-auto flex items-center justify-between h-11`}>
+      <header role="banner" className={`pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}>
+        <div className={`max-w-334 mx-auto flex items-center justify-between h-11`}>
           <div className="flex items-center space-x-4 lg:space-x-10">
             <GoogleTranslate />
             <address className="hidden sm:flex items-center space-x-4 lg:space-x-6 not-italic" aria-label="Contact and organizational information">
@@ -70,7 +66,7 @@ export default function Header({ auction }) {
 
           {/* Utility actions */}
           <nav aria-label="Utility navigation">
-            <ul className={`${pathname === '/' ? 'pr-10' : ''} flex items-center space-x-6 list-none`}>
+            <ul className={`flex items-center space-x-6 list-none`}>
               <li>
                 <Link
                   href="/cart"
@@ -108,47 +104,48 @@ export default function Header({ auction }) {
 
       {/* Main Nav */}
       <motion.nav
-        className={`${pathname === '/' ? 'max-w-334 pl-13.75 pr-7.5' : 'px-6'}  w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-50 flex flex-col justify-center`}
+        className={`px-6 w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-110 flex flex-col justify-center`}
         animate={{ height: isAtTop ? '124.5px' : '84.5px' }}
         transition={{ duration: 0.3 }}
       >
         <div className="max-w-334 mx-auto w-full flex items-center justify-between relative">
-          {/* <button
-            onClick={() => store.dispatch(setOpenMobileNavigation())}
-            className="block 2xl:hidden text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded"
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileNavigation}
-            aria-controls="mobile-navigation"
-          >
-            {mobileNavigation ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
-          </button> */}
-
-          <Link
-            href="/"
-            aria-label="Little Paws Dachshund Rescue - Home"
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-          >
-            <motion.div
-              className="flex items-center space-x-3"
-              initial={{ scale: 1 }}
-              animate={{ scale: isAtTop ? 1 : 0.9 }}
-              transition={{ duration: 0.3 }}
+          <div className="flex items-center gap-x-10">
+            <Link
+              href="/"
+              aria-label="Little Paws Dachshund Rescue - Home"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
               <motion.div
-                className="overflow-hidden flex items-center justify-center"
-                initial={{ height: '80px' }}
-                animate={{ height: isAtTop ? '80px' : '48px' }}
+                className="flex items-center space-x-3"
+                initial={{ scale: 1 }}
+                animate={{ scale: isAtTop ? 1 : 0.9 }}
                 transition={{ duration: 0.3 }}
               >
-                <Picture
-                  src="/images/logos/logo.png"
-                  alt="Little Paws Dachshund Rescue"
-                  className="block w-auto h-full cursor-pointer hover:opacity-80 transition-opacity"
-                  priority
-                />
+                <motion.div
+                  className="overflow-hidden flex items-center justify-center"
+                  initial={{ height: '80px' }}
+                  animate={{ height: isAtTop ? '80px' : '48px' }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Picture
+                    src="/images/logos/logo.png"
+                    alt="Little Paws Dachshund Rescue"
+                    className="block w-auto h-full cursor-pointer hover:opacity-80 transition-opacity"
+                    priority
+                  />
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </Link>
+            </Link>
+            <button
+              onClick={() => store.dispatch(setOpenMobileNavigation())}
+              className="block xl:hidden text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded"
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileNavigation}
+              aria-controls="mobile-navigation"
+            >
+              <Menu className="w-6 h-6" aria-hidden="true" />
+            </button>
+          </div>
 
           <nav aria-label="Main navigation">
             <ul className="flex items-center space-x-6 list-none">
@@ -169,8 +166,9 @@ export default function Header({ auction }) {
           </motion.div>
         </div>
       </motion.nav>
-      <div className={`${pathname === '/' ? 'max-w-334' : ''} pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100`}>
-        <div className={`${pathname !== '/' ? 'max-w-334' : ''}  mx-auto flex items-center justify-between`}>
+
+      <div className={`w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100`}>
+        <div className={`mx-auto flex items-center justify-between`}>
           <AuctionAnnouncementStrip auction={auction} />
         </div>
       </div>
