@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
 
 export const setPrimaryAuctionItemPhoto = async (photoId: string, itemId: string, auctionId: string) => {
   try {

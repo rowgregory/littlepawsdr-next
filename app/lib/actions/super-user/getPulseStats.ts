@@ -1,8 +1,7 @@
-// app/actions/super/getPulseStats.ts
 'use server'
 
 import prisma from 'prisma/client'
-import { getServiceHealth } from '../getServiceHealth'
+import { getServiceHealth } from './getServiceHealth'
 
 export interface PulseStat {
   label: string

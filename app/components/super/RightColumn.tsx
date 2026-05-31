@@ -1,12 +1,12 @@
 import { AdminUser } from 'app/lib/actions/super-user/getAdminUsers'
 import { ManagedUser } from 'app/lib/actions/super-user/getManagedUsers'
 import { AnimatePresence, motion } from 'framer-motion'
-import { LogEntry } from '../../(authenticated)/admin/dashboard/DashboardClient'
 import { useState } from 'react'
 import { searchUser } from 'app/lib/actions/super-user/searchUser'
 import { updateUserStatus } from 'app/lib/actions/super-user/updateUserStatus'
 import { PanelHeader } from './PanelHeader'
 import { Search, Shield } from 'lucide-react'
+import { LogEntry } from 'app/lib/actions/super-user/getAuditLogs'
 
 export function RightColumn({
   adminUsers,

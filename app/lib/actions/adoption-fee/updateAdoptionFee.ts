@@ -1,10 +1,10 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { auth } from '../auth'
-import { createLog } from './log/createLog'
 import { UpdateAdoptionFeeInputs } from 'types/entities/adoption-fee'
 import { cookies } from 'next/headers'
+import { auth } from 'app/lib/auth'
+import { createLog } from '../log/createLog'
 
 export const updateAdoptionFee = async (data: UpdateAdoptionFeeInputs) => {
   try {

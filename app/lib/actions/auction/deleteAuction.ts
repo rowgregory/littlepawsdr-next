@@ -1,7 +1,8 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
+
 export const deleteAuction = async (id: string) => {
   try {
     if (!id) return { success: false, error: 'Missing id', data: null }

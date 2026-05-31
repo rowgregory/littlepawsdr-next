@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 import Pusher from 'pusher-js'
 import { useRef } from 'react'
 import { store } from '../store/store'
-import { savePaymentMethod } from '../actions/savePaymentMethod'
 import { setHideConfetti, setShowConfetti } from '../store/slices/uiSlice'
 import { setAdoptionFeeCookie } from '../actions/setAdoptionFeeCookie'
+import { savePaymentMethod } from '../actions/stripe/savePaymentMethod'
 
 export function usePaymentProcessor() {
   const router = useRouter()

@@ -1,5 +1,5 @@
 import PublicSubscriptionsClient from 'app/components/pages/PublicSubscriptionsClient'
-import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
+import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 
 export default async function PublicSubscriptionsPage() {

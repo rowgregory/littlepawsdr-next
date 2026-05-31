@@ -1,5 +1,5 @@
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
 
 export const getWelcomeWienerById = async (id: string) => {
   try {

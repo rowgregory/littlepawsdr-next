@@ -2,7 +2,7 @@
 
 import prisma from 'prisma/client'
 import { WelcomeWienerInputs } from 'types/entities/welcome-wiener'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
 
 export const updateWelcomeWiener = async (id: string, input: Partial<WelcomeWienerInputs>) => {
   try {

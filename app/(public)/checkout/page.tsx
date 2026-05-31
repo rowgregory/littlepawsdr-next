@@ -1,5 +1,5 @@
 import { PublicCheckoutClient } from 'app/components/pages/PublicCheckoutClient'
-import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
+import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserAddress } from 'app/lib/actions/user/getUserAddress'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'

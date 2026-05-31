@@ -10,13 +10,13 @@ import { createFormActions } from 'app/utils/formActions'
 import { deleteAuctionItem } from 'app/lib/actions/auction/deleteAuctionItem'
 import { uploadFileToFirebase } from 'app/utils/uploadFileToFirebase'
 import Picture from '../common/Picture'
-import { setPrimaryAuctionItemPhoto } from 'app/lib/actions/setPrimaryAuctionItemPhoto'
 import { deleteAuctionItemPhoto } from 'app/lib/actions/auction/deleteAuctionItemPhoto'
 import { createAuctionItem } from 'app/lib/actions/auction/createAuctionItem'
-import { updateAuctionItem } from 'app/lib/actions/updateAuctionItem'
 import { resetForm, setInputs } from 'app/lib/store/slices/formSlice'
 import { useEscapeKey } from '@hooks/useEscapeKey'
 import { useAuctionItemValidation } from '@hooks/useAuctionItemValidation'
+import { updateAuctionItem } from 'app/lib/actions/auction/updateAuctionItem'
+import { setPrimaryAuctionItemPhoto } from 'app/lib/actions/auction/setPrimaryAuctionItemPhoto'
 
 // ─── Shared field components ──────────────────────────────────────────────────
 const inputClass =

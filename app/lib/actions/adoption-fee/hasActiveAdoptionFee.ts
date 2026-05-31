@@ -1,8 +1,8 @@
 'use server'
 
+import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
-import { auth } from '../auth'
+import { createLog } from '../log/createLog'
 
 export const hasActiveAdoptionFee = async () => {
   try {

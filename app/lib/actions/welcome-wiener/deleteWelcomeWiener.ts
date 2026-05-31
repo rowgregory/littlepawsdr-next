@@ -1,5 +1,5 @@
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
 
 export const deleteWelcomeWiener = async (id: string) => {
   try {

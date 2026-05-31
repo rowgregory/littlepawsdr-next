@@ -2,7 +2,6 @@
 
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
-import { firebaseApiKey, firebaseProjectId, firebaseStorageBucket } from '../firebase'
 
 export type HealthStatus = 'ok' | 'warn' | 'error' | 'unknown'
 
@@ -154,22 +153,6 @@ async function checkPusher(): Promise<ServiceHealth> {
   }
 }
 
-async function checkFirebase(): Promise<ServiceHealth> {
-  const bucket = firebaseStorageBucket
-  const apiKey = firebaseApiKey
-  const projectId = firebaseProjectId
-
-  const missing = [!bucket && 'STORAGE_BUCKET', !apiKey && 'API_KEY', !projectId && 'PROJECT_ID'].filter(Boolean)
-
-  return {
-    name: 'Firebase Storage',
-    status: missing.length > 0 ? 'error' : 'ok',
-    latency: '—',
-    detail: missing.length > 0 ? `Missing env vars: ${missing.join(', ')}` : `Bucket ${bucket} configured`,
-    lastChecked: 'just now'
-  }
-}
-
 async function checkVercel(): Promise<ServiceHealth> {
   const start = Date.now()
   try {
@@ -224,12 +207,6 @@ export async function getServiceHealth(): Promise<ServiceHealth[]> {
       lastChecked: 'just now'
     })),
     checkPusher().catch(() => ({ name: 'Pusher', status: 'unknown' as HealthStatus, detail: 'Check threw unexpectedly', lastChecked: 'just now' })),
-    checkFirebase().catch(() => ({
-      name: 'Firebase Storage',
-      status: 'unknown' as HealthStatus,
-      detail: 'Check threw unexpectedly',
-      lastChecked: 'just now'
-    })),
     checkVercel().catch(() => ({
       name: 'Vercel Edge',
       status: 'unknown' as HealthStatus,

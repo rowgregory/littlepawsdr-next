@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
+import { createLog } from '../log/createLog'
 
 export const updateAuction = async (id: string, data: { startDate: Date; endDate: Date; title: string; goal: number; customAuctionLink: string }) => {
   try {

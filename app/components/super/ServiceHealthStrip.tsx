@@ -1,6 +1,6 @@
 import { AlertTriangle, CheckCircle, XCircle, Minus } from 'lucide-react'
 import { PanelHeader } from './PanelHeader'
-import { ServiceHealth } from 'app/lib/actions/getServiceHealth'
+import { ServiceHealth } from 'app/lib/actions/super-user/getServiceHealth'
 
 const healthIcon: Record<string, React.ReactNode> = {
   ok: <CheckCircle size={10} className="text-green-500 shrink-0" />,

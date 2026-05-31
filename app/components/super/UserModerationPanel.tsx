@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ShieldOff, X, AlertTriangle } from 'lucide-react'
-import { Badge, DashCard } from '../../(authenticated)/admin/dashboard/DashboardClient'
 import { searchUser } from 'app/lib/actions/super-user/searchUser'
 import { updateUserStatus } from 'app/lib/actions/super-user/updateUserStatus'
 
@@ -181,7 +180,7 @@ export default function UserModerationPanel({ suspended: initialSuspended, termi
   const isTerminated = result?.status === 'TERMINATED'
 
   return (
-    <DashCard title="User Moderation" className="col-span-12 lg:col-span-6" delay={0.2}>
+    <div>
       {/* Search */}
       <div className="flex gap-2 mb-4">
         <div className="relative flex-1">
@@ -259,8 +258,8 @@ export default function UserModerationPanel({ suspended: initialSuspended, termi
               <div>
                 <div className="flex items-center gap-2 flex-wrap mb-0.5">
                   <span className="font-mono text-[10px] tracking-widest uppercase text-text-light dark:text-text-dark">{result.name}</span>
-                  <Badge variant={result.status === 'ACTIVE' ? 'success' : result.status === 'SUSPENDED' ? 'warn' : 'danger'}>{result.status}</Badge>
-                  <Badge variant="muted">{result.role}</Badge>
+                  {/* <Badge variant={result.status === 'ACTIVE' ? 'success' : result.status === 'SUSPENDED' ? 'warn' : 'danger'}>{result.status}</Badge>
+                  <Badge variant="muted">{result.role}</Badge> */}
                 </div>
                 <p className="font-mono text-[9px] text-muted-light dark:text-muted-dark">{result.email}</p>
               </div>
@@ -364,6 +363,6 @@ export default function UserModerationPanel({ suspended: initialSuspended, termi
       {suspended.length === 0 && terminated.length === 0 && !result && !notFound && (
         <p className="font-mono text-[10px] tracking-widest text-muted-light dark:text-muted-dark">No suspended or terminated users.</p>
       )}
-    </DashCard>
+    </div>
   )
 }

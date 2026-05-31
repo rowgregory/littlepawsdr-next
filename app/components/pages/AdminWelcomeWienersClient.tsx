@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
-import { getWelcomeWieners } from 'app/lib/actions/getWelcomeWieners'
 import AdminPageHeader from '../common/AdminPageHeader'
 import Picture from '../common/Picture'
 import { store } from 'app/lib/store/store'
 import { setOpenWelcomeWienerDrawer } from 'app/lib/store/slices/uiSlice'
 import { setInputs } from 'app/lib/store/slices/formSlice'
+import { getWelcomeWieners } from 'app/lib/actions/welcome-wiener/getWelcomeWieners'
 
 type Props = {
   welcomeWieners: Awaited<ReturnType<typeof getWelcomeWieners>>

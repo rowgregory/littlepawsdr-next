@@ -1,12 +1,11 @@
 'use server'
 
+import { stripeClient } from 'app/lib/stripe-client'
 import prisma from 'prisma/client'
-import { createLog } from './log/createLog'
-import { stripeClient } from '../stripe-client'
+import { createLog } from '../log/createLog'
 
 export async function savePaymentMethod(userId: string, paymentMethodId: string, isDefault: boolean = false) {
   try {
-    // Get user's Stripe customer ID
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { stripeCustomerId: true }
