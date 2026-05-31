@@ -1,6 +1,6 @@
 import PublicDonateClient from 'app/components/pages/PublicDonateClient'
-import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
-import { getUserName } from 'app/lib/actions/getUserName'
+import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
+import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
 
 export default async function PublicDonatePage() {

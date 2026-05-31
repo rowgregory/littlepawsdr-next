@@ -2,7 +2,7 @@
 
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 
 export const updateUserName = async ({ firstName, lastName }: { firstName: string; lastName: string }) => {
   try {

@@ -1,4 +1,4 @@
-import { createLog } from 'app/lib/actions/createLog'
+import { createLog } from 'app/lib/actions/log/createLog'
 import { pusher } from 'app/lib/pusher'
 
 export const SUPERUSER_CHANNEL = 'superuser'

@@ -1,6 +1,6 @@
 import PublicSubscriptionsClient from 'app/components/pages/PublicSubscriptionsClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
-import { getUserName } from 'app/lib/actions/getUserName'
+import { getUserName } from 'app/lib/actions/user/getUserName'
 
 export default async function PublicSubscriptionsPage() {
   const [paymentMethodsResult, userNameResult] = await Promise.all([getSavedPaymentMethods(), getUserName()])

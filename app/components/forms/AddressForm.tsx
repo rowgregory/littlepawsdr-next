@@ -1,6 +1,6 @@
 'use client'
 
-import { updateAddress } from 'app/lib/actions/updateAddress'
+import { updateAddress } from 'app/lib/actions/user/updateAddress'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { store, useFormSelector } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'

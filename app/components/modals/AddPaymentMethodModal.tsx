@@ -10,8 +10,8 @@ import { useEscapeKey } from '@hooks/useEscapeKey'
 import { useRemoveScroll } from '@hooks/useRemoveScroll'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { extractErrorMessage } from 'app/utils/extractErrorMessage'
-import { createPaymentMethod } from 'app/lib/actions/createPaymentMethod'
-import { getSetupIntentClientSecret } from 'app/lib/actions/getSetupIntentClientSecret'
+import { createPaymentMethod } from 'app/lib/actions/stripe/createPaymentMethod'
+import { getSetupIntentClientSecret } from 'app/lib/actions/stripe/getSetupIntentClientSecret'
 
 export default function AddPaymentMethodModal() {
   const { addPaymentMethodModal, isDark } = useUiSelector()

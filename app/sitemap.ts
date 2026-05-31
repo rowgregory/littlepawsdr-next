@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { MetadataRoute } from 'next'
-import { getDachshundsByStatus } from './lib/actions/getDachshundsByStatus'
+import { getDachshundsByStatus } from './lib/actions/rescue-groups/getDachshundsByStatus'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://littlepawsdr.org'

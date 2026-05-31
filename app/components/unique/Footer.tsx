@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Picture from '../common/Picture'
-import createNewsletter from 'app/lib/actions/createNewsletter'
+import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
 import { SyntheticEvent, useState } from 'react'
 
 const NAV_LINKS = [

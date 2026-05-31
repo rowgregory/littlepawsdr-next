@@ -1,12 +1,12 @@
 import { store } from 'app/lib/store/store'
-import { updateAuction } from 'app/lib/actions/updateAuction'
 import { useRouter } from 'next/navigation'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { IAuction } from 'types/entities/auction'
 import { ChangeEvent, useState } from 'react'
 import { toDatetimeLocal } from 'app/utils/date.utils'
 import { Loader2, Trash2 } from 'lucide-react'
-import { deleteAuction } from 'app/lib/actions/deleteAuction'
+import { deleteAuction } from 'app/lib/actions/auction/deleteAuction'
+import { updateAuction } from 'app/lib/actions/auction/updateAuction'
 
 const inputStyles = `w-full px-3.5 py-3 text-xs font-mono border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark transition-colors scheme-light dark:scheme-dark`
 

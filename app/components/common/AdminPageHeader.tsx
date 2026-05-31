@@ -11,7 +11,7 @@ interface AdminPageHeaderProps {
   description?: string
   bypassCode?: string
   nextRotationAt?: Date
-  children?: React.ReactNode // for action buttons
+  children?: React.ReactNode
 }
 
 export default function AdminPageHeader({ label, title, description, bypassCode, nextRotationAt, children }: AdminPageHeaderProps) {
@@ -31,8 +31,7 @@ export default function AdminPageHeader({ label, title, description, bypassCode,
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 bg-bg-light dark:bg-bg-dark"
-      style={{ height: '70.5px' }}
+      className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 bg-bg-light dark:bg-bg-dark h-16.25"
     >
       <div className="max-w-6xl mx-auto h-full flex items-center justify-between gap-4">
         {/* Left — label + title */}

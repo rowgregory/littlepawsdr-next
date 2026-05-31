@@ -3,7 +3,7 @@
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
 import { stripeClient } from '../../stripe-client'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 
 export const cancelSubscription = async ({ subscriptionId }: { subscriptionId: string }) => {
   try {

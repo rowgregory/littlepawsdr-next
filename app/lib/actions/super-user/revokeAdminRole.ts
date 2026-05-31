@@ -2,7 +2,7 @@
 
 import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 
 export async function revokeAdminRole(userId: string) {
   const session = await auth()

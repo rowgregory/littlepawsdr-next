@@ -1,6 +1,6 @@
 'use client'
 
-import { createWelcomeWiener } from 'app/lib/actions/createWelcomeWiener'
+import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
 import { updateWelcomeWiener } from 'app/lib/actions/updateWelcomeWiener'
 import { resetForm, setIsLoading, setIsNotLoading } from 'app/lib/store/slices/formSlice'
 import { showToast } from 'app/lib/store/slices/toastSlice'

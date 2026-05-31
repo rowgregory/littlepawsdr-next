@@ -1,6 +1,6 @@
 import AdminNewsletterPageClient from 'app/components/pages/AdminNewsletterClient'
-import getNewsletterIssues from 'app/lib/actions/getNewsletterIssues'
-import getNewsletters from 'app/lib/actions/getNewsletters'
+import getNewsletterIssues from 'app/lib/actions/newsletter-issue/getNewsletterIssues'
+import getNewsletters from 'app/lib/actions/newsletter/getNewsletters'
 
 export default async function AdminNewsletterPage() {
   const [newslettersResult, issuesResult] = await Promise.all([getNewsletters(), getNewsletterIssues()])

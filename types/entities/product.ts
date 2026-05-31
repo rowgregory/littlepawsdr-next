@@ -6,6 +6,7 @@ export interface IProduct {
   price: number
   shippingPrice: number
   countInStock: number
+  sizes: { size: string; quantity: number }[] | null
   isPhysicalProduct: boolean
   isLive: boolean
   createdAt: Date
@@ -19,6 +20,7 @@ export type ProductCreateInputs = {
   price?: number
   shippingPrice?: number
   countInStock?: number
+  sizes?: { size: string; quantity: number }[] | null
   isPhysicalProduct?: boolean
   isLive?: boolean
 }
@@ -31,6 +33,9 @@ export type ProductUpdateInputs = {
   price?: number
   shippingPrice?: number
   countInStock?: number
+  sizes?: { size: string; quantity: number }[] | null
   isPhysicalProduct?: boolean
   isLive?: boolean
 }
+
+export type ProductSizeEntry = { size: string; quantity: number }

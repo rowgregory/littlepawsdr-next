@@ -1,9 +1,9 @@
 import { User as NextAuthUser } from 'next-auth'
-import { createStripeCustomer } from '../actions/createStripeCustomer'
+import { createStripeCustomer } from '../actions/stripe/createStripeCustomer'
 import { Account } from 'next-auth'
 import { User, Account as PrismaAccount } from '@prisma/client'
 import prisma from 'prisma/client'
-import { createLog } from '../actions/createLog'
+import { createLog } from '../actions/log/createLog'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'
 
 // Google OAuth Profile type - match NextAuth's Profile structure

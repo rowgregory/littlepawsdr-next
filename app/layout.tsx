@@ -4,7 +4,7 @@ import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from './lib/auth'
 import { RootLayoutWrapper } from './root-layout'
-import getDraftOrActiveAuction from './lib/actions/getDraftOrActiveAuction'
+import getDraftOrActiveAuction from './lib/actions/auction/getDraftOrActiveAuction'
 
 const workSans = Work_Sans({
   subsets: ['latin'],

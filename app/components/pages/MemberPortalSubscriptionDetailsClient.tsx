@@ -11,9 +11,9 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import { fadeUp } from 'app/lib/constants/motion'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
-import { getSubscriptionById } from 'app/lib/actions/getSubscriptionById'
-import { updateSubscriptionPaymentMethod } from 'app/lib/actions/updateSubscriptionPaymentMethod'
+import { getSubscriptionById } from 'app/lib/actions/order/getSubscriptionById'
 import { cancelSubscription } from 'app/lib/actions/subscriptions/cancelSubscription'
+import { updateSubscriptionPaymentMethod } from 'app/lib/actions/stripe/updateSubscriptionPaymentMethod'
 
 type Subscription = Awaited<ReturnType<typeof getSubscriptionById>>['data']
 

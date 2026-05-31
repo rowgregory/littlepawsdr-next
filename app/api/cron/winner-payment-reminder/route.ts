@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 import { sendWinnerEmail } from '../end-auction/route'
-import { createLog } from 'app/lib/actions/createLog'
+import { createLog } from 'app/lib/actions/log/createLog'
 
 export async function GET() {
   const start = Date.now()

@@ -1,5 +1,5 @@
 import DachshundDetailClient from 'app/components/pages/DachshundDetailClient'
-import { getDachshundById } from 'app/lib/actions/getDachshundById'
+import { getDachshundById } from 'app/lib/actions/rescue-groups/getDachshundById'
 import { notFound } from 'next/navigation'
 
 export default async function DachshundPage({ params }: { params: Promise<{ id: string }> }) {

@@ -6,15 +6,15 @@ import { useRouter } from 'next/navigation'
 import { signIn, useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
 import { AdoptionApplicationPaymentForm } from 'app/components/forms/AdoptionApplicationPaymentForm'
-import { verifyBypassCode } from 'app/lib/actions/verifyBypassCode'
+import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
 import { store, useFormSelector } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { updateAdoptionFee } from 'app/lib/actions/updateAdoptionFee'
 import { slideVariants } from 'app/lib/constants/motion'
 import { IPaymentForm } from 'types/common'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { useInitializeForm } from '@hooks/useInitializeForm'
 import { CustomSwitch } from '../common/CustomSwitch'
+import { updateAdoptionFee } from 'app/lib/actions/adoption-fee/updateAdoptionFee'
 
 const TERMS_AND_CONDITIONS = [
   {

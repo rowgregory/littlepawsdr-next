@@ -1,5 +1,5 @@
 import AdminAuctionsClient from 'app/components/pages/AdminAuctionsClient'
-import getAuctions from 'app/lib/actions/getAuctions'
+import getAuctions from 'app/lib/actions/auction/getAuctions'
 
 export default async function AdminAuctionsPage() {
   const auctions = await getAuctions({ status: ['DRAFT', 'ACTIVE', 'ENDED'] })

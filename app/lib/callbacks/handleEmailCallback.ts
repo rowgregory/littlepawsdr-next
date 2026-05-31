@@ -1,6 +1,6 @@
 import type { User } from 'next-auth'
 import prisma from 'prisma/client'
-import { createStripeCustomer } from '../actions/createStripeCustomer'
+import { createStripeCustomer } from '../actions/stripe/createStripeCustomer'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'
 
 export async function handleEmailCallback(user: User) {

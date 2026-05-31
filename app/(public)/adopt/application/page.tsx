@@ -1,7 +1,7 @@
 import { AdoptionApplicationClient } from 'app/components/pages/AdoptionApplicationClient'
-import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
-import { getUserName } from 'app/lib/actions/getUserName'
-import { hasActiveAdoptionFee } from 'app/lib/actions/hasActiveAdoptionFee'
+import { hasActiveAdoptionFee } from 'app/lib/actions/adoption-fee/hasActiveAdoptionFee'
+import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
+import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
 import { redirect } from 'next/navigation'
 

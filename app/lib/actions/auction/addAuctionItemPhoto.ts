@@ -1,5 +1,5 @@
 import prisma from 'prisma/client'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 
 export const addAuctionItemPhoto = async (
   itemId: string,

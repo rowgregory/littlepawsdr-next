@@ -1,7 +1,7 @@
 import { AdminUser } from 'app/lib/actions/super-user/getAdminUsers'
 import { ManagedUser } from 'app/lib/actions/super-user/getManagedUsers'
 import { AnimatePresence, motion } from 'framer-motion'
-import { LogEntry } from '../pages/DashboardClient'
+import { LogEntry } from '../../(authenticated)/admin/dashboard/DashboardClient'
 import { useState } from 'react'
 import { searchUser } from 'app/lib/actions/super-user/searchUser'
 import { updateUserStatus } from 'app/lib/actions/super-user/updateUserStatus'

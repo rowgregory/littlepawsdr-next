@@ -9,11 +9,10 @@ import { CheckCircle, ChevronRight, CreditCard, Gavel, Gift, MapPin, Package, Pe
 import { store } from 'app/lib/store/store'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
-import { setDefaultPaymentMethod } from 'app/lib/actions/setDefaultPaymentMethod'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { setOpenAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
-import { deletePaymentMethod } from 'app/lib/actions/deletePaymentMethod'
+import { deletePaymentMethod } from 'app/lib/actions/stripe/deletePaymentMethod'
 import { UpdateAddressModal } from '../modals/UpdateAddressModal'
 import { MemberPortalPageProps } from 'types/member-portal'
 import { StatusPill } from '../ui/StatusPill'
@@ -21,6 +20,7 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import { updateUserName } from 'app/lib/actions/user/updateUserName'
 import { pusherClient } from 'app/lib/pusher-client'
 import { ShippedCelebration } from '../unique/ShippedCelebration'
+import { setDefaultPaymentMethod } from 'app/lib/actions/stripe/setDefaultPaymentMethod'
 
 // ─── Section Label ────────────────────────────────────────────────────────────
 function SectionLabel({ label }: { label: string }) {

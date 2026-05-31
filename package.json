@@ -2,6 +2,7 @@
   "name": "lpdr",
   "version": "0.2.2",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate && next build",
@@ -9,7 +10,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate": "prisma generate",
-    "migrate:users": "node scripts/seed-users-from-mongo.js"
+    "migrate:users": "node scripts/seed-users-from-mongo.js",
+    "migrate:address": "node scripts/migrate-mongo-lpdr.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",

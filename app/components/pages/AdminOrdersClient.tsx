@@ -12,8 +12,8 @@ import { StatusPill } from '../ui/StatusPill'
 import { useRouter } from 'next/navigation'
 import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { updateOrderShippingStatus } from 'app/lib/actions/updateOrderShippingStatus'
 import { setOpenOrderDrawer } from 'app/lib/store/slices/uiSlice'
+import { updateOrderShippingStatus } from 'app/lib/actions/order/updateOrderShippingStatus'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Tab = 'Snapshot'

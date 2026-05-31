@@ -1,21 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { RefreshCw, Shield, LogOut, LayoutDashboard } from 'lucide-react'
+import { RefreshCw, LogOut, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
-import { ServiceHealth } from 'app/lib/actions/getServiceHealth'
 import { CronJob } from 'app/lib/actions/super-user/getCronJobs'
 import { PulseStat } from 'app/lib/actions/super-user/getPulseStats'
 import { AdminUser } from 'app/lib/actions/super-user/getAdminUsers'
-import { Badge, LogEntry } from './DashboardClient'
 import { LiveActionsFeed } from '../super/LiveActionsFeed'
 import { ServiceStrip } from '../super/ServiceHealthStrip'
 import { CronStrip } from '../super/CronStrip'
 import { PulseColumn } from '../super/PulseColumn'
 import { RightColumn } from '../super/RightColumn'
 import { ManagedUser } from 'app/lib/actions/super-user/getManagedUsers'
-import { Auction } from '@prisma/client'
+import { ServiceHealth } from 'app/lib/actions/super-user/getServiceHealth'
+import { LogEntry } from 'app/lib/actions/super-user/getAuditLogs'
 
 interface Props {
   services: ServiceHealth[]
@@ -29,6 +28,7 @@ interface Props {
 
 export default function SuperDashboardClient({ services, cronJobs, pulseStats, adminUsers, auditLogs, managedUsers, auction }: Props) {
   const [refreshing, setRefreshing] = useState(false)
+  console.log(auction)
 
   const hasIssues = pulseStats?.some((s) => s.signal === 'red')
   const hasWarnings = !hasIssues && pulseStats?.some((s) => s.signal === 'yellow')
@@ -41,10 +41,10 @@ export default function SuperDashboardClient({ services, cronJobs, pulseStats, a
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-quicksand font-bold text-[12px] text-text-light dark:text-text-dark leading-tight">Little Paws</span>
-              <Badge variant="info">
+              {/* <Badge variant="info">
                 <Shield size={8} className="inline mr-0.5" aria-hidden="true" />
                 Super
-              </Badge>
+              </Badge> */}
             </div>
             <p className="font-mono text-[8px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">System Control Panel</p>
           </div>

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ShieldOff, X, AlertTriangle } from 'lucide-react'
-import { Badge, DashCard } from '../pages/DashboardClient'
+import { Badge, DashCard } from '../../(authenticated)/admin/dashboard/DashboardClient'
 import { searchUser } from 'app/lib/actions/super-user/searchUser'
 import { updateUserStatus } from 'app/lib/actions/super-user/updateUserStatus'
 

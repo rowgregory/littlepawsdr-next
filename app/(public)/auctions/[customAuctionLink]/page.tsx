@@ -1,5 +1,5 @@
 import PublicAuctionClient from 'app/components/pages/PublicAuctionClient'
-import { getAuctionByCustomAuctionLink } from 'app/lib/actions/getAuctionByCustomAuctionLink'
+import { getAuctionByCustomAuctionLink } from 'app/lib/actions/auction/getAuctionByCustomAuctionLink'
 import { notFound } from 'next/navigation'
 
 export default async function PublicAuctionPage({ params }: { params: Promise<{ customAuctionLink: string }> }) {

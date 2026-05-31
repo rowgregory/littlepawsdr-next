@@ -2,7 +2,7 @@
 
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 import { resend } from '../../resend'
 import { auctionOutBidTemplate } from '../../email-templates/out-bid'
 import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'

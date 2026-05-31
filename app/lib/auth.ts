@@ -5,7 +5,7 @@ import googleProvider from './auth/googleProvider'
 import { magicLinkProvider } from './auth/magicLinkProvider'
 import { handleEmailCallback } from './callbacks/handleEmailCallback'
 import { handleGoogleCallback } from './callbacks/handleGoogleCallback'
-import { createLog } from './actions/createLog'
+import { createLog } from './actions/log/createLog'
 import { Role } from '@prisma/client'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({

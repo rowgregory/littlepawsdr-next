@@ -1,5 +1,5 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
-import { createLog } from 'app/lib/actions/createLog'
+import { createLog } from 'app/lib/actions/log/createLog'
 import { stripeClient } from 'app/lib/stripe-client'
 import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
 import sendConfirmationEmail from 'app/utils/sendConfirmationEmail'

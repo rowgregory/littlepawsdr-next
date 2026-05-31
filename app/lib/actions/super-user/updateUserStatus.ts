@@ -3,7 +3,7 @@
 import prisma from 'prisma/client'
 import { UserStatus } from '@prisma/client'
 import { auth } from 'app/lib/auth'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 
 export async function updateUserStatus(userId: string, status: UserStatus, reason?: string) {
   try {

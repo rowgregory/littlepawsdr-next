@@ -1,5 +1,5 @@
 import IncomingDachshundsClient from 'app/components/pages/IncomingDachshundsClient'
-import { getDachshundsByStatus } from 'app/lib/actions/getDachshundsByStatus'
+import { getDachshundsByStatus } from 'app/lib/actions/rescue-groups/getDachshundsByStatus'
 
 export default async function IncomingDachshundsPage() {
   const data = await getDachshundsByStatus({ status: 'Hold', pageLimit: 250, currentPage: 1 })

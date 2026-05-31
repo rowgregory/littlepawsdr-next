@@ -6,7 +6,7 @@ import { X, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { setCloseCreateAdminNewsletterIssueModal } from 'app/lib/store/slices/uiSlice'
-import createNewsletterIssue from 'app/lib/actions/createNewsletterIssue'
+import createNewsletterIssue from 'app/lib/actions/newsletter-issue/createNewsletterIssue'
 import { useUiSelector } from 'app/lib/store/store'
 
 export default function AdminCreateNewsletterIssueModal() {

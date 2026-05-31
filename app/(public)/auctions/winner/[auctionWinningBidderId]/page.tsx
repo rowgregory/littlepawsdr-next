@@ -1,5 +1,5 @@
 import AuctionWinnerPaymentClient from 'app/components/pages/AuctionWinnerPaymentClient'
-import { getAuctionWinningBidderById } from 'app/lib/actions/getAuctionWinningBidderById'
+import { getAuctionWinningBidderById } from 'app/lib/actions/auction/getAuctionWinningBidderById'
 import { getSavedPaymentMethods } from 'app/lib/actions/getSavedPaymentMethods'
 
 export default async function AuctionWinnerPaymentPage({ params }: { params: Promise<{ auctionWinningBidderId: string }> }) {

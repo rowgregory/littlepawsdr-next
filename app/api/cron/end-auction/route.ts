@@ -1,4 +1,4 @@
-import { createLog } from 'app/lib/actions/createLog'
+import { createLog } from 'app/lib/actions/log/createLog'
 import { auctionWinningBidderTemplate } from 'app/lib/email-templates/winning-bidder'
 import { resend } from 'app/lib/resend'
 import { pusherTrigger } from 'app/utils/pusherTrigger'

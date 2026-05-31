@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { createLog } from '../createLog'
+import { createLog } from '../log/createLog'
 import { serializeAuction } from 'app/utils/serializers'
 import { auth } from '../../auth'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'

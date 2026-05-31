@@ -3,7 +3,7 @@
 import prisma from 'prisma/client'
 import { auth } from '../auth'
 import { cookies } from 'next/headers'
-import { createLog } from './createLog'
+import { createLog } from './log/createLog'
 
 export const setAdoptionFeeCookie = async (adoptionFeeId: string) => {
   try {
