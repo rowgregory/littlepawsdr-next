@@ -16,8 +16,8 @@ export async function markOrderShipped(orderId: string): Promise<{
     })
 
     const [actor, context] = await Promise.all([getActor(), getRequestContext()])
-    const message = await buildLogMessage('marked order as shipped', actor, context)
-    await createLog('INFO', message, { orderId })
+    const message = buildLogMessage('marked order as shipped', actor, context)
+    await createLog('info', message, { orderId })
 
     return { success: true }
   } catch (err) {

@@ -36,6 +36,9 @@ function CartItemRow({ item, index }: { item: CartItem; index: number }) {
       <div className="min-w-0 flex flex-col justify-between gap-2">
         <div>
           <p className="font-quicksand font-black text-sm sm:text-base text-text-light dark:text-text-dark leading-snug truncate">{item.name}</p>
+          {item.size && (
+            <p className="text-[10px] font-mono uppercase tracking-wide text-muted-light dark:text-muted-dark mt-0.5">Size {item.size}</p>
+          )}
           <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
             {item.isPhysicalProduct ? 'Ships to your address' : 'Donated directly to a dachshund in our care'}
           </p>
@@ -45,10 +48,10 @@ function CartItemRow({ item, index }: { item: CartItem; index: number }) {
         <div
           className="flex items-center gap-0 border border-border-light dark:border-border-dark w-fit"
           role="group"
-          aria-label={`Quantity for ${item.name}`}
+          aria-label={`Quantity for ${item.name}${item.size ? `, size ${item.size}` : ''}`}
         >
           <button
-            onClick={() => store.dispatch(decrementQuantity(item.id))}
+            onClick={() => store.dispatch(decrementQuantity({ id: item.id, size: item.size }))}
             aria-label={`Decrease quantity of ${item.name}`}
             disabled={item.quantity <= 1}
             className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark border-r border-border-light dark:border-border-dark"
@@ -63,9 +66,10 @@ function CartItemRow({ item, index }: { item: CartItem; index: number }) {
             {item.quantity}
           </span>
           <button
-            onClick={() => store.dispatch(incrementQuantity(item.id))}
+            onClick={() => store.dispatch(incrementQuantity({ id: item.id, size: item.size }))}
             aria-label={`Increase quantity of ${item.name}`}
-            className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark border-l border-border-light dark:border-border-dark"
+            disabled={item.maxQuantity != null && item.quantity >= item.maxQuantity}
+            className="w-8 h-8 flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark border-l border-border-light dark:border-border-dark"
           >
             <Plus size={11} aria-hidden="true" />
           </button>
@@ -75,7 +79,7 @@ function CartItemRow({ item, index }: { item: CartItem; index: number }) {
       {/* Price + remove */}
       <div className="flex flex-col items-end justify-between">
         <button
-          onClick={() => store.dispatch(removeFromCart(item.id))}
+          onClick={() => store.dispatch(removeFromCart({ id: item.id, size: item.size }))}
           aria-label={`Remove ${item.name} from cart`}
           className="p-1 text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
         >
@@ -182,7 +186,7 @@ export default function CartPage({}) {
                 >
                   <AnimatePresence>
                     {items.map((item, i) => (
-                      <CartItemRow key={item.id} item={item} index={i} />
+                      <CartItemRow key={`${item.id}-${item.size ?? ''}`} item={item} index={i} />
                     ))}
                   </AnimatePresence>
                 </ul>

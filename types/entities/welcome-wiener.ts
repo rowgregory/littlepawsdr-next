@@ -11,27 +11,31 @@ export interface WelcomeWienerProduct {
 
 export interface IWelcomeWiener {
   id: string
-  displayUrl: string | null
+  createdAt: Date
+  updatedAt: Date
+
+  // Details
   name: string | null
   bio: string | null
   age: string | null
-  isLive: boolean
-  isDogBoost: boolean
+  displayUrl: string | null
   images: string[]
-  isPhysicalProduct: boolean
-  createdAt: Date
-  updatedAt: Date
+
+  // Donation options
   associatedProducts: WelcomeWienerProduct[]
+
+  // Status
+  isPhysicalProduct: boolean
+  isLive: boolean
+  archivedAt: Date | null
 }
 
 export type WelcomeWienerInputs = {
-  displayUrl?: string
   name?: string
   bio?: string
   age?: string
-  isLive?: boolean
-  isDogBoost?: boolean
+  displayUrl?: string
   images?: string[]
-  isPhysicalProduct?: boolean
   associatedProducts?: WelcomeWienerProduct[]
+  isLive?: boolean
 }

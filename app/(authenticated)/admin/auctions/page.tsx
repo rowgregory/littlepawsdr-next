@@ -1,4 +1,4 @@
-import AdminAuctionsClient from 'app/components/pages/AdminAuctionsClient'
+import AdminAuctionsClient from 'app/(authenticated)/admin/auctions/AdminAuctionsClient'
 import getAuctions from 'app/lib/actions/auction/getAuctions'
 
 export default async function AdminAuctionsPage() {

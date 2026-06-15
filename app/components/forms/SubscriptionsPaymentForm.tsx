@@ -3,13 +3,12 @@
 import { useCallback } from 'react'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import { useSession } from 'next-auth/react'
-import { store, useFormSelector } from 'app/lib/store/store'
+import { store, useFormSelector, useUiSelector } from 'app/lib/store/store'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor'
 import { useDefaultCard } from '@hooks/useDefaultCard'
 import { createSubscriptionWithSavedCard } from 'app/lib/actions/stripe/createSubscriptionWithSavedCard'
 import { createSetupIntentForSubscription } from 'app/lib/actions/stripe/createSetupIntentForSubscription'
 import { createSubscriptionAfterSetup } from 'app/lib/actions/stripe/createSubscriptionAfterSetup'
-import { SubscriptionPaymentFormProps } from 'app/lib/constants/subscriptions'
 import { createFormActions } from 'app/utils/formActions'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { calculateStripeFees } from 'app/utils/calculateStripeFees'
@@ -18,32 +17,44 @@ import { FormField } from '../ui/FormField'
 import { SavedCardSelector } from '../common/SavedCardSelector'
 import { CardElementField } from '../common/CardElementField'
 import { CoverFeesToggle } from '../common/CoverFeesToggle'
-import { SaveCardToggle } from '../common/SaveCardToggle'
 import { FormError } from '../common/FormError'
 import { SubmitButton } from '../common/SubmitButton'
 import { useInitializeForm } from '@hooks/useInitializeForm'
+import { SubscriptionPaymentFormProps } from 'types/subscriptions.types'
 
 const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'subscriptionForm', data }))
 
-export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }: SubscriptionPaymentFormProps) {
-  // ── Stripe ────────────────────────────────────────────────────────────────
+const ordinal = (n: number) => {
+  const s = ['th', 'st', 'nd', 'rd']
+  const v = n % 100
+  return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`
+}
+
+export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, isDark }: SubscriptionPaymentFormProps & { isDark?: boolean }) {
   const stripe = useStripe()
   const elements = useElements()
 
-  // ── Session / UI ──────────────────────────────────────────────────────────
   const session = useSession()
   const isAuthed = session.status === 'authenticated'
 
-  // ── Form ──────────────────────────────────────────────────────────────────
+  const { isDark: storeDark } = useUiSelector()
+  const dark = isDark ?? storeDark
+
+  const c = {
+    box: dark ? 'border-border-dark bg-surface-dark' : 'border-border-light bg-surface-light',
+    notice: dark ? 'border-primary-dark bg-surface-dark' : 'border-primary-light bg-surface-light',
+    muted: dark ? 'text-muted-dark' : 'text-muted-light',
+    text: dark ? 'text-text-dark' : 'text-text-light',
+    primary: dark ? 'text-primary-dark' : 'text-primary-light'
+  }
+
   const { subscriptionForm } = useFormSelector()
   const { handleInput, setErrors } = createFormActions('subscriptionForm', store.dispatch)
   const inputs = subscriptionForm?.inputs
   const errors = subscriptionForm?.errors
 
-  // ── Payment processor ─────────────────────────────────────────────────────
   const { setupPusherListenerRecurring } = usePaymentProcessor()
 
-  // ── Derived values ────────────────────────────────────────────────────────
   const baseAmount = tier.price[billing]
   const processingFee = calculateStripeFees(baseAmount)
   const finalAmount = inputs?.coverFees ? Math.round((baseAmount + processingFee) * 100) / 100 : baseAmount
@@ -52,18 +63,15 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
   const isValid =
     !!inputs?.firstName?.trim() && !!inputs?.lastName?.trim() && !!inputs?.email?.trim() && (usingSavedCard ? true : inputs?.cardComplete)
 
-  // ── Hooks ─────────────────────────────────────────────────────────────────
+  const enteringNewCard = !isAuthed || savedCards.length === 0 || inputs?.useNewCard
+
   const setDefaultCard = useCallback((value: string) => setForm({ selectedCardId: value }), [])
-
   useDefaultCard(savedCards, setDefaultCard)
-
   useInitializeForm(setForm, { session, savedCards, userName })
 
-  // ── Handlde Submit ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     if (!stripe || !elements || !isValid) return
-
     if (!validatePaymentForm(inputs, setErrors, isAuthed)) return
 
     setForm({ loading: true, error: null, processingStatus: 'processing' })
@@ -87,22 +95,19 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
         amount: amountInCents,
         frequency,
         coverFees: inputs?.coverFees,
-        feesCovered
+        feesCovered,
+        tierName: tier.name
       }
 
-      // Recurring donation flow - Saved Card
       if (inputs?.selectedCardId && !inputs?.useNewCard) {
         const result = await createSubscriptionWithSavedCard({
           ...basePayload,
           savedCardId: inputs?.selectedCardId
         })
-
         if (!result.success) throw new Error(result.error ?? 'Failed to create subscription')
-
         setupPusherListenerRecurring(result, inputs?.processingStatus, ...pusherCallbacks)
       } else {
         const setupResult = await createSetupIntentForSubscription(basePayload)
-
         if (!setupResult.success) throw new Error(setupResult.error ?? 'Failed to create setup intent')
 
         const cardElement = elements.getElement(CardElement)
@@ -125,11 +130,12 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
           setupIntentId: setupResult.setupIntentId!
         })
 
-        const paymentMethodId = setupIntent?.payment_method // string | PaymentMethod | null
+        const paymentMethodId = setupIntent?.payment_method
 
         if (!subscriptionResult.success) throw new Error(subscriptionResult.error ?? 'Failed to create subscription')
 
-        setupPusherListenerRecurring(subscriptionResult, inputs?.processingStatus, ...pusherCallbacks, inputs?.saveCard, paymentMethodId)
+        // Card is always saved for subscriptions — recurring billing requires a stored payment method
+        setupPusherListenerRecurring(subscriptionResult, inputs?.processingStatus, ...pusherCallbacks, true, paymentMethodId)
       }
     } catch (err) {
       setForm({
@@ -141,26 +147,26 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="Subscription payment form" className="space-y-5 max-w-lg">
+    <form onSubmit={handleSubmit} noValidate aria-label="Subscription payment form" className="dark space-y-5 max-w-lg">
       {/* ── Plan summary ── */}
-      <div className="flex items-center justify-between px-4 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+      <div className={`flex items-center justify-between px-4 py-3 border ${c.box}`}>
         <div>
-          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-0.5">{billing} plan</p>
-          <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark">{tier.name}</p>
+          <p className={`text-[10px] font-mono tracking-[0.2em] uppercase mb-0.5 ${c.muted}`}>{billing} plan</p>
+          <p className={`font-quicksand font-black text-sm ${c.text}`}>{tier.name}</p>
         </div>
         <div className="text-right">
-          <p className="font-quicksand font-black text-xl text-primary-light dark:text-primary-dark tabular-nums">${baseAmount}</p>
-          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">/{billing === 'MONTHLY' ? 'mo' : 'yr'}</p>
+          <p className={`font-quicksand font-black text-xl tabular-nums ${c.primary}`}>${baseAmount}</p>
+          <p className={`text-[10px] font-mono ${c.muted}`}>/{billing === 'MONTHLY' ? 'mo' : 'yr'}</p>
         </div>
       </div>
 
       {/* ── Billing notice ── */}
-      <div className="px-4 py-3 border-l-2 border-primary-light dark:border-primary-dark bg-surface-light dark:bg-surface-dark">
-        <p className="text-[11px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
+      <div className={`px-4 py-3 border-l-2 ${c.notice}`}>
+        <p className={`text-[11px] font-mono leading-relaxed ${c.muted}`}>
           Your card will be charged{' '}
-          <span className="text-text-light dark:text-text-dark">
+          <span className={c.text}>
             {billing === 'MONTHLY'
-              ? `on the ${new Date().getDate()}th of each month`
+              ? `on the ${ordinal(new Date().getDate())} of each month`
               : `every year on ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}`}
           </span>
           . Cancel anytime.
@@ -193,23 +199,6 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
         />
       </div>
 
-      {/* ── Email ── */}
-      <FormField
-        id="sub-email"
-        label="Email Address"
-        name="email"
-        type="email"
-        value={inputs?.email ?? ''}
-        onChange={handleInput}
-        placeholder="jane@example.com"
-        autoComplete="email"
-        required
-        disabled={isAuthed}
-        readOnly={isAuthed}
-        hint={isAuthed ? 'Using your signed-in account email.' : undefined}
-        error={errors?.email}
-      />
-
       {/* ── Saved cards ── */}
       {isAuthed && (
         <SavedCardSelector
@@ -223,13 +212,17 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
       )}
 
       {/* ── Card element ── */}
-      {(!isAuthed || savedCards.length === 0 || inputs?.useNewCard) && <CardElementField formName="subscriptionForm" />}
+      {enteringNewCard && <CardElementField formName="subscriptionForm" isDark />}
 
       {/* ── Cover fees ── */}
       <CoverFeesToggle formName="subscriptionForm" processingFee={processingFee} />
 
-      {/* ── Save card ── */}
-      <SaveCardToggle formName="subscriptionForm" />
+      {/* ── Card storage note (replaces SaveCardToggle — saving is required for subscriptions) ── */}
+      {enteringNewCard && (
+        <p className={`text-[10px] font-mono leading-relaxed ${c.muted}`}>
+          Your card will be securely saved with Stripe to process your recurring {billing === 'MONTHLY' ? 'monthly' : 'yearly'} payments.
+        </p>
+      )}
 
       {/* ── Error ── */}
       <FormError formName="subscriptionForm" />
@@ -242,7 +235,7 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName }:
       />
 
       {/* ── Security note ── */}
-      <p className="flex items-center justify-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark">
+      <p className={`flex items-center justify-center gap-2 text-[10px] font-mono ${c.muted}`}>
         <svg
           viewBox="0 0 24 24"
           className="w-3 h-3 shrink-0"

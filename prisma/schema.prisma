@@ -203,6 +203,12 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  lastGeoLatitude  Float?
+  lastGeoLongitude Float?
+  lastGeoCity      String?
+  lastGeoRegion    String?
+  lastGeoCountry   String?
 }
 
 // ─── Payment Method ────────────────────────────────────────────────────────────────────
@@ -235,48 +241,52 @@ model Order {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 
-  // Payment
-  totalAmount     Decimal   @db.Decimal(10, 2) // Total cost
-  paymentMethodId String? // stripe payment method ID used
-  paymentIntentId String? // Stripe payment intent ID
+  // ── Payment ─────────────────────────────────────────────
+  totalAmount     Decimal   @db.Decimal(10, 2)
+  paymentIntentId String?   @unique // Stripe payment intent ID
+  paymentMethodId String? // Stripe payment method ID used
   paidAt          DateTime? // When payment was completed
+  coverFees       Boolean   @default(false)
+  feesCovered     Decimal   @default(0) @db.Decimal(10, 2)
+  failureReason   String?
+  failureCode     String?
 
-  // Customer info (denormalized for easy access)
+  // ── Customer (denormalized snapshot) ────────────────────
   customerEmail String
   customerName  String
   customerPhone String?
+  userId        String?
+  user          User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  // Fees
-  coverFees   Boolean @default(false)
-  feesCovered Decimal @default(0) @db.Decimal(10, 2) // Amount in cents
-
-  notes         String?
-  failureReason String? // Store the failure reason
-  failureCode   String? // Store the failure code (optional)
-
-  // User info (nullable - guest checkout allowed)
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  // Recurring donation fields
-  stripeSubscriptionId String?             @unique // For recurring donations
+  // ── Recurring donations ─────────────────────────────────
   isRecurring          Boolean             @default(false)
   recurringFrequency   RecurringFrequency?
+  stripeSubscriptionId String?             @unique
   nextBillingDate      DateTime? // Next charge date
+  tierName             String?
 
-  // snapshot of address at time of purchase
-  addressLine1  String?
-  addressLine2  String?
-  city          String?
-  state         String?
-  zipPostalCode String?
-  country       String?
-
-  isPhysical Boolean @default(false)
-
+  // ── Shipping (address snapshot at purchase) ─────────────
+  isPhysical     Boolean         @default(false)
   shippingStatus ShippingStatus?
+  addressLine1   String?
+  addressLine2   String?
+  city           String?
+  state          String?
+  zipPostalCode  String?
+  country        String?
 
+  // ── Geolocation (IP-derived at checkout; geocode upgrade for shipped orders) ──
+  geoLatitude  Float?
+  geoLongitude Float?
+  geoCity      String?
+  geoRegion    String? // state/province code
+  geoCountry   String?
+  geoPlaceId   String? // Google Place ID when geocoded
+  geoSource    String? // 'ip' | 'geocode'
+
+  // ── Relations / misc ────────────────────────────────────
   items OrderItem[]
+  notes String?
 
   @@index([type])
   @@index([status])
@@ -308,6 +318,10 @@ model OrderItem {
 
   welcomeWienerId String?
   welcomeWiener   WelcomeWiener? @relation(fields: [welcomeWienerId], references: [id], onDelete: SetNull)
+
+  size      String?
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
 }
 
 // ─── Auction ─────────────────────────────────────────────────────────────────
@@ -346,7 +360,6 @@ model AuctionItem {
   currentPrice     Decimal?          @db.Decimal(10, 2)
   currentBid       Decimal?          @db.Decimal(10, 2)
   minimumBid       Decimal?          @db.Decimal(10, 2)
-  highestBidAmount Decimal?          @db.Decimal(10, 2)
   soldPrice        Decimal?          @db.Decimal(10, 2)
   retailValue      String?
   totalQuantity    Int?
@@ -491,38 +504,53 @@ model AdoptionApplicationBypassCode {
   updatedAt DateTime @updatedAt
 }
 
-// ─── Product ───────────────────────────────────────────────────
+// ─── Product ────────────────────────────────────────────────────
 model Product {
-  id                String   @id @default(cuid())
-  name              String?
-  images            String[]
-  description       String?
-  price             Decimal  @default(0) @db.Decimal(10, 2)
-  shippingPrice     Decimal  @default(0) @db.Decimal(10, 2)
-  countInStock      Int      @default(0)
-  sizes             Json? // [{ size: "S", quantity: 10 }, { size: "M", quantity: 5 }]
-  isPhysicalProduct Boolean  @default(true)
-  isLive            Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Details
+  name        String?
+  description String?
+  images      String[]
+
+  // Pricing & inventory
+  price         Decimal @default(0) @db.Decimal(10, 2)
+  shippingPrice Decimal @default(0) @db.Decimal(10, 2)
+  countInStock  Int     @default(0)
+  sizes         Json? // [{ size: "S", quantity: 10 }, { size: "M", quantity: 5 }]
+
+  // Status
+  isPhysicalProduct Boolean   @default(true)
+  isLive            Boolean   @default(false)
+  archivedAt        DateTime? // set = retired; isLive flips false alongside
+
+  // Relations
+  orderItems OrderItem[]
 }
 
-// ─── WelcomeWiener ───────────────────────────────────────────────────
+// ─── WelcomeWiener ──────────────────────────────────────────────
 model WelcomeWiener {
-  id                String   @id @default(cuid())
-  displayUrl        String?
-  name              String?
-  bio               String?
-  age               String?
-  isLive            Boolean  @default(false)
-  isDogBoost        Boolean  @default(true)
-  images            String[]
-  isPhysicalProduct Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  associatedProducts Json[]
+  // Details
+  name   String?
+  bio    String?
+  age    String?
+  images String[]
 
+  // Donation options
+  associatedProducts Json[] // WelcomeWienerProduct[]: { id, name, description, price, category, image? }
+
+  // Status
+  isPhysicalProduct Boolean   @default(false)
+  isLive            Boolean   @default(false)
+  archivedAt        DateTime?
+
+  // Relations
   orderItems OrderItem[]
 }
 
@@ -534,6 +562,7 @@ model Newsletter {
   updatedAt       DateTime @updatedAt
 }
 
+// ─── AdoptionFee ───────────────────────────────────────────────────
 model AdoptionFee {
   id         String            @id @default(cuid())
   firstName  String?
@@ -562,6 +591,7 @@ model Log {
   updatedAt DateTime @updatedAt
 }
 
+// ─── NewsletterIssue ───────────────────────────────────────────────────
 model NewsletterIssue {
   id          String   @id @default(cuid())
   title       String
@@ -572,6 +602,7 @@ model NewsletterIssue {
   updatedAt   DateTime @updatedAt
 }
 
+// ─── AuctionAnomaly ───────────────────────────────────────────────────
 model AuctionAnomaly {
   id        String   @id @default(cuid())
   auctionId String

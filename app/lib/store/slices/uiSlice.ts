@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IAuctionItem } from 'types/entities/auction-item'
 import { CartItem } from './cartSlice'
-import { IOrder } from 'types/entities/order'
+import { IOrder } from 'types/entities/order.types'
 
 interface UiState {
   confetti: boolean

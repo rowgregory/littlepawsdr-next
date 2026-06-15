@@ -60,7 +60,6 @@ export default async function getActiveAuctionForSuperuser() {
           currentPrice: item.currentPrice != null ? Number(item.currentPrice) : null,
           currentBid: item.currentBid != null ? Number(item.currentBid) : null,
           minimumBid: item.minimumBid != null ? Number(item.minimumBid) : null,
-          highestBidAmount: item.highestBidAmount != null ? Number(item.highestBidAmount) : null,
           soldPrice: item.soldPrice != null ? Number(item.soldPrice) : null,
           shippingCosts: item.shippingCosts != null ? Number(item.shippingCosts) : null,
           bids: item.bids.map((bid) => ({

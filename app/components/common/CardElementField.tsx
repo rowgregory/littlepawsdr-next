@@ -4,10 +4,13 @@ import { store, useUiSelector } from 'app/lib/store/store'
 
 type Props = {
   formName: string
+  isDark?: boolean
 }
 
-export function CardElementField({ formName }: Props) {
-  const { isDark } = useUiSelector()
+export function CardElementField({ formName, isDark }: Props) {
+  const { isDark: storeDark } = useUiSelector()
+  const dark = isDark ?? storeDark
+  console.log(dark)
 
   return (
     <div>
@@ -31,11 +34,11 @@ export function CardElementField({ formName }: Props) {
           options={{
             style: {
               base: {
-                color: isDark ? '#f1f0ff' : '#09090b',
+                color: dark ? '#f1f0ff' : '#09090b',
                 backgroundColor: 'transparent',
                 fontSize: '14px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                '::placeholder': { color: isDark ? '#4a4a6a' : '#a1a1aa' }
+                '::placeholder': { color: dark ? '#4a4a6a' : '#a1a1aa' }
               },
               invalid: { color: '#ef4444' }
             }

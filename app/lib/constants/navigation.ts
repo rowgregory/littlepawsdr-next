@@ -43,7 +43,8 @@ export const HIDDEN_PATHS = [
   '/subscriptions',
   '/super',
   '/privacy-policy',
-  '/terms'
+  '/terms',
+  '/donate'
 ]
 
 export const mainNavigationLinks: Section[] = [

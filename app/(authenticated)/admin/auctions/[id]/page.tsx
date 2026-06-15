@@ -1,5 +1,5 @@
-import AdminAuctionClient from 'app/components/pages/AdminAuctionClient'
 import { getAuctionById } from 'app/lib/actions/auction/getAuctionById'
+import AdminAuctionClient from './AdminAuctionClient'
 
 export default async function AdminAuctionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

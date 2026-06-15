@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TrendingUp, DollarSign, ShoppingBag, Heart, Gavel, Dog, Package, ArrowUpRight, ArrowDownRight, Gift } from 'lucide-react'
-import { IOrder } from 'types/entities/order'
+import { IOrder } from 'types/entities/order.types'
 import { formatMoney } from 'app/utils/currency.utils'
 import AdminPageHeader from '../common/AdminPageHeader'
 import { formatDate } from 'app/utils/date.utils'
@@ -14,6 +14,7 @@ import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { setOpenOrderDrawer } from 'app/lib/store/slices/uiSlice'
 import { updateOrderShippingStatus } from 'app/lib/actions/order/updateOrderShippingStatus'
+import Link from 'next/link'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Tab = 'Snapshot'
@@ -134,7 +135,7 @@ function TypeBreakdownRow({
 function RecentOrderRow({ order, index }: { order: IOrder; index: number }) {
   const config = ORDER_TYPE_CONFIG[order.type]
   const Icon = config.icon
-  const name = [order.user?.firstName, order.user?.lastName].filter(Boolean).join(' ') || order.user?.email || 'Guest'
+  const name = [order.user?.firstName, order.user?.lastName].filter(Boolean).join(' ') || order.user?.email
 
   return (
     <motion.tr
@@ -621,12 +622,13 @@ function AllOrdersTab({ orders }: { orders: IOrder[] }) {
 
                     {/* ── View ── */}
                     <td className="px-5 py-3.5 text-right">
-                      <div
+                      <Link
+                        href={`/admin/orders/${order.id}`}
                         aria-label={`View order for ${order.customerName}`}
                         className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline focus-visible:opacity-100 cursor-pointer"
                       >
                         View →
-                      </div>
+                      </Link>
                     </td>
                   </motion.tr>
                 ))

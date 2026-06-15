@@ -231,17 +231,7 @@ function DogCard({
   )
 }
 
-// ─────────────────────────────────────────────
-// Page
-// ─────────────────────────────────────────────
-
-export function PublicWelcomeWienersClient({
-  welcomeWieners,
-  onAddProduct
-}: {
-  welcomeWieners: IWelcomeWiener[]
-  onAddProduct?: (dog: IWelcomeWiener, product: WelcomeWienerProduct) => void
-}) {
+export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners: IWelcomeWiener[] }) {
   const [activeFilter, setActiveFilter] = useState('all')
 
   const filtered = welcomeWieners.filter((d) => {
@@ -250,12 +240,11 @@ export function PublicWelcomeWienersClient({
   })
 
   const counts = {
-    all: welcomeWieners?.length ?? 0,
-    boost: welcomeWieners?.filter((d) => d.isDogBoost).length ?? 0
+    all: welcomeWieners?.length ?? 0
   }
 
   const handleAddProduct = (dog: IWelcomeWiener, product: WelcomeWienerProduct) => {
-    onAddProduct?.(dog, product)
+    console.log('DOG: ', dog, 'PRODUCT: ', product)
   }
 
   return (

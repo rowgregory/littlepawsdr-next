@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
 import { IAdoptionFee } from 'types/entities/adoption-fee'
+import { ProductSizeEntry } from 'types/entities/product'
+import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
@@ -119,12 +121,21 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
     const orderType = (metadata?.orderType as OrderType) || 'ONE_TIME_DONATION'
 
-    const userId = metadata?.userId && metadata.userId !== 'guest' ? metadata.userId : null
+    const userId = metadata?.userId || null
 
     const isRecurring = metadata?.isRecurring === 'true'
 
     const items = JSON.parse(metadata?.items || '[]')
     const hasPhysical = items.some((i: any) => i.isPhysicalProduct)
+
+    const nbd = isRecurring && metadata?.nextBillingDate ? new Date(metadata.nextBillingDate) : null
+
+    const geoUser = userId
+      ? await prisma.user.findUnique({
+          where: { id: userId },
+          select: { lastGeoLatitude: true, lastGeoLongitude: true, lastGeoCity: true, lastGeoRegion: true, lastGeoCountry: true }
+        })
+      : null
 
     const order = await prisma.order.create({
       data: {
@@ -133,7 +144,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         totalAmount: amount / 100,
         paymentIntentId: id,
         customerEmail: metadata?.email || '',
-        customerName: metadata?.name?.trim() || 'Guest',
+        customerName: metadata?.name?.trim() || '',
         userId,
         paidAt: new Date(),
         addressLine1: metadata?.addressLine1 || null,
@@ -143,59 +154,106 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         zipPostalCode: metadata?.zipPostalCode || null,
         country: metadata?.country || null,
         coverFees: metadata?.coverFees === 'true',
-        feesCovered: parseFloat(metadata?.feesCovered || '0'),
+        feesCovered: parseFloat(metadata?.feesCovered || '0') || 0,
         isRecurring,
         recurringFrequency: isRecurring ? ((metadata?.recurringFrequency as RecurringFrequency) ?? null) : null,
         stripeSubscriptionId: isRecurring ? (metadata?.stripeSubscriptionId ?? null) : null,
-        nextBillingDate: isRecurring && metadata?.nextBillingDate ? new Date(metadata.nextBillingDate) : null,
+        nextBillingDate: nbd && !isNaN(+nbd) ? nbd : null,
         paymentMethodId: (paymentIntent.payment_method as string) || null,
-        shippingStatus: hasPhysical ? 'PENDING_FULFILLMENT' : null
+        shippingStatus: hasPhysical ? 'PENDING_FULFILLMENT' : null,
+        geoLatitude: geoUser?.lastGeoLatitude ?? null,
+        geoLongitude: geoUser?.lastGeoLongitude ?? null,
+        geoCity: geoUser?.lastGeoCity ?? null,
+        geoRegion: geoUser?.lastGeoRegion ?? null,
+        geoCountry: geoUser?.lastGeoCountry ?? null,
+        geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
       }
     })
 
-    // ── Order items by type ──────────────────────────────────────────────────
-    if (orderType === 'WELCOME_WIENER' && metadata?.items) {
-      const items = JSON.parse(metadata.items) as Array<{
-        name: string
-        price: number
-        quantity: number
+    if ((orderType === 'PRODUCT' || orderType === 'MIXED' || orderType === 'WELCOME_WIENER') && metadata?.items) {
+      const compact = JSON.parse(metadata.items || '[]') as Array<{
+        i: string
+        q: number
+        s: string | null
+        w: string | null
       }>
 
-      for (const item of items) {
-        await prisma.orderItem.create({
-          data: {
-            orderId: order.id,
-            price: item.price,
-            quantity: item.quantity,
-            subtotal: item.price,
-            totalPrice: item.price,
-            itemName: item.name,
-            isPhysical: false
+      const ids = compact.map((c) => c.i)
+      const wienerIds = compact.map((c) => c.w).filter(Boolean) as string[]
+
+      const [products, wieners] = await Promise.all([
+        prisma.product.findMany({ where: { id: { in: ids } } }),
+        wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([])
+      ])
+
+      for (const line of compact) {
+        const product = products.find((p) => p.id === line.i)
+
+        // ── Product line ──
+        if (product) {
+          const price = Number(product.price)
+          const shipping = Number(product.shippingPrice)
+
+          await prisma.orderItem.create({
+            data: {
+              orderId: order.id,
+              productId: product.id,
+              itemName: product.name ?? '',
+              itemImage: product.images[0] ?? null,
+              price,
+              shippingPrice: shipping,
+              quantity: line.q,
+              subtotal: price * line.q,
+              totalPrice: (price + shipping) * line.q,
+              isPhysical: product.isPhysicalProduct,
+              size: line.s ?? null
+            }
+          })
+
+          // ── Decrement stock (fresh read per line — see note) ──
+          const fresh = await prisma.product.findUnique({
+            where: { id: product.id },
+            select: { sizes: true, countInStock: true }
+          })
+          if (fresh) {
+            const sizes = fresh.sizes as ProductSizeEntry[] | null
+            const updatedSizes =
+              line.s && sizes ? sizes.map((s) => (s.size === line.s ? { ...s, quantity: Math.max(0, s.quantity - line.q) } : s)) : sizes
+
+            await prisma.product.update({
+              where: { id: product.id },
+              data: {
+                sizes: updatedSizes ?? undefined,
+                countInStock: Math.max(0, (fresh.countInStock ?? 0) - line.q)
+              }
+            })
           }
-        })
-      }
-    }
+          continue
+        }
 
-    if (orderType === 'PRODUCT' || orderType === 'MIXED') {
-      const items = JSON.parse(metadata?.items || '[]') as Array<{
-        name: string
-        price: number
-        quantity: number
-        shippingPrice: number
-        isPhysicalProduct: boolean
-      }>
+        // ── Welcome Wiener line ──
+        const wiener = wieners.find((w) => w.id === line.w)
+        if (!wiener) {
+          await createLog('warn', 'Order item could not be resolved', { orderId: order.id, itemId: line.i })
+          continue
+        }
 
-      for (const item of items) {
+        const options = wiener.associatedProducts as unknown as WelcomeWienerProduct[]
+        const option = options.find((o) => o.id === line.i)
+        const price = Number(option?.price ?? 0)
+
         await prisma.orderItem.create({
           data: {
             orderId: order.id,
-            price: item.price,
-            quantity: item.quantity,
-            subtotal: item.price * item.quantity,
-            totalPrice: (item.price + item.shippingPrice) * item.quantity,
-            shippingPrice: item.shippingPrice,
-            itemName: item.name,
-            isPhysical: item.isPhysicalProduct
+            welcomeWienerId: wiener.id,
+            itemName: option ? `${option.name} for ${wiener.name}` : (wiener.name ?? ''),
+            itemImage: option?.image ?? wiener.images[0] ?? null,
+            price,
+            quantity: line.q,
+            subtotal: price * line.q,
+            totalPrice: price * line.q,
+            isPhysical: wiener.isPhysicalProduct,
+            size: null
           }
         })
       }
@@ -282,7 +340,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
               auctionItemPaymentStatus: 'PAID',
               shippingStatus: 'PENDING_FULFILLMENT',
               paidOn: new Date(),
-              processingFee: metadata?.coverFees === 'true' ? metadata.feesCovered : 0
+              processingFee: metadata?.coverFees === 'true' ? parseFloat(metadata.feesCovered || '0') || 0 : 0
             },
             include: {
               user: { select: { email: true } },
@@ -323,8 +381,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       }
     }
 
-    let adoptionFee: IAdoptionFee
-    let existingAdoptionFee: { id: string }
+    let adoptionFee: IAdoptionFee | undefined
+    let existingAdoptionFee: { id: string } | null = null
 
     if (orderType === 'ADOPTION_FEE') {
       const userId = metadata.userId
@@ -396,27 +454,30 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
   const { id, last_payment_error, metadata } = paymentIntent
 
   try {
-    const orderType = (metadata?.orderType as 'ONE_TIME_DONATION' | 'RECURRING_DONATION' | 'TICKET_PURCHASE') || 'ONE_TIME_DONATION'
-    const userId = metadata?.userId && metadata.userId !== 'guest' ? metadata.userId : null
+    const orderType = (metadata?.orderType as OrderType) || 'ONE_TIME_DONATION'
+    const userId = metadata?.userId || null
 
-    const order = await prisma.order.create({
-      data: {
-        type: orderType as OrderType,
+    const order = await prisma.order.upsert({
+      where: { paymentIntentId: id },
+      update: {
+        status: 'FAILED',
+        failureReason: last_payment_error?.message || 'Payment failed',
+        failureCode: last_payment_error?.code || null
+      },
+      create: {
+        type: orderType,
         status: 'FAILED',
         totalAmount: paymentIntent.amount / 100,
         paymentIntentId: id,
-        customerEmail: (metadata?.email as string) || '',
-        customerName: (metadata?.name as string) || 'Guest',
+        customerEmail: metadata?.email || '',
+        customerName: metadata?.name || '',
         userId,
         failureReason: last_payment_error?.message || 'Payment failed',
         failureCode: last_payment_error?.code || null
       }
     })
 
-    // Push to same channel as successful orders
-    const channelId = userId
-
-    await pusherTrigger(`payment-${channelId}`, 'order-failed', {
+    await pusherTrigger(`payment-${userId}`, 'order-failed', {
       orderId: order.id,
       error: last_payment_error?.message || 'Payment failed',
       type: orderType
@@ -434,7 +495,7 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
       failureCode: last_payment_error?.code ?? null
     })
 
-    await createLog('error', 'Payment failed from Stripe webhook', {
+    await createLog('warn', 'Payment failed from Stripe webhook', {
       orderId: order.id,
       userId,
       type: orderType,
@@ -446,7 +507,7 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
     await createLog('error', 'Error handling payment failure', {
       error: error instanceof Error ? error.message : 'Unknown error',
       paymentIntentId: id
-    })
+    }).catch(console.error)
   }
 }
 
@@ -586,22 +647,25 @@ async function handlePaymentMethodUpdated(paymentMethod: Stripe.PaymentMethod) {
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
+    const item = subscription.items.data[0]
+    const currentPeriodEnd = item ? new Date(item.current_period_end * 1000) : null
+
     await createLog('info', 'Stripe subscription created', {
       subscriptionId: subscription.id,
       customerId: subscription.customer,
       status: subscription.status,
-      frequency: subscription.metadata?.frequency || 'monthly',
-      amount: subscription.items.data[0]?.price.unit_amount || 0,
+      frequency: subscription.metadata?.frequency || 'MONTHLY',
+      amount: item?.price.unit_amount ?? 0,
       customerEmail: subscription.metadata?.email,
       campaignId: subscription.metadata?.campaignId,
-      currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
+      currentPeriodEnd,
       createdAt: new Date(subscription.created * 1000)
     })
 
     await pusherSuperuser('subscription-created', {
       email: subscription.metadata?.email ?? null,
       status: subscription.status,
-      frequency: subscription.metadata?.frequency ?? 'monthly',
+      frequency: subscription.metadata?.frequency ?? 'MONTHLY',
       amount: subscription.items.data[0]?.price.unit_amount ?? 0,
       stripeSubscriptionId: subscription.id
     })
@@ -610,7 +674,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     await createLog('error', 'Failed to log subscription creation', {
       subscriptionId: subscription.id,
       error: error instanceof Error ? error.message : 'Unknown error'
-    })
+    }).catch(console.error)
   }
 }
 
@@ -757,10 +821,28 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
     const userId = subscription.metadata?.userId
 
-    const frequency = subscription.metadata?.frequency || 'monthly'
+    const frequency = subscription.metadata?.frequency || 'MONTHLY'
     const amount = invoice.amount_paid / 100
     const coverFees = subscription.metadata?.coverFees === 'true'
     const feesCovered = parseFloat(subscription.metadata?.feesCovered || '0')
+
+    function getNextBillingDate(subscription: any): Date {
+      const frequency = subscription.metadata?.frequency || 'MONTHLY'
+      const anchor = new Date(subscription.billing_cycle_anchor * 1000)
+
+      if (frequency === 'YEARLY') {
+        return new Date(anchor.setFullYear(anchor.getFullYear() + 1))
+      }
+
+      return new Date(anchor.setMonth(anchor.getMonth() + 1))
+    }
+
+    const geoUser = userId
+      ? await prisma.user.findUnique({
+          where: { id: userId },
+          select: { lastGeoLatitude: true, lastGeoLongitude: true, lastGeoCity: true, lastGeoRegion: true, lastGeoCountry: true }
+        })
+      : null
 
     const order = await prisma.order.create({
       data: {
@@ -781,7 +863,14 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         coverFees: coverFees,
         feesCovered: feesCovered,
         paidAt: invoice.status_transitions?.paid_at ? new Date(invoice.status_transitions.paid_at * 1000) : new Date(),
-        nextBillingDate: invoice.period_end ? new Date(invoice.period_end * 1000) : null
+        nextBillingDate: getNextBillingDate(subscription),
+        tierName: subscription.metadata.tierName || null,
+        geoLatitude: geoUser?.lastGeoLatitude ?? null,
+        geoLongitude: geoUser?.lastGeoLongitude ?? null,
+        geoCity: geoUser?.lastGeoCity ?? null,
+        geoRegion: geoUser?.lastGeoRegion ?? null,
+        geoCountry: geoUser?.lastGeoCountry ?? null,
+        geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
       }
     })
 

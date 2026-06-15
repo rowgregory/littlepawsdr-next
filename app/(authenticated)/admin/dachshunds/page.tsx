@@ -1,4 +1,4 @@
-import AdminDachshundsClient from 'app/components/pages/AdminDachshundsClient'
+import AdminDachshundsClient from 'app/(authenticated)/admin/dachshunds/AdminDachshundsClient'
 import { getDachshundsByStatus } from 'app/lib/actions/rescue-groups/getDachshundsByStatus'
 
 export default async function AdminDachshundsPage() {

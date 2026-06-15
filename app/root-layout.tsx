@@ -21,6 +21,7 @@ import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher-client'
 import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
+import { CartPersistence } from './components/CartPersistence'
 
 export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ children, auction }) => {
   const segments = useSelectedLayoutSegments()
@@ -66,6 +67,8 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
           <AdoptionFeeWelcomeModal />
           <PublicContactModal />
           <NavigationDrawer auction={auction} />
+
+          <CartPersistence />
 
           {!isHidden && <Header auction={auction} />}
 

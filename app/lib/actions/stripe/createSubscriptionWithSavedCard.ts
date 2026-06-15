@@ -3,6 +3,8 @@
 import { RecurringFrequency } from '@prisma/client'
 import { stripeClient } from '../../stripe-client'
 import { createLog } from '../log/createLog'
+import { getRequestGeo } from 'app/utils/getRequestGeo'
+import { stampUserGeo } from '../user/stampUserGeo'
 
 interface CreateSubscriptionWithSavedCardParams {
   userId: string
@@ -13,6 +15,7 @@ interface CreateSubscriptionWithSavedCardParams {
   coverFees?: boolean
   feesCovered?: number
   savedCardId?: string
+  tierName: string
 }
 
 export async function createSubscriptionWithSavedCard({
@@ -23,7 +26,8 @@ export async function createSubscriptionWithSavedCard({
   frequency,
   coverFees,
   feesCovered,
-  savedCardId
+  savedCardId,
+  tierName
 }: CreateSubscriptionWithSavedCardParams) {
   try {
     // Get the payment method to find the customer
@@ -32,6 +36,9 @@ export async function createSubscriptionWithSavedCard({
     if (!paymentMethod.customer) {
       throw new Error('Payment method is not attached to a customer')
     }
+
+    const geo = await getRequestGeo()
+    await stampUserGeo(userId, geo)
 
     const customerId = paymentMethod.customer as string
 
@@ -75,7 +82,8 @@ export async function createSubscriptionWithSavedCard({
           frequency,
           orderType: 'RECURRING_DONATION',
           coverFees: coverFees ? 'true' : 'false',
-          feesCovered: feesCovered?.toString() || '0'
+          feesCovered: feesCovered?.toString() || '0',
+          tierName
         }
       },
       {

@@ -2,22 +2,9 @@
 
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-import { SellingFormat } from '@prisma/client'
 import { auth } from '../../auth'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'
-
-interface CreateAuctionItemInput {
-  auctionId: string
-  name: string
-  description?: string
-  sellingFormat: SellingFormat
-  startingPrice?: number
-  buyNowPrice?: number
-  totalQuantity?: number
-  requiresShipping?: boolean
-  shippingCosts?: number
-  photos?: any
-}
+import { CreateAuctionItemInput } from 'types/entities/auction-item'
 
 export const createAuctionItem = async (data: CreateAuctionItemInput) => {
   try {
@@ -81,7 +68,7 @@ export const createAuctionItem = async (data: CreateAuctionItemInput) => {
       createdBy
     })
 
-    return { success: true }
+    return { success: true, data: { sellingFormat: item.sellingFormat } }
   } catch (error) {
     await createLog('error', 'Failed to create auction item', {
       auctionId: data.auctionId,

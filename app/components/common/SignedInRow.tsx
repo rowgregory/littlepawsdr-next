@@ -1,24 +1,50 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useUiSelector } from 'app/lib/store/store'
+import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 
-export function SignedInRow() {
+export function SignedInRow({ isDark }: { isDark?: boolean }) {
   const session = useSession()
-  if (!session.data?.user?.id) return
+  const [signingOut, setSigningOut] = useState(false)
+  const { isDark: storeDark } = useUiSelector()
+  const dark = isDark ?? storeDark
+
+  if (!session.data?.user?.id) return null
+
+  const handleSignOut = async () => {
+    setSigningOut(true)
+    await signOut({ redirect: false }) // session flips to unauthenticated; page reacts in place
+    setSigningOut(false)
+  }
+
+  const c = {
+    avatarBox: dark ? 'bg-primary-dark/10 border-primary-dark/30' : 'bg-primary-light/10 border-primary-light/30',
+    avatarText: dark ? 'text-primary-dark' : 'text-primary-light',
+    label: dark ? 'text-muted-dark' : 'text-muted-light',
+    email: dark ? 'text-text-dark' : 'text-text-light',
+    signOut: dark
+      ? 'text-muted-dark hover:text-primary-dark focus-visible:ring-primary-dark'
+      : 'text-muted-light hover:text-primary-light focus-visible:ring-primary-light'
+  }
 
   return (
     <div className="flex items-center gap-3 px-4 py-3">
-      <div
-        className="shrink-0 w-6 h-6 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30"
-        aria-hidden="true"
-      >
-        <span className="text-[9px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">{session.data?.user?.email[0]}</span>
+      <div className={`shrink-0 w-6 h-6 flex items-center justify-center border ${c.avatarBox}`} aria-hidden="true">
+        <span className={`text-[9px] font-mono font-bold uppercase ${c.avatarText}`}>{session.data?.user?.email?.[0]}</span>
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Signed in as</p>
-        <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">{session.data?.user?.email}</p>
+        <p className={`text-[10px] font-mono tracking-[0.15em] uppercase ${c.label}`}>Signed in as</p>
+        <p className={`text-xs font-mono truncate ${c.email}`}>{session.data?.user?.email}</p>
       </div>
-      <div className="shrink-0 ml-auto w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+      <button
+        type="button"
+        onClick={handleSignOut}
+        disabled={signingOut}
+        className={`shrink-0 ml-auto text-[9px] font-mono tracking-[0.15em] uppercase whitespace-nowrap transition-colors disabled:opacity-50 focus:outline-none focus-visible:ring-2 ${c.signOut}`}
+      >
+        {signingOut ? 'Signing out…' : 'Not you? Sign out'}
+      </button>
     </div>
   )
 }

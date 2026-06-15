@@ -57,12 +57,12 @@ export async function getDachshundsPreview(): Promise<{
     }))
 
     const [actor, context] = await Promise.all([getActor(), getRequestContext()])
-    const message = await buildLogMessage('fetched dachshunds preview', actor, context)
-    await createLog('INFO', message, { count: data.length })
+    const message = buildLogMessage('fetched dachshunds preview', actor, context)
+    await createLog('info', message, { count: data.length })
 
     return { success: true, data }
   } catch (error) {
-    await createLog('ERROR', 'Error fetching dachshunds preview', {
+    await createLog('error', 'Error fetching dachshunds preview', {
       error: error instanceof Error ? error.message : 'Unknown error'
     })
     return { success: false, data: [], error: 'Failed to fetch dachshunds' }

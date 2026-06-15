@@ -25,7 +25,6 @@ export default async function deleteBid(bidId: string) {
       data: {
         currentBid: nextTopBid ? nextTopBid.bidAmount : bid.auctionItem.startingPrice,
         currentPrice: nextTopBid ? nextTopBid.bidAmount : bid.auctionItem.startingPrice,
-        highestBidAmount: nextTopBid ? nextTopBid.bidAmount : null,
         topBidder: nextTopBid ? nextTopBid.bidderName : null,
         totalBids: { decrement: 1 }
       }

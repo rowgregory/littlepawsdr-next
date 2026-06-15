@@ -6,32 +6,17 @@ import { setIsDark } from '../store/slices/uiSlice'
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    // Check initial preference
-    const checkTheme = () => {
-      const dark = document.documentElement.classList.contains('dark') || window.matchMedia('(prefers-color-scheme: dark)').matches
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
+    const applyTheme = () => {
+      const dark = mediaQuery.matches
+      document.documentElement.classList.toggle('dark', dark)
       store.dispatch(setIsDark(dark))
     }
 
-    checkTheme()
-
-    // Listen for system preference changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = () => checkTheme()
-
-    mediaQuery.addEventListener('change', handleChange)
-
-    // Listen for manual class changes (if you add toggle later)
-    const observer = new MutationObserver(checkTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    })
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange)
-      observer.disconnect()
-    }
+    applyTheme()
+    mediaQuery.addEventListener('change', applyTheme)
+    return () => mediaQuery.removeEventListener('change', applyTheme)
   }, [])
 
   return <>{children}</>

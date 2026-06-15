@@ -1,7 +1,5 @@
-import { RecurringFrequency } from '@prisma/client'
-import { IPaymentMethod } from 'types/entities/payment-method.types'
+import { TierKey } from 'types/subscriptions.types'
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
 export const TIERS = [
   { id: 't1', name: 'Tail Wagger', price: { MONTHLY: 10, YEARLY: 100 }, badge: null, tier: 'bronze' as const },
   { id: 't2', name: 'Snout Scout', price: { MONTHLY: 15, YEARLY: 150 }, badge: null, tier: 'bronze' as const },
@@ -21,24 +19,6 @@ export const TIERS = [
   { id: 't16', name: 'Pack Champion', price: { MONTHLY: 500, YEARLY: 5000 }, badge: 'ELITE', tier: 'elite' as const }
 ]
 
-export type Tier = {
-  id: string
-  name: string
-  price: { MONTHLY: number; YEARLY: number }
-  badge: string | null
-  tier: 'bronze' | 'silver' | 'gold' | 'elite'
-}
-
-export type SubscriptionPaymentFormProps = {
-  tier: Tier
-  billing: RecurringFrequency
-  savedCards: IPaymentMethod[]
-  userName: { firstName: string; lastName: string }
-}
-
-export type TierKey = 'bronze' | 'silver' | 'gold' | 'elite'
-
-// All values split by dark / light so we never fight Tailwind's dark: prefix
 export const T: Record<
   TierKey,
   {

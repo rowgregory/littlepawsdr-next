@@ -1,6 +1,6 @@
 import { getDashboardStats } from 'app/lib/actions/getDashboardStats'
 import { getPendingShipments } from 'app/lib/actions/order/getPendingShipments'
-import AdminDashboardClient from './DashboardClient'
+import AdminDashboardClient from './AdminDashboardClient'
 import { getDachshundsPreview } from 'app/lib/actions/rescue-groups/getDachshundsPreview'
 
 export const dynamic = 'force-dynamic'

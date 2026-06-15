@@ -1,6 +1,5 @@
 import type { User } from 'next-auth'
 import prisma from 'prisma/client'
-import { createStripeCustomer } from '../actions/stripe/createStripeCustomer'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'
 
 export async function handleEmailCallback(user: User) {
@@ -44,10 +43,6 @@ export async function handleEmailCallback(user: User) {
         providerAccountId: user.email!
       }
     })
-  }
-
-  if (!dbUser.stripeCustomerId) {
-    await createStripeCustomer(dbUser.id, dbUser.email, `${dbUser.firstName || ''} ${dbUser.lastName || ''}`.trim())
   }
 
   await pusherSuperuser('user-signed-in', {

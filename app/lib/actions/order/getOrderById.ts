@@ -27,6 +27,7 @@ export const getOrderById = async (id: string) => {
         city: true,
         state: true,
         zipPostalCode: true,
+        tierName: true,
         items: {
           select: {
             id: true,

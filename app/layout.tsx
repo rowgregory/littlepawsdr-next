@@ -43,7 +43,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await auth()
   const result = await getDraftOrActiveAuction()
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')`
+          }}
+        />
+      </head>
       <body className={`${quicksand.variable} ${workSans.variable} ${bebas.variable} ${nunito.variable} `}>
         <SessionProvider session={session}>
           <RootLayoutWrapper auction={result.data}>{children}</RootLayoutWrapper>

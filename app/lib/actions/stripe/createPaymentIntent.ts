@@ -6,6 +6,11 @@ import Stripe from 'stripe'
 import { createLog } from '../log/createLog'
 import { stripeClient } from '../../stripe-client'
 import { OrderType } from '@prisma/client'
+import prisma from 'prisma/client'
+import { ProductSizeEntry } from 'types/entities/product'
+import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import { getRequestGeo } from 'app/utils/getRequestGeo'
+import { stampUserGeo } from '../user/stampUserGeo'
 
 type PaymentAddress = {
   addressLine1: string | null
@@ -14,6 +19,17 @@ type PaymentAddress = {
   state: string | null
   zipPostalCode: string | null
   country: string
+}
+
+type PaymentItem = {
+  id: string
+  name: string
+  price: number
+  quantity: number
+  shippingPrice?: number
+  isPhysicalProduct: boolean
+  size?: string | null
+  welcomeWienerId?: string | null
 }
 
 export type CreatePaymentIntentParams = {
@@ -27,7 +43,7 @@ export type CreatePaymentIntentParams = {
   feesCovered?: number
   savedCardId?: string | null
   address?: PaymentAddress | null
-  items?: any
+  items?: PaymentItem[]
   winningBidderId?: string
   auctionItemId?: string
 }
@@ -48,9 +64,53 @@ export async function createPaymentIntent({
   auctionItemId
 }: CreatePaymentIntentParams) {
   try {
-    if (orderType === 'ONE_TIME_DONATION') {
-      if (amount < 500) throw new Error('Minimum donation is $5')
+    if (orderType === 'ONE_TIME_DONATION' && amount < 500) {
+      throw new Error('Minimum donation is $5')
     }
+
+    // ── 1. Validate items + compute amount from the DB (unchanged) ──────────
+    let computedBase = 0 // dollars
+
+    if (items?.length) {
+      const ids = items.map((i) => i.id)
+      const wienerIds = items.map((i) => i.welcomeWienerId).filter(Boolean) as string[]
+
+      const [products, wieners] = await Promise.all([
+        prisma.product.findMany({ where: { id: { in: ids } } }),
+        wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([])
+      ])
+
+      for (const item of items) {
+        const product = products.find((p) => p.id === item.id)
+
+        if (product) {
+          if (!product.isLive) throw new Error(`${product.name} is no longer available`)
+          const sizes = product.sizes as ProductSizeEntry[] | null
+          const available = item.size ? (sizes?.find((s) => s.size === item.size)?.quantity ?? 0) : product.countInStock
+          if (item.quantity > available) {
+            throw new Error(`Only ${available} of ${product.name}${item.size ? ` (${item.size})` : ''} available`)
+          }
+          computedBase += (Number(product.price) + Number(product.shippingPrice)) * item.quantity
+          continue
+        }
+
+        const wiener = wieners.find((w) => w.id === item.welcomeWienerId)
+        if (!wiener) throw new Error(`Item unavailable: ${item.name}`)
+        if (!wiener.isLive) throw new Error(`${wiener.name} is no longer accepting donations`)
+
+        const options = wiener.associatedProducts as unknown as WelcomeWienerProduct[]
+        const option = options.find((o) => o.id === item.id)
+        if (!option) throw new Error(`Invalid donation option for ${wiener.name}`)
+
+        computedBase += Number(option.price) * item.quantity
+      }
+    }
+
+    const baseCents = items?.length ? Math.round(computedBase * 100) : amount
+    const finalCents = coverFees ? baseCents + Math.round(feesCovered * 100) : baseCents
+
+    const geo = await getRequestGeo()
+    await stampUserGeo(userId, geo)
 
     const customerId = await getOrCreateStripeCustomer({ userId, email })
 
@@ -64,8 +124,9 @@ export async function createPaymentIntent({
       MIXED: `Order from ${name}`
     }
 
+    // ── 2. Create the intent — items as compact ids, DB is the source of truth ──
     const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
-      amount,
+      amount: finalCents,
       currency: 'usd',
       customer: customerId,
       receipt_email: email,
@@ -73,7 +134,7 @@ export async function createPaymentIntent({
       setup_future_usage: saveCard ? 'on_session' : undefined,
       metadata: {
         orderType,
-        userId,
+        userId: userId ?? '',
         name,
         email,
         saveCard: saveCard ? 'true' : 'false',
@@ -85,33 +146,17 @@ export async function createPaymentIntent({
         state: address?.state || '',
         zipPostalCode: address?.zipPostalCode || '',
         country: address?.country || 'US',
-        items: items
-          ? JSON.stringify(
-              items?.map((i) => ({
-                id: i.id,
-                name: i.name,
-                price: i.price,
-                quantity: i.quantity,
-                shippingPrice: i.shippingPrice,
-                isPhysicalProduct: i.isPhysicalProduct,
-                sellingFormat: i.sellingFormat
-              }))
-            )
-          : '',
-        winningBidderId,
+        items: items?.length ? JSON.stringify(items.map((i) => ({ i: i.id, q: i.quantity, s: i.size ?? null, w: i.welcomeWienerId ?? null }))) : '',
+        winningBidderId: winningBidderId ?? '',
         auctionItemId: auctionItemId ?? ''
       }
     }
 
     if (savedCardId) {
-      const paymentMethodId = await validateSavedCard({
-        savedCardId,
-        userId: userId!,
-        customerId
-      })
+      const paymentMethodId = await validateSavedCard({ savedCardId, userId: userId!, customerId })
       paymentIntentParams.payment_method = paymentMethodId
       paymentIntentParams.off_session = true
-      paymentIntentParams.confirm = true
+      paymentIntentParams.confirm = true // no pending order to wait for — confirm at creation
     }
 
     const paymentIntent = await stripeClient.paymentIntents.create(paymentIntentParams)
@@ -128,7 +173,7 @@ export async function createPaymentIntent({
       email,
       userId,
       savedCardId
-    })
+    }).catch(console.error)
 
     return {
       success: false,

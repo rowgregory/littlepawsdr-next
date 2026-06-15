@@ -52,8 +52,8 @@ export async function getPendingShipments(): Promise<{
     })
 
     const [actor, context] = await Promise.all([getActor(), getRequestContext()])
-    const message = await buildLogMessage('fetched pending shipments', actor, context)
-    await createLog('INFO', message, { count: data.length })
+    const message = buildLogMessage('fetched pending shipments', actor, context)
+    await createLog('info', message, { count: data.length })
 
     return { success: true, data }
   } catch (err) {

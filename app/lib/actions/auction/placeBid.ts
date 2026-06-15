@@ -102,7 +102,6 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
           data: {
             currentBid: bidAmount,
             minimumBid: bidAmount + 1,
-            highestBidAmount: bidAmount,
             totalBids: { increment: 1 },
             topBidder: user?.anonymousBidding ? 'Anonymous' : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Anonymous'
           }
@@ -122,7 +121,6 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
         id: true,
         currentBid: true,
         minimumBid: true,
-        highestBidAmount: true,
         totalBids: true,
         topBidder: true,
         name: true,
@@ -139,8 +137,7 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
         auctionItem: {
           ...updatedItem,
           currentBid: Number(updatedItem?.currentBid),
-          minimumBid: Number(updatedItem?.minimumBid),
-          highestBidAmount: Number(updatedItem?.highestBidAmount)
+          minimumBid: Number(updatedItem?.minimumBid)
         }
       })
 

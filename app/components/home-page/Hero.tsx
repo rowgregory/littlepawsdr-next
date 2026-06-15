@@ -68,7 +68,10 @@ function DachshundCountdown() {
           { value: time.seconds, label: 'Secs' }
         ].map(({ value, label }) => (
           <div key={label} className="flex flex-col items-center border border-border-light dark:border-border-dark px-2 py-2">
-            <p className="font-sora font-black text-[24px] 1200:text-[28px] text-primary-light dark:text-primary-dark tabular-nums leading-none">
+            <p
+              suppressHydrationWarning
+              className="font-sora font-black text-[24px] 1200:text-[28px] text-primary-light dark:text-primary-dark tabular-nums leading-none"
+            >
               {String(value).padStart(2, '0')}
             </p>
             <p className="text-f9 font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">{label}</p>
@@ -88,7 +91,6 @@ function DachshundCountdown() {
     </div>
   )
 }
-
 export const Hero = () => {
   const [current, setCurrent] = useState(0)
   const [paused, setPaused] = useState(false)

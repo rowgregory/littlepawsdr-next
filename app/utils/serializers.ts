@@ -13,7 +13,6 @@ export const serializeAuctionItem = (item: any) => ({
   currentPrice: serializeDecimal(item.currentPrice),
   currentBid: serializeDecimal(item.currentBid),
   minimumBid: serializeDecimal(item.minimumBid),
-  highestBidAmount: serializeDecimal(item.highestBidAmount),
   soldPrice: serializeDecimal(item.soldPrice),
   shippingCosts: serializeDecimal(item.shippingCosts)
 })

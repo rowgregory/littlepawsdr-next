@@ -40,7 +40,6 @@ export const getAuctionById = async (id: string) => {
           currentPrice: item.currentPrice ? Number(item.currentPrice) : null,
           currentBid: item.currentBid ? Number(item.currentBid) : null,
           minimumBid: item.minimumBid ? Number(item.minimumBid) : null,
-          highestBidAmount: item.highestBidAmount ? Number(item.highestBidAmount) : null,
           soldPrice: item.soldPrice ? Number(item.soldPrice) : null,
           shippingCosts: item.shippingCosts ? Number(item.shippingCosts) : null
         })),
@@ -62,7 +61,6 @@ export const getAuctionById = async (id: string) => {
             currentPrice: item.currentPrice ? Number(item.currentPrice) : null,
             currentBid: item.currentBid ? Number(item.currentBid) : null,
             minimumBid: item.minimumBid ? Number(item.minimumBid) : null,
-            highestBidAmount: item.highestBidAmount ? Number(item.highestBidAmount) : null,
             soldPrice: item.soldPrice ? Number(item.soldPrice) : null,
             shippingCosts: item.shippingCosts ? Number(item.shippingCosts) : null
           }))

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, X, Upload, Loader2, ArrowLeft, Package } from 'lucide-react'
+import { Plus, X, Upload, Loader2, ArrowLeft, Package, Save } from 'lucide-react'
 import Link from 'next/link'
 import { createProduct } from 'app/lib/actions/product/createProduct'
 import Picture from 'app/components/common/Picture'
@@ -61,6 +61,10 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
 
   const [uploadingImages, setUploadingImages] = useState<{ file: File; progress: number; url?: string }[]>([])
 
+  const hasSizes = form.sizes.length > 0
+  const sizesTotal = form.sizes.reduce((sum, s) => sum + (s.quantity || 0), 0)
+  const countInStock = hasSizes ? sizesTotal : parseInt(form.countInStock) || 0
+
   const handleImageFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return
 
@@ -102,7 +106,7 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
       description: form.description,
       price: parseFloat(form.price) || 0,
       shippingPrice: parseFloat(form.shippingPrice) || 0,
-      countInStock: parseInt(form.countInStock) || 0,
+      countInStock,
       sizes: form.sizes.length > 0 ? form.sizes : null,
       isPhysicalProduct: form.isPhysicalProduct,
       isLive: form.isLive,
@@ -114,11 +118,8 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
     setLoading(false)
     if (res.success) {
       router.push('/admin/products')
-      router.refresh()
     }
   }
-
-  console.log('IMAGES: ', form.images)
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
@@ -146,7 +147,7 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           whileTap={{ scale: 0.98 }}
           className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
         >
-          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Plus className="w-3.5 h-3.5" aria-hidden="true" />}
+          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Save className="w-3.5 h-3.5" aria-hidden="true" />}
           {loading ? 'Saving...' : 'Save Product'}
         </motion.button>
       </div>
@@ -235,15 +236,32 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                 <label htmlFor="stock" className={labelCls}>
                   Count in Stock
                 </label>
-                <input
-                  id="stock"
-                  type="number"
-                  min="0"
-                  value={form.countInStock}
-                  onChange={(e) => set('countInStock', e.target.value)}
-                  placeholder="0"
-                  className={inputCls}
-                />
+                {hasSizes ? (
+                  <>
+                    <input
+                      id="stock"
+                      type="number"
+                      value={sizesTotal}
+                      readOnly
+                      disabled
+                      aria-describedby="stock-hint"
+                      className={`${inputCls} opacity-60 cursor-not-allowed`}
+                    />
+                    <p id="stock-hint" className="mt-1 text-[9px] font-mono text-muted-light dark:text-muted-dark">
+                      Calculated from sizes
+                    </p>
+                  </>
+                ) : (
+                  <input
+                    id="stock"
+                    type="number"
+                    min="0"
+                    value={form.countInStock}
+                    onChange={(e) => set('countInStock', e.target.value)}
+                    placeholder="0"
+                    className={inputCls}
+                  />
+                )}
               </div>
             </div>
           </section>
@@ -486,7 +504,7 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
               {[
                 { label: 'Price', value: form.price ? `$${parseFloat(form.price).toFixed(2)}` : '—' },
                 { label: 'Shipping', value: form.shippingPrice ? `$${parseFloat(form.shippingPrice).toFixed(2)}` : '—' },
-                { label: 'Stock', value: form.countInStock || '—' },
+                { label: 'Stock', value: countInStock || '—' },
                 { label: 'Images', value: form.images.length },
                 { label: 'Type', value: form.isPhysicalProduct ? 'Physical' : 'Digital' },
                 { label: 'Status', value: form.isLive ? 'Live' : 'Draft' }

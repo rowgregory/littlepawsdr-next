@@ -1,6 +1,7 @@
 import prisma from 'prisma/client'
 import { auth } from '../auth'
 import { createLog } from './log/createLog'
+import { AuctionParticipation, Donation, MerchAndWWOrder, ParticipationItem, Subscription } from 'types/member-portal'
 
 export const getAccountData = async () => {
   try {
@@ -24,7 +25,7 @@ export const getAccountData = async () => {
       }),
       prisma.order.findMany({
         where: { userId: session.user.id },
-        include: { items: true, user: true },
+        include: { items: true },
         orderBy: { createdAt: 'desc' }
       }),
       prisma.auctionBid.findMany({
@@ -45,8 +46,7 @@ export const getAccountData = async () => {
             select: { id: true, title: true, status: true, endDate: true, customAuctionLink: true }
           }
         },
-        orderBy: { createdAt: 'desc' },
-        distinct: ['auctionItemId']
+        orderBy: { createdAt: 'desc' }
       }),
       prisma.paymentMethod.findMany({
         where: { userId: session.user.id },
@@ -60,7 +60,7 @@ export const getAccountData = async () => {
 
     if (!user) return { success: false, error: 'User not found', data: null }
 
-    const donations = orders
+    const donations: Donation[] = orders
       .filter((o) => o.type === 'ONE_TIME_DONATION')
       .map((o) => ({
         id: o.id,
@@ -69,18 +69,18 @@ export const getAccountData = async () => {
         status: o.status
       }))
 
-    const subscriptions = orders
+    const subscriptions: Subscription[] = orders
       .filter((o) => o.type === 'RECURRING_DONATION')
       .map((o) => ({
         id: o.id,
         tierName: o.items[0]?.itemName ?? 'Recurring Donation',
         amount: Number(o.totalAmount),
-        interval: o.recurringFrequency ?? 'month',
+        interval: o.recurringFrequency ?? 'MONTHLY',
         status: o.status,
         nextBillingDate: o.nextBillingDate
       }))
 
-    const merchAndWWOrders = orders
+    const merchAndWWOrders: MerchAndWWOrder[] = orders
       .filter((o) => o.type === 'PRODUCT' || o.type === 'WELCOME_WIENER' || o.type === 'MIXED')
       .map((o) => ({
         id: o.id,
@@ -109,70 +109,68 @@ export const getAccountData = async () => {
           : null
       }))
 
-    const auctionParticipation = Object.values(
-      auctionBids.reduce<
-        Record<
-          string,
-          {
-            auctionId: string
-            auctionTitle: string
-            auctionStatus: string
-            auctionEndDate: Date | null
-            customAuctionLink: string | null
-            winningBidderPaymentLink: string
-            winningBidPaymentStatus: string
-            totalBids: number
-            paidOn: Date | null
-            bids: {
-              id: string
-              itemName: string
-              itemImage: string | null
-              bidAmount: number
-              isWinner: boolean
-              status: string
-              auctionItemId: string
-              totalBids: number
-              lastBidAt: Date
-            }[]
-          }
-        >
-      >((acc, bid) => {
-        const auctionId = bid.auction.id
+    const byAuction = new Map<string, AuctionParticipation & { itemMap: Map<string, ParticipationItem> }>()
 
-        if (!acc[auctionId]) {
-          acc[auctionId] = {
-            auctionId,
-            auctionTitle: bid.auction.title,
-            auctionStatus: bid.auction.status.toLowerCase(),
-            auctionEndDate: bid.auction.endDate,
-            customAuctionLink: bid.auction.customAuctionLink,
-            winningBidderPaymentLink:
-              bid.auctionItem.winningBidder?.userId === session.user.id ? `/auctions/winner/${bid.auctionItem.winningBidder.id}` : null,
-            winningBidPaymentStatus:
-              bid.auctionItem.winningBidder?.userId === session.user.id ? bid.auctionItem.winningBidder.winningBidPaymentStatus : null,
-            totalBids: 0,
-            bids: [],
-            paidOn: new Date()
-          }
+    for (const bid of auctionBids) {
+      const auction = bid.auction
+
+      let group = byAuction.get(auction.id)
+      if (!group) {
+        group = {
+          auctionId: auction.id,
+          auctionTitle: auction.title,
+          auctionStatus: auction.status.toLowerCase(),
+          auctionEndDate: auction.endDate,
+          customAuctionLink: auction.customAuctionLink,
+          myBidCount: 0,
+          items: [],
+          itemMap: new Map(),
+          paymentLink: null,
+          paymentStatus: null,
+          paidOn: null
         }
+        byAuction.set(auction.id, group)
+      }
 
-        acc[auctionId].paidOn = bid.auctionItem.winningBidder?.paidOn ?? null
-        acc[auctionId].totalBids += 1
-        acc[auctionId].bids.push({
-          id: bid.id,
+      group.myBidCount += 1
+
+      const winner = bid.auctionItem.winningBidder
+      const iWon = winner?.userId === session.user.id
+
+      if (iWon) {
+        group.paymentLink = `/auctions/winner/${winner!.id}`
+        group.paymentStatus = winner!.winningBidPaymentStatus
+        group.paidOn = winner!.paidOn ?? null
+      }
+
+      let item = group.itemMap.get(bid.auctionItemId)
+      if (!item) {
+        item = {
+          auctionItemId: bid.auctionItemId,
           itemName: bid.auctionItem.name,
           itemImage: bid.auctionItem.photos[0]?.url ?? null,
-          bidAmount: Number(bid.bidAmount),
-          isWinner: bid.auctionItem.winningBidder?.userId === session.user.id,
-          status: bid.status,
-          auctionItemId: bid.auctionItemId,
-          totalBids: bid.auctionItem.totalBids,
-          lastBidAt: bid.createdAt
-        })
+          myHighestBid: Number(bid.bidAmount),
+          myBidCount: 1,
+          lastBidAt: bid.createdAt,
+          itemTotalBids: bid.auctionItem.totalBids,
+          isWinner: iWon,
+          status: bid.status
+        }
+        group.itemMap.set(bid.auctionItemId, item)
+      } else {
+        item.myBidCount += 1
+        item.myHighestBid = Math.max(item.myHighestBid, Number(bid.bidAmount))
+        if (bid.createdAt > item.lastBidAt) {
+          item.lastBidAt = bid.createdAt
+          item.status = bid.status
+        }
+      }
+    }
 
-        return acc
-      }, {})
-    )
+    const auctionParticipation: AuctionParticipation[] = [...byAuction.values()].map(({ itemMap, ...group }) => ({
+      ...group,
+      items: [...itemMap.values()]
+    }))
 
     return {
       success: true,
@@ -185,8 +183,7 @@ export const getAccountData = async () => {
           phone: user.phone,
           anonymousBidding: user.anonymousBidding,
           address: user.address,
-          memberSince: user.createdAt,
-          image: null
+          createdAt: user.createdAt
         },
         donations,
         subscriptions,

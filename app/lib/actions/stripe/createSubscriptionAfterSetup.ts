@@ -1,11 +1,10 @@
 'use server'
 
-import prisma from 'prisma/client'
+import { getRequestGeo } from 'app/utils/getRequestGeo'
 import { stripeClient } from '../../stripe-client'
 import { createLog } from '../log/createLog'
-import { createStripeCustomer } from './createStripeCustomer'
 import { RecurringFrequency } from '@prisma/client'
-import { savePaymentMethod } from './savePaymentMethod'
+import { stampUserGeo } from '../user/stampUserGeo'
 
 interface CreateSubscriptionParams {
   setupIntentId: string
@@ -15,6 +14,7 @@ interface CreateSubscriptionParams {
   amount: number // in cents
   coverFees?: boolean
   feesCovered?: number
+  tierName: string
 }
 
 export async function createSubscriptionAfterSetup({
@@ -23,8 +23,9 @@ export async function createSubscriptionAfterSetup({
   name,
   frequency,
   amount,
-  coverFees,
-  feesCovered
+  coverFees = false,
+  feesCovered = 0,
+  tierName
 }: CreateSubscriptionParams) {
   try {
     // Get the confirmed setup intent
@@ -36,54 +37,26 @@ export async function createSubscriptionAfterSetup({
 
     const customerId = setupIntent.customer as string
     const paymentMethodId = setupIntent.payment_method as string
-    const existingUserId = setupIntent.metadata?.userId
+    const userId = setupIntent.metadata?.userId
 
-    let userId = existingUserId && existingUserId !== 'guest' ? existingUserId : undefined
-
-    // Auto-create account for recurring donations if no userId
-    if (!userId && email) {
-      const existingUser = await prisma.user.findUnique({
-        where: { email }
-      })
-
-      if (existingUser) {
-        userId = existingUser.id
-      } else {
-        const newUser = await prisma.user.create({
-          data: {
-            email,
-            firstName: name?.split(' ')[0] || '',
-            lastName: name?.split(' ')[1] || '',
-            role: 'SUPPORTER'
-          }
-        })
-
-        userId = newUser.id
-
-        // Create Stripe customer
-        await createStripeCustomer(newUser.id, newUser.email, name)
-
-        // Save the payment method to database
-        await savePaymentMethod(newUser.id, paymentMethodId, true)
-
-        await createLog('info', 'Auto-created account for recurring donor', {
-          userId: newUser.id,
-          email: newUser.email
-        })
-      }
+    if (!userId) {
+      // Unreachable in practice — createSetupIntentForSubscription rejects userless requests
+      throw new Error('Please sign in to start a subscription.')
     }
 
-    // Create product for this recurring donation
+    const geo = await getRequestGeo()
+    await stampUserGeo(userId, geo)
+
+    // Create product + price for this recurring donation
     const product = await stripeClient.products.create({
       name: `${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`,
       description: `Recurring donation of $${(amount / 100).toFixed(2)}/${frequency === 'MONTHLY' ? 'month' : 'year'}`,
       metadata: {
-        userId: userId || 'guest',
+        userId,
         donorName: setupIntent.metadata?.name || ''
       }
     })
 
-    // Create price for the subscription
     const price = await stripeClient.prices.create({
       product: product.id,
       unit_amount: amount,
@@ -92,9 +65,7 @@ export async function createSubscriptionAfterSetup({
         interval: frequency === 'MONTHLY' ? 'month' : 'year',
         usage_type: 'licensed'
       },
-      metadata: {
-        frequency
-      }
+      metadata: { frequency }
     })
 
     // Create subscription with the saved payment method
@@ -107,17 +78,18 @@ export async function createSubscriptionAfterSetup({
           save_default_payment_method: 'on_subscription'
         },
         metadata: {
-          userId: userId || 'guest',
+          userId,
           email: email || '',
           name: name || '',
           orderType: 'RECURRING_DONATION',
           frequency,
           coverFees: coverFees ? 'true' : 'false',
-          feesCovered: feesCovered.toString()
+          feesCovered: feesCovered.toString(),
+          tierName
         }
       },
       {
-        idempotencyKey: `sub_${customerId}_general_${Date.now()}`
+        idempotencyKey: `sub_${setupIntentId}`
       }
     )
 
@@ -131,7 +103,7 @@ export async function createSubscriptionAfterSetup({
       error: error instanceof Error ? error.message : 'Unknown error',
       name,
       email
-    })
+    }).catch(console.error)
 
     return {
       success: false,

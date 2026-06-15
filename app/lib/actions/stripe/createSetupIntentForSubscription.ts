@@ -1,9 +1,9 @@
 'use server'
 
-import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { stripeClient } from '../../stripe-client'
 import { RecurringFrequency } from '@prisma/client'
+import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
 
 interface SetupIntentParams {
   userId?: string
@@ -13,78 +13,39 @@ interface SetupIntentParams {
   frequency: RecurringFrequency
   coverFees?: boolean
   feesCovered?: number
+  tierName: string
 }
 
-export async function createSetupIntentForSubscription({ userId, email, name, amount, frequency, coverFees, feesCovered }: SetupIntentParams) {
+export async function createSetupIntentForSubscription({
+  userId,
+  email,
+  name,
+  amount,
+  frequency,
+  coverFees = false,
+  feesCovered = 0,
+  tierName
+}: SetupIntentParams) {
   try {
-    // VALIDATE MINIMUM AMOUNT
-    if (amount < 500) {
-      // Stripe uses cents, so $5 = 500
-      throw new Error('Minimum donation is $5')
-    }
+    if (amount < 500) throw new Error('Minimum donation is $5')
+    if (!userId) throw new Error('Please sign in to start a subscription.')
 
-    let customerId: string | undefined
+    const customerId = await getOrCreateStripeCustomer({ userId, email })
 
-    if (userId) {
-      // Logged-in user - customer should already exist from signup
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { stripeCustomerId: true }
-      })
-
-      if (user?.stripeCustomerId) {
-        customerId = user.stripeCustomerId
-      }
-    }
-
-    // If no customer ID yet (logged in user without one, or guest), create customer
-    if (!customerId) {
-      // Check if customer exists in Stripe by email
-      const stripeCustomers = await stripeClient.customers.list({
-        email,
-        limit: 1
-      })
-
-      if (stripeCustomers.data.length > 0) {
-        // Found existing customer - use it
-        customerId = stripeCustomers.data[0].id
-      } else {
-        // No customer exists - create new one
-        const customer = await stripeClient.customers.create({
-          email,
-          name,
-          description: userId ? 'Platform user' : `Guest donor: ${name}`,
-          metadata: {
-            userId: userId || 'guest',
-            createdAt: new Date().toISOString()
-          }
-        })
-        customerId = customer.id
-
-        // If logged-in user, save the customer ID to database
-        if (userId) {
-          await prisma.user.update({
-            where: { id: userId },
-            data: { stripeCustomerId: customerId }
-          })
-        }
-      }
-    }
-
-    // Create SetupIntent - customer is guaranteed to exist now
     const setupIntent = await stripeClient.setupIntents.create({
       customer: customerId,
       payment_method_types: ['card'],
       usage: 'off_session',
       metadata: {
-        userId: userId || 'guest',
+        userId,
         email,
         name,
         frequency,
         amount: amount.toString(),
-        type: 'recurring_donation',
+        type: 'RECURRING_DONATION',
         coverFees: coverFees ? 'true' : 'false',
-        feesCovered: feesCovered?.toString() || '0'
+        feesCovered: feesCovered.toString(),
+        tierName
       }
     })
 
@@ -99,11 +60,11 @@ export async function createSetupIntentForSubscription({ userId, email, name, am
       error: error instanceof Error ? error.message : 'Unknown error',
       email,
       name
-    })
+    }).catch(console.error)
 
     return {
       success: false,
-      error: 'Failed to create setup intent'
+      error: error instanceof Error ? error.message : 'Failed to create setup intent'
     }
   }
 }

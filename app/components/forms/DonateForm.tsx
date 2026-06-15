@@ -8,7 +8,7 @@ import { store, useFormSelector } from 'app/lib/store/store'
 import { createFormActions } from 'app/utils/formActions'
 import { EMAIL_REGEX } from 'app/utils/regex'
 import { useSession } from 'next-auth/react'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion'
 import { FormField } from '../ui/FormField'
@@ -25,6 +25,7 @@ import { StepSignIn } from '../common/SignInStep'
 import { useSearchParams } from 'next/navigation'
 import { SignedInRow } from '../common/SignedInRow'
 import { IPaymentForm } from 'types/common'
+import { formatWithCommas } from 'app/utils/currency.utils'
 
 const PRESET_AMOUNTS = [10, 25, 50, 100, 250, 500]
 
@@ -91,6 +92,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
   const isAuthed = session.status === 'authenticated'
   const searchParams = useSearchParams()
   const donationAmountFromUrl = searchParams.get('donationAmount')
+  const [amountBlurred, setAmountBlurred] = useState(false)
 
   // ── Form ──────────────────────────────────────────────────────────────────
   const { donateForm } = useFormSelector()
@@ -105,6 +107,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
   const donationAmount = inputs?.useCustom ? Math.max(5, parseFloat(inputs?.customAmount) || 0) : (inputs?.selectedAmount ?? 0)
   const processingFee = calculateStripeFees(donationAmount)
   const feesCovered = inputs?.coverFees ? processingFee : 0
+  const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
   const finalAmount = inputs?.coverFees ? donationAmount + processingFee : donationAmount
   const isValid =
     donationAmount >= 5 &&
@@ -112,6 +115,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
     !!inputs?.lastName?.trim() &&
     EMAIL_REGEX.test(inputs?.email) &&
     (inputs?.selectedCardId && !inputs?.useNewCard ? true : inputs?.cardComplete)
+  const enteringNewCard = !isAuthed || savedCards.length === 0 || inputs?.useNewCard
 
   // ── Hooks ─────────────────────────────────────────────────────────────────
   const setDefaultCard = useCallback((value: string) => setForm({ selectedCardId: value }), [])
@@ -126,6 +130,8 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
       setForm({ selectedAmount: Number(donationAmountFromUrl) })
     }
   }, [donationAmountFromUrl])
+
+  console.log('usingSavedCard: ', usingSavedCard)
 
   // ── Handlde Submit ─────────────────────────────────────────────────────────────────
   async function handleSubmit(e: { preventDefault: () => void }) {
@@ -157,7 +163,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
         orderType: 'ONE_TIME_DONATION' as OrderType
       }
 
-      if (inputs?.usingSavedCard) {
+      if (usingSavedCard) {
         const result = await createPaymentIntent({
           ...basePayload,
           savedCardId: inputs?.selectedCardId
@@ -242,29 +248,29 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
           </span>
           <input
             id="custom-amount"
-            type="number"
-            min={5}
-            step={1}
+            type="text"
+            inputMode="numeric"
             placeholder="Enter amount"
-            value={inputs?.customAmount || ''}
+            value={inputs?.customAmount ? formatWithCommas(inputs.customAmount) : ''}
             onChange={(e) => {
-              setForm({ customAmount: e.target.value, useCustom: true, selectedAmount: null })
+              const raw = e.target.value.replace(/[^0-9]/g, '')
+              setForm({ customAmount: raw, useCustom: true, selectedAmount: null })
             }}
             onFocus={() => {
+              setAmountBlurred(false)
               setForm({ useCustom: true, selectedAmount: null })
             }}
             aria-describedby="custom-amount-hint"
             className={`
-              w-full pl-8 pr-4 py-3 text-sm font-quicksand font-bold border-2 bg-surface-light dark:bg-surface-dark
-              text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50
-              transition-colors duration-200 focus:outline-none
-              ${inputs?.useCustom ? 'border-primary-light dark:border-primary-dark' : 'border-border-light dark:border-border-dark'}
-              focus-visible:border-primary-light dark:focus-visible:border-primary-dark
-              [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
-            `}
+    w-full pl-8 pr-4 py-3 text-sm font-quicksand font-bold border-2 bg-surface-light dark:bg-surface-dark
+    text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50
+    transition-colors duration-200 focus:outline-none
+    ${inputs?.useCustom ? 'border-primary-light dark:border-primary-dark' : 'border-border-light dark:border-border-dark'}
+    focus-visible:border-primary-light dark:focus-visible:border-primary-dark
+  `}
           />
-          {inputs?.useCustom && inputs?.customAmount && parseFloat(inputs?.customAmount) < 5 && (
-            <p id="custom-amount-hint" role="alert" className="text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono">
+          {inputs?.useCustom && amountBlurred && inputs?.customAmount && parseFloat(inputs?.customAmount) < 5 && (
+            <p id="custom-amount-hint" role="alert" className="absolute text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono">
               Minimum donation is $5
             </p>
           )}
@@ -282,7 +288,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
             className="flex items-center gap-3 mb-6 py-3 px-4 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Donating</span>
-            <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">${donationAmount}</span>
+            <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">${formatWithCommas(donationAmount)}</span>
             <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">one-time</span>
           </motion.div>
         )}
@@ -348,7 +354,7 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
           )}
 
           {/* ── Card element ── */}
-          {(!isAuthed || savedCards.length === 0 || inputs?.useNewCard) && <CardElementField formName="donateForm" />}
+          {enteringNewCard && <CardElementField formName="donateForm" />}
 
           {/* ── Cover fees ── */}
           <CoverFeesToggle formName="donateForm" processingFee={processingFee} />

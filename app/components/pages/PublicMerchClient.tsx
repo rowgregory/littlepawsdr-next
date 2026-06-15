@@ -12,10 +12,6 @@ import Picture from '../common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
 
-// ─────────────────────────────────────────────
-// Product Card
-// ─────────────────────────────────────────────
-
 function ProductCard({ product, index }: { product: IProduct; index: number }) {
   const [added, setAdded] = useState(false)
   const isOutOfStock = product.countInStock === 0
@@ -118,15 +114,16 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
             )}
           </div>
 
-          <motion.button
-            type="button"
-            onClick={handleAdd}
-            disabled={isOutOfStock}
-            aria-label={isOutOfStock ? `${product.name} is out of stock` : added ? `${product.name} added to cart` : `Add ${product.name} to cart`}
-            aria-disabled={isOutOfStock}
-            whileHover={!isOutOfStock && !added ? { scale: 1.04 } : {}}
-            whileTap={!isOutOfStock && !added ? { scale: 0.96 } : {}}
-            className={`shrink-0 w-9 h-9 flex items-center justify-center border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark
+          {!product.sizes && (
+            <motion.button
+              type="button"
+              onClick={handleAdd}
+              disabled={isOutOfStock}
+              aria-label={isOutOfStock ? `${product.name} is out of stock` : added ? `${product.name} added to cart` : `Add ${product.name} to cart`}
+              aria-disabled={isOutOfStock}
+              whileHover={!isOutOfStock && !added ? { scale: 1.04 } : {}}
+              whileTap={!isOutOfStock && !added ? { scale: 0.96 } : {}}
+              className={`shrink-0 w-9 h-9 flex items-center justify-center border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark
               ${
                 isOutOfStock
                   ? 'border-border-light dark:border-border-dark cursor-not-allowed opacity-40'
@@ -134,28 +131,25 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
                     ? 'border-primary-light dark:border-primary-dark bg-primary-light dark:bg-primary-dark'
                     : 'border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark'
               }`}
-          >
-            <AnimatePresence mode="wait">
-              {added ? (
-                <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
-                  <Check className="w-4 h-4 text-white" aria-hidden="true" />
-                </motion.span>
-              ) : (
-                <motion.span key="plus" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
-                  <Plus className="w-4 h-4 text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.button>
+            >
+              <AnimatePresence mode="wait">
+                {added ? (
+                  <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
+                    <Check className="w-4 h-4 text-white" aria-hidden="true" />
+                  </motion.span>
+                ) : (
+                  <motion.span key="plus" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
+                    <Plus className="w-4 h-4 text-muted-light dark:text-muted-dark" aria-hidden="true" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          )}
         </div>
       </div>
     </motion.article>
   )
 }
-
-// ─────────────────────────────────────────────
-// Page
-// ─────────────────────────────────────────────
 
 export default function PublicMerchClient({ products }: { products: IProduct[] }) {
   const inStock = products.filter((p) => p.countInStock > 0)

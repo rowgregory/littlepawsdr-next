@@ -1,4 +1,4 @@
-import OrderConfirmationClient from 'app/components/pages/OrderConfirmationClient'
+import OrderConfirmationClient from 'app/(public)/order-confirmation/[id]/OrderConfirmationClient'
 import { getOrderById } from 'app/lib/actions/order/getOrderById'
 
 export default async function OrderConfirmationPage({ params }: { params: Promise<{ id: string }> }) {

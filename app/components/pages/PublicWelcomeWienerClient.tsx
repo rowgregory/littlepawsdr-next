@@ -26,7 +26,7 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
   const [copied, setCopied] = useState(false)
   const [activeCategory, setActiveCategory] = useState<WelcomeWienerProduct['category'] | 'all'>('all')
 
-  const allImages = [...(welcomeWiener.displayUrl ? [welcomeWiener.displayUrl] : []), ...(welcomeWiener.images ?? [])]
+  const allImages = [...(welcomeWiener.images ?? [])]
 
   const products = (welcomeWiener.associatedProducts ?? []) as WelcomeWienerProduct[]
 
@@ -45,7 +45,8 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
       image: welcomeWiener.images[0] ?? null,
       price: product.price,
       quantity: 1,
-      isPhysicalProduct: false
+      isPhysicalProduct: false,
+      welcomeWienerId: welcomeWiener.id
     }
     store.dispatch(setOpenCartToast(cartItem))
     store.dispatch(addToCart(cartItem))
