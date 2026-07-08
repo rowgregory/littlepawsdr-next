@@ -1,14 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { cartReducer } from './slices/cartSlice'
-import { userReducer } from './slices/userSlice'
 import { formReducer } from './slices/formSlice'
 import { uiReducer } from './slices/uiSlice'
 import { toastReducer } from './slices/toastSlice'
 
 const rootReducer = combineReducers({
   cart: cartReducer,
-  user: userReducer,
   form: formReducer,
   ui: uiReducer,
   toast: toastReducer
