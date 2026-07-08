@@ -6,14 +6,14 @@ import { useSession } from 'next-auth/react'
 import { store, useCartSelector, useFormSelector } from 'app/lib/store/store'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { createFormActions } from 'app/utils/formActions'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { EMAIL_REGEX } from 'app/utils/regex'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor'
 import { useDefaultCard } from '@hooks/useDefaultCard'
 import { createPaymentIntent } from 'app/lib/actions/stripe/createPaymentIntent'
 import Link from 'next/link'
-import { getOrderType } from 'app/utils/getOrderType'
+import { getOrderType } from 'app/utils/order.utils'
 import { IAddress } from 'types/entities/address'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { StepIndicator } from '../common/StepIndicator'
@@ -111,7 +111,10 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
 
   const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
   const isValid =
-    !!inputs?.firstName?.trim() && !!inputs?.lastName?.trim() && EMAIL_REGEX.test(email ?? '') && (usingSavedCard ? true : !!inputs?.cardComplete)
+    !!inputs?.firstName?.trim() &&
+    !!inputs?.lastName?.trim() &&
+    EMAIL_REGEX.test(email ?? '') &&
+    (usingSavedCard ? true : !!inputs?.cardComplete)
 
   // ── Shipping address — single source for display AND submit ──────────────
   const shippingAddress = hasPhysical
@@ -129,8 +132,9 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
     : null
 
   const formattedShippingAddress = shippingAddress
-    ? [shippingAddress.addressLine1, shippingAddress.addressLine2, shippingAddress.city, shippingAddress.state].filter(Boolean).join(', ') +
-      (shippingAddress.zipPostalCode ? ` ${shippingAddress.zipPostalCode}` : '')
+    ? [shippingAddress.addressLine1, shippingAddress.addressLine2, shippingAddress.city, shippingAddress.state]
+        .filter(Boolean)
+        .join(', ') + (shippingAddress.zipPostalCode ? ` ${shippingAddress.zipPostalCode}` : '')
     : ''
 
   // ── Hooks ─────────────────────────────────────────────────────────────────
@@ -179,7 +183,13 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
         const result = await createPaymentIntent({ ...basePayload, savedCardId: inputs?.selectedCardId })
         if (!result.success) throw new Error(result.error)
 
-        setupPusherListenerOneTime(result.paymentIntentId!, false, inputs?.selectedCardId, inputs?.processingStatus, ...pusherCallbacks)
+        setupPusherListenerOneTime(
+          result.paymentIntentId!,
+          false,
+          inputs?.selectedCardId,
+          inputs?.processingStatus,
+          ...pusherCallbacks
+        )
       } else {
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
@@ -239,7 +249,9 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
           </Link>
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Little Paws Dachshund Rescue</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Little Paws Dachshund Rescue
+            </p>
           </div>
           <h1 className="font-quicksand text-4xl sm:text-5xl font-bold text-text-light dark:text-text-dark leading-tight">
             Checkout <span className="font-light text-muted-light dark:text-muted-dark">& Donate</span>
@@ -269,11 +281,17 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
                       className="shrink-0 w-6 h-6 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 mt-0.5"
                       aria-hidden="true"
                     >
-                      <span className="text-[9px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">@</span>
+                      <span className="text-[9px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">
+                        @
+                      </span>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Ships to</p>
-                      <p className="text-xs font-mono text-text-light dark:text-text-dark">{formattedShippingAddress}</p>
+                      <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                        Ships to
+                      </p>
+                      <p className="text-xs font-mono text-text-light dark:text-text-dark">
+                        {formattedShippingAddress}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -283,7 +301,14 @@ export function PublicCheckoutClient({ savedCards, userAddress, userName }: IPub
             <AnimatePresence mode="wait">
               {effectiveStep === 1 && <StepSignIn key="signin" redirectTo="/checkout" />}
               {effectiveStep === 2 && (
-                <Step2Name key="name" inputs={inputs} errors={errors} handleInput={handleInput} onNext={handleNext} isAuthed={isAuthed} />
+                <Step2Name
+                  key="name"
+                  inputs={inputs}
+                  errors={errors}
+                  handleInput={handleInput}
+                  onNext={handleNext}
+                  isAuthed={isAuthed}
+                />
               )}
               {effectiveStep === 3 && hasPhysical && (
                 <Step3Address

@@ -1,12 +1,20 @@
 import { updateAddress } from 'app/lib/actions/user/updateAddress'
-import { STATES } from 'app/lib/constants/states'
+import { STATES } from 'app/lib/constants/states.constants'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, CheckCircle, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { IAddress } from 'types/entities/address'
 
-export function UpdateAddressModal({ open, onClose, address }: { open: boolean; onClose: () => void; address: IAddress | null }) {
+export function UpdateAddressModal({
+  open,
+  onClose,
+  address
+}: {
+  open: boolean
+  onClose: () => void
+  address: IAddress | null
+}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -108,7 +116,10 @@ export function UpdateAddressModal({ open, onClose, address }: { open: boolean; 
                     {address ? 'Update Address' : 'Add Address'}
                   </span>
                 </div>
-                <h2 id="address-modal-title" className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark">
+                <h2
+                  id="address-modal-title"
+                  className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
+                >
                   Shipping Address
                 </h2>
               </div>
@@ -129,7 +140,9 @@ export function UpdateAddressModal({ open, onClose, address }: { open: boolean; 
                   <div className="w-12 h-12 flex items-center justify-center bg-cyan-600/10 dark:bg-violet-400/10">
                     <CheckCircle className="w-6 h-6 text-cyan-600 dark:text-violet-400" aria-hidden="true" />
                   </div>
-                  <p className="font-changa text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">Address Updated</p>
+                  <p className="font-changa text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                    Address Updated
+                  </p>
                 </div>
               ) : (
                 <>
@@ -265,7 +278,10 @@ export function UpdateAddressModal({ open, onClose, address }: { open: boolean; 
                       aria-live="assertive"
                       className="flex items-start gap-3 px-4 py-3 border-l-2 border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-400/5"
                     >
-                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500 dark:text-red-400" aria-hidden="true" />
+                      <AlertCircle
+                        className="w-4 h-4 shrink-0 mt-0.5 text-red-500 dark:text-red-400"
+                        aria-hidden="true"
+                      />
                       <p className="font-lato text-xs text-red-600 dark:text-red-400 leading-relaxed">{error}</p>
                     </div>
                   )}

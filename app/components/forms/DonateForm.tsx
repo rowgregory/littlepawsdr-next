@@ -10,7 +10,7 @@ import { EMAIL_REGEX } from 'app/utils/regex'
 import { useSession } from 'next-auth/react'
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { FormField } from '../ui/FormField'
 import { SavedCardSelector } from '../common/SavedCardSelector'
 import { CardElementField } from '../common/CardElementField'
@@ -24,7 +24,7 @@ import { calculateStripeFees } from 'app/utils/calculateStripeFees'
 import { StepSignIn } from '../common/SignInStep'
 import { useSearchParams } from 'next/navigation'
 import { SignedInRow } from '../common/SignedInRow'
-import { IPaymentForm } from 'types/common'
+import { IPaymentForm } from 'types/common.types'
 import { formatWithCommas } from 'app/utils/currency.utils'
 
 const PRESET_AMOUNTS = [10, 25, 50, 100, 250, 500]
@@ -32,7 +32,9 @@ const PRESET_AMOUNTS = [10, 25, 50, 100, 250, 500]
 function PresetAmounts({ inputs }) {
   return (
     <motion.fieldset variants={fadeUp} initial="hidden" animate="show" custom={1} className="mb-5 border-0 p-0 min-w-0">
-      <legend className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-3">Select Amount</legend>
+      <legend className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-3">
+        Select Amount
+      </legend>
       <div className="grid grid-cols-3 gap-2" role="group" aria-label="Preset donation amounts">
         {PRESET_AMOUNTS.map((amount) => {
           const isSelected = !inputs?.useCustom && inputs?.selectedAmount === amount
@@ -104,7 +106,9 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
   const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
 
   // ── Derived values ────────────────────────────────────────────────────────
-  const donationAmount = inputs?.useCustom ? Math.max(5, parseFloat(inputs?.customAmount) || 0) : (inputs?.selectedAmount ?? 0)
+  const donationAmount = inputs?.useCustom
+    ? Math.max(5, parseFloat(inputs?.customAmount) || 0)
+    : (inputs?.selectedAmount ?? 0)
   const processingFee = calculateStripeFees(donationAmount)
   const feesCovered = inputs?.coverFees ? processingFee : 0
   const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
@@ -130,8 +134,6 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
       setForm({ selectedAmount: Number(donationAmountFromUrl) })
     }
   }, [donationAmountFromUrl])
-
-  console.log('usingSavedCard: ', usingSavedCard)
 
   // ── Handlde Submit ─────────────────────────────────────────────────────────────────
   async function handleSubmit(e: { preventDefault: () => void }) {
@@ -233,9 +235,14 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
 
       {/* ── Custom amount ── */}
       <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2} className="mb-6">
-        <label htmlFor="custom-amount" className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+        <label
+          htmlFor="custom-amount"
+          className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2"
+        >
           Custom Amount
-          <span className="ml-1 text-muted-light/60 dark:text-muted-dark/60 normal-case tracking-normal font-sans">(min $5)</span>
+          <span className="ml-1 text-muted-light/60 dark:text-muted-dark/60 normal-case tracking-normal font-sans">
+            (min $5)
+          </span>
         </label>
         <div className="relative">
           <span
@@ -270,7 +277,11 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
   `}
           />
           {inputs?.useCustom && amountBlurred && inputs?.customAmount && parseFloat(inputs?.customAmount) < 5 && (
-            <p id="custom-amount-hint" role="alert" className="absolute text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono">
+            <p
+              id="custom-amount-hint"
+              role="alert"
+              className="absolute text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono"
+            >
               Minimum donation is $5
             </p>
           )}
@@ -287,8 +298,12 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
             exit={{ opacity: 0, y: 8 }}
             className="flex items-center gap-3 mb-6 py-3 px-4 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
-            <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Donating</span>
-            <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">${formatWithCommas(donationAmount)}</span>
+            <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+              Donating
+            </span>
+            <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">
+              ${formatWithCommas(donationAmount)}
+            </span>
             <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">one-time</span>
           </motion.div>
         )}
@@ -349,7 +364,9 @@ export function DonateForm({ savedCards, userName }: IPaymentForm) {
               useNewCard={inputs?.useNewCard}
               onSelectCard={(id) => setForm({ selectedCardId: id })}
               onUseNewCard={() => setForm({ useNewCard: true, selectedCardId: null })}
-              onUseSavedCard={() => setForm({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null })}
+              onUseSavedCard={() =>
+                setForm({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null })
+              }
             />
           )}
 

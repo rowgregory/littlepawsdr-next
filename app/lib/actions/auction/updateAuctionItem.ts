@@ -3,12 +3,16 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext, RequestContext } from 'app/utils/log.utils'
+import { getRequestContext, RequestContext } from 'app/utils/log.server.utils'
 import { auth } from 'app/lib/auth'
 import { UpdateAuctionItemInput } from 'types/entities/auction-item'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const updateAuctionItem = async (id: string, data: UpdateAuctionItemInput) => {
-  const [actor, context] = await Promise.all([getActor().catch(() => 'Unknown actor'), getRequestContext().catch(() => ({}) as RequestContext)])
+  const [actor, context] = await Promise.all([
+    getActor().catch(() => 'Unknown actor'),
+    getRequestContext().catch(() => ({}) as RequestContext)
+  ])
 
   try {
     // ── Guards ──
@@ -50,14 +54,20 @@ export const updateAuctionItem = async (id: string, data: UpdateAuctionItemInput
             isFixed: data.sellingFormat === 'FIXED',
 
             // ── No bids yet → currentBid/minimumBid are still seeds; keep them synced ──
-            ...(item.totalBids === 0 && newStartingPrice != null ? { currentBid: newStartingPrice, minimumBid: newStartingPrice } : {})
+            ...(item.totalBids === 0 && newStartingPrice != null
+              ? { currentBid: newStartingPrice, minimumBid: newStartingPrice }
+              : {})
           }
     })
 
     // Append new photos (existing photos are managed via their own actions)
     if (data.photos?.length) {
       const [last, existingCount] = await Promise.all([
-        prisma.auctionItemPhoto.findFirst({ where: { itemId: id }, orderBy: { sortOrder: 'desc' }, select: { sortOrder: true } }),
+        prisma.auctionItemPhoto.findFirst({
+          where: { itemId: id },
+          orderBy: { sortOrder: 'desc' },
+          select: { sortOrder: true }
+        }),
         prisma.auctionItemPhoto.count({ where: { itemId: id } })
       ])
 

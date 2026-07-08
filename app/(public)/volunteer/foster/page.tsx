@@ -1,6 +1,6 @@
 'use client'
 
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 
@@ -20,7 +20,9 @@ export default function FosterApplication() {
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-12 sm:mb-16">
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Volunteer</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Volunteer
+            </p>
           </div>
           <h1 className="font-quicksand text-4xl sm:text-5xl font-bold text-text-light dark:text-text-dark leading-tight mb-5">
             Foster <span className="font-light text-muted-light dark:text-muted-dark">Application</span>
@@ -42,22 +44,29 @@ export default function FosterApplication() {
         >
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <h2 id="about-fostering" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            <h2
+              id="about-fostering"
+              className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+            >
               About Fostering
             </h2>
           </div>
           <div className="space-y-4 text-sm text-muted-light dark:text-on-dark leading-relaxed">
             <p>
-              During fostering, it&apos;s important that we give each dachshund a safe environment where the dog can learn to trust again, to heal,
-              and to become a loving family member. Many of the dachshunds we pull from shelters or receive from owner surrenders just need a
-              temporary home until their forever home can be found.
+              During fostering, it&apos;s important that we give each dachshund a safe environment where the dog can
+              learn to trust again, to heal, and to become a loving family member. Many of the dachshunds we pull from
+              shelters or receive from owner surrenders just need a temporary home until their forever home can be
+              found.
             </p>
             <p>
-              Fostering is a rewarding experience but is a commitment. You may bring home a dog that was just pulled from a shelter or surrendered by
-              their owner. Some fosters won&apos;t get along with your dogs while others warm up quickly. Some may be sick and need extra attention.
-              But the reward when they go to their forever home is something you will never forget.
+              Fostering is a rewarding experience but is a commitment. You may bring home a dog that was just pulled
+              from a shelter or surrendered by their owner. Some fosters won&apos;t get along with your dogs while
+              others warm up quickly. Some may be sick and need extra attention. But the reward when they go to their
+              forever home is something you will never forget.
             </p>
-            <p>LPDR is responsible for all vetting for foster dogs. This application takes 15–30 minutes to complete.</p>
+            <p>
+              LPDR is responsible for all vetting for foster dogs. This application takes 15–30 minutes to complete.
+            </p>
           </div>
         </motion.section>
 
@@ -73,7 +82,10 @@ export default function FosterApplication() {
         >
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <h2 id="process-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            <h2
+              id="process-heading"
+              className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+            >
               What Happens Next
             </h2>
           </div>
@@ -91,7 +103,10 @@ export default function FosterApplication() {
                 custom={i * 0.5}
                 className="bg-bg-light dark:bg-bg-dark p-5 sm:p-6 grid grid-cols-[40px_1fr] gap-4 items-start"
               >
-                <span className="font-mono text-xl font-bold text-primary-light dark:text-primary-dark leading-none pt-0.5" aria-hidden="true">
+                <span
+                  className="font-mono text-xl font-bold text-primary-light dark:text-primary-dark leading-none pt-0.5"
+                  aria-hidden="true"
+                >
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed">{step}</p>
@@ -123,7 +138,10 @@ export default function FosterApplication() {
         >
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <h2 id="application-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            <h2
+              id="application-heading"
+              className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+            >
               Foster Application
             </h2>
           </div>

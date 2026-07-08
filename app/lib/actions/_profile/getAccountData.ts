@@ -1,0 +1,219 @@
+import prisma from 'prisma/client'
+import { auth } from '../../auth'
+import { createLog } from '../log/createLog'
+import {
+  AuctionParticipation,
+  Donation,
+  MerchAndWWOrder,
+  ParticipationItem,
+  Subscription
+} from 'types/member-portal.types'
+
+export const getAccountData = async () => {
+  try {
+    const session = await auth()
+
+    if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
+
+    const [user, orders, auctionBids, paymentMethods, adoptionFees] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
+          anonymousBidding: true,
+          address: true,
+          createdAt: true
+        }
+      }),
+      prisma.order.findMany({
+        where: { userId: session.user.id },
+        include: { items: true },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.auctionBid.findMany({
+        where: { userId: session.user.id },
+        include: {
+          auctionItem: {
+            include: {
+              photos: {
+                orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+                take: 1
+              },
+              winningBidder: {
+                select: { userId: true, id: true, winningBidPaymentStatus: true, paidOn: true }
+              }
+            }
+          },
+          auction: {
+            select: { id: true, title: true, status: true, endDate: true, customAuctionLink: true }
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.paymentMethod.findMany({
+        where: { userId: session.user.id },
+        orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }]
+      }),
+      prisma.adoptionFee.findMany({
+        where: { userId: session.user.id },
+        orderBy: { createdAt: 'desc' }
+      })
+    ])
+
+    if (!user) return { success: false, error: 'User not found', data: null }
+
+    const donations: Donation[] = orders
+      .filter((o) => o.type === 'ONE_TIME_DONATION')
+      .map((o) => ({
+        id: o.id,
+        amount: Number(o.totalAmount),
+        createdAt: o.createdAt,
+        status: o.status
+      }))
+
+    const subscriptions: Subscription[] = orders
+      .filter((o) => o.type === 'RECURRING_DONATION')
+      .map((o) => ({
+        id: o.id,
+        tierName: o.items[0]?.itemName ?? 'Recurring Donation',
+        amount: Number(o.totalAmount),
+        interval: o.recurringFrequency ?? 'MONTHLY',
+        status: o.status,
+        nextBillingDate: o.nextBillingDate
+      }))
+
+    const merchAndWWOrders: MerchAndWWOrder[] = orders
+      .filter((o) => o.type === 'PRODUCT' || o.type === 'WELCOME_WIENER' || o.type === 'MIXED')
+      .map((o) => ({
+        id: o.id,
+        type: o.type,
+        totalAmount: Number(o.totalAmount),
+        createdAt: o.createdAt,
+        status: o.status,
+        shippingStatus: o.shippingStatus ?? null,
+        customerName: o.customerName ?? null,
+        items: o.items.map((item) => ({
+          id: item.id,
+          name: item.itemName ?? 'Item',
+          image: item.itemImage ?? null,
+          price: Number(item.price),
+          quantity: item.quantity ?? 1,
+          isPhysical: item.isPhysical
+        })),
+        shippingAddress: o.addressLine1
+          ? {
+              addressLine1: o.addressLine1,
+              addressLine2: o.addressLine2 ?? null,
+              city: o.city ?? null,
+              state: o.state ?? null,
+              zipPostalCode: o.zipPostalCode ?? null
+            }
+          : null
+      }))
+
+    const byAuction = new Map<string, AuctionParticipation & { itemMap: Map<string, ParticipationItem> }>()
+
+    for (const bid of auctionBids) {
+      const auction = bid.auction
+
+      let group = byAuction.get(auction.id)
+      if (!group) {
+        group = {
+          auctionId: auction.id,
+          auctionTitle: auction.title,
+          auctionStatus: auction.status.toLowerCase(),
+          auctionEndDate: auction.endDate,
+          customAuctionLink: auction.customAuctionLink,
+          myBidCount: 0,
+          items: [],
+          itemMap: new Map(),
+          paymentLink: null,
+          paymentStatus: null,
+          paidOn: null
+        }
+        byAuction.set(auction.id, group)
+      }
+
+      group.myBidCount += 1
+
+      const winner = bid.auctionItem.winningBidder
+      const iWon = winner?.userId === session.user.id
+
+      if (iWon) {
+        group.paymentLink = `/auctions/winner/${winner!.id}`
+        group.paymentStatus = winner!.winningBidPaymentStatus
+        group.paidOn = winner!.paidOn ?? null
+      }
+
+      let item = group.itemMap.get(bid.auctionItemId)
+      if (!item) {
+        item = {
+          auctionItemId: bid.auctionItemId,
+          itemName: bid.auctionItem.name,
+          itemImage: bid.auctionItem.photos[0]?.url ?? null,
+          myHighestBid: Number(bid.bidAmount),
+          myBidCount: 1,
+          lastBidAt: bid.createdAt,
+          itemTotalBids: bid.auctionItem.totalBids,
+          isWinner: iWon,
+          status: bid.status
+        }
+        group.itemMap.set(bid.auctionItemId, item)
+      } else {
+        item.myBidCount += 1
+        item.myHighestBid = Math.max(item.myHighestBid, Number(bid.bidAmount))
+        if (bid.createdAt > item.lastBidAt) {
+          item.lastBidAt = bid.createdAt
+          item.status = bid.status
+        }
+      }
+    }
+
+    const auctionParticipation: AuctionParticipation[] = [...byAuction.values()].map(({ itemMap, ...group }) => ({
+      ...group,
+      items: [...itemMap.values()]
+    }))
+
+    return {
+      success: true,
+      data: {
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          anonymousBidding: user.anonymousBidding,
+          address: user.address,
+          createdAt: user.createdAt
+        },
+        donations,
+        subscriptions,
+        merchAndWWOrders,
+        auctionParticipation,
+        paymentMethods,
+        adoptionFees: adoptionFees.map((fee) => ({
+          id: fee.id,
+          firstName: fee.firstName,
+          lastName: fee.lastName,
+          feeAmount: fee.feeAmount ? Number(fee.feeAmount) : null,
+          status: fee.status,
+          expiresAt: fee.expiresAt,
+          createdAt: fee.createdAt,
+          bypassCode: fee.bypassCode
+        }))
+      }
+    }
+  } catch (error) {
+    await createLog('error', 'Failed to fetch account data', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : null
+    })
+
+    return { success: false, error: 'Failed to fetch account data', data: null }
+  }
+}

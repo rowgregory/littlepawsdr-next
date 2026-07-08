@@ -2,82 +2,135 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, ShoppingBag, Heart, Gavel, Shirt, Mail, PawPrint } from 'lucide-react'
+import { signOut } from 'next-auth/react'
+import {
+  Home,
+  LayoutDashboard,
+  Gavel,
+  Receipt,
+  Package,
+  Dog,
+  DollarSign,
+  Users,
+  Mail,
+  User,
+  LogOut,
+  PawPrint
+} from 'lucide-react'
 
-const NAV = [
+type NavItem = {
+  label: string
+  icon: typeof Home
+  href: string
+}
+
+type NavGroup = {
+  heading: string
+  items: NavItem[]
+}
+
+const navGroups: NavGroup[] = [
   {
-    group: 'Overview',
+    heading: 'Overview',
+    items: [{ label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' }]
+  },
+  {
+    heading: 'Fundraising',
     items: [
-      { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-      { label: 'Users', href: '/admin/users', icon: Users },
-      { label: 'Orders', href: '/admin/orders', icon: ShoppingBag }
+      { label: 'Orders', icon: Receipt, href: '/admin/orders' },
+      { label: 'Auctions', icon: Gavel, href: '/admin/auctions' },
+      { label: 'Products', icon: Package, href: '/admin/products' },
+      { label: 'Welcome Wieners', icon: Dog, href: '/admin/welcome-wieners' }
     ]
   },
   {
-    group: 'Rescue',
-    items: [{ label: 'Dachshunds', href: '/admin/dachshunds', icon: PawPrint }]
-  },
-  {
-    group: 'Commerce',
+    heading: 'Adoptions',
     items: [
-      { label: 'Auctions', href: '/admin/auctions', icon: Gavel },
-      { label: 'Welcome Wieners', href: '/admin/welcome-wieners', icon: Heart },
-      { label: 'Products', href: '/admin/products', icon: Shirt }
+      { label: 'Dachshunds', icon: PawPrint, href: '/admin/dachshunds' },
+      { label: 'Adoption Fees', icon: DollarSign, href: '/admin/adoption-fees' }
     ]
   },
   {
-    group: 'Content',
-    items: [{ label: 'Newsletter', href: '/admin/newsletter', icon: Mail }]
+    heading: 'People',
+    items: [
+      { label: 'Users', icon: Users, href: '/admin/users' },
+      { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' },
+      { label: 'Profile', icon: User, href: '/member/portal' }
+    ]
   }
 ]
 
 export default function AdminSidebar() {
   const pathname = usePathname()
 
-  return (
-    <aside className="w-52 shrink-0 flex flex-col border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark h-full overflow-y-auto">
-      {/* Brand */}
-      <div className="flex items-center gap-3 px-4 py-4 border-b border-border-light dark:border-border-dark">
-        <div className="w-8 h-8 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 shrink-0">
-          <PawPrint size={14} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
-        </div>
-        <div className="min-w-0">
-          <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-none truncate">Little Paws</p>
-          <p className="font-mono text-[8px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">Admin</p>
-        </div>
-      </div>
+  const isActive = (href: string) =>
+    href === '/admin' ? pathname === '/admin' : pathname === href || pathname.startsWith(`${href}/`)
 
-      {/* Nav */}
-      <nav className="flex-1 py-3 space-y-4" aria-label="Admin navigation">
-        {NAV.map((section) => (
-          <div key={section.group}>
-            <p className="font-mono text-[8px] tracking-[0.25em] uppercase text-muted-light dark:text-muted-dark px-4 mb-1">{section.group}</p>
-            {section.items.map(({ label, href, icon: Icon }) => {
-              const active = pathname === href || pathname.startsWith(href + '/')
+  const rowClass = (active: boolean) =>
+    `relative w-full flex items-center gap-3 px-4 py-2 transition-colors ${
+      active
+        ? 'text-text-light dark:text-text-dark bg-primary-light/10 dark:bg-primary-dark/10'
+        : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-bg-light dark:hover:bg-bg-dark'
+    }`
+
+  return (
+    <nav
+      aria-label="Admin sections"
+      className="w-52 shrink-0 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col py-4 h-screen sticky top-0"
+    >
+      {/* Brand */}
+      <Link href="/" aria-label="Little Paws admin home" className="flex items-center gap-2.5 px-4 mb-6">
+        <span className="w-9 h-9 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark font-quicksand font-black text-sm tracking-tight">
+          LP
+        </span>
+        <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
+          Little Paws
+        </span>
+      </Link>
+
+      {/* Groups */}
+      <div className="flex-1 overflow-y-auto flex flex-col gap-5 min-h-0">
+        {navGroups.map((group) => (
+          <div key={group.heading} className="flex flex-col">
+            <p className="px-4 mb-1.5 font-mono text-[9px] tracking-[0.25em] uppercase text-muted-light/70 dark:text-muted-dark/70">
+              {group.heading}
+            </p>
+            {group.items.map((item) => {
+              const Icon = item.icon
+              const active = isActive(item.href)
               return (
                 <Link
-                  key={href}
-                  href={href}
-                  className={`
-                    flex items-center gap-3 px-4 py-2 font-mono text-[10px] tracking-[0.15em] uppercase
-                    transition-colors duration-100 focus:outline-none focus-visible:ring-1
-                    focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark
-                    ${
-                      active
-                        ? 'bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark'
-                        : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-border-light/50 dark:hover:bg-border-dark/30'
-                    }
-                  `}
+                  key={item.label}
+                  href={item.href}
                   aria-current={active ? 'page' : undefined}
+                  className={rowClass(active)}
                 >
-                  <Icon size={13} aria-hidden="true" className="shrink-0" />
-                  {label}
+                  {active && (
+                    <span
+                      className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary-light dark:bg-primary-dark"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <Icon className="w-4.5 h-4.5 shrink-0" aria-hidden="true" />
+                  <span className="font-mono text-[11px] tracking-widest uppercase">{item.label}</span>
                 </Link>
               )
             })}
           </div>
         ))}
-      </nav>
-    </aside>
+      </div>
+
+      {/* Logout — pinned to bottom */}
+      <div className="pt-4 border-t border-border-light dark:border-border-dark shrink-0">
+        <button
+          type="button"
+          onClick={() => signOut({ redirectTo: '/' })}
+          className="w-full flex items-center gap-3 px-4 py-2 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-bg-light dark:hover:bg-bg-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+        >
+          <LogOut className="w-4.5 h-4.5 shrink-0" aria-hidden="true" />
+          <span className="font-mono text-[11px] tracking-widest uppercase">Logout</span>
+        </button>
+      </div>
+    </nav>
   )
 }

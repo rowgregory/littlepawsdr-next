@@ -1,5 +1,3 @@
-import { Filter } from 'types/entities/order.types'
-
 export const ORDER_TYPE_CONFIG: Record<string, { label: string; message: string }> = {
   ONE_TIME_DONATION: {
     label: 'Donation Confirmed',
@@ -32,18 +30,33 @@ export const ORDER_TYPE_CONFIG: Record<string, { label: string; message: string 
   }
 }
 
+export const FILTERS = [
+  'ALL',
+  'ONE_TIME_DONATION',
+  'RECURRING_DONATION',
+  'ADOPTION_FEE',
+  'PRODUCT',
+  'WELCOME_WIENER',
+  'AUCTION_PURCHASE',
+  'MIXED'
+] as const
+
+export type Filter = (typeof FILTERS)[number]
+
+export const FILTER_LABELS: Record<Filter, string> = {
+  ALL: 'All',
+  ONE_TIME_DONATION: 'One-time',
+  RECURRING_DONATION: 'Recurring',
+  ADOPTION_FEE: 'Adoption fee',
+  PRODUCT: 'Product',
+  WELCOME_WIENER: 'Welcome Wiener',
+  AUCTION_PURCHASE: 'Auction',
+  MIXED: 'Mixed'
+}
+
+// Order STATUS badge styles (CONFIRMED / FAILED / etc.) — separate from the type filter
 export const STATUS_STYLES: Record<string, string> = {
   CONFIRMED: 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5',
   PENDING: 'border-amber-500/40 text-amber-600 dark:text-amber-400 bg-amber-500/5',
   FAILED: 'border-red-500/40 text-red-600 dark:text-red-400 bg-red-500/5'
-}
-
-export const FILTERS = ['ALL', 'CONFIRMED', 'PENDING', 'FAILED', 'NEEDS_SHIPPING'] as const
-
-export const FILTER_LABELS: Record<Filter, string> = {
-  ALL: 'All',
-  CONFIRMED: 'Confirmed',
-  PENDING: 'Pending',
-  FAILED: 'Failed',
-  NEEDS_SHIPPING: 'Needs Shipping'
 }

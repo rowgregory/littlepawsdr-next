@@ -1,18 +1,21 @@
-import AdminAuctionDrawer from 'app/components/drawers/AdminAuctionDrawer'
+import { ReactNode } from 'react'
+import { AdminLayoutClient } from './AdminLayoutClient'
 import { auth } from 'app/lib/auth'
 import { redirect } from 'next/navigation'
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export const dynamic = 'force-dynamic'
+
+export default async function AdminLayoutPage({ children }: { children: ReactNode }) {
+  // Runs on the Node runtime — the database session lookup works here.
   const session = await auth()
-  if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPERUSER')) {
+  const role = session?.user?.role
+
+  if (!session?.user) {
     redirect('/auth/login')
   }
 
-  return (
-    <div className="flex bg-bg-light dark:bg-bg-dark">
-      <AdminAuctionDrawer />
-
-      <div className="flex-1 min-w-0 overflow-hidden">{children}</div>
-    </div>
-  )
+  if (role !== 'ADMIN' && role !== 'SUPERUSER') {
+    redirect('/member/portal')
+  }
+  return <AdminLayoutClient>{children}</AdminLayoutClient>
 }

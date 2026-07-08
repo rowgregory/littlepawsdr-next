@@ -5,7 +5,8 @@ import { ProductUpdateInputs } from 'types/entities/product'
 import { createLog } from '../log/createLog'
 import { auth } from '../../auth'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const updateProduct = async (input: ProductUpdateInputs) => {
   try {
@@ -31,7 +32,7 @@ export const updateProduct = async (input: ProductUpdateInputs) => {
       }
     })
 
-    const message = await buildLogMessage('updated a product', actor, context)
+    const message = buildLogMessage('updated a product', actor, context)
     await createLog('info', message, {
       productId: product.id,
       productName: product.name,

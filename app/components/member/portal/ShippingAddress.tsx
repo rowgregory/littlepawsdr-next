@@ -1,4 +1,4 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { MapPin, Pencil } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { formatDate } from 'app/utils/date.utils'
@@ -11,7 +11,10 @@ export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen })
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 id="address-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+          <h2
+            id="address-heading"
+            className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+          >
             Shipping Address
           </h2>
         </div>
@@ -31,7 +34,9 @@ export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen })
           <div className="flex items-start gap-3 p-5">
             <MapPin className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5" aria-hidden="true" />
             <div>
-              <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark">{user.address.name}</p>
+              <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark">
+                {user.address.name}
+              </p>
               <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1 leading-relaxed">
                 {user.address.addressLine1}
                 {user.address.addressLine2 && `, ${user.address.addressLine2}`}
@@ -42,7 +47,9 @@ export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen })
           </div>
           {user.address.updatedAt && (
             <div className="px-5 py-2.5 border-t border-border-light dark:border-border-dark">
-              <p className="text-[10px] font-mono text-muted-light/60 dark:text-muted-dark/60">Last updated {formatDate(user.address.updatedAt)}</p>
+              <p className="text-[10px] font-mono text-muted-light/60 dark:text-muted-dark/60">
+                Last updated {formatDate(user.address.updatedAt)}
+              </p>
             </div>
           )}
         </div>
@@ -50,7 +57,11 @@ export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen })
         <EmptyState message="No shipping address on file." />
       )}
 
-      <UpdateAddressModal open={addressModalOpen} onClose={() => setAddressModalOpen(false)} address={user?.address ?? null} />
+      <UpdateAddressModal
+        open={addressModalOpen}
+        onClose={() => setAddressModalOpen(false)}
+        address={user?.address ?? null}
+      />
     </motion.section>
   )
 }

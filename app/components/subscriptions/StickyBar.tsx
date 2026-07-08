@@ -1,5 +1,5 @@
 import { useSounds } from '@hooks/useSounds'
-import { T } from 'app/lib/constants/subscriptions'
+import { T } from 'app/lib/constants/subscriptions.constants'
 import { AnimatePresence, motion } from 'framer-motion'
 
 export function StickyBar({ selected, selectedTier, billing, setView }) {
@@ -21,14 +21,20 @@ export function StickyBar({ selected, selectedTier, billing, setView }) {
             <div className="max-w-5xl mx-auto flex flex-col xs:flex-row items-start xs:items-center justify-between gap-4">
               <div className="flex items-center gap-5 flex-wrap">
                 <div>
-                  <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">Selected</span>
-                  <span className={`font-quicksand font-black text-lg leading-none ${T[selectedTier.tier].darkPriceActive}`}>
+                  <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">
+                    Selected
+                  </span>
+                  <span
+                    className={`font-quicksand font-black text-lg leading-none ${T[selectedTier.tier].darkPriceActive}`}
+                  >
                     {selectedTier.name}
                   </span>
                 </div>
                 <div className="w-px h-8 bg-white/10" aria-hidden="true" />
                 <div>
-                  <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">{billing}</span>
+                  <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">
+                    {billing}
+                  </span>
                   <span className="font-quicksand font-black text-lg text-white">
                     ${selectedTier.price[billing]}
                     <span className="text-xs font-mono text-on-dark ml-1">/{billing === 'MONTHLY' ? 'mo' : 'yr'}</span>
@@ -38,7 +44,9 @@ export function StickyBar({ selected, selectedTier, billing, setView }) {
                   <>
                     <div className="w-px h-8 bg-white/10" aria-hidden="true" />
                     <div>
-                      <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">You save</span>
+                      <span className="block text-[9px] font-mono tracking-[0.2em] uppercase text-on-dark mb-0.5">
+                        You save
+                      </span>
                       <span className={`font-quicksand font-black text-lg ${T[selectedTier.tier].darkPriceActive}`}>
                         ${selectedTier.price.MONTHLY * 12 - selectedTier.price.YEARLY}
                       </span>

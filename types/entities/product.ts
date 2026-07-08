@@ -39,3 +39,17 @@ export type ProductUpdateInputs = {
   isPhysicalProduct?: boolean
   isLive?: boolean
 }
+
+export type Product = {
+  id: string
+  name: string | null
+  description: string | null
+  images: string[]
+  price: number | string
+  shippingPrice: number | string
+  countInStock: number
+  isLive: boolean
+  archivedAt: string | null
+  /** Derived server-side from orderItems — not a column on Product. */
+  sold?: number
+}

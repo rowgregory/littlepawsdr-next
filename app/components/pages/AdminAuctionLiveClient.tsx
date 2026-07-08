@@ -176,7 +176,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
   if (!auction) {
     return (
       <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 text-center">
-        <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">No active auction</p>
+        <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+          No active auction
+        </p>
       </div>
     )
   }
@@ -184,9 +186,11 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
   return (
     <>
       <AdminPageHeader
-        label="Admin"
-        title="Auction Live"
-        description={auction ? `${auction.title} — ends ${formatDate(auction.endDate, true)}` : 'Live auction monitoring and anomaly detection'}
+        title={
+          auction
+            ? `${auction.title} — ends ${formatDate(auction.endDate, true)}`
+            : 'Live auction monitoring and anomaly detection'
+        }
       />
       <div className="max-w-screen-2xl mx-auto px-4 xs:px-5 sm:px-6 py-6 space-y-6">
         {/* ── Stats bar ── */}
@@ -195,7 +199,12 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
             { label: 'Total Bids', value: totalBids, icon: Gavel },
             { label: 'Active Bidders', value: activeBidders, icon: Users },
             { label: 'Items', value: items.length, icon: Activity },
-            { label: 'Anomalies', value: activeAnomalies.length, icon: AlertTriangle, alert: activeAnomalies.length > 0 }
+            {
+              label: 'Anomalies',
+              value: activeAnomalies.length,
+              icon: AlertTriangle,
+              alert: activeAnomalies.length > 0
+            }
           ].map((stat) => (
             <div key={stat.label} className="bg-bg-light dark:bg-bg-dark px-5 py-4 flex items-center gap-3">
               <stat.icon
@@ -204,7 +213,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                 aria-hidden="true"
               />
               <div>
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">{stat.label}</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  {stat.label}
+                </p>
                 <p
                   className={`font-quicksand font-black text-2xl leading-none ${stat.alert ? 'text-red-500 dark:text-red-400' : 'text-text-light dark:text-text-dark'}`}
                 >
@@ -229,7 +240,11 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3 min-w-0">
-                  <AlertTriangle size={14} className="text-red-500 dark:text-red-400 shrink-0 mt-0.5" aria-hidden="true" />
+                  <AlertTriangle
+                    size={14}
+                    className="text-red-500 dark:text-red-400 shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <p className={`text-[10px] font-mono tracking-[0.2em] uppercase ${ANOMALY_COLORS[anomaly.type]}`}>
@@ -246,7 +261,10 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                     {anomaly.bids.length > 0 && (
                       <div className="mt-3 space-y-1">
                         {anomaly.bids.map((bid) => (
-                          <div key={bid.id} className="flex items-center gap-3 text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                          <div
+                            key={bid.id}
+                            className="flex items-center gap-3 text-[10px] font-mono text-muted-light dark:text-muted-dark"
+                          >
                             <span>${bid.bidAmount}</span>
                             <span className="opacity-50">—</span>
                             <span>{bid.bidderName ?? 'Unknown'}</span>
@@ -289,7 +307,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light dark:bg-primary-dark opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light dark:bg-primary-dark" />
               </span>
-              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Live Feed ({liveFeed.length})</p>
+              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                Live Feed ({liveFeed.length})
+              </p>
             </div>
 
             <div
@@ -302,7 +322,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
             >
               {liveFeed.length === 0 ? (
                 <div className="px-5 py-12 text-center">
-                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Waiting for bids...</p>
+                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    Waiting for bids...
+                  </p>
                 </div>
               ) : (
                 <ul role="list">
@@ -324,7 +346,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                               <span className="text-sm font-mono font-bold text-primary-light dark:text-primary-dark tabular-nums">
                                 ${event.confirmedBidAmount.toLocaleString()}
                               </span>
-                              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate">{event.topBidder}</span>
+                              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate">
+                                {event.topBidder}
+                              </span>
                             </div>
                             <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate">
                               {item?.name ?? event.auctionItemId}
@@ -344,7 +368,9 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
 
           {/* ── Items grid — right ── */}
           <div className="space-y-3">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Items ({items.length})</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Items ({items.length})
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
               {items.map((item) => {
                 const itemAnomalies = activeAnomalies.filter((a) => a.itemId === item.id)
@@ -363,11 +389,17 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                         <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
                           {item.sellingFormat}
                         </p>
-                        <p className="text-sm font-mono font-medium text-text-light dark:text-text-dark truncate">{item.name}</p>
+                        <p className="text-sm font-mono font-medium text-text-light dark:text-text-dark truncate">
+                          {item.name}
+                        </p>
                       </div>
                       {itemAnomalies.length > 0 && (
                         <div className="flex items-center gap-1.5 px-2 py-0.5 bg-red-500/10 border border-red-500/30 shrink-0">
-                          <AlertTriangle size={11} className="text-red-500 dark:text-red-400 shrink-0" aria-hidden="true" />
+                          <AlertTriangle
+                            size={11}
+                            className="text-red-500 dark:text-red-400 shrink-0"
+                            aria-hidden="true"
+                          />
                           <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-red-500 dark:text-red-400">
                             {itemAnomalies.length} {itemAnomalies.length === 1 ? 'anomaly' : 'anomalies'}
                           </span>
@@ -378,40 +410,63 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                     {/* Item stats */}
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Current</p>
+                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                          Current
+                        </p>
                         <p className="text-sm font-mono font-bold text-primary-light dark:text-primary-dark tabular-nums">
                           ${(item.currentBid ?? item.startingPrice ?? 0).toLocaleString()}
                         </p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Bids</p>
-                        <p className="text-sm font-mono font-bold text-text-light dark:text-text-dark">{item.totalBids}</p>
+                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                          Bids
+                        </p>
+                        <p className="text-sm font-mono font-bold text-text-light dark:text-text-dark">
+                          {item.totalBids}
+                        </p>
                       </div>
                       <div>
-                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Top</p>
-                        <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">{item.topBidder ?? '—'}</p>
+                        <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                          Top
+                        </p>
+                        <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">
+                          {item.topBidder ?? '—'}
+                        </p>
                       </div>
                     </div>
 
                     {/* Recent bids */}
                     {item.bids.length > 0 && (
                       <div className="space-y-1 border-t border-border-light dark:border-border-dark pt-3">
-                        <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">Recent Bids</p>
+                        <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+                          Recent Bids
+                        </p>
                         {item.bids.slice(0, 5).map((bid) => {
-                          const isDuplicate = item.bids.filter((b) => Number(b.bidAmount) === Number(bid.bidAmount)).length > 1
+                          const isDuplicate =
+                            item.bids.filter((b) => Number(b.bidAmount) === Number(bid.bidAmount)).length > 1
                           return (
                             <div
                               key={bid.id}
                               className={`flex items-center justify-between gap-2 px-2 py-1.5 ${
-                                isDuplicate ? 'bg-red-500/10 border border-red-500/20' : 'bg-surface-light dark:bg-surface-dark'
+                                isDuplicate
+                                  ? 'bg-red-500/10 border border-red-500/20'
+                                  : 'bg-surface-light dark:bg-surface-dark'
                               }`}
                             >
                               <div className="flex items-center gap-2 min-w-0 text-[10px] font-mono">
-                                {isDuplicate && <AlertTriangle size={9} className="text-red-500 dark:text-red-400 shrink-0" aria-hidden="true" />}
+                                {isDuplicate && (
+                                  <AlertTriangle
+                                    size={9}
+                                    className="text-red-500 dark:text-red-400 shrink-0"
+                                    aria-hidden="true"
+                                  />
+                                )}
                                 <span className="text-primary-light dark:text-primary-dark font-bold tabular-nums">
                                   ${Number(bid.bidAmount).toLocaleString()}
                                 </span>
-                                <span className="text-muted-light dark:text-muted-dark truncate">{bid.bidderName ?? '—'}</span>
+                                <span className="text-muted-light dark:text-muted-dark truncate">
+                                  {bid.bidderName ?? '—'}
+                                </span>
                                 <span className="text-muted-light dark:text-muted-dark opacity-60 shrink-0 tabular-nums">
                                   {formatDate(new Date(bid.createdAt), true)}
                                 </span>
@@ -438,7 +493,10 @@ export default function AdminAuctionLiveClient({ auction }: { auction: IAuction 
                           {item.totalQuantity ? `/${item.totalQuantity}` : ''})
                         </p>
                         {item.instantBuyers.map((buyer) => (
-                          <div key={buyer.id} className="flex items-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark py-1">
+                          <div
+                            key={buyer.id}
+                            className="flex items-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark py-1"
+                          >
                             <Zap size={9} className="text-yellow-500 shrink-0" aria-hidden="true" />
                             <span className="truncate">{buyer.name ?? buyer.email ?? '—'}</span>
                             {buyer.totalPrice && (

@@ -1,9 +1,9 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatMoney } from 'app/utils/currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
-import { AuctionParticipation, MerchAndWWOrder, PortalUser, Subscription } from 'types/member-portal'
+import { AuctionParticipation, MerchAndWWOrder, PortalUser, Subscription } from 'types/member-portal.types'
 
 interface HeaderProps {
   user: PortalUser
@@ -47,13 +47,17 @@ export function Header({
           className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center shrink-0"
           aria-hidden="true"
         >
-          <span className="font-quicksand font-black text-base text-primary-light dark:text-primary-dark">{initials}</span>
+          <span className="font-quicksand font-black text-base text-primary-light dark:text-primary-dark">
+            {initials}
+          </span>
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3 mb-1">
             <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Member Portal</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Member Portal
+            </p>
           </div>
 
           <AnimatePresence mode="wait">
@@ -125,7 +129,9 @@ export function Header({
                 transition={{ duration: 0.2 }}
                 className="flex items-center gap-2"
               >
-                <h1 className="font-quicksand font-black text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight">{fullName}</h1>
+                <h1 className="font-quicksand font-black text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight">
+                  {fullName}
+                </h1>
                 <button
                   type="button"
                   onClick={() => {
@@ -155,8 +161,12 @@ export function Header({
           { label: 'Auctions', value: String(auctionParticipation.length) }
         ].map(({ label, value }) => (
           <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4 sm:py-5">
-            <p className="text-[9px] font-mono tracking-[0.18em] uppercase text-muted-light dark:text-muted-dark mb-1">{label}</p>
-            <p className="font-quicksand font-black text-xl sm:text-2xl text-text-light dark:text-text-dark tabular-nums">{value}</p>
+            <p className="text-[9px] font-mono tracking-[0.18em] uppercase text-muted-light dark:text-muted-dark mb-1">
+              {label}
+            </p>
+            <p className="font-quicksand font-black text-xl sm:text-2xl text-text-light dark:text-text-dark tabular-nums">
+              {value}
+            </p>
           </div>
         ))}
       </div>

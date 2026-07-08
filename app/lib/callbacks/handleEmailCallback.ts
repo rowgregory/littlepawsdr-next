@@ -30,21 +30,6 @@ export async function handleEmailCallback(user: User) {
     data: { lastLoginAt: new Date() }
   })
 
-  const existing = await prisma.account.findFirst({
-    where: { userId: dbUser.id, provider: 'email' }
-  })
-
-  if (!existing) {
-    await prisma.account.create({
-      data: {
-        userId: dbUser.id,
-        type: 'email',
-        provider: 'email',
-        providerAccountId: user.email!
-      }
-    })
-  }
-
   await pusherSuperuser('user-signed-in', {
     email: dbUser.email,
     name: dbUser.firstName,

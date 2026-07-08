@@ -1,4 +1,4 @@
-import PublicDonateClient from 'app/components/pages/PublicDonateClient'
+import PublicDonateClient from 'app/(public)/donate/PublicDonateClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'

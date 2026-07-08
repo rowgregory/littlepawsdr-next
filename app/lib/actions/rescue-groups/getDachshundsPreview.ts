@@ -1,7 +1,8 @@
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
 import { createLog } from '../log/createLog'
 import { getPicturesAndVideos } from 'app/utils/rescueGroupsHelpers'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export interface DachshundPreviewData {
   id: string

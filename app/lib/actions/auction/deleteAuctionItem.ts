@@ -2,15 +2,15 @@
 
 import prisma from 'prisma/client'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
 import { auth } from 'app/lib/auth'
 import { createLog } from '../log/createLog'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const deleteAuctionItem = async (id: string, auctionId: string) => {
   const [actor, context] = await Promise.all([getActor().catch(() => 'Unknown actor'), getRequestContext()])
 
   try {
-    // ── Guards ──
     const session = await auth()
     if (!session?.user || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPERUSER')) {
       return { success: false, error: 'Unauthorized', data: null }

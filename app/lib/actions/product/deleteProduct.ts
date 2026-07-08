@@ -4,7 +4,8 @@ import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { auth } from 'app/lib/auth'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const deleteProduct = async (id: string) => {
   try {
@@ -19,7 +20,7 @@ export const deleteProduct = async (id: string) => {
       where: { id }
     })
 
-    const message = await buildLogMessage('deleted a product', actor, context)
+    const message = buildLogMessage('deleted a product', actor, context)
     await createLog('info', message, {
       productId: product.id,
       productName: product.name,

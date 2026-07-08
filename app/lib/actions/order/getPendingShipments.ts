@@ -1,7 +1,8 @@
 import prisma from 'prisma/client'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
 import { createLog } from '../log/createLog'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export interface PendingShipmentData {
   id: string
@@ -37,9 +38,13 @@ export async function getPendingShipments(): Promise<{
     })
 
     const data: PendingShipmentData[] = orders.map((o) => {
-      const itemsSummary = o.items.map((i) => `${i.itemName ?? 'Item'}${i.quantity && i.quantity > 1 ? ` ×${i.quantity}` : ''}`).join(', ')
+      const itemsSummary = o.items
+        .map((i) => `${i.itemName ?? 'Item'}${i.quantity && i.quantity > 1 ? ` ×${i.quantity}` : ''}`)
+        .join(', ')
 
-      const address = [o.addressLine1, o.addressLine2, o.city, o.state, o.zipPostalCode, o.country].filter(Boolean).join(', ')
+      const address = [o.addressLine1, o.addressLine2, o.city, o.state, o.zipPostalCode, o.country]
+        .filter(Boolean)
+        .join(', ')
 
       return {
         id: o.id,

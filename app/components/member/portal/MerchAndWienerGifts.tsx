@@ -1,7 +1,7 @@
 import { formatDate } from 'app/utils/date.utils'
 import { Package } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { EmptyState } from './EmptyState'
 import { StatusPill } from 'app/components/ui/StatusPill'
 import { formatMoney } from 'app/utils/currency.utils'
@@ -14,7 +14,10 @@ export function MerchAndWienerGifts({ merchAndWWOrders }) {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 id="address-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+          <h2
+            id="address-heading"
+            className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+          >
             Merch & Welcome Wieners
           </h2>
         </div>
@@ -42,12 +45,20 @@ export function MerchAndWienerGifts({ merchAndWWOrders }) {
                     <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
                       {formatDate(order.createdAt, true)}
                     </p>
-                    {order.customerName && <p className="text-xs font-mono text-text-light dark:text-text-dark mt-0.5">{order.customerName}</p>}
+                    {order.customerName && (
+                      <p className="text-xs font-mono text-text-light dark:text-text-dark mt-0.5">
+                        {order.customerName}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-[9px] font-mono tracking-[0.15em] uppercase px-2 py-0.5 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark">
-                    {order.type === 'MIXED' ? 'Merch + Welcome Wiener' : order.type === 'WELCOME_WIENER' ? 'Welcome Wiener' : 'Merch'}
+                    {order.type === 'MIXED'
+                      ? 'Merch + Welcome Wiener'
+                      : order.type === 'WELCOME_WIENER'
+                        ? 'Welcome Wiener'
+                        : 'Merch'}
                   </span>
                   <StatusPill status={order.status} />
                   {order.shippingStatus && <StatusPill status={order.shippingStatus} />}
@@ -66,7 +77,12 @@ export function MerchAndWienerGifts({ merchAndWWOrders }) {
                       aria-hidden="true"
                     >
                       {item.image ? (
-                        <Picture priority={false} src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        <Picture
+                          priority={false}
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">?</span>
@@ -75,7 +91,9 @@ export function MerchAndWienerGifts({ merchAndWWOrders }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">{item.name}</p>
-                      {item.quantity > 1 && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">×{item.quantity}</p>}
+                      {item.quantity > 1 && (
+                        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">×{item.quantity}</p>
+                      )}
                     </div>
                     <span className="text-[11px] font-mono text-muted-light dark:text-muted-dark tabular-nums shrink-0">
                       {formatMoney(item.price * item.quantity)}
@@ -87,7 +105,9 @@ export function MerchAndWienerGifts({ merchAndWWOrders }) {
               {/* Shipping address */}
               {order.shippingAddress && (
                 <div className="flex items-start gap-2 mt-3 pt-3 border-t border-border-light dark:border-border-dark">
-                  <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark shrink-0">Ships to</p>
+                  <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark shrink-0">
+                    Ships to
+                  </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
                     {order.shippingAddress.addressLine1}
                     {order.shippingAddress.addressLine2 && `, ${order.shippingAddress.addressLine2}`}

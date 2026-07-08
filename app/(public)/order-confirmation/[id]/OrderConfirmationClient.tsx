@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight, Receipt, Package, Heart, ChevronLeft, User } from 'lucide-react'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../../../components/common/Picture'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
@@ -89,22 +89,34 @@ export default function OrderConfirmationClient({ order }) {
               />
             </motion.div>
             <div>
-              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400 mb-1">{config.label}</p>
+              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400 mb-1">
+                {config.label}
+              </p>
               <h1 className="font-changa text-3xl 430:text-4xl uppercase leading-none text-zinc-950 dark:text-text-dark mb-2">
                 Thank you, {order?.customerName}!
               </h1>
-              <p className="font-lato text-sm text-zinc-500 dark:text-muted-dark leading-relaxed max-w-lg">{config.message}</p>
+              <p className="font-lato text-sm text-zinc-500 dark:text-muted-dark leading-relaxed max-w-lg">
+                {config.message}
+              </p>
             </div>
           </div>
         </motion.div>
 
         {/* ── Receipt ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="border border-zinc-200 dark:border-border-dark mb-6">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={1}
+          className="border border-zinc-200 dark:border-border-dark mb-6"
+        >
           {/* Receipt header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2">
             <div className="flex items-center gap-2">
               <Receipt className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50" aria-hidden="true" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">Receipt</span>
+              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+                Receipt
+              </span>
             </div>
             <span className="font-changa text-[10px] uppercase tracking-[0.15em] text-zinc-400 dark:text-muted-dark/50 font-mono">
               #{order?.id.slice(-8).toUpperCase()}
@@ -118,7 +130,12 @@ export default function OrderConfirmationClient({ order }) {
                 <div key={item.id} className="flex items-center gap-4 px-5 py-4">
                   <div className="shrink-0 w-10 h-10 bg-zinc-100 dark:bg-white/5 overflow-hidden">
                     {item.itemImage ? (
-                      <Picture priority={true} src={item.itemImage} alt={item.itemName ?? 'Item'} className="w-full h-full object-cover" />
+                      <Picture
+                        priority={true}
+                        src={item.itemImage}
+                        alt={item.itemName ?? 'Item'}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Package className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
@@ -130,10 +147,14 @@ export default function OrderConfirmationClient({ order }) {
                       {item.itemName ?? 'Item'}
                     </p>
                     {item.quantity && item.quantity > 1 && (
-                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">Qty: {item.quantity}</p>
+                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
+                        Qty: {item.quantity}
+                      </p>
                     )}
                     {item.isPhysical && (
-                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">Shipping details to follow</p>
+                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
+                        Shipping details to follow
+                      </p>
                     )}
                   </div>
                   <span className="shrink-0 font-changa text-sm tabular-nums text-zinc-950 dark:text-text-dark">
@@ -145,14 +166,18 @@ export default function OrderConfirmationClient({ order }) {
           ) : (
             <div className="flex items-center gap-4 px-5 py-4">
               <div className="shrink-0 w-10 h-10 border border-zinc-200 dark:border-border-dark flex items-center justify-center">
-                <span className="font-mono text-[10px] font-bold tracking-widest text-zinc-400 dark:text-muted-dark/50">{typeCode}</span>
+                <span className="font-mono text-[10px] font-bold tracking-widest text-zinc-400 dark:text-muted-dark/50">
+                  {typeCode}
+                </span>
               </div>
               <div className="flex flex-col">
                 <p className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
                   {order?.type === 'RECURRING_DONATION' ? 'Recurring Donation' : 'One-Time Donation'}
                 </p>
                 {order?.tierName && (
-                  <p className="font-changa text-xs uppercase tracking-wide text-zinc-400 dark:text-muted-dark/50">{order.tierName}</p>
+                  <p className="font-changa text-xs uppercase tracking-wide text-zinc-400 dark:text-muted-dark/50">
+                    {order.tierName}
+                  </p>
                 )}
               </div>
             </div>
@@ -164,7 +189,9 @@ export default function OrderConfirmationClient({ order }) {
               <>
                 <div className="flex justify-between items-center">
                   <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Subtotal</span>
-                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">${formatWithCommas(subtotal.toFixed(2))}</span>
+                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                    ${formatWithCommas(subtotal.toFixed(2))}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Processing fees covered</span>
@@ -184,12 +211,15 @@ export default function OrderConfirmationClient({ order }) {
             )}
             <div
               className={`flex justify-between items-center ${
-                (order?.coverFees && Number(order?.feesCovered) > 0) || (order?.isRecurring && order?.recurringFrequency)
+                (order?.coverFees && Number(order?.feesCovered) > 0) ||
+                (order?.isRecurring && order?.recurringFrequency)
                   ? 'pt-2.5 border-t border-zinc-200 dark:border-border-dark'
                   : ''
               }`}
             >
-              <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">Total</span>
+              <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                Total
+              </span>
               <span className="font-changa text-2xl tabular-nums text-cyan-600 dark:text-violet-400">
                 ${formatWithCommas(order?.totalAmount.toFixed(2))}
               </span>
@@ -200,7 +230,9 @@ export default function OrderConfirmationClient({ order }) {
           <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2 space-y-2">
             <div className="flex justify-between items-center">
               <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">Email</span>
-              <span className="font-lato text-[10px] text-zinc-600 dark:text-muted-dark truncate max-w-50">{order?.customerEmail}</span>
+              <span className="font-lato text-[10px] text-zinc-600 dark:text-muted-dark truncate max-w-50">
+                {order?.customerEmail}
+              </span>
             </div>
             {order?.paidAt && (
               <div className="flex justify-between items-center">
@@ -240,12 +272,19 @@ export default function OrderConfirmationClient({ order }) {
         >
           <Heart className="w-3.5 h-3.5 text-cyan-600 dark:text-violet-400 shrink-0 mt-0.5" aria-hidden="true" />
           <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark leading-relaxed">
-            A confirmation email has been sent to &nbsp; <strong className="text-zinc-950 dark:text-text-dark">{order?.customerEmail}</strong>
+            A confirmation email has been sent to &nbsp;{' '}
+            <strong className="text-zinc-950 dark:text-text-dark">{order?.customerEmail}</strong>
           </p>
         </motion.div>
 
         {/* ── Actions ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3} className="flex flex-col 430:flex-row gap-3">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={3}
+          className="flex flex-col 430:flex-row gap-3"
+        >
           <Link
             href="/donate"
             className="group relative flex-1 overflow-hidden flex items-center justify-between px-6 py-3.5 font-changa text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"

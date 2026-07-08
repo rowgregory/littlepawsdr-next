@@ -1,5 +1,5 @@
 import MemberPortalClient from 'app/components/pages/MemberPortalClient'
-import { getAccountData } from 'app/lib/actions/getAccountData'
+import { getAccountData } from 'app/lib/actions/_profile/getAccountData'
 
 export default async function MemberPortalPage() {
   const result = await getAccountData()

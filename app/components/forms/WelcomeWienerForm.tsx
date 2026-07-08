@@ -1,51 +1,72 @@
 'use client'
 
-import { setInputs } from 'app/lib/store/slices/formSlice'
 import { Check, Dog, ImagePlus, LayoutDashboard, Loader2, Minus, Plus, X } from 'lucide-react'
 import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
 import Picture from '../common/Picture'
-import { WELCOME_WIENER_CATALOG, WELCOME_WIENER_CATEGORIES, WELCOME_WIENER_CATEGORY_LABELS } from 'app/lib/constants/welcome-wiener'
-import { store, useFormSelector } from 'app/lib/store/store'
+import {
+  WELCOME_WIENER_CATALOG,
+  WELCOME_WIENER_CATEGORIES,
+  WELCOME_WIENER_CATEGORY_LABELS
+} from 'app/lib/constants/welcome-wiener.constants'
+import { store } from 'app/lib/store/store'
 import { uploadFileToFirebase } from 'app/utils/uploadFileToFirebase'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Toggle } from '../ui/Toggle'
 import { useRouter } from 'next/navigation'
-import { createFormActions } from 'app/utils/formActions'
 import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcomeWiener'
 import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
 import Link from 'next/link'
 import { Field, SectionLabel } from './form.components'
 import { inputClass, inputErrorClass } from 'app/lib/constants/form.constants'
 
+type FormState = {
+  name: string
+  bio: string
+  age: string
+  isLive: boolean
+  images: string[]
+  associatedProducts: WelcomeWienerProduct[]
+}
+
+type FormErrors = Partial<Record<'name' | 'form', string>>
+
+function initialState(welcomeWiener: IWelcomeWiener | null): FormState {
+  return {
+    name: welcomeWiener?.name ?? '',
+    bio: welcomeWiener?.bio ?? '',
+    age: welcomeWiener?.age ?? '',
+    isLive: welcomeWiener?.isLive ?? false,
+    images: welcomeWiener?.images ?? [],
+    associatedProducts: welcomeWiener?.associatedProducts ?? []
+  }
+}
+
 export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWiener | null }) {
   const router = useRouter()
   const isUpdating = !!welcomeWiener
 
-  const { welcomeWienerForm } = useFormSelector()
-  const inputs = welcomeWienerForm?.inputs
-  const errors = welcomeWienerForm?.errors
-  const { handleInput, setErrors, handleUploadProgress } = createFormActions('welcomeWienerForm', store.dispatch)
-
+  const [form, setForm] = useState<FormState>(() => initialState(welcomeWiener))
+  const [errors, setErrors] = useState<FormErrors>({})
   const [loading, setLoading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([])
 
-  const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'welcomeWienerForm', data }))
+  const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
+    setForm((prev) => ({ ...prev, [key]: value }))
 
-  useEffect(() => {
-    setForm(welcomeWiener ? { ...welcomeWiener, isUpdating: true } : { isLive: false, images: [], associatedProducts: [] })
-  }, [welcomeWiener])
-
-  const associated: WelcomeWienerProduct[] = inputs?.associatedProducts ?? []
-
+  const associated = form.associatedProducts
   const isAdded = (id: string) => associated.some((p) => p.id === id)
 
   const toggleProduct = (product: WelcomeWienerProduct) => {
-    setForm({ associatedProducts: isAdded(product.id) ? associated.filter((p) => p.id !== product.id) : [...associated, product] })
+    update(
+      'associatedProducts',
+      isAdded(product.id) ? associated.filter((p) => p.id !== product.id) : [...associated, product]
+    )
   }
 
   const handleSave = async () => {
-    if (!inputs?.name?.trim()) {
+    if (!form.name.trim()) {
       setErrors({ name: 'Required' })
       return
     }
@@ -56,7 +77,7 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
     let uploaded: string[] = []
     if (pendingPhotos.length > 0) {
       try {
-        uploaded = await Promise.all(pendingPhotos.map((file) => uploadFileToFirebase(file, handleUploadProgress)))
+        uploaded = await Promise.all(pendingPhotos.map((file) => uploadFileToFirebase(file, setUploadProgress)))
       } catch {
         setErrors({ form: 'Failed to upload images. Please try again.' })
         setLoading(false)
@@ -65,15 +86,17 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
     }
 
     const payload = {
-      name: inputs.name.trim(),
-      bio: inputs.bio?.trim() || undefined,
-      age: inputs.age?.trim() || undefined,
-      isLive: !!inputs.isLive,
-      images: [...(inputs?.images ?? []), ...uploaded], // kept existing + new — full array, this column replaces
+      name: form.name.trim(),
+      bio: form.bio.trim() || undefined,
+      age: form.age.trim() || undefined,
+      isLive: form.isLive,
+      images: [...form.images, ...uploaded],
       associatedProducts: associated
     }
 
-    const result = isUpdating ? await updateWelcomeWiener(welcomeWiener!.id, payload) : await createWelcomeWiener(payload)
+    const result = isUpdating
+      ? await updateWelcomeWiener(welcomeWiener!.id, payload)
+      : await createWelcomeWiener(payload)
 
     if (!result.success) {
       setErrors({ form: result.error ?? 'Something went wrong.' })
@@ -85,7 +108,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
       showToast({
         type: 'success',
         message: `${payload.name} ${isUpdating ? 'updated' : 'created'}`,
-        description: [`${associated.length} donation product${associated.length === 1 ? '' : 's'}`, payload.isLive ? 'Live' : 'Draft'].join(' · ')
+        description: [
+          `${associated.length} donation product${associated.length === 1 ? '' : 's'}`,
+          payload.isLive ? 'Live' : 'Draft'
+        ].join(' · ')
       })
     )
 
@@ -110,7 +136,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
             <LayoutDashboard className="w-3 h-3" aria-hidden="true" />
             Dashboard
           </Link>
-          <span className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-muted-dark/70" aria-hidden="true">
+          <span
+            className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-muted-dark/70"
+            aria-hidden="true"
+          >
             /
           </span>
           <Link
@@ -122,7 +151,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
           <span className="text-[9px] font-mono text-border-light dark:text-muted-dark/70" aria-hidden="true">
             /
           </span>
-          <h1 className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          <h1
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
+            aria-current="page"
+          >
             {isUpdating ? 'Edit Wiener' : 'New Wiener'}
           </h1>
         </nav>
@@ -136,9 +168,11 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
               <Dog size={15} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Welcome Wiener</p>
+              <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                Welcome Wiener
+              </p>
               <h2 className="text-xl font-quicksand font-black text-text-light dark:text-text-dark leading-snug truncate">
-                {isUpdating ? `Edit ${inputs?.name ?? 'Wiener'}` : 'Add Wiener'}
+                {isUpdating ? `Edit ${form?.name ?? 'Wiener'}` : 'Add Wiener'}
               </h2>
             </div>
           </div>
@@ -148,7 +182,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
             {/* ════ Left — profile, settings, products ════ */}
             <div className="space-y-5 min-w-0">
               {errors?.form && (
-                <p role="alert" className="px-4 py-3 border border-red-500/30 bg-red-500/10 text-red-500 text-xs font-mono">
+                <p
+                  role="alert"
+                  className="px-4 py-3 border border-red-500/30 bg-red-500/10 text-red-500 text-xs font-mono"
+                >
                   {errors.form}
                 </p>
               )}
@@ -161,8 +198,8 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                   id="ww-name"
                   name="name"
                   type="text"
-                  value={inputs?.name ?? ''}
-                  onChange={handleInput}
+                  value={form?.name ?? ''}
+                  onChange={(e) => update('name', e.target.value)}
                   placeholder="Peanut"
                   className={`${inputClass} ${errors?.name ? inputErrorClass : ''}`}
                   aria-invalid={!!errors?.name}
@@ -170,29 +207,27 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                 />
               </Field>
 
-              <Field id="ww-bio" label="Bio" error={errors?.bio}>
+              <Field id="ww-bio" label="Bio">
                 <textarea
                   id="ww-bio"
                   name="bio"
-                  value={inputs?.bio ?? ''}
-                  onChange={handleInput}
+                  value={form?.bio ?? ''}
+                  onChange={(e) => update('bio', e.target.value)}
                   placeholder="Tell this pup's story..."
                   rows={6}
-                  className={`${inputClass} resize-y ${errors?.bio ? inputErrorClass : ''}`}
-                  aria-invalid={!!errors?.bio}
+                  className={`${inputClass} resize-y`}
                 />
               </Field>
 
-              <Field id="ww-age" label="Age" error={errors?.age}>
+              <Field id="ww-age" label="Age">
                 <input
                   id="ww-age"
                   name="age"
                   type="text"
-                  value={inputs?.age ?? ''}
-                  onChange={handleInput}
+                  value={form?.age ?? ''}
+                  onChange={(e) => update('age', e.target.value)}
                   placeholder="3 years"
-                  className={`${inputClass} ${errors?.age ? inputErrorClass : ''}`}
-                  aria-invalid={!!errors?.age}
+                  className={`${inputClass}`}
                 />
               </Field>
 
@@ -227,7 +262,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                                 >
                                   {product.name}
                                 </p>
-                                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">{product.description}</p>
+                                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">
+                                  {product.description}
+                                </p>
                               </div>
                               <div className="flex items-center gap-3 shrink-0 ml-4">
                                 <span
@@ -241,7 +278,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                                   {added ? (
                                     <Check className="w-3 h-3 text-white dark:text-bg-dark" aria-hidden="true" />
                                   ) : (
-                                    <Plus className="w-3 h-3 text-muted-light dark:text-muted-dark" aria-hidden="true" />
+                                    <Plus
+                                      className="w-3 h-3 text-muted-light dark:text-muted-dark"
+                                      aria-hidden="true"
+                                    />
                                   )}
                                 </div>
                               </div>
@@ -253,11 +293,6 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                   )
                 })}
               </div>
-              {errors?.associatedProducts && (
-                <p role="alert" className="text-[11px] text-red-500 dark:text-red-400 font-mono">
-                  {errors.associatedProducts}
-                </p>
-              )}
             </div>
 
             {/* ════ Right — images + selected summary ════ */}
@@ -268,25 +303,39 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                 id="ww-isLive"
                 label="Live"
                 description="Visible to the public on the donation page"
-                checked={inputs?.isLive ?? false}
-                onToggle={() => setForm({ isLive: !inputs?.isLive })}
+                checked={form?.isLive ?? false}
+                onToggle={() => update('isLive', !form.isLive)}
               />
 
               <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
                 <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-                  <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Photos</h3>
+                  <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    Photos
+                  </h3>
                 </div>
                 <div className="px-4 py-4 flex flex-col gap-1.5">
                   {/* Existing photos (edit mode) */}
-                  {/* Existing photos (edit mode) */}
-                  {isUpdating && inputs?.images?.length > 0 && (
+                  {isUpdating && form?.images?.length > 0 && (
                     <div className="grid grid-cols-3 gap-2 mb-2">
-                      {inputs?.images.map((photo: string, i: number) => (
-                        <div key={photo} className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden">
-                          <Picture priority={true} src={photo} alt={`Image ${i + 1}`} className="w-full h-full object-cover" />
+                      {form?.images.map((photo: string, i: number) => (
+                        <div
+                          key={photo}
+                          className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
+                        >
+                          <Picture
+                            priority={true}
+                            src={photo}
+                            alt={`Image ${i + 1}`}
+                            className="w-full h-full object-cover"
+                          />
                           <button
                             type="button"
-                            onClick={() => setForm({ images: inputs.images.filter((url: string) => url !== photo) })}
+                            onClick={() =>
+                              update(
+                                'images',
+                                form.images.filter((url: string) => url !== photo)
+                              )
+                            }
                             aria-label={`Remove image ${i + 1}`}
                             className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center focus:outline-none"
                           >
@@ -305,7 +354,12 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                           key={`${file.name}-${i}`}
                           className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
                         >
-                          <Picture priority={false} src={URL.createObjectURL(file)} alt={file.name} className="w-full h-full object-cover" />
+                          <Picture
+                            priority={false}
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-full h-full object-cover"
+                          />
                           {i === 0 && !isUpdating && (
                             <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
                               Primary
@@ -324,26 +378,46 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                     </div>
                   )}
 
-                  {/* File input */}
-                  <label
-                    htmlFor="photos"
-                    className="flex items-center justify-center gap-2 px-4 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase cursor-pointer transition-colors"
-                  >
-                    <ImagePlus size={13} aria-hidden="true" />
-                    {pendingPhotos.length > 0 ? `${pendingPhotos.length} selected — add more` : 'Select photos'}
-                  </label>
-                  <input
-                    id="photos"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="sr-only"
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files ?? [])
-                      setPendingPhotos((prev) => [...prev, ...files])
-                      e.target.value = ''
-                    }}
-                  />
+                  {loading && pendingPhotos.length > 0 ? (
+                    <div className="px-4 py-3 border border-border-light dark:border-border-dark">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                          Uploading
+                        </span>
+                        <span className="text-[9px] font-mono text-primary-light dark:text-primary-dark tabular-nums">
+                          {Math.round(uploadProgress)}%
+                        </span>
+                      </div>
+                      <div className="h-1 w-full bg-bg-light dark:bg-bg-dark overflow-hidden">
+                        <div
+                          className="h-1 bg-primary-light dark:bg-primary-dark transition-all"
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="photos"
+                        className="flex items-center justify-center gap-2 px-4 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase cursor-pointer transition-colors"
+                      >
+                        <ImagePlus size={13} aria-hidden="true" />
+                        {pendingPhotos.length > 0 ? `${pendingPhotos.length} selected — add more` : 'Select photos'}
+                      </label>
+                      <input
+                        id="photos"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="sr-only"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files ?? [])
+                          setPendingPhotos((prev) => [...prev, ...files])
+                          e.target.value = ''
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
               </section>
 
@@ -351,17 +425,25 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
               {associated.length > 0 && (
                 <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
                   <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark flex items-center justify-between">
-                    <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Selected</h3>
-                    <span className="text-[9px] font-mono tabular-nums text-primary-light dark:text-primary-dark">{associated.length}</span>
+                    <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                      Selected
+                    </h3>
+                    <span className="text-[9px] font-mono tabular-nums text-primary-light dark:text-primary-dark">
+                      {associated.length}
+                    </span>
                   </div>
                   <div className="px-4 py-3 space-y-1.5">
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-3">Selected</p>
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-3">
+                      Selected
+                    </p>
                     <div className="space-y-1.5">
                       {associated.map((p) => (
                         <div key={p.id} className="flex items-center justify-between">
                           <span className="text-[11px] font-mono text-text-light dark:text-text-dark">{p.name}</span>
                           <div className="flex items-center gap-3">
-                            <span className="text-[11px] font-mono text-primary-light dark:text-primary-dark tabular-nums">${p.price}</span>
+                            <span className="text-[11px] font-mono text-primary-light dark:text-primary-dark tabular-nums">
+                              ${p.price}
+                            </span>
                             <button
                               type="button"
                               onClick={() => toggleProduct(p)}
@@ -374,7 +456,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                         </div>
                       ))}
                       <div className="pt-2 border-t border-border-light dark:border-border-dark flex items-center justify-between">
-                        <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Total</span>
+                        <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                          Total
+                        </span>
                         <span className="text-sm font-mono font-bold text-primary-light dark:text-primary-dark tabular-nums">
                           ${associated.reduce((sum, p) => sum + p.price, 0)}
                         </span>
@@ -411,7 +495,8 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
           >
             {loading ? (
               <>
-                <Loader2 size={13} className="animate-spin" aria-hidden="true" /> {isUpdating ? 'Saving...' : 'Creating...'}
+                <Loader2 size={13} className="animate-spin" aria-hidden="true" />{' '}
+                {isUpdating ? 'Saving...' : 'Creating...'}
               </>
             ) : (
               <>

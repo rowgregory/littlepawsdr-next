@@ -1,4 +1,4 @@
-import { TIERS } from 'app/lib/constants/subscriptions'
+import { TIERS } from 'app/lib/constants/subscriptions.constants'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'

@@ -9,7 +9,7 @@ import { useIsAtTop } from '@hooks/useIsAtTop'
 import { setOpenContactModal, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
 import Picture from '../common/Picture'
 import { NavDropdown } from '../header/NavDropdown'
-import { mainNavigationLinks } from 'app/lib/constants/navigation'
+import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
 import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
 
 export default function Header({ auction }) {
@@ -37,11 +37,17 @@ export default function Header({ auction }) {
       </a>
 
       {/* Top Bar */}
-      <header role="banner" className={`pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}>
+      <header
+        role="banner"
+        className={`pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11`}
+      >
         <div className={`max-w-334 mx-auto flex items-center justify-between h-11`}>
           <div className="flex items-center space-x-4 lg:space-x-10">
             <GoogleTranslate />
-            <address className="hidden sm:flex items-center space-x-4 lg:space-x-6 not-italic" aria-label="Contact and organizational information">
+            <address
+              className="hidden sm:flex items-center space-x-4 lg:space-x-6 not-italic"
+              aria-label="Contact and organizational information"
+            >
               <button
                 onClick={() => store.dispatch(setOpenContactModal())}
                 aria-label="Email us at lpdr@littlepawsdr.org"
@@ -104,7 +110,7 @@ export default function Header({ auction }) {
 
       {/* Main Nav */}
       <motion.nav
-        className={`px-6 w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-110 flex flex-col justify-center`}
+        className={`px-6 w-full mx-auto sticky top-0 bg-navbar-light dark:bg-navbar-dark z-10 flex flex-col justify-center`}
         animate={{ height: isAtTop ? '124.5px' : '84.5px' }}
         transition={{ duration: 0.3 }}
       >
@@ -149,13 +155,18 @@ export default function Header({ auction }) {
 
           <nav aria-label="Main navigation">
             <ul className="flex items-center space-x-6 list-none">
-              {mainNavigationLinks.map((section) => (
+              {mainNavigationLinks().map((section) => (
                 <NavDropdown key={section.title} section={section} />
               ))}
             </ul>
           </nav>
 
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} animate={{ scale: isAtTop ? 1 : 0.9 }} transition={{ duration: 0.3 }}>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{ scale: isAtTop ? 1 : 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
             <Link
               href="/donate"
               aria-label="Donate to Little Paws Dachshund Rescue today"

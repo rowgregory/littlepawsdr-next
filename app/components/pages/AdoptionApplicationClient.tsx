@@ -9,8 +9,8 @@ import { AdoptionApplicationPaymentForm } from 'app/components/forms/AdoptionApp
 import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
 import { store, useFormSelector } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { slideVariants } from 'app/lib/constants/motion'
-import { IPaymentForm } from 'types/common'
+import { slideVariants } from 'app/lib/constants/motion.constants'
+import { IPaymentForm } from 'types/common.types'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { useInitializeForm } from '@hooks/useInitializeForm'
 import { CustomSwitch } from '../common/CustomSwitch'
@@ -78,7 +78,10 @@ function Input({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-xs font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mb-2">
+      <label
+        htmlFor={id}
+        className="block text-xs font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mb-2"
+      >
         {label}
         {required && (
           <span className="text-secondary-light dark:text-secondary-dark ml-1" aria-hidden="true">
@@ -202,16 +205,25 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
         {/* ── Header ── */}
-        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="text-center mb-10"
+        >
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Adopt</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Adopt
+            </p>
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
           </div>
           <h1 className="font-quicksand text-3xl sm:text-4xl font-bold text-text-light dark:text-text-dark mb-2">
             Adoption <span className="font-light text-muted-light dark:text-muted-dark">Application</span>
           </h1>
-          <p className="text-sm text-muted-light dark:text-on-dark">Start your journey to giving a dachshund a forever home</p>
+          <p className="text-sm text-muted-light dark:text-on-dark">
+            Start your journey to giving a dachshund a forever home
+          </p>
         </motion.div>
 
         {/* ── Progress ── */}
@@ -257,7 +269,9 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                     <div
                       aria-hidden="true"
                       className={`w-16 sm:w-24 h-px mx-2 mb-5 transition-colors duration-300 ${
-                        index < currentIndex ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'
+                        index < currentIndex
+                          ? 'bg-primary-light dark:bg-primary-dark'
+                          : 'bg-border-light dark:bg-border-dark'
                       }`}
                     />
                   )}
@@ -280,12 +294,15 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               aria-labelledby="step-sign-in-heading"
               className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 sm:p-8"
             >
-              <h2 id="step-sign-in-heading" className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-2">
+              <h2
+                id="step-sign-in-heading"
+                className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-2"
+              >
                 Sign in to continue
               </h2>
               <p className="text-sm text-muted-light dark:text-muted-dark mb-8 leading-relaxed">
-                We need to verify your identity before you start your adoption application. Sign in with Google or your email — it only takes a
-                moment.
+                We need to verify your identity before you start your adoption application. Sign in with Google or your
+                email — it only takes a moment.
               </p>
 
               {/* Google */}
@@ -318,7 +335,9 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               {/* Divider */}
               <div className="flex items-center gap-3 my-5" aria-hidden="true">
                 <div className="flex-1 h-px bg-border-light dark:bg-border-dark" />
-                <span className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">or</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                  or
+                </span>
                 <div className="flex-1 h-px bg-border-light dark:bg-border-dark" />
               </div>
 
@@ -348,7 +367,11 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                       disabled={!magicEmail || isSendingMagicLink}
                       className="px-4 py-3 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono tracking-widest uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark flex items-center gap-2"
                     >
-                      {isSendingMagicLink ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : 'Send Link'}
+                      {isSendingMagicLink ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+                      ) : (
+                        'Send Link'
+                      )}
                     </button>
                   </div>
                 </div>
@@ -384,7 +407,10 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               aria-labelledby="step-terms-heading"
               className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 sm:p-8"
             >
-              <h2 id="step-terms-heading" className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-6">
+              <h2
+                id="step-terms-heading"
+                className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-6"
+              >
                 Terms &amp; Conditions
               </h2>
 
@@ -396,11 +422,16 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               >
                 {TERMS_AND_CONDITIONS.map((section, index) => (
                   <div key={index}>
-                    <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">{section.title}</h3>
+                    <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">
+                      {section.title}
+                    </h3>
                     <ul className="space-y-2" role="list">
                       {section.content.map((item, i) => (
                         <li key={i} className="flex items-start gap-2.5 text-sm text-muted-light dark:text-on-dark">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
+                          <span
+                            className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                            aria-hidden="true"
+                          />
                           {item}
                         </li>
                       ))}
@@ -411,11 +442,17 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
 
               <div className="border-t border-border-light dark:border-border-dark pt-6 space-y-6">
                 <label className="flex items-start gap-3 cursor-pointer">
-                  <CustomSwitch id="agree-terms" checked={agreedToTerms} onChange={(checked) => setAgreedToTerms(checked)} />
+                  <CustomSwitch
+                    id="agree-terms"
+                    checked={agreedToTerms}
+                    onChange={(checked) => setAgreedToTerms(checked)}
+                  />
                   <span className="text-sm font-mono text-muted-light dark:text-on-dark leading-relaxed">
                     I have read and agree to the terms and conditions. I understand that the{' '}
-                    <strong className="text-text-light dark:text-text-dark">$15 application fee is non-refundable</strong> and that approval is not
-                    guaranteed.
+                    <strong className="text-text-light dark:text-text-dark">
+                      $15 application fee is non-refundable
+                    </strong>{' '}
+                    and that approval is not guaranteed.
                   </span>
                 </label>
 
@@ -446,11 +483,13 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               <div className="border border-border-light dark:border-border-dark p-5 mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                  <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Have a Bypass Code?</p>
+                  <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                    Have a Bypass Code?
+                  </p>
                 </div>
                 <p className="text-xs text-muted-light dark:text-muted-dark mb-4 leading-relaxed">
-                  If you have a code to waive the application fee, enter it below and verify. A successful verification will take you directly to the
-                  application — no payment required.
+                  If you have a code to waive the application fee, enter it below and verify. A successful verification
+                  will take you directly to the application — no payment required.
                 </p>
                 <div className="flex gap-2">
                   <input
@@ -502,14 +541,29 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               </div>
 
               {/* ── Your info ── */}
-              <h2 id="step-info-heading" className="font-changa text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6">
+              <h2
+                id="step-info-heading"
+                className="font-changa text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6"
+              >
                 Your Information
               </h2>
 
               <div className="space-y-5">
                 <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
-                  <Input id="firstName" label="First Name" value={inputs?.firstName} onChange={(value) => setForm({ firstName: value })} required />
-                  <Input id="lastName" label="Last Name" value={inputs?.lastName} onChange={(value) => setForm({ lastName: value })} required />
+                  <Input
+                    id="firstName"
+                    label="First Name"
+                    value={inputs?.firstName}
+                    onChange={(value) => setForm({ firstName: value })}
+                    required
+                  />
+                  <Input
+                    id="lastName"
+                    label="Last Name"
+                    value={inputs?.lastName}
+                    onChange={(value) => setForm({ lastName: value })}
+                    required
+                  />
                 </div>
                 <Input
                   id="email"
@@ -524,7 +578,9 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                 {/* ── Fee info box ── */}
                 <div
                   className={`bg-bg-light dark:bg-bg-dark border p-4 transition-colors ${
-                    bypassPayment ? 'border-primary-light/50 dark:border-primary-dark/50' : 'border-primary-light/30 dark:border-primary-dark/30'
+                    bypassPayment
+                      ? 'border-primary-light/50 dark:border-primary-dark/50'
+                      : 'border-primary-light/30 dark:border-primary-dark/30'
                   }`}
                   role="note"
                   aria-label="Application fee information"
@@ -624,7 +680,10 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               aria-labelledby="step-payment-heading"
               className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 sm:p-8"
             >
-              <h2 id="step-payment-heading" className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-1">
+              <h2
+                id="step-payment-heading"
+                className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-1"
+              >
                 Payment
               </h2>
               <p className="text-sm text-muted-light dark:text-on-dark mb-6">

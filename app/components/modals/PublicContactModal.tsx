@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { createFormActions } from 'app/utils/formActions'
 import { setCloseContactModal } from 'app/lib/store/slices/uiSlice'
 import { RootState, store, useAppSelector, useUiSelector } from 'app/lib/store/store'
-import sendContactEmail from 'app/lib/actions/sendContactEmail'
+import sendContactEmail from 'app/lib/actions/_infra/sendContactEmail'
 import { EMAIL_REGEX } from 'app/utils/regex'
 
 const FORM_NAME = 'contactForm'

@@ -1,5 +1,5 @@
 import { CardElement } from '@stripe/react-stripe-js'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle, CreditCard, Plus } from 'lucide-react'
@@ -7,7 +7,15 @@ import { useSession } from 'next-auth/react'
 import { IStep4Payment } from 'types/forms.types'
 import { ToggleRow } from '../common/ToggleRow'
 
-export function Step4Payment({ inputs, setForm, onBack, onSubmit, savedCards, processingFee, finalAmount }: IStep4Payment) {
+export function Step4Payment({
+  inputs,
+  setForm,
+  onBack,
+  onSubmit,
+  savedCards,
+  processingFee,
+  finalAmount
+}: IStep4Payment) {
   const { isDark } = useUiSelector()
   const session = useSession()
 
@@ -43,7 +51,9 @@ export function Step4Payment({ inputs, setForm, onBack, onSubmit, savedCards, pr
       {/* ── Saved cards / new card ── */}
       {session?.data?.user && savedCards.length > 0 && (
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3.5} className="mb-6">
-          <p className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">Payment Method</p>
+          <p className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+            Payment Method
+          </p>
 
           {!useNewCard ? (
             <div className="space-y-2">
@@ -71,7 +81,10 @@ export function Step4Payment({ inputs, setForm, onBack, onSubmit, savedCards, pr
                     </div>
                   </div>
                   {selectedCardId === card.stripePaymentId && (
-                    <CheckCircle className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0" aria-hidden="true" />
+                    <CheckCircle
+                      className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0"
+                      aria-hidden="true"
+                    />
                   )}
                 </button>
               ))}
@@ -101,7 +114,10 @@ export function Step4Payment({ inputs, setForm, onBack, onSubmit, savedCards, pr
       {/* ── Card element ── */}
       {showCardElement && (
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4} className="mb-6">
-          <p id="card-label" className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+          <p
+            id="card-label"
+            className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2"
+          >
             Card Details
           </p>
           <div

@@ -18,13 +18,17 @@ export function Toggle({ label, description, checked, onToggle, id }: IToggle) {
     >
       <div className="text-left">
         <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark">{label}</p>
-        {description && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{description}</p>}
+        {description && (
+          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{description}</p>
+        )}
       </div>
       <div
         aria-hidden="true"
         className={`relative shrink-0 w-10 h-5 ml-4 transition-colors duration-200 ${checked ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'}`}
       >
-        <span className={`absolute top-0.5 w-4 h-4 bg-white transition-transform duration-200 ${checked ? 'translate-x-0.5' : '-translate-x-4.5'}`} />
+        <span
+          className={`absolute top-0.5 w-4 h-4 bg-white transition-transform duration-200 ${checked ? 'translate-x-0.5' : '-translate-x-4.5'}`}
+        />
       </div>
     </button>
   )

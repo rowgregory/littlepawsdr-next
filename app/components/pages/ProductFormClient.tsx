@@ -147,7 +147,11 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           whileTap={{ scale: 0.98 }}
           className="inline-flex items-center gap-2 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
         >
-          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Save className="w-3.5 h-3.5" aria-hidden="true" />}
+          {loading ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+          ) : (
+            <Save className="w-3.5 h-3.5" aria-hidden="true" />
+          )}
           {loading ? 'Saving...' : 'Save Product'}
         </motion.button>
       </div>
@@ -160,7 +164,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Identity</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Identity
+              </h2>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -198,7 +204,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Pricing & Inventory</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Pricing & Inventory
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 xs:grid-cols-3 gap-4">
@@ -270,7 +278,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Sizes</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Sizes
+              </h2>
               <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">
                 {form.sizes.length} {form.sizes.length === 1 ? 'size' : 'sizes'}
               </span>
@@ -298,7 +308,11 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                     >
                       <option value="">Select size</option>
                       {SIZE_OPTIONS.map((s) => (
-                        <option key={s} value={s} disabled={form.sizes.some((entry, idx) => idx !== i && entry.size === s)}>
+                        <option
+                          key={s}
+                          value={s}
+                          disabled={form.sizes.some((entry, idx) => idx !== i && entry.size === s)}
+                        >
                           {s}
                         </option>
                       ))}
@@ -309,7 +323,10 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                       value={entry.quantity === 0 ? '' : entry.quantity}
                       onChange={(e) => {
                         const updated = [...form.sizes]
-                        updated[i] = { ...updated[i], quantity: e.target.value === '' ? 0 : parseInt(e.target.value) || 0 }
+                        updated[i] = {
+                          ...updated[i],
+                          quantity: e.target.value === '' ? 0 : parseInt(e.target.value) || 0
+                        }
                         set('sizes', updated)
                       }}
                       placeholder="Qty"
@@ -356,8 +373,12 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Images</h2>
-              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">{form.images.length} uploaded</span>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Images
+              </h2>
+              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">
+                {form.images.length} uploaded
+              </span>
             </div>
 
             {/* Upload zone */}
@@ -372,8 +393,17 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
               <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark group-hover:text-text-light dark:group-hover:text-text-dark transition-colors">
                 Click to upload images
               </p>
-              <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-1">Multiple files supported</p>
-              <input id="image-upload" type="file" accept="image/*" multiple className="sr-only" onChange={(e) => handleImageFiles(e.target.files)} />
+              <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-1">
+                Multiple files supported
+              </p>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                multiple
+                className="sr-only"
+                onChange={(e) => handleImageFiles(e.target.files)}
+              />
             </label>
 
             {/* Uploading progress */}
@@ -390,7 +420,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                   >
                     <Loader2 className="w-3.5 h-3.5 animate-spin text-primary-light dark:text-primary-dark shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate mb-1">{file.name}</p>
+                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate mb-1">
+                        {file.name}
+                      </p>
                       <div className="h-1 bg-border-light dark:bg-border-dark w-full overflow-hidden">
                         <motion.div
                           className="h-full bg-primary-light dark:bg-primary-dark"
@@ -400,7 +432,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                         />
                       </div>
                     </div>
-                    <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark shrink-0">{Math.round(progress)}%</span>
+                    <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark shrink-0">
+                      {Math.round(progress)}%
+                    </span>
                   </motion.div>
                 ))}
             </AnimatePresence>
@@ -415,8 +449,15 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
                   exit={{ opacity: 0, x: -8 }}
                   className="flex items-center gap-3 p-2.5 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark mb-2"
                 >
-                  <Picture priority src={url} alt={`Product image ${i + 1}`} className="w-10 h-10 object-cover shrink-0" />
-                  <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate flex-1">{url}</span>
+                  <Picture
+                    priority
+                    src={url}
+                    alt={`Product image ${i + 1}`}
+                    className="w-10 h-10 object-cover shrink-0"
+                  />
+                  <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate flex-1">
+                    {url}
+                  </span>
                   <button
                     type="button"
                     onClick={() => removeImage(i)}
@@ -430,7 +471,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
             </AnimatePresence>
 
             {form.images.length === 0 && uploadingImages.length === 0 && (
-              <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark text-center py-2">No images uploaded yet</p>
+              <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark text-center py-2">
+                No images uploaded yet
+              </p>
             )}
           </section>
         </div>
@@ -440,7 +483,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Settings</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Settings
+              </h2>
             </div>
 
             <div className="flex flex-col gap-4">
@@ -448,13 +493,17 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-mono text-text-light dark:text-text-dark">Physical Product</p>
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">Requires shipping</p>
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                    Requires shipping
+                  </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => set('isPhysicalProduct', !form.isPhysicalProduct)}
                   className={`relative w-10 h-5.5 rounded-full transition-colors focus:outline-none ${
-                    form.isPhysicalProduct ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'
+                    form.isPhysicalProduct
+                      ? 'bg-primary-light dark:bg-primary-dark'
+                      : 'bg-border-light dark:bg-border-dark'
                   }`}
                   aria-checked={form.isPhysicalProduct}
                   role="switch"
@@ -473,7 +522,9 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-mono text-text-light dark:text-text-dark">Published</p>
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">Visible to customers</p>
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                    Visible to customers
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -498,12 +549,17 @@ export default function ProductFormClient({ product }: { product?: IProduct }) {
           <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border-light dark:border-border-dark">
               <div className="w-1 h-3.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Summary</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Summary
+              </h2>
             </div>
             <div className="flex flex-col gap-2.5">
               {[
                 { label: 'Price', value: form.price ? `$${parseFloat(form.price).toFixed(2)}` : '—' },
-                { label: 'Shipping', value: form.shippingPrice ? `$${parseFloat(form.shippingPrice).toFixed(2)}` : '—' },
+                {
+                  label: 'Shipping',
+                  value: form.shippingPrice ? `$${parseFloat(form.shippingPrice).toFixed(2)}` : '—'
+                },
                 { label: 'Stock', value: countInStock || '—' },
                 { label: 'Images', value: form.images.length },
                 { label: 'Type', value: form.isPhysicalProduct ? 'Physical' : 'Digital' },

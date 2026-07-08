@@ -1,4 +1,4 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
 import { Gift } from 'lucide-react'
 import Link from 'next/link'
@@ -13,7 +13,9 @@ export function OneTimeDonations({ donations }) {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">One-Time Donations</h2>
+          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            One-Time Donations
+          </h2>
         </div>
         <Link
           href="/donate"

@@ -1,6 +1,6 @@
 'use client'
 
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 
@@ -52,15 +52,17 @@ export default function SurrenderPage() {
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-14">
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Surrender</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Surrender
+            </p>
           </div>
           <h1 className="font-quicksand text-3xl sm:text-4xl lg:text-5xl font-black text-text-light dark:text-text-dark leading-tight mb-4">
             Rehoming Your <span className="font-light text-muted-light dark:text-muted-dark">Dachshund</span>
           </h1>
           <p className="text-sm font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-            LPDR understands that rehoming may sometimes be necessary. People become ill, die, divorce, move overseas, develop allergies, lose their
-            jobs, lose their homes, etc. Any of these situations can lead to a dog coming into rescue. We currently help rescue in the following
-            states:
+            LPDR understands that rehoming may sometimes be necessary. People become ill, die, divorce, move overseas,
+            develop allergies, lose their jobs, lose their homes, etc. Any of these situations can lead to a dog coming
+            into rescue. We currently help rescue in the following states:
           </p>
         </motion.div>
 
@@ -68,7 +70,9 @@ export default function SurrenderPage() {
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="mb-12 sm:mb-16">
           <div className="flex items-center gap-3 mb-4" aria-hidden="true">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" />
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Service Area</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Service Area
+            </p>
           </div>
           <div
             className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5 sm:p-6"
@@ -78,7 +82,9 @@ export default function SurrenderPage() {
               {surrenderStatesData.map((state) => (
                 <li key={state} className="flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-light dark:text-text-dark">{state}</span>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-light dark:text-text-dark">
+                    {state}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -102,7 +108,10 @@ export default function SurrenderPage() {
             >
               <div className="flex items-center gap-3 mb-2">
                 <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <h2 id={`section-${i}`} className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                <h2
+                  id={`section-${i}`}
+                  className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+                >
                   {section.heading}
                 </h2>
               </div>
@@ -122,7 +131,10 @@ export default function SurrenderPage() {
         >
           <div className="flex items-center gap-3 mb-2">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <h2 id="questionnaire-heading" className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            <h2
+              id="questionnaire-heading"
+              className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+            >
               Surrender Questionnaire
             </h2>
           </div>

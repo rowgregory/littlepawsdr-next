@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import Picture from './Picture'
 import { IDachshund } from 'types/entities/rescue-groups'
-import { cardVariants } from 'app/lib/constants/motion'
+import { cardVariants } from 'app/lib/constants/motion.constants'
 
 export function DogCard({ dog, index }: { dog: IDachshund; index: number }) {
   const a = dog?.attributes
@@ -44,7 +44,9 @@ export function DogCard({ dog, index }: { dog: IDachshund; index: number }) {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           {a?.isAdoptionPending && (
-            <span className="text-[10px] font-bold tracking-widest uppercase bg-amber-500 text-white px-2 py-0.5">Pending</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase bg-amber-500 text-white px-2 py-0.5">
+              Pending
+            </span>
           )}
           {a?.isSpecialNeeds && (
             <span className="text-[10px] font-bold tracking-widest uppercase bg-secondary-light dark:bg-secondary-dark text-white px-2 py-0.5">

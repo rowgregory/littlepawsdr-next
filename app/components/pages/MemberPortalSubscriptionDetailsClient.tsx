@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { store, useUiSelector } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
 import { getSubscriptionById } from 'app/lib/actions/order/getSubscriptionById'
@@ -61,9 +61,14 @@ function CancelModal({
           <div>
             <div className="flex items-center gap-2 mb-1">
               <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400" aria-hidden="true" />
-              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-red-500 dark:text-red-400">Cancel Subscription</p>
+              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-red-500 dark:text-red-400">
+                Cancel Subscription
+              </p>
             </div>
-            <h2 id="cancel-modal-title" className="font-quicksand font-bold text-lg text-text-light dark:text-text-dark">
+            <h2
+              id="cancel-modal-title"
+              className="font-quicksand font-bold text-lg text-text-light dark:text-text-dark"
+            >
               Are you sure?
             </h2>
           </div>
@@ -131,7 +136,15 @@ function CancelModal({
 // Update Card Form
 // ─────────────────────────────────────────────
 
-function UpdateCardForm({ subscriptionId, onSuccess, onCancel }: { subscriptionId: string; onSuccess: () => void; onCancel: () => void }) {
+function UpdateCardForm({
+  subscriptionId,
+  onSuccess,
+  onCancel
+}: {
+  subscriptionId: string
+  onSuccess: () => void
+  onCancel: () => void
+}) {
   const stripe = useStripe()
   const elements = useElements()
   const { isDark } = useUiSelector()
@@ -163,7 +176,9 @@ function UpdateCardForm({ subscriptionId, onSuccess, onCancel }: { subscriptionI
 
       if (!result.success) throw new Error(result.error ?? 'Failed to update card')
 
-      store.dispatch(showToast({ message: 'Card updated', description: 'Your payment method has been updated.', type: 'success' }))
+      store.dispatch(
+        showToast({ message: 'Card updated', description: 'Your payment method has been updated.', type: 'success' })
+      )
       onSuccess()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
@@ -175,7 +190,10 @@ function UpdateCardForm({ subscriptionId, onSuccess, onCancel }: { subscriptionI
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
       <div>
-        <label id="update-card-label" className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+        <label
+          id="update-card-label"
+          className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2"
+        >
           New Card Details
         </label>
         <div
@@ -260,7 +278,11 @@ function UpdateCardForm({ subscriptionId, onSuccess, onCancel }: { subscriptionI
 // Main Page
 // ─────────────────────────────────────────────
 
-export default function MemberPortalSubscriptionDetailsClient({ subscription }: { subscription: NonNullable<Subscription> }) {
+export default function MemberPortalSubscriptionDetailsClient({
+  subscription
+}: {
+  subscription: NonNullable<Subscription>
+}) {
   const router = useRouter()
 
   const [showCancelModal, setShowCancelModal] = useState(false)
@@ -276,7 +298,13 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
     try {
       const result = await cancelSubscription({ subscriptionId: subscription.stripeSubscriptionId! })
       if (!result.success) throw new Error(result.error ?? 'Failed to cancel')
-      store.dispatch(showToast({ message: 'Subscription cancelled', description: 'Your subscription will not renew.', type: 'success' }))
+      store.dispatch(
+        showToast({
+          message: 'Subscription cancelled',
+          description: 'Your subscription will not renew.',
+          type: 'success'
+        })
+      )
       setShowCancelModal(false)
       router.refresh()
     } catch (err) {
@@ -301,7 +329,9 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
 
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Subscription</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Subscription
+            </p>
           </div>
 
           <div className="flex items-start justify-between gap-4">
@@ -317,9 +347,17 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
         </motion.div>
 
         {/* ── Overview card ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1} className="border border-border-light dark:border-border-dark mb-6">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={1}
+          className="border border-border-light dark:border-border-dark mb-6"
+        >
           <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Overview</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Overview
+            </p>
           </div>
 
           <div className="divide-y divide-border-light dark:divide-border-dark">
@@ -329,7 +367,9 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
                 value: (
                   <span className="font-quicksand font-black text-lg text-primary-light dark:text-primary-dark tabular-nums">
                     {formatMoney(subscription.totalAmount)}
-                    <span className="text-[10px] font-mono font-normal text-muted-light dark:text-muted-dark ml-1">/{frequencyShort}</span>
+                    <span className="text-[10px] font-mono font-normal text-muted-light dark:text-muted-dark ml-1">
+                      /{frequencyShort}
+                    </span>
                   </span>
                 )
               },
@@ -351,7 +391,11 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
               },
               {
                 label: 'Member since',
-                value: <span className="text-sm font-mono text-text-light dark:text-text-dark">{formatDate(subscription.createdAt, true)}</span>
+                value: (
+                  <span className="text-sm font-mono text-text-light dark:text-text-dark">
+                    {formatDate(subscription.createdAt, true)}
+                  </span>
+                )
               },
               {
                 label: 'Last payment',
@@ -364,7 +408,9 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
               {
                 label: isCancelled ? 'Active until' : 'Next billing',
                 value: (
-                  <span className={`text-sm font-mono ${isCancelled ? 'text-red-500 dark:text-red-400' : 'text-text-light dark:text-text-dark'}`}>
+                  <span
+                    className={`text-sm font-mono ${isCancelled ? 'text-red-500 dark:text-red-400' : 'text-text-light dark:text-text-dark'}`}
+                  >
                     {subscription.nextBillingDate ? formatDate(subscription.nextBillingDate) : '—'}
                   </span>
                 )
@@ -373,13 +419,19 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
                 ? [
                     {
                       label: 'Fees covered',
-                      value: <span className="text-sm font-mono text-text-light dark:text-text-dark">{formatMoney(subscription.feesCovered)}</span>
+                      value: (
+                        <span className="text-sm font-mono text-text-light dark:text-text-dark">
+                          {formatMoney(subscription.feesCovered)}
+                        </span>
+                      )
                     }
                   ]
                 : [])
             ].map(({ label, value }) => (
               <div key={label} className="flex items-center justify-between px-5 py-3.5 gap-4">
-                <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark shrink-0">{label}</span>
+                <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark shrink-0">
+                  {label}
+                </span>
                 <div className="text-right">{value}</div>
               </div>
             ))}
@@ -387,9 +439,17 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
         </motion.div>
 
         {/* ── Payment method ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2} className="border border-border-light dark:border-border-dark mb-6">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={2}
+          className="border border-border-light dark:border-border-dark mb-6"
+        >
           <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex items-center justify-between">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Payment Method</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Payment Method
+            </p>
             {!isCancelled && !showUpdateCard && (
               <button
                 type="button"
@@ -422,7 +482,8 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
                     {subscription.paymentMethod.brand} •••• {subscription.paymentMethod.last4}
                   </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
-                    Expires {subscription.paymentMethod.expMonth?.toString().padStart(2, '0')}/{subscription.paymentMethod.expYear}
+                    Expires {subscription.paymentMethod.expMonth?.toString().padStart(2, '0')}/
+                    {subscription.paymentMethod.expYear}
                   </p>
                 </div>
               </div>
@@ -433,9 +494,17 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
         </motion.div>
 
         {/* ── Billing history ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3} className="border border-border-light dark:border-border-dark mb-8">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={3}
+          className="border border-border-light dark:border-border-dark mb-8"
+        >
           <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Billing History</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Billing History
+            </p>
           </div>
 
           {subscription.billingHistory?.length > 0 ? (
@@ -443,8 +512,13 @@ export default function MemberPortalSubscriptionDetailsClient({ subscription }: 
               {subscription.billingHistory.map((payment) => (
                 <li key={payment.id} className="flex items-center justify-between px-5 py-3.5 gap-4" role="listitem">
                   <div className="flex items-center gap-3">
-                    <Check className="w-3.5 h-3.5 text-primary-light dark:text-primary-dark shrink-0" aria-hidden="true" />
-                    <span className="text-xs font-mono text-muted-light dark:text-muted-dark">{formatDate(payment.paidAt ?? payment.createdAt)}</span>
+                    <Check
+                      className="w-3.5 h-3.5 text-primary-light dark:text-primary-dark shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span className="text-xs font-mono text-muted-light dark:text-muted-dark">
+                      {formatDate(payment.paidAt ?? payment.createdAt)}
+                    </span>
                   </div>
                   <span className="font-mono text-sm text-text-light dark:text-text-dark tabular-nums">
                     {formatMoney(Number(payment.totalAmount))}

@@ -1,6 +1,6 @@
 import { updateAddress } from 'app/lib/actions/user/updateAddress'
-import { STATES } from 'app/lib/constants/states'
-import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles'
+import { STATES } from 'app/lib/constants/states.constants'
+import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles.constants'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { store } from 'app/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -64,9 +64,14 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
               <div className="px-6 py-5 border-b border-border-light dark:border-border-dark">
                 <div className="flex items-center gap-3 mb-1">
                   <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Shipping Address</p>
+                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                    Shipping Address
+                  </p>
                 </div>
-                <h3 id="replace-address-title" className="font-quicksand font-bold text-lg text-text-light dark:text-text-dark">
+                <h3
+                  id="replace-address-title"
+                  className="font-quicksand font-bold text-lg text-text-light dark:text-text-dark"
+                >
                   Update saved address?
                 </h3>
               </div>
@@ -125,7 +130,9 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
           <h2 className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-1">
             Shipping <span className="font-light text-muted-light dark:text-muted-dark">address</span>
           </h2>
-          <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">One or more items in your cart ship physically.</p>
+          <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+            One or more items in your cart ship physically.
+          </p>
         </div>
 
         {/* ── Saved address ── */}
@@ -137,7 +144,9 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
               className="w-full flex items-start justify-between px-3.5 py-3.5 border-2 border-primary-light dark:border-primary-dark bg-primary-light/5 dark:bg-primary-dark/5 text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
               <div>
-                <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-primary-light dark:text-primary-dark mb-1">Saved address</p>
+                <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-primary-light dark:text-primary-dark mb-1">
+                  Saved address
+                </p>
                 <p className="text-sm font-mono text-text-light dark:text-text-dark">
                   {userAddress.addressLine1}
                   {userAddress.addressLine2 && `, ${userAddress.addressLine2}`}

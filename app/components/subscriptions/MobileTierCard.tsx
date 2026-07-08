@@ -1,6 +1,6 @@
-import { T, TIERS } from 'app/lib/constants/subscriptions'
+import { T, TIERS } from 'app/lib/constants/subscriptions.constants'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BillingInterval } from 'types/member-portal'
+import { BillingInterval } from 'types/member-portal.types'
 
 export function MobileTierCard({
   tier,
@@ -96,7 +96,11 @@ export function MobileTierCard({
 
         {/* ── Corner ornaments ── */}
         {corners.map(([pos, borders], ci) => (
-          <div key={ci} className={`absolute w-2.5 h-2.5 ${pos} ${borders} ${s.darkCorner} pointer-events-none`} aria-hidden="true" />
+          <div
+            key={ci}
+            className={`absolute w-2.5 h-2.5 ${pos} ${borders} ${s.darkCorner} pointer-events-none`}
+            aria-hidden="true"
+          />
         ))}
 
         {/* ── Bottom edge glow ── */}
@@ -119,12 +123,17 @@ export function MobileTierCard({
         )}
 
         {/* ── Rank ── */}
-        <span className={`font-mono text-[9px] tracking-[.2em] uppercase pointer-events-none shrink-0 ${s.darkRank}`} aria-hidden="true">
+        <span
+          className={`font-mono text-[9px] tracking-[.2em] uppercase pointer-events-none shrink-0 ${s.darkRank}`}
+          aria-hidden="true"
+        >
           {String(index + 1).padStart(2, '0')}
         </span>
 
         {/* ── Name ── */}
-        <span className={`font-bebas font-bold text-xl flex-1 text-left leading-tight pointer-events-none transition-colors duration-200 ${name_c}`}>
+        <span
+          className={`font-bebas font-bold text-xl flex-1 text-left leading-tight pointer-events-none transition-colors duration-200 ${name_c}`}
+        >
           {tier.name}
         </span>
 

@@ -3,6 +3,8 @@ import { DefaultSession, DefaultUser } from 'next-auth'
 declare module '@auth/core/adapters' {
   interface AdapterUser {
     role: 'ADMIN' | 'SUPERUSER' | 'SUPPORTER'
+    firstName: string | null
+    lastName: string | null
   }
 }
 
@@ -17,13 +19,6 @@ declare module 'next-auth' {
 
   interface User extends DefaultUser {
     id: string
-    role: 'ADMIN' | 'SUPERUSER' | 'SUPPORTER'
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    userId: string
     role: 'ADMIN' | 'SUPERUSER' | 'SUPPORTER'
   }
 }

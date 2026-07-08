@@ -15,7 +15,7 @@ import { SubmitButton } from '../common/SubmitButton'
 import { SavedCardSelector } from '../common/SavedCardSelector'
 import { useCallback } from 'react'
 import { useDefaultCard } from '@hooks/useDefaultCard'
-import { IPaymentForm } from 'types/common'
+import { IPaymentForm } from 'types/common.types'
 
 const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'adoptionFeeForm', data }))
 

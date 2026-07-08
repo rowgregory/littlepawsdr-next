@@ -1,6 +1,6 @@
 'use client'
 
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
@@ -38,7 +38,13 @@ function useCountdown(expiresAt: Date | null) {
   return timeLeft
 }
 
-export default function PrivateAdoptionApplicationApplyClient({ isActive, expiresAt }: { isActive: boolean; expiresAt: Date | null }) {
+export default function PrivateAdoptionApplicationApplyClient({
+  isActive,
+  expiresAt
+}: {
+  isActive: boolean
+  expiresAt: Date | null
+}) {
   const router = useRouter()
   const timeLeft = useCountdown(expiresAt)
   const { isDark } = useUiSelector()
@@ -58,12 +64,16 @@ export default function PrivateAdoptionApplicationApplyClient({ isActive, expire
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-12 sm:mb-16">
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Adoption</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Adoption
+            </p>
           </div>
-          <h1 className="font-changa text-4xl sm:text-5xl uppercase leading-none text-text-light dark:text-text-dark mb-5">Adoption Application</h1>
+          <h1 className="font-changa text-4xl sm:text-5xl uppercase leading-none text-text-light dark:text-text-dark mb-5">
+            Adoption Application
+          </h1>
           <p className="text-base text-muted-light dark:text-muted-dark leading-relaxed">
-            Thank you for taking the next step toward adopting a Little Paws dachshund. Please complete the application below. Our team will review
-            your submission and be in touch within 3–5 business days.
+            Thank you for taking the next step toward adopting a Little Paws dachshund. Please complete the application
+            below. Our team will review your submission and be in touch within 3–5 business days.
           </p>
         </motion.div>
 
@@ -81,11 +91,15 @@ export default function PrivateAdoptionApplicationApplyClient({ isActive, expire
             >
               <div className="flex items-center gap-2">
                 <span className="block w-3 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Access Expires</p>
+                <p className="text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  Access Expires
+                </p>
               </div>
               <p
                 className={`font-changa text-sm uppercase tracking-wide tabular-nums ${
-                  timeLeft === 'Expired' ? 'text-red-500 dark:text-red-400' : 'text-primary-light dark:text-primary-dark'
+                  timeLeft === 'Expired'
+                    ? 'text-red-500 dark:text-red-400'
+                    : 'text-primary-light dark:text-primary-dark'
                 }`}
               >
                 {timeLeft}
@@ -105,7 +119,10 @@ export default function PrivateAdoptionApplicationApplyClient({ isActive, expire
         >
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <h2 id="application-heading" className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            <h2
+              id="application-heading"
+              className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+            >
               Application Form
             </h2>
           </div>

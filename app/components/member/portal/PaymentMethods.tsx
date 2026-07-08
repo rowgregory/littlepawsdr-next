@@ -1,17 +1,31 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { setOpenAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
 import { store } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
 import { CheckCircle, CreditCard, Plus } from 'lucide-react'
 import { EmptyState } from './EmptyState'
 
-export function PaymentMethods({ paymentMethods, setDefaultSuccess, handleSetDefaultPaymentMethod, handleDeletePaymentMethod, deleteError }) {
+export function PaymentMethods({
+  paymentMethods,
+  setDefaultSuccess,
+  handleSetDefaultPaymentMethod,
+  handleDeletePaymentMethod,
+  deleteError
+}) {
   return (
-    <motion.section variants={fadeUp} initial="hidden" animate="show" custom={2} aria-labelledby="payment-methods-heading">
+    <motion.section
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      custom={2}
+      aria-labelledby="payment-methods-heading"
+    >
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Saved Payment Methods</h2>
+          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            Saved Payment Methods
+          </h2>
         </div>
         <button
           type="button"
@@ -47,7 +61,8 @@ export function PaymentMethods({ paymentMethods, setDefaultSuccess, handleSetDef
                     )}
                   </div>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
-                    {pm.cardholderName && `${pm.cardholderName} · `}Expires {pm.cardExpMonth.toString().padStart(2, '0')}/{pm.cardExpYear}
+                    {pm.cardholderName && `${pm.cardholderName} · `}Expires{' '}
+                    {pm.cardExpMonth.toString().padStart(2, '0')}/{pm.cardExpYear}
                   </p>
                 </div>
               </div>
@@ -58,7 +73,9 @@ export function PaymentMethods({ paymentMethods, setDefaultSuccess, handleSetDef
                     {setDefaultSuccess === pm.id ? (
                       <div className="flex items-center gap-1.5">
                         <CheckCircle className="w-3 h-3 text-green-500 shrink-0" aria-hidden="true" />
-                        <span className="text-[9px] font-mono tracking-widest uppercase text-green-500">Default updated</span>
+                        <span className="text-[9px] font-mono tracking-widest uppercase text-green-500">
+                          Default updated
+                        </span>
                       </div>
                     ) : (
                       <button
@@ -82,7 +99,9 @@ export function PaymentMethods({ paymentMethods, setDefaultSuccess, handleSetDef
                 </button>
               </div>
               {deleteError[pm.id] && (
-                <p className="text-[10px] font-mono text-red-500 dark:text-red-400 mt-2 pl-13 leading-relaxed">{deleteError[pm.id]}</p>
+                <p className="text-[10px] font-mono text-red-500 dark:text-red-400 mt-2 pl-13 leading-relaxed">
+                  {deleteError[pm.id]}
+                </p>
               )}
             </li>
           ))}

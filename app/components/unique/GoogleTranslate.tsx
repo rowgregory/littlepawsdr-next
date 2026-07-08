@@ -212,7 +212,7 @@ export default function GoogleTranslate() {
           <>
             <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
             <div
-              className="absolute left-0 w-[126.41px] bg-topbar-light dark:bg-topbar-dark border border-border-dark border-t-2 border-t-primary-light dark:border-t-primary-dark shadow-xl z-50 notranslate px-5 py-4 space-y-1"
+              className="absolute left-0 w-[126.41px] bg-topbar-light dark:bg-topbar-dark border border-border-dark border-t-2 border-t-primary-light dark:border-t-primary-dark shadow-xl z-160 notranslate px-5 py-4 space-y-1"
               translate="no"
             >
               {LANGUAGES.map((lang) => (

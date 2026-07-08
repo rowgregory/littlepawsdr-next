@@ -10,11 +10,13 @@ type Props = {
 export function CardElementField({ formName, isDark }: Props) {
   const { isDark: storeDark } = useUiSelector()
   const dark = isDark ?? storeDark
-  console.log(dark)
 
   return (
     <div>
-      <label id="card-label" className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+      <label
+        id="card-label"
+        className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2"
+      >
         Card Details
       </label>
       <div

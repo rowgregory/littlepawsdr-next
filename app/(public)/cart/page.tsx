@@ -3,11 +3,17 @@
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Minus, Plus, X, ShoppingBag } from 'lucide-react'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from 'app/components/common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
 import { store, useCartSelector } from 'app/lib/store/store'
-import { CartItem, clearCart, decrementQuantity, incrementQuantity, removeFromCart } from 'app/lib/store/slices/cartSlice'
+import {
+  CartItem,
+  clearCart,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart
+} from 'app/lib/store/slices/cartSlice'
 
 // ─── Cart Item Row ────────────────────────────────────────────────────────────
 function CartItemRow({ item, index }: { item: CartItem; index: number }) {
@@ -35,9 +41,13 @@ function CartItemRow({ item, index }: { item: CartItem; index: number }) {
       {/* Info */}
       <div className="min-w-0 flex flex-col justify-between gap-2">
         <div>
-          <p className="font-quicksand font-black text-sm sm:text-base text-text-light dark:text-text-dark leading-snug truncate">{item.name}</p>
+          <p className="font-quicksand font-black text-sm sm:text-base text-text-light dark:text-text-dark leading-snug truncate">
+            {item.name}
+          </p>
           {item.size && (
-            <p className="text-[10px] font-mono uppercase tracking-wide text-muted-light dark:text-muted-dark mt-0.5">Size {item.size}</p>
+            <p className="text-[10px] font-mono uppercase tracking-wide text-muted-light dark:text-muted-dark mt-0.5">
+              Size {item.size}
+            </p>
           )}
           <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
             {item.isPhysicalProduct ? 'Ships to your address' : 'Donated directly to a dachshund in our care'}
@@ -128,7 +138,9 @@ export default function CartPage({}) {
 
           <div className="flex items-center gap-3 mb-2">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Your Cart</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Your Cart
+            </p>
           </div>
           <h1 className="font-quicksand font-black text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight">
             {isEmpty ? (
@@ -158,8 +170,12 @@ export default function CartPage({}) {
                 <ShoppingBag size={22} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
               </div>
               <div>
-                <p className="font-quicksand font-black text-lg text-text-light dark:text-text-dark mb-1">Nothing here yet</p>
-                <p className="text-xs font-mono text-muted-light dark:text-muted-dark">Add some items from the store to get started.</p>
+                <p className="font-quicksand font-black text-lg text-text-light dark:text-text-dark mb-1">
+                  Nothing here yet
+                </p>
+                <p className="text-xs font-mono text-muted-light dark:text-muted-dark">
+                  Add some items from the store to get started.
+                </p>
               </div>
               <Link
                 href="/merch"
@@ -214,7 +230,9 @@ export default function CartPage({}) {
                 <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
                   <div className="flex items-center gap-3">
                     <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Order Summary</p>
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                      Order Summary
+                    </p>
                   </div>
                 </div>
 
@@ -247,7 +265,9 @@ export default function CartPage({}) {
                   {/* Total */}
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-mono font-black text-text-light dark:text-text-dark">Total</p>
-                    <p className="font-quicksand font-black text-xl text-primary-light dark:text-primary-dark">{formatMoney(total)}</p>
+                    <p className="font-quicksand font-black text-xl text-primary-light dark:text-primary-dark">
+                      {formatMoney(total)}
+                    </p>
                   </div>
                 </div>
 
@@ -260,7 +280,9 @@ export default function CartPage({}) {
                   >
                     Checkout
                   </Link>
-                  <p className="text-[9px] font-mono text-center text-muted-light dark:text-muted-dark mt-1">Proceeds support dachshund rescue</p>
+                  <p className="text-[9px] font-mono text-center text-muted-light dark:text-muted-dark mt-1">
+                    Proceeds support dachshund rescue
+                  </p>
                 </div>
               </motion.aside>
             </motion.div>

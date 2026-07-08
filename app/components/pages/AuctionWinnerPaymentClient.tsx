@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import { IAuctionWinningBidder } from 'types/entities/auction-winning-bidder'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -54,7 +54,9 @@ export function AddressSection({ address }: AddressSectionProps) {
       <div>
         <div className="flex items-center gap-2 mb-3">
           <div className="w-3 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-          <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">Shipping Address</span>
+          <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+            Shipping Address
+          </span>
         </div>
 
         {address ? (
@@ -63,7 +65,9 @@ export function AddressSection({ address }: AddressSectionProps) {
               <div className="flex items-start gap-3 min-w-0">
                 <MapPin className="w-4 h-4 text-cyan-600 dark:text-violet-400 shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="min-w-0">
-                  <p className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark leading-snug">{address.name}</p>
+                  <p className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark leading-snug">
+                    {address.name}
+                  </p>
                   <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark mt-0.5 leading-relaxed">
                     {address.addressLine1}
                     {address.addressLine2 && `, ${address.addressLine2}`}
@@ -235,7 +239,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">Receipt</span>
+              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+                Receipt
+              </span>
               <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" />
             </div>
             <h1 className="font-changa text-2xl uppercase text-zinc-950 dark:text-text-dark mb-1">Payment Confirmed</h1>
@@ -254,7 +260,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
           <div className="border border-zinc-200 dark:border-border-dark">
             {/* Auction */}
             <div className="px-5 py-3 border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2">
-              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">{winningBidder?.auction.title}</p>
+              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+                {winningBidder?.auction.title}
+              </p>
             </div>
 
             {/* Items */}
@@ -262,7 +270,10 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
               {winningBidder?.auctionItems.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-4 px-5 py-3.5">
                   <div className="flex items-center gap-3 min-w-0">
-                    <Package className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
+                    <Package
+                      className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50 shrink-0"
+                      aria-hidden="true"
+                    />
                     <p className="font-lato text-sm text-zinc-950 dark:text-text-dark truncate">{item.name}</p>
                   </div>
                   <span className="font-changa text-sm tabular-nums text-zinc-950 dark:text-text-dark shrink-0">
@@ -276,7 +287,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
             <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark space-y-2">
               <div className="flex justify-between items-center">
                 <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Items</span>
-                <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">${itemsTotal.toLocaleString()}</span>
+                <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                  ${itemsTotal.toLocaleString()}
+                </span>
               </div>
               {(winningBidder?.shipping ?? 0) > 0 && (
                 <div className="flex justify-between items-center">
@@ -295,7 +308,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                 </div>
               )}
               <div className="pt-2 border-t border-zinc-200 dark:border-border-dark flex justify-between items-center">
-                <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">Total Paid</span>
+                <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                  Total Paid
+                </span>
                 <span className="font-changa text-xl tabular-nums text-cyan-600 dark:text-violet-400">
                   ${Number(winningBidder?.totalPrice ?? 0).toLocaleString()}
                 </span>
@@ -306,8 +321,8 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
             <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2 flex items-start gap-3">
               <Heart className="w-3.5 h-3.5 text-cyan-600 dark:text-violet-400 shrink-0 mt-0.5" aria-hidden="true" />
               <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark leading-relaxed">
-                Thank you for supporting Little Paws Dachshund Rescue, {winningBidder?.user?.firstName}. Your generosity helps the dogs in our care
-                find their forever homes.
+                Thank you for supporting Little Paws Dachshund Rescue, {winningBidder?.user?.firstName}. Your generosity
+                helps the dogs in our care find their forever homes.
               </p>
             </div>
           </div>
@@ -357,8 +372,10 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                 Congratulations, {winningBidder?.user?.firstName}!
               </h1>
               <p className="font-lato text-sm text-zinc-500 dark:text-muted-dark leading-relaxed max-w-lg">
-                You won {winningBidder?.auctionItems.length === 1 ? 'an item' : `${winningBidder?.auctionItems.length} items`} in the auction.
-                Complete your payment below to claim {winningBidder?.auctionItems.length === 1 ? 'it' : 'them'}.
+                You won{' '}
+                {winningBidder?.auctionItems.length === 1 ? 'an item' : `${winningBidder?.auctionItems.length} items`}{' '}
+                in the auction. Complete your payment below to claim{' '}
+                {winningBidder?.auctionItems.length === 1 ? 'it' : 'them'}.
               </p>
             </div>
           </div>
@@ -367,11 +384,15 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
         {winningBidder.user?.firstName && (
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.5} className="mb-6">
             <div className="border-l-2 border-cyan-600 dark:border-violet-400 pl-4">
-              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-0.5">Paying as</p>
+              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-0.5">
+                Paying as
+              </p>
               <p className="font-changa text-lg uppercase leading-none text-zinc-950 dark:text-text-dark">
                 {[winningBidder.user.firstName, winningBidder.user.lastName].filter(Boolean).join(' ')}
               </p>
-              <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50 mt-0.5">{winningBidder.user.email}</p>
+              <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50 mt-0.5">
+                {winningBidder.user.email}
+              </p>
             </div>
           </motion.div>
         )}
@@ -407,7 +428,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                         <div className="flex items-center gap-3">
                           <CreditCard
                             className={`w-4 h-4 shrink-0 ${
-                              selectedCardId === card.stripePaymentId ? 'text-cyan-600 dark:text-violet-400' : 'text-zinc-400 dark:text-muted-dark/50'
+                              selectedCardId === card.stripePaymentId
+                                ? 'text-cyan-600 dark:text-violet-400'
+                                : 'text-zinc-400 dark:text-muted-dark/50'
                             }`}
                             aria-hidden="true"
                           />
@@ -428,7 +451,10 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                           </div>
                         </div>
                         {selectedCardId === card.stripePaymentId && (
-                          <CheckCircle className="w-4 h-4 text-cyan-600 dark:text-violet-400 shrink-0" aria-hidden="true" />
+                          <CheckCircle
+                            className="w-4 h-4 text-cyan-600 dark:text-violet-400 shrink-0"
+                            aria-hidden="true"
+                          />
                         )}
                       </button>
                     ))}
@@ -475,7 +501,10 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-3 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-                    <label id="card-label" className="block font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+                    <label
+                      id="card-label"
+                      className="block font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark"
+                    >
                       Card Details
                     </label>
                   </div>
@@ -506,8 +535,13 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                     />
                   </div>
                   <div className="flex items-center gap-2 mt-2">
-                    <ShieldCheck className="w-3 h-3 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
-                    <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">Secured and encrypted by Stripe</p>
+                    <ShieldCheck
+                      className="w-3 h-3 text-zinc-400 dark:text-muted-dark/50 shrink-0"
+                      aria-hidden="true"
+                    />
+                    <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
+                      Secured and encrypted by Stripe
+                    </p>
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -519,7 +553,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4}>
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-3 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-                <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">Options</span>
+                <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+                  Options
+                </span>
               </div>
 
               <div className="border border-zinc-200 dark:border-border-dark divide-y divide-zinc-200 dark:divide-border-dark">
@@ -574,8 +610,12 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                         aria-hidden="true"
                       />
                       <div className="text-left min-w-0">
-                        <p className="font-changa text-xs uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">Save card</p>
-                        <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">One-click checkout next time</p>
+                        <p className="font-changa text-xs uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
+                          Save card
+                        </p>
+                        <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
+                          One-click checkout next time
+                        </p>
                       </div>
                     </div>
                     <div
@@ -654,7 +694,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
               <div className="px-5 py-4 border-b border-zinc-200 dark:border-border-dark">
                 <div className="flex items-center gap-2">
                   <Package className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50" aria-hidden="true" />
-                  <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">Order Summary</span>
+                  <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+                    Order Summary
+                  </span>
                 </div>
               </div>
 
@@ -666,7 +708,13 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                     <div key={item.id} className="flex items-center gap-3 px-5 py-4">
                       <div className="shrink-0 w-14 h-14 bg-zinc-200 dark:bg-white/5 overflow-hidden">
                         {photo ? (
-                          <Image src={photo.url} alt={item.name} width={56} height={56} className="w-full h-full object-cover" />
+                          <Image
+                            src={photo.url}
+                            alt={item.name}
+                            width={56}
+                            height={56}
+                            className="w-full h-full object-cover"
+                          />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Package className="w-5 h-5 text-zinc-400 dark:text-muted-dark/30" />
@@ -679,9 +727,14 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
                         </p>
                         {item.requiresShipping && (
                           <div className="flex items-center gap-1 mt-0.5">
-                            <Truck className="w-3 h-3 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
+                            <Truck
+                              className="w-3 h-3 text-zinc-400 dark:text-muted-dark/50 shrink-0"
+                              aria-hidden="true"
+                            />
                             <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
-                              {item.shippingCosts ? `+$${item.shippingCosts.toLocaleString()} shipping` : 'Ships separately'}
+                              {item.shippingCosts
+                                ? `+$${item.shippingCosts.toLocaleString()} shipping`
+                                : 'Ships separately'}
                             </span>
                           </div>
                         )}
@@ -698,23 +751,33 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
               <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark space-y-2.5">
                 <div className="flex justify-between items-center">
                   <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Items</span>
-                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">${total?.toLocaleString()}</span>
+                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                    ${total?.toLocaleString()}
+                  </span>
                 </div>
                 {shipping > 0 && (
                   <div className="flex justify-between items-center">
                     <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Shipping</span>
-                    <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">${shipping?.toLocaleString()}</span>
+                    <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                      ${shipping?.toLocaleString()}
+                    </span>
                   </div>
                 )}
                 {processingFee > 0 && (
                   <div className="flex justify-between items-center">
                     <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Processing fee</span>
-                    <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">${processingFee?.toLocaleString()}</span>
+                    <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                      ${processingFee?.toLocaleString()}
+                    </span>
                   </div>
                 )}
                 <div className="pt-3 border-t border-zinc-200 dark:border-border-dark flex justify-between items-center">
-                  <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">Total due</span>
-                  <span className="font-changa text-xl tabular-nums text-cyan-600 dark:text-violet-400">${finalAmount?.toLocaleString()}</span>
+                  <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                    Total due
+                  </span>
+                  <span className="font-changa text-xl tabular-nums text-cyan-600 dark:text-violet-400">
+                    ${finalAmount?.toLocaleString()}
+                  </span>
                 </div>
               </div>
             </div>

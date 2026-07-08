@@ -4,7 +4,8 @@ import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { auth } from 'app/lib/auth'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const getAdoptionFees = async () => {
   try {
@@ -19,7 +20,7 @@ export const getAdoptionFees = async () => {
       orderBy: { createdAt: 'desc' }
     })
 
-    const message = await buildLogMessage('fetched adoption fees', actor, context)
+    const message = buildLogMessage('fetched adoption fees', actor, context)
     await createLog('info', message, { count: adoptionFees.length, context })
 
     return { success: true, data: adoptionFees, error: null }

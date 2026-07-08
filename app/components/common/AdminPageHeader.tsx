@@ -1,72 +1,74 @@
 'use client'
 
-import { useCountdown } from '@hooks/useCountdown'
-import { motion } from 'framer-motion'
-import { Check, Copy } from 'lucide-react'
-import { useState } from 'react'
+import { ReactNode } from 'react'
+import Link from 'next/link'
+import { LayoutDashboard } from 'lucide-react'
 
-interface AdminPageHeaderProps {
+type Crumb = {
   label: string
-  title: string
-  description?: string
-  bypassCode?: string
-  nextRotationAt?: Date
-  children?: React.ReactNode
+  href: string
 }
 
-export default function AdminPageHeader({ label, title, description, bypassCode, nextRotationAt, children }: AdminPageHeaderProps) {
-  const [copied, setCopied] = useState(false)
+type Props = {
+  /** Current page title — the last, non-linked breadcrumb segment. */
+  title: string
+  /**
+   * Optional intermediate breadcrumbs between Dashboard and the title.
+   * e.g. [{ label: 'Users', href: '/admin/users' }] renders
+   * Dashboard / Users / {title}
+   */
+  breadcrumbs?: Crumb[]
+  /** Optional count shown on the right (e.g. "5 users"). */
+  count?: { value: number; noun: string }
+  /** Optional action slot on the right — a button, link, etc. */
+  action?: ReactNode
+}
 
-  const { days, hours, minutes, seconds, done } = useCountdown(nextRotationAt ? new Date(nextRotationAt) : new Date())
+const crumbLinkClass =
+  'inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark'
 
-  const handleCopy = async () => {
-    if (!bypassCode) return
-    await navigator.clipboard.writeText(bypassCode)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+const separator = (
+  <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
+    /
+  </span>
+)
 
+export default function AdminPageHeader({ title, breadcrumbs = [], count, action }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 bg-bg-light dark:bg-bg-dark h-16.25"
-    >
-      <div className="max-w-6xl mx-auto h-full flex items-center justify-between gap-4">
-        {/* Left — label + title */}
-        <div className="flex items-center gap-3 min-w-0">
-          <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <div className="min-w-0">
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark leading-none mb-1">{label}</p>
-            <h1 className="font-quicksand font-black text-lg sm:text-xl text-text-light dark:text-text-dark leading-none truncate">{title}</h1>
-            {description && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1 truncate">{description}</p>}
-          </div>
-        </div>
+    <header className="sticky top-0 z-10 w-full border-b border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur px-4 h-10 flex items-center justify-between">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 min-w-0">
+        <Link href="/admin/dashboard" className={crumbLinkClass}>
+          <LayoutDashboard className="w-3 h-3" aria-hidden="true" />
+          Dashboard
+        </Link>
 
-        {/* Right — bypass code + children */}
-        <div className="flex items-center gap-4 shrink-0">
-          {bypassCode && (
-            <div className="flex flex-col items-end gap-1">
-              <button
-                onClick={handleCopy}
-                aria-label={copied ? 'Bypass code copied' : 'Copy bypass code to clipboard'}
-                className="inline-flex items-center gap-2 px-3 py-1.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:border-primary-light dark:hover:border-primary-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-              >
-                {copied ? <Check size={11} aria-hidden="true" /> : <Copy size={11} aria-hidden="true" />}
-                {copied ? 'Copied' : 'Copy Bypass Code'}
-              </button>
-              {nextRotationAt && (
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
-                  {done ? 'Rotating soon' : `Rotates in ${days}d ${hours}h ${minutes}m ${seconds}s`}
-                </p>
-              )}
-            </div>
+        {breadcrumbs.map((crumb) => (
+          <span key={crumb.href} className="flex items-center gap-2 min-w-0">
+            {separator}
+            <Link href={crumb.href} className={`${crumbLinkClass} truncate`}>
+              {crumb.label}
+            </Link>
+          </span>
+        ))}
+
+        {separator}
+
+        <h1 className="text-[9px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          {title}
+        </h1>
+      </nav>
+
+      {(count || action) && (
+        <div className="flex items-center gap-3 shrink-0">
+          {count && (
+            <span className="hidden sm:inline text-[9px] font-mono tabular-nums text-muted-light dark:text-muted-dark">
+              {count.value} {count.noun}
+              {count.value === 1 ? '' : 's'}
+            </span>
           )}
-
-          {children && <div className="flex items-center gap-2">{children}</div>}
+          {action}
         </div>
-      </div>
-    </motion.div>
+      )}
+    </header>
   )
 }

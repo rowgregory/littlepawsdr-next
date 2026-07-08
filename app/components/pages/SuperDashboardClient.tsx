@@ -26,9 +26,16 @@ interface Props {
   auction: any
 }
 
-export default function SuperDashboardClient({ services, cronJobs, pulseStats, adminUsers, auditLogs, managedUsers, auction }: Props) {
+export default function SuperDashboardClient({
+  services,
+  cronJobs,
+  pulseStats,
+  adminUsers,
+  auditLogs,
+  managedUsers,
+  auction
+}: Props) {
   const [refreshing, setRefreshing] = useState(false)
-  console.log(auction)
 
   const hasIssues = pulseStats?.some((s) => s.signal === 'red')
   const hasWarnings = !hasIssues && pulseStats?.some((s) => s.signal === 'yellow')
@@ -40,23 +47,33 @@ export default function SuperDashboardClient({ services, cronJobs, pulseStats, a
         <div className="flex items-center gap-2">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-quicksand font-bold text-[12px] text-text-light dark:text-text-dark leading-tight">Little Paws</span>
+              <span className="font-quicksand font-bold text-[12px] text-text-light dark:text-text-dark leading-tight">
+                Little Paws
+              </span>
               {/* <Badge variant="info">
                 <Shield size={8} className="inline mr-0.5" aria-hidden="true" />
                 Super
               </Badge> */}
             </div>
-            <p className="font-mono text-[8px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">System Control Panel</p>
+            <p className="font-mono text-[8px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+              System Control Panel
+            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <div
             className={`flex items-center gap-1.5 px-2 py-1 border font-mono text-[8px] tracking-[0.12em] uppercase ${
-              hasIssues ? 'border-red-500/30 text-red-500' : hasWarnings ? 'border-amber-500/30 text-amber-500' : 'border-green-500/30 text-green-500'
+              hasIssues
+                ? 'border-red-500/30 text-red-500'
+                : hasWarnings
+                  ? 'border-amber-500/30 text-amber-500'
+                  : 'border-green-500/30 text-green-500'
             }`}
           >
-            <span className={`w-1 h-1 rounded-full animate-pulse ${hasIssues ? 'bg-red-500' : hasWarnings ? 'bg-amber-500' : 'bg-green-500'}`} />
+            <span
+              className={`w-1 h-1 rounded-full animate-pulse ${hasIssues ? 'bg-red-500' : hasWarnings ? 'bg-amber-500' : 'bg-green-500'}`}
+            />
             {hasIssues ? 'Issues' : hasWarnings ? 'Warnings' : 'All Systems Go'}
           </div>
           <button

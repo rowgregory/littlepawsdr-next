@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { TIERS } from 'app/lib/constants/subscriptions'
+import { TIERS } from 'app/lib/constants/subscriptions.constants'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { useSearchParams } from 'next/navigation'
 import Picture from '../../components/common/Picture'
@@ -18,7 +18,9 @@ type IPublicSubscriptionsClient = {
 
 export default function PublicSubscriptionsClient({ savedPaymentMethods, userName }: IPublicSubscriptionsClient) {
   const searchParams = useSearchParams()
-  const [billing, setBilling] = useState<'MONTHLY' | 'YEARLY'>((searchParams.get('billing') as 'MONTHLY' | 'YEARLY') ?? 'MONTHLY')
+  const [billing, setBilling] = useState<'MONTHLY' | 'YEARLY'>(
+    (searchParams.get('billing') as 'MONTHLY' | 'YEARLY') ?? 'MONTHLY'
+  )
   const [view, setView] = useState<'select' | 'payment'>((searchParams.get('view') as 'select' | 'payment') ?? 'select')
   const [selected, setSelected] = useState<string | null>(searchParams.get('tier'))
 
@@ -26,7 +28,12 @@ export default function PublicSubscriptionsClient({ savedPaymentMethods, userNam
 
   return (
     <main id="main-content" className="dark relative min-h-dvh text-text-dark bg-bg-dark">
-      <StickyHeader billing={billing as 'monthly' | 'yearly'} onSubscribe={() => setView('payment')} selected={selected} view={view} />
+      <StickyHeader
+        billing={billing as 'monthly' | 'yearly'}
+        onSubscribe={() => setView('payment')}
+        selected={selected}
+        view={view}
+      />
       {view === 'select' && (
         <motion.div
           className="w-fit -ml-4 xs:-ml-6 sm:-ml-10 fixed -bottom-7 left-0"
@@ -38,12 +45,23 @@ export default function PublicSubscriptionsClient({ savedPaymentMethods, userNam
             repeatType: 'loop'
           }}
         >
-          <Picture src="/images/cartoon-dachshund-1.png" className="h-48 xs:h-64 sm:h-96 1000:h-128 1200:h-160 w-auto object-contain" priority />
+          <Picture
+            src="/images/cartoon-dachshund-1.png"
+            className="h-48 xs:h-64 sm:h-96 1000:h-128 1200:h-160 w-auto object-contain"
+            priority
+          />
         </motion.div>
       )}
       <AnimatePresence mode="wait">
         {/* ── VIEW: SELECT ── */}
-        {view === 'select' && <SubscriptionSelector billing={billing} selected={selected} setBilling={setBilling} setSelected={setSelected} />}
+        {view === 'select' && (
+          <SubscriptionSelector
+            billing={billing}
+            selected={selected}
+            setBilling={setBilling}
+            setSelected={setSelected}
+          />
+        )}
 
         {/* ── VIEW: PAYMENT ── */}
         {view === 'payment' && selectedTier && (
@@ -58,7 +76,9 @@ export default function PublicSubscriptionsClient({ savedPaymentMethods, userNam
       </AnimatePresence>
 
       {/* ── STICKY BAR ── */}
-      {view === 'select' && <StickyBar billing={billing} selected={selected} selectedTier={selectedTier} setView={setView} />}
+      {view === 'select' && (
+        <StickyBar billing={billing} selected={selected} selectedTier={selectedTier} setView={setView} />
+      )}
     </main>
   )
 }

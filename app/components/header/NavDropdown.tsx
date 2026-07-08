@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
-import { Section } from 'app/lib/constants/navigation'
+import { Section } from 'app/lib/constants/navigation.constants'
 import { getHeaderLinksVisibilityClass } from 'app/utils/getHeaderLinksVisibilityClass'
 
 export const NavDropdown = ({ section }: { section: Section }) => {
@@ -48,7 +48,11 @@ export const NavDropdown = ({ section }: { section: Section }) => {
     >
       {/* ── Direct link (no dropdown) ── */}
       {section.linkKey && !section.links ? (
-        <Link href={section.linkKey} aria-current={section.linkKey === pathname ? 'page' : undefined} className={labelClass}>
+        <Link
+          href={section.linkKey}
+          aria-current={section.linkKey === pathname ? 'page' : undefined}
+          className={labelClass}
+        >
           <span className={`relative py-7 ${isActive ? 'text-primary-light dark:text-primary-dark' : ''}`}>
             {section.title}
             <span aria-hidden="true" className={underline(section.linkKey === pathname)} />
@@ -61,7 +65,12 @@ export const NavDropdown = ({ section }: { section: Section }) => {
             {section.title}
             <span aria-hidden="true" className={underline(isActive || open)} />
           </span>
-          <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }} className="inline-flex text-on-dark" aria-hidden="true">
+          <motion.span
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="inline-flex text-on-dark"
+            aria-hidden="true"
+          >
             <ChevronDown className="w-3 h-3" />
           </motion.span>
         </button>

@@ -5,11 +5,15 @@ import { Prisma } from '@prisma/client'
 import { WelcomeWienerInputs } from 'types/entities/welcome-wiener'
 import { createLog } from '../log/createLog'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext, RequestContext } from 'app/utils/log.utils'
+import { getRequestContext, RequestContext } from 'app/utils/log.server.utils'
 import { auth } from 'app/lib/auth'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export const updateWelcomeWiener = async (id: string, input: Partial<WelcomeWienerInputs>) => {
-  const [actor, context] = await Promise.all([getActor().catch(() => 'Unknown actor'), getRequestContext().catch(() => ({}) as RequestContext)])
+  const [actor, context] = await Promise.all([
+    getActor().catch(() => 'Unknown actor'),
+    getRequestContext().catch(() => ({}) as RequestContext)
+  ])
 
   try {
     // ── Guards ──

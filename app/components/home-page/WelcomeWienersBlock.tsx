@@ -86,17 +86,26 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
   // ── Empty state
   if (!dachshunds.length) {
     return (
-      <section aria-labelledby="welcome-wieners-heading" className="relative w-full bg-bg-light dark:bg-bg-dark px-4 xs:px-5 sm:px-6 lg:px-8 py-16">
+      <section
+        aria-labelledby="welcome-wieners-heading"
+        className="relative w-full bg-bg-light dark:bg-bg-dark px-4 xs:px-5 sm:px-6 lg:px-8 py-16"
+      >
         <div className="max-w-300 mx-auto">
           <div className="flex items-center gap-3 mb-4" aria-hidden="true">
             <div className="w-6 sm:w-8 h-px bg-primary-light dark:bg-primary-dark" />
-            <p className="text-[10px] sm:text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Welcome Wieners</p>
+            <p className="text-[10px] sm:text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Welcome Wieners
+            </p>
           </div>
-          <h2 id="welcome-wieners-heading" className="font-quicksand font-black text-[2rem] text-text-light dark:text-text-dark mb-4">
+          <h2
+            id="welcome-wieners-heading"
+            className="font-quicksand font-black text-[2rem] text-text-light dark:text-text-dark mb-4"
+          >
             No Dogs in Our Care Right Now
           </h2>
           <p className="font-nunito text-muted-light dark:text-muted-dark mb-8 max-w-md leading-relaxed text-sm">
-            All of our Welcome Wieners have found homes. Check back soon or make a general donation to support our next rescue.
+            All of our Welcome Wieners have found homes. Check back soon or make a general donation to support our next
+            rescue.
           </p>
           <Link
             href="/donate"
@@ -111,7 +120,10 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
   }
 
   return (
-    <section aria-labelledby="welcome-wieners-heading" className="relative w-full overflow-hidden bg-bg-light dark:bg-bg-dark pb-16">
+    <section
+      aria-labelledby="welcome-wieners-heading"
+      className="relative w-full overflow-hidden bg-bg-light dark:bg-bg-dark pb-16"
+    >
       <div className="px-4 xs:px-5 sm:px-6 lg:px-8">
         <div ref={containerRef} className="relative max-w-300 mx-auto">
           {/* Header */}
@@ -119,7 +131,9 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
             <div className="space-y-1">
               <div className="flex items-center gap-3" aria-hidden="true">
                 <div className="w-6 sm:w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" />
-                <p className="text-[10px] sm:text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Welcome Wieners</p>
+                <p className="text-[10px] sm:text-xs font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  Welcome Wieners
+                </p>
               </div>
               <h2
                 id="welcome-wieners-heading"
@@ -190,7 +204,11 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
           aria-hidden="true"
         />
 
-        <section style={{ marginLeft: leftOffset }} className="overflow-x-hidden w-full" aria-label="Scrollable dog cards">
+        <section
+          style={{ marginLeft: leftOffset }}
+          className="overflow-x-hidden w-full"
+          aria-label="Scrollable dog cards"
+        >
           <ul
             ref={scrollRef}
             role="list"
@@ -199,7 +217,12 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {dachshunds.map((dog, i) => (
-              <li key={dog.id} data-card role="listitem" className="shrink-0 w-[min(85vw,320px)] xs:w-[min(75vw,360px)] sm:w-145">
+              <li
+                key={dog.id}
+                data-card
+                role="listitem"
+                className="shrink-0 w-[min(85vw,320px)] xs:w-[min(75vw,360px)] sm:w-145"
+              >
                 <div className="group relative block overflow-hidden h-[min(560px,75vw)] xs:h-[min(600px,78vw)] sm:h-160">
                   {/* Photo */}
                   {dog.images[0] ? (
@@ -211,12 +234,17 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                     />
                   ) : (
                     <div className="absolute inset-0 bg-surface-light dark:bg-surface-dark flex items-center justify-center">
-                      <span className="font-mono text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">No photo</span>
+                      <span className="font-mono text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                        No photo
+                      </span>
                     </div>
                   )}
 
                   {/* Gradient */}
-                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" aria-hidden="true" />
+                  <div
+                    className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"
+                    aria-hidden="true"
+                  />
 
                   {/* Hover wash */}
                   <div
@@ -225,18 +253,27 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                   />
 
                   {/* Index */}
-                  <p className="absolute top-3 left-3 sm:top-4 sm:left-4 text-white/40 text-sm font-mono" aria-hidden="true">
+                  <p
+                    className="absolute top-3 left-3 sm:top-4 sm:left-4 text-white/40 text-sm font-mono"
+                    aria-hidden="true"
+                  >
                     {String(i + 1).padStart(2, '0')}
                   </p>
 
                   {/* Bottom content */}
                   <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6">
-                    <p className="text-white font-quicksand font-black text-lg sm:text-2xl leading-tight mb-0.5">{dog.name ?? 'Unknown'}</p>
+                    <p className="text-white font-quicksand font-black text-lg sm:text-2xl leading-tight mb-0.5">
+                      {dog.name ?? 'Unknown'}
+                    </p>
                     {dog.age && <p className="text-white/50 text-[10px] font-mono mb-2 sm:mb-3">{dog.age}</p>}
 
                     {/* Products */}
                     {preview(dog).length > 0 && (
-                      <div className="space-y-1.5 mb-2 sm:mb-3" role="group" aria-label={`Donation items for ${dog.name}`}>
+                      <div
+                        className="space-y-2 mb-2 sm:mb-3"
+                        role="group"
+                        aria-label={`Donation items for ${dog.name}`}
+                      >
                         {preview(dog).map((product) => {
                           const isAdded = added[dog.id]?.includes(product.id)
                           return (
@@ -244,28 +281,49 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                               key={product.id}
                               type="button"
                               onClick={(e) => handleAdd(e, dog, product)}
-                              aria-label={`Add ${product.name} — $${product.price} for ${dog.name}`}
+                              aria-label={
+                                isAdded
+                                  ? `${product.name} added to cart — $${product.price}. Tap to remove.`
+                                  : `Add ${product.name} to cart — $${product.price} for ${dog.name}`
+                              }
                               aria-pressed={isAdded}
-                              className={`w-full flex items-center justify-between px-3 py-2 border transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left ${
-                                isAdded ? 'border-white/40 bg-white/20' : 'border-white/20 bg-black/30 hover:border-white/40 hover:bg-black/40'
+                              className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 border transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left ${
+                                isAdded
+                                  ? 'border-white bg-white text-black'
+                                  : 'border-white/40 bg-black/40 text-white hover:border-white hover:bg-black/60'
                               }`}
                             >
-                              <span className="text-[10px] font-mono text-white/80 truncate">{product.name}</span>
-                              <div className="flex items-center gap-2 shrink-0 ml-2">
-                                <span className="text-[10px] font-mono text-white/60 tabular-nums">${product.price}</span>
-                                <div
-                                  className={`w-4 h-4 flex items-center justify-center border transition-colors duration-150 ${
-                                    isAdded ? 'border-white bg-white' : 'border-white/40'
+                              {/* Left: item name + price */}
+                              <span className="flex flex-col min-w-0">
+                                <span className="text-xs font-mono font-medium truncate">{product.name}</span>
+                                <span
+                                  className={`text-[10px] font-mono tabular-nums ${
+                                    isAdded ? 'text-black/60' : 'text-white/60'
                                   }`}
-                                  aria-hidden="true"
                                 >
-                                  {isAdded ? (
-                                    <Check className="w-2.5 h-2.5 text-black" aria-hidden="true" />
-                                  ) : (
-                                    <Plus className="w-2.5 h-2.5 text-white/60" aria-hidden="true" />
-                                  )}
-                                </div>
-                              </div>
+                                  ${product.price} donation
+                                </span>
+                              </span>
+
+                              {/* Right: explicit add / added pill */}
+                              <span
+                                className={`flex items-center gap-1 shrink-0 px-2 py-1 text-[10px] font-mono tracking-[0.15em] uppercase font-bold ${
+                                  isAdded ? 'bg-black text-white' : 'bg-white text-black'
+                                }`}
+                                aria-hidden="true"
+                              >
+                                {isAdded ? (
+                                  <>
+                                    <Check className="w-3 h-3" />
+                                    Added
+                                  </>
+                                ) : (
+                                  <>
+                                    <Plus className="w-3 h-3" />
+                                    Add
+                                  </>
+                                )}
+                              </span>
                             </button>
                           )
                         })}
@@ -285,7 +343,10 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                       className="flex items-center justify-between w-full px-3 py-2 border border-white/30 bg-black/20 hover:border-white/60 hover:bg-black/40 text-white transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/link"
                     >
                       <span className="text-[10px] font-mono tracking-[0.2em] uppercase">View Profile</span>
-                      <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover/link:translate-x-0.5" aria-hidden="true" />
+                      <ArrowRight
+                        className="w-3 h-3 transition-transform duration-200 group-hover/link:translate-x-0.5"
+                        aria-hidden="true"
+                      />
                     </Link>
                   </div>
                 </div>

@@ -1,3 +1,4 @@
+import { TABS } from 'app/lib/constants/auction.constants'
 import { IAuctionAnomaly } from './auction-anomaly'
 import { IAuctionBid } from './auction-bid'
 import { IAuctionBidder } from './auction-bidder'
@@ -29,3 +30,5 @@ export interface IAuction {
   updatedAt: Date
   user?: IUser
 }
+
+export type Tab = (typeof TABS)[number]['label']

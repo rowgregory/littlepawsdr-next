@@ -6,11 +6,11 @@ import { store } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { deletePaymentMethod } from 'app/lib/actions/stripe/deletePaymentMethod'
-import { MemberPortalClientProps } from 'types/member-portal'
+import { MemberPortalClientProps } from 'types/member-portal.types'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { updateUserName } from 'app/lib/actions/user/updateUserName'
 import { pusherClient } from 'app/lib/pusher-client'
-import { ShippedCelebration } from '../unique/ShippedCelebration'
+import { ShippedCelebration } from '../member/portal/ShippedCelebration'
 import { setDefaultPaymentMethod } from 'app/lib/actions/stripe/setDefaultPaymentMethod'
 import { TopBar } from '../member/portal/TopBar'
 import { Header } from '../member/portal/Header'
@@ -85,7 +85,9 @@ export default function MemberPortalClient({
       setEditingName(false)
       router.refresh()
     } catch (err) {
-      store.dispatch(showToast({ message: err instanceof Error ? err.message : 'Failed to update name', type: 'error' }))
+      store.dispatch(
+        showToast({ message: err instanceof Error ? err.message : 'Failed to update name', type: 'error' })
+      )
     } finally {
       setNameLoading(false)
     }
@@ -105,7 +107,7 @@ export default function MemberPortalClient({
       channel.unbind('order-shipped')
       pusherClient.unsubscribe(`user-${session.data.user.id}`)
     }
-  }, [isAuthed, router, session.data.user.id])
+  }, [isAuthed, router, session.data?.user?.id])
 
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
@@ -160,7 +162,13 @@ export default function MemberPortalClient({
           <Auctions auctionParticipation={auctionParticipation} />
 
           <AnimatePresence>
-            {shippedOrderId && <ShippedCelebration key={shippedOrderId} orderId={shippedOrderId} onClose={() => setShippedOrderId(null)} />}
+            {shippedOrderId && (
+              <ShippedCelebration
+                key={shippedOrderId}
+                orderId={shippedOrderId}
+                onClose={() => setShippedOrderId(null)}
+              />
+            )}
           </AnimatePresence>
         </div>
       </div>

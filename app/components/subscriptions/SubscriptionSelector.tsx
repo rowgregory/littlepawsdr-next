@@ -1,12 +1,11 @@
-import { T, TIERS } from 'app/lib/constants/subscriptions'
+import { T, TIERS } from 'app/lib/constants/subscriptions.constants'
 import { motion } from 'framer-motion'
 import { TierCard } from './TierCard'
 import { MobileTierCard } from './MobileTierCard'
 import { TierKey } from 'types/subscriptions.types'
-import { SubscriptionSelectorProps } from 'types/member-portal'
+import { SubscriptionSelectorProps } from 'types/member-portal.types'
 
 export function SubscriptionSelector({ setBilling, billing, selected, setSelected }: SubscriptionSelectorProps) {
-  console.log('BILLING: ', billing)
   return (
     <motion.div
       key="select"
@@ -28,11 +27,17 @@ export function SubscriptionSelector({ setBilling, billing, selected, setSelecte
               <h1 className="font-quicksand text-4xl sm:text-5xl font-black text-text-dark leading-tight mb-2">
                 Pick Your <span className="font-light text-muted-dark">Rank</span>
               </h1>
-              <p className="text-sm text-on-dark leading-relaxed">16 ways to support Little Paws. Every level funds rescue, vetting, and care.</p>
+              <p className="text-sm text-on-dark leading-relaxed">
+                16 ways to support Little Paws. Every level funds rescue, vetting, and care.
+              </p>
             </div>
 
             {/* Billing toggle */}
-            <div role="group" aria-label="Billing frequency" className="flex items-center border border-border-dark self-start sm:self-auto shrink-0">
+            <div
+              role="group"
+              aria-label="Billing frequency"
+              className="flex items-center border border-border-dark self-start sm:self-auto shrink-0"
+            >
               {(['MONTHLY', 'YEARLY'] as const).map((b) => (
                 <button
                   key={b}

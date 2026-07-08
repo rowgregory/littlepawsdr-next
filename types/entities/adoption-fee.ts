@@ -1,4 +1,3 @@
-import { AdoptionFeeStatus } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 
 export interface IAdoptionFee {
@@ -21,3 +20,5 @@ export interface UpdateAdoptionFeeInputs {
   email: string
   state: string
 }
+
+export type AdoptionFeeStatus = 'ACTIVE' | 'EXPIRED' | 'APPROVED' | 'REJECTED'

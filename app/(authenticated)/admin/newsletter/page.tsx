@@ -1,4 +1,4 @@
-import AdminNewsletterPageClient from 'app/components/pages/AdminNewsletterClient'
+import AdminNewsletterPageClient from 'app/(authenticated)/admin/newsletter/AdminNewsletterClient'
 import getNewsletterIssues from 'app/lib/actions/newsletter-issue/getNewsletterIssues'
 import getNewsletters from 'app/lib/actions/newsletter/getNewsletters'
 

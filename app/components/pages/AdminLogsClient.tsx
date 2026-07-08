@@ -68,7 +68,9 @@ function LogRow({ log, index }: { log: Log; index: number }) {
         </span>
 
         {/* Level */}
-        <span className={`text-[10px] font-mono tracking-[0.2em] uppercase ${levelStyles[log.level] ?? 'text-muted-light dark:text-muted-dark'}`}>
+        <span
+          className={`text-[10px] font-mono tracking-[0.2em] uppercase ${levelStyles[log.level] ?? 'text-muted-light dark:text-muted-dark'}`}
+        >
           {log.level}
         </span>
 
@@ -81,7 +83,9 @@ function LogRow({ log, index }: { log: Log; index: number }) {
         <span className="text-xs font-mono text-text-light dark:text-text-dark truncate">{log.message}</span>
 
         {/* User */}
-        <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate text-right">{log.userId ?? '—'}</span>
+        <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate text-right">
+          {log.userId ?? '—'}
+        </span>
       </button>
 
       {/* Metadata */}
@@ -148,7 +152,7 @@ export default function AdminLogsClient({ logs }: { logs: Log[] }) {
 
   return (
     <>
-      <AdminPageHeader label="Admin" title="Logs" description="System logs and error tracking" />
+      <AdminPageHeader title="System logs and error tracking" />
       <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-8">
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
@@ -198,24 +202,44 @@ export default function AdminLogsClient({ logs }: { logs: Log[] }) {
         </div>
 
         {/* Table */}
-        <div className="border border-border-light dark:border-border-dark overflow-hidden" role="region" aria-label="System logs">
+        <div
+          className="border border-border-light dark:border-border-dark overflow-hidden"
+          role="region"
+          aria-label="System logs"
+        >
           {/* Column headers */}
           <div
             className="hidden sm:grid sm:grid-cols-[20px_80px_140px_1fr_120px] gap-3 px-5 py-3 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
             aria-hidden="true"
           >
             <span />
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Level</span>
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Time</span>
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Message</span>
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark text-right">User</span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Level
+            </span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Time
+            </span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Message
+            </span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark text-right">
+              User
+            </span>
           </div>
 
           <ul role="list" aria-label="Log entries">
             <AnimatePresence mode="popLayout">
               {paginated.length === 0 ? (
-                <motion.li key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="px-5 py-12 text-center">
-                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">No logs found</p>
+                <motion.li
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="px-5 py-12 text-center"
+                >
+                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    No logs found
+                  </p>
                 </motion.li>
               ) : (
                 paginated.map((log, i) => <LogRow key={log.id} log={log} index={i} />)
@@ -223,7 +247,15 @@ export default function AdminLogsClient({ logs }: { logs: Log[] }) {
             </AnimatePresence>
           </ul>
 
-          {totalPages > 1 && <Pagination page={page} totalPages={totalPages} onPage={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />}
+          {totalPages > 1 && (
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onPage={setPage}
+              totalItems={filtered.length}
+              pageSize={PAGE_SIZE}
+            />
+          )}
         </div>
       </div>
     </>

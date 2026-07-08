@@ -26,5 +26,5 @@ export function useInitializeForm(
       ...userName,
       ...userAddress
     })
-  }, [savedCards, session.data.user.email, setForm, userAddress, userName])
+  }, [savedCards, session.data?.user?.email, setForm, userAddress, userName])
 }

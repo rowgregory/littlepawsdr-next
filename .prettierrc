@@ -1,14 +1,14 @@
 {
   "overrides": [
     {
-     "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts", "*.tsx"],
       "options": {
         "parser": "typescript",
         "jsxBracketSameLine": false,
         "singleQuote": true,
         "trailingComma": "none",
         "semi": false,
-        "printWidth": 150
+        "printWidth": 120
       }
     }
   ]

@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-import { T } from 'app/lib/constants/subscriptions'
+import { T } from 'app/lib/constants/subscriptions.constants'
 import { StepIndicator } from '../common/StepIndicator'
 import { SignedInRow } from '../common/SignedInRow'
 import { StepSignIn } from '../common/SignInStep'
@@ -28,7 +28,9 @@ export function SubscriptionPaymentView({ setView, selectedTier, billing, savedP
       <div className="border-b border-border-dark px-6 sm:px-10 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="block w-5 h-px bg-primary-dark" aria-hidden="true" />
-          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-dark">Little Paws Dachshund Rescue</p>
+          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-dark">
+            Little Paws Dachshund Rescue
+          </p>
         </div>
         <button
           type="button"
@@ -52,11 +54,22 @@ export function SubscriptionPaymentView({ setView, selectedTier, billing, savedP
 
             <SignedInRow isDark />
 
-            {currentStep === 2 && <StepSignIn redirectTo={`/subscriptions?tier=${selectedTier.id}&billing=${billing}&view=payment`} isDark />}
+            {currentStep === 2 && (
+              <StepSignIn
+                redirectTo={`/subscriptions?tier=${selectedTier.id}&billing=${billing}&view=payment`}
+                isDark
+              />
+            )}
 
             {currentStep === 3 && (
               <div className="mt-8">
-                <SubscriptionPaymentForm tier={selectedTier!} billing={billing} savedCards={savedPaymentMethods} userName={userName} isDark />
+                <SubscriptionPaymentForm
+                  tier={selectedTier!}
+                  billing={billing}
+                  savedCards={savedPaymentMethods}
+                  userName={userName}
+                  isDark
+                />
               </div>
             )}
           </div>

@@ -1,7 +1,7 @@
 import { useSounds } from '@hooks/useSounds'
-import { T, TIERS } from 'app/lib/constants/subscriptions'
+import { T, TIERS } from 'app/lib/constants/subscriptions.constants'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BillingInterval } from 'types/member-portal'
+import { BillingInterval } from 'types/member-portal.types'
 
 export function TierCard({
   tier,
@@ -115,7 +115,11 @@ export function TierCard({
 
         {/* ── Corner ornaments ── */}
         {corners.map(([pos, borders], ci) => (
-          <div key={ci} className={`absolute w-2.5 h-2.5 ${pos} ${borders} ${s.darkCorner} pointer-events-none`} aria-hidden="true" />
+          <div
+            key={ci}
+            className={`absolute w-2.5 h-2.5 ${pos} ${borders} ${s.darkCorner} pointer-events-none`}
+            aria-hidden="true"
+          />
         ))}
 
         {/* ── Bottom edge glow ── */}
@@ -138,7 +142,10 @@ export function TierCard({
         )}
 
         {/* ── Text ── */}
-        <span className={`font-mono text-[9px] tracking-[.2em] uppercase pointer-events-none ${s.darkRank}`} aria-hidden="true">
+        <span
+          className={`font-mono text-[9px] tracking-[.2em] uppercase pointer-events-none ${s.darkRank}`}
+          aria-hidden="true"
+        >
           {String(index + 1).padStart(2, '0')}
         </span>
 
@@ -150,7 +157,9 @@ export function TierCard({
           ${price}
         </motion.span>
 
-        <span className={`font-mono text-[9px] pointer-events-none ${s.darkRank}`}>/{billing === 'MONTHLY' ? 'mo' : 'yr'}</span>
+        <span className={`font-mono text-[9px] pointer-events-none ${s.darkRank}`}>
+          /{billing === 'MONTHLY' ? 'mo' : 'yr'}
+        </span>
 
         <span
           className={`font-bebas font-bold text-[10px] md:text-2xl lg:text-3xl text-center leading-tight px-2 pointer-events-none transition-colors duration-200 ${name_c}`}

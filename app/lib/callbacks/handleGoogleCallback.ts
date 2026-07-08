@@ -1,6 +1,6 @@
 import { User as NextAuthUser } from 'next-auth'
 import { Account } from 'next-auth'
-import { User, Account as PrismaAccount } from '@prisma/client'
+import { User } from '@prisma/client'
 import prisma from 'prisma/client'
 import { createLog } from '../actions/log/createLog'
 import { pusherSuperuser } from 'app/utils/pusherTrigger'
@@ -15,11 +15,6 @@ interface GoogleProfile {
   email_verified?: boolean | null
   picture?: string | null
   locale?: string | null
-}
-
-// User with accounts relation
-type UserWithAccounts = User & {
-  accounts: PrismaAccount[]
 }
 
 export async function handleGoogleCallback(user: NextAuthUser, account: Account, profile?: GoogleProfile): Promise<boolean | string> {
@@ -68,17 +63,15 @@ export async function handleGoogleCallback(user: NextAuthUser, account: Account,
   return true
 }
 
-async function linkGoogleAccount(existingUser: User | UserWithAccounts, account: Account): Promise<void> {
-  // Handle case where accounts might not be loaded (new user)
-  const hasGoogleAccount =
-    'accounts' in existingUser
-      ? existingUser.accounts?.some((acc) => acc.provider === 'google' && acc.providerAccountId === account.providerAccountId) || false
-      : false
+async function linkGoogleAccount(user: User, account: Account): Promise<void> {
+  const hasGoogleAccount = await prisma.account.findFirst({
+    where: { userId: user.id, provider: 'google', providerAccountId: account.providerAccountId }
+  })
 
   if (!hasGoogleAccount) {
     await prisma.account.create({
       data: {
-        userId: existingUser.id,
+        userId: user.id,
         type: account.type,
         provider: account.provider,
         providerAccountId: account.providerAccountId,
@@ -94,21 +87,19 @@ async function linkGoogleAccount(existingUser: User | UserWithAccounts, account:
 }
 
 async function updateUserFromProfile(user: User, profile?: GoogleProfile): Promise<void> {
-  if (profile?.name && (!user.firstName || !user.lastName)) {
-    const [firstName, lastName] = profile.name.split(' ')
-
+  if (!user.firstName || !user.lastName) {
     await prisma.user.update({
       where: { id: user.id },
       data: {
-        firstName,
-        lastName
+        firstName: profile?.given_name || user.firstName,
+        lastName: profile?.family_name || user.lastName
       }
     })
   }
 }
 
 async function logNewGoogleUser(user: NextAuthUser, account: Account): Promise<void> {
-  await createLog('info', 'New Google user - will be handled in JWT callback', {
+  await createLog('info', 'New Google user', {
     location: ['googleProvider.ts'],
     provider: 'google',
     userEmail: user.email,

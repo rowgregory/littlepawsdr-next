@@ -1,4 +1,4 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
 import { CheckCircle, ChevronRight, CreditCard, Gavel, Receipt } from 'lucide-react'
 import Link from 'next/link'
@@ -14,7 +14,9 @@ export function Auctions({ auctionParticipation }) {
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Auction Participation</h2>
+          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+            Auction Participation
+          </h2>
         </div>
         <Link
           href="/auctions"
@@ -35,7 +37,9 @@ export function Auctions({ auctionParticipation }) {
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div className="flex items-center gap-2">
                     <span className="block w-3 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark">{auction.auctionTitle}</p>
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
+                      {auction.auctionTitle}
+                    </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <StatusPill status={auction.auctionStatus} />
@@ -51,13 +55,19 @@ export function Auctions({ auctionParticipation }) {
                     {auction.paymentStatus === 'PAID' ? (
                       <div className="flex items-center gap-1.5">
                         <CheckCircle className="w-3 h-3 text-green-500 shrink-0" aria-hidden="true" />
-                        <p className="text-[10px] font-mono tracking-widest uppercase text-green-500">Payment Complete</p>
+                        <p className="text-[10px] font-mono tracking-widest uppercase text-green-500">
+                          Payment Complete
+                        </p>
                         {auction.paidOn && (
-                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">· {formatDate(auction.paidOn, true)}</p>
+                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                            · {formatDate(auction.paidOn, true)}
+                          </p>
                         )}
                       </div>
                     ) : (
-                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">Payment required to claim your items</p>
+                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                        Payment required to claim your items
+                      </p>
                     )}
                     <Link
                       href={auction.paymentLink}
@@ -87,7 +97,12 @@ export function Auctions({ auctionParticipation }) {
                   <li key={item.auctionItemId} className="bg-bg-light dark:bg-bg-dark flex gap-4 p-4 sm:p-5">
                     <div className="w-14 h-14 shrink-0 overflow-hidden bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
                       {item.itemImage ? (
-                        <Picture priority={false} src={item.itemImage} alt={item.itemName} className="w-full h-full object-cover" />
+                        <Picture
+                          priority={false}
+                          src={item.itemImage}
+                          alt={item.itemName}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">?</span>
@@ -97,7 +112,9 @@ export function Auctions({ auctionParticipation }) {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2 mb-1 flex-wrap">
-                        <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug">{item.itemName}</p>
+                        <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug">
+                          {item.itemName}
+                        </p>
                         <div className="flex items-center gap-1.5 shrink-0">
                           {item.isWinner && (
                             <span className="text-[9px] font-black tracking-widest uppercase px-2 py-0.5 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark">
@@ -119,7 +136,9 @@ export function Auctions({ auctionParticipation }) {
 
                       <p className="font-quicksand font-black text-lg text-text-light dark:text-text-dark">
                         {formatMoney(item.myHighestBid)}
-                        <span className="text-[10px] font-mono font-normal text-muted-light dark:text-muted-dark ml-1">your bid</span>
+                        <span className="text-[10px] font-mono font-normal text-muted-light dark:text-muted-dark ml-1">
+                          your bid
+                        </span>
                       </p>
                       <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
                         {item.itemTotalBids} total bid{item.itemTotalBids !== 1 ? 's' : ''} on this item
@@ -135,7 +154,11 @@ export function Auctions({ auctionParticipation }) {
                         aria-label={`View ${item.itemName}`}
                       >
                         View Item
-                        <ChevronRight size={10} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                        <ChevronRight
+                          size={10}
+                          className="group-hover:translate-x-0.5 transition-transform"
+                          aria-hidden="true"
+                        />
                       </Link>
                     </div>
                   </li>

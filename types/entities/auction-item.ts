@@ -3,7 +3,6 @@ import { IAuctionBid } from './auction-bid'
 import { IAuctionItemInstantBuyer } from './auction-instant-buyer'
 import { IAuctionItemPhoto } from './auction-item-photo'
 import { IAuctionWinningBidder } from './auction-winning-bidder'
-import { IUser } from './user'
 
 export type AuctionItemStatus = 'UNSOLD' | 'SOLD' | 'ACTIVE'
 export type SellingFormat = 'AUCTION' | 'FIXED'

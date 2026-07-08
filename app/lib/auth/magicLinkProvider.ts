@@ -9,10 +9,10 @@ export const magicLinkProvider: EmailConfig = {
   type: 'email',
   maxAge: 15 * 60, // 15 mins
   from: process.env.RESEND_FROM_EMAIL!,
-  sendVerificationRequest: async ({ identifier: email, url, provider }) => {
+  sendVerificationRequest: async ({ identifier: email, url }) => {
     try {
       const result = await resend.emails.send({
-        from: `Little Paws Dachshund Rescue <${provider.from!}>`,
+        from: `Little Paws Dachshund Rescue <${process.env.RESEND_FROM_EMAIL!}>`,
         to: email,
         subject: 'Sign in to Little Paws Dachshund Rescue',
         html: magicLinkTemplate(url)

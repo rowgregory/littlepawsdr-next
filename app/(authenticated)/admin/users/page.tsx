@@ -1,4 +1,4 @@
-import AdminUsersClient from 'app/components/pages/AdminUsersClient'
+import AdminUsersClient from 'app/(authenticated)/admin/users/AdminUsersClient'
 import getUsers from 'app/lib/actions/user/getUsers'
 
 export default async function AdminUsersPage() {

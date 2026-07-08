@@ -4,17 +4,21 @@ import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMe
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default async function AdoptionApplicationPage() {
-  const [paymentMethodsResult, userNameResult] = await Promise.all([getSavedPaymentMethods(), getUserName()])
   const session = await auth()
 
   if (session?.user?.id) {
     const { isActive } = await hasActiveAdoptionFee()
-    if (isActive) {
-      redirect('/adopt/application/apply')
-    }
+    if (isActive) redirect('/adopt/application/apply')
   }
 
-  return <AdoptionApplicationClient savedCards={paymentMethodsResult.data} userName={userNameResult.data} />
+  const [paymentMethodsResult, userNameResult] = await Promise.all([getSavedPaymentMethods(), getUserName()])
+
+  return (
+    <Suspense fallback={<div />}>
+      <AdoptionApplicationClient savedCards={paymentMethodsResult.data} userName={userNameResult.data} />
+    </Suspense>
+  )
 }

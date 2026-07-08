@@ -1,4 +1,4 @@
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { SectionLabel } from './SectionLabel'
 import { EmptyState } from './EmptyState'
 import { motion } from 'framer-motion'
@@ -9,7 +9,13 @@ import { Link } from 'lucide-react'
 
 export function AdoptionFees({ adoptionFees }) {
   return (
-    <motion.section variants={fadeUp} initial="hidden" animate="show" custom={3} aria-labelledby="adoption-fees-heading">
+    <motion.section
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      custom={3}
+      aria-labelledby="adoption-fees-heading"
+    >
       <SectionLabel label="Adoption Fees" />
       {adoptionFees?.length === 0 ? (
         <EmptyState message="No adoption fees on file." />
@@ -28,7 +34,9 @@ export function AdoptionFees({ adoptionFees }) {
               </div>
               <div className="space-y-1">
                 {fee.feeAmount != null && (
-                  <p className="font-quicksand font-black text-lg text-primary-light dark:text-primary-dark">{formatMoney(Number(fee.feeAmount))}</p>
+                  <p className="font-quicksand font-black text-lg text-primary-light dark:text-primary-dark">
+                    {formatMoney(Number(fee.feeAmount))}
+                  </p>
                 )}
                 {fee.bypassCode && (
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark flex items-center">
@@ -42,11 +50,18 @@ export function AdoptionFees({ adoptionFees }) {
                     </svg>
                   </p>
                 )}
-                {fee.expiresAt && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">Expires {formatDate(fee.expiresAt)}</p>}
-                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">Created {formatDate(fee.createdAt)}</p>
+                {fee.expiresAt && (
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                    Expires {formatDate(fee.expiresAt)}
+                  </p>
+                )}
+                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                  Created {formatDate(fee.createdAt)}
+                </p>
                 {fee.status === 'ACTIVE' && (
                   <p className="mt-1 text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-                    You have an active application window. Note: the application must be completed in one sitting — progress cannot be saved.{' '}
+                    You have an active application window. Note: the application must be completed in one sitting —
+                    progress cannot be saved.{' '}
                     <Link
                       href="/adopt/application/apply"
                       className="text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none underline"

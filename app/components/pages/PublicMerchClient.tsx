@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { IProduct } from 'types/entities/product'
 import { store } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
@@ -86,11 +86,20 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
       {/* ── Info ── */}
       <div className="flex flex-col flex-1 p-4 gap-3">
         <div className="flex-1 min-w-0">
-          <Link href={`/merch/${product.id}`} className="focus:outline-none focus-visible:underline" tabIndex={-1} aria-hidden="true">
-            <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug line-clamp-2">{product.name}</p>
+          <Link
+            href={`/merch/${product.id}`}
+            className="focus:outline-none focus-visible:underline"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug line-clamp-2">
+              {product.name}
+            </p>
           </Link>
           {product.description && (
-            <p className="text-[11px] font-mono text-muted-light dark:text-muted-dark mt-1 line-clamp-2 leading-relaxed">{product.description}</p>
+            <p className="text-[11px] font-mono text-muted-light dark:text-muted-dark mt-1 line-clamp-2 leading-relaxed">
+              {product.description}
+            </p>
           )}
         </div>
 
@@ -110,7 +119,9 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
               {formatMoney(product.price)}
             </span>
             {product.shippingPrice > 0 && (
-              <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">+{formatMoney(product.shippingPrice)} shipping</p>
+              <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                +{formatMoney(product.shippingPrice)} shipping
+              </p>
             )}
           </div>
 
@@ -119,7 +130,13 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
               type="button"
               onClick={handleAdd}
               disabled={isOutOfStock}
-              aria-label={isOutOfStock ? `${product.name} is out of stock` : added ? `${product.name} added to cart` : `Add ${product.name} to cart`}
+              aria-label={
+                isOutOfStock
+                  ? `${product.name} is out of stock`
+                  : added
+                    ? `${product.name} added to cart`
+                    : `Add ${product.name} to cart`
+              }
               aria-disabled={isOutOfStock}
               whileHover={!isOutOfStock && !added ? { scale: 1.04 } : {}}
               whileTap={!isOutOfStock && !added ? { scale: 0.96 } : {}}
@@ -134,11 +151,23 @@ function ProductCard({ product, index }: { product: IProduct; index: number }) {
             >
               <AnimatePresence mode="wait">
                 {added ? (
-                  <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
+                  <motion.span
+                    key="check"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
                     <Check className="w-4 h-4 text-white" aria-hidden="true" />
                   </motion.span>
                 ) : (
-                  <motion.span key="plus" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.15 }}>
+                  <motion.span
+                    key="plus"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
                     <Plus className="w-4 h-4 text-muted-light dark:text-muted-dark" aria-hidden="true" />
                   </motion.span>
                 )}
@@ -163,7 +192,9 @@ export default function PublicMerchClient({ products }: { products: IProduct[] }
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-12">
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">LPDR Store</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              LPDR Store
+            </p>
           </div>
           <h1 className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-tight mb-3">
             Merch &amp; <span className="font-light text-muted-light dark:text-muted-dark">Goods</span>
@@ -196,8 +227,18 @@ export default function PublicMerchClient({ products }: { products: IProduct[] }
             ))}
           </div>
         ) : (
-          <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2} className="py-24 text-center" role="status" aria-live="polite">
-            <p className="text-sm font-mono text-muted-light dark:text-muted-dark">No products available right now. Check back soon.</p>
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            custom={2}
+            className="py-24 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <p className="text-sm font-mono text-muted-light dark:text-muted-dark">
+              No products available right now. Check back soon.
+            </p>
           </motion.div>
         )}
       </div>

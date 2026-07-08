@@ -2,8 +2,9 @@
 
 import prisma from 'prisma/client'
 import { getActor } from '../user/getActor'
-import { buildLogMessage, getRequestContext } from 'app/utils/log.utils'
+import { getRequestContext } from 'app/utils/log.server.utils'
 import { createLog } from '../log/createLog'
+import { buildLogMessage } from 'app/utils/log.client.utils'
 
 export async function markOrderShipped(orderId: string): Promise<{
   success: boolean

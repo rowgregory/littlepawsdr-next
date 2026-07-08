@@ -2,9 +2,8 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { AuctionStatus, IAuction } from 'types/entities/auction'
+import { IAuction, Tab } from 'types/entities/auction'
 import { formatDate } from 'app/utils/date.utils'
-import { getAuctionStatusConfig } from 'app/utils/getAuctionStatusConfig'
 import { AdminAuctionOverviewTab } from 'app/components/admin/auction/AdminAuctionOverviewTab'
 import { AdminAuctionItemsTab } from 'app/components/admin/auction/AdminAuctionItemsTab'
 import { AdminAuctionBiddersTab } from 'app/components/admin/auction/AdminAuctionBiddersTab'
@@ -12,19 +11,9 @@ import { AdminAuctionWinningBiddersTab } from 'app/components/admin/auction/Admi
 import { AdminAuctionSettingsTab } from 'app/components/admin/auction/AdminAuctionSettingsTab'
 import { LayoutDashboard } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { getAuctionStatusConfig } from 'app/utils/auction.utils'
+import { TABS } from 'app/lib/constants/auction.constants'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-const TABS: { label: string; statuses: AuctionStatus[] }[] = [
-  { label: 'Overview', statuses: ['DRAFT', 'ACTIVE', 'ENDED'] },
-  { label: 'Items', statuses: ['DRAFT', 'ACTIVE', 'ENDED'] },
-  { label: 'Settings', statuses: ['DRAFT', 'ACTIVE', 'ENDED'] },
-  { label: 'Bidders', statuses: ['ACTIVE', 'ENDED'] },
-  { label: 'Winning Bidders', statuses: ['ENDED'] }
-]
-
-type Tab = (typeof TABS)[number]['label']
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AdminAuctionClient({ auction }: { auction: IAuction }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -33,7 +22,6 @@ export default function AdminAuctionClient({ auction }: { auction: IAuction }) {
   const statusConfig = getAuctionStatusConfig(auction.status)
   const visibleTabs = TABS.filter((t) => t.statuses.includes(auction.status))
 
-  // URL is the source of truth — no useState
   const tabSlug = (label: string) => label.toLowerCase().replace(/\s+/g, '-')
   const param = searchParams.get('tab')
   const activeTab: Tab = visibleTabs.find((t) => tabSlug(t.label) === param)?.label ?? 'Overview'
@@ -66,17 +54,26 @@ export default function AdminAuctionClient({ auction }: { auction: IAuction }) {
           <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
             /
           </span>
-          <h1 className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          <h1
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
+            aria-current="page"
+          >
             {auction.title}
           </h1>
         </nav>
 
-        <span className={`shrink-0 text-[8px] font-black tracking-widest uppercase px-2 py-0.5 ${statusConfig.classes}`}>{statusConfig.label}</span>
+        <span
+          className={`shrink-0 text-[8px] font-black tracking-widest uppercase px-2 py-0.5 ${statusConfig.classes}`}
+        >
+          {statusConfig.label}
+        </span>
       </header>
 
       {/* ── Title band ── */}
       <div className="w-full px-4 sm:px-6 pt-6 pb-4">
-        <h2 className="text-2xl sm:text-3xl font-black font-quicksand text-text-light dark:text-text-dark">{auction.title}</h2>
+        <h2 className="text-2xl sm:text-3xl font-black font-quicksand text-text-light dark:text-text-dark">
+          {auction.title}
+        </h2>
         <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1">
           {formatDate(auction.startDate)} — {formatDate(auction.endDate)}
         </p>

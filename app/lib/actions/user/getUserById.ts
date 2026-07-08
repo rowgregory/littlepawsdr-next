@@ -1,0 +1,55 @@
+'use server'
+
+import prisma from 'prisma/client'
+import { createLog } from '../log/createLog'
+import { getActor } from './getActor'
+
+export async function getUserById(id: string) {
+  const actor = await getActor()
+  if (actor === 'unknown') {
+    return { success: false, error: 'Unauthorized', data: null }
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        status: true,
+        emailVerified: true,
+        lastLoginAt: true,
+        createdAt: true,
+        lastGeoCity: true,
+        lastGeoRegion: true,
+        lastGeoCountry: true
+      }
+    })
+
+    if (!user) {
+      return { success: false, error: 'User not found', data: null }
+    }
+
+    return {
+      success: true,
+      error: null,
+      data: {
+        ...user,
+        emailVerified: user.emailVerified?.toISOString() ?? null,
+        lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
+        createdAt: user.createdAt.toISOString()
+      }
+    }
+  } catch (error) {
+    await createLog('error', 'Failed to get user by id', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      userId: id
+    })
+
+    return { success: false, error: 'Failed to load user. Please try again.', data: null }
+  }
+}

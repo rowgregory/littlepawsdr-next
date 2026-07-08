@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { FileText, ExternalLink } from 'lucide-react'
 import { NewsletterIssue } from '@prisma/client'
 import { formatDate } from 'app/utils/date.utils'
-import { fadeUp } from 'app/lib/constants/motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 
 export default function PublicNewslettersClient({ issues }: { issues: NewsletterIssue[] }) {
   const byYear = issues.reduce<Record<number, NewsletterIssue[]>>((acc, issue) => {
@@ -19,13 +19,18 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
     .sort((a, b) => b - a)
 
   return (
-    <main id="main-content" className="min-h-[calc(100vh-570px)] bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+    <main
+      id="main-content"
+      className="min-h-[calc(100vh-570px)] bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+    >
       <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-10 sm:py-16">
         {/* ── Header ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-12">
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Little Paws Rescue</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Little Paws Rescue
+            </p>
           </div>
           <h1 className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-tight mb-3">
             Newsletter <span className="font-light text-muted-light dark:text-muted-dark">Issues</span>
@@ -35,14 +40,23 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
           </p>
         </motion.div>
         {issues.length === 0 ? (
-          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">No issues published yet</p>
+          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+            No issues published yet
+          </p>
         ) : (
           <div className="space-y-12">
             {years.map((year, yi) => (
-              <motion.div key={year} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: yi * 0.08 }}>
+              <motion.div
+                key={year}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: yi * 0.08 }}
+              >
                 {/* Year label */}
                 <div className="flex items-center gap-4 mb-6">
-                  <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">{year}</span>
+                  <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                    {year}
+                  </span>
                   <span className="flex-1 h-px bg-border-light dark:bg-border-dark" aria-hidden="true" />
                 </div>
 
@@ -76,7 +90,9 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
                             {issue.title}
                           </p>
                           {issue.description && (
-                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">{issue.description}</p>
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">
+                              {issue.description}
+                            </p>
                           )}
                         </div>
 

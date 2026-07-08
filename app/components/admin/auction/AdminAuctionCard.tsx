@@ -4,7 +4,7 @@ import { formatDate, getDaysRemaining } from 'app/utils/date.utils'
 import { Gavel, Calendar, Users, TrendingUp, ChevronRight, Clock, Package as Package2 } from 'lucide-react'
 import { IAuction } from 'types/entities/auction'
 import { motion } from 'framer-motion'
-import { getAuctionStatusConfig } from 'app/utils/getAuctionStatusConfig'
+import { getAuctionStatusConfig } from 'app/utils/auction.utils'
 
 function getProgressPct(revenue: number, goal: number) {
   if (!goal) return 0
@@ -32,7 +32,9 @@ export function AdminAuctionCard({ auction, index }: { auction: IAuction; index:
         <div className="px-5 py-4 border-b border-border-light dark:border-border-dark flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1.5">
-              <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 ${statusConfig.classes}`}>{statusConfig.label}</span>
+              <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 ${statusConfig.classes}`}>
+                {statusConfig.label}
+              </span>
               {isActive && daysLeft > 0 && (
                 <span className="flex items-center gap-1 text-[9px] font-mono text-muted-light dark:text-muted-dark">
                   <Clock size={9} aria-hidden="true" />
@@ -40,7 +42,9 @@ export function AdminAuctionCard({ auction, index }: { auction: IAuction; index:
                 </span>
               )}
             </div>
-            <h2 className="font-quicksand font-black text-base text-text-light dark:text-text-dark leading-snug truncate">{auction.title}</h2>
+            <h2 className="font-quicksand font-black text-base text-text-light dark:text-text-dark leading-snug truncate">
+              {auction.title}
+            </h2>
           </div>
           <ChevronRight
             size={16}
@@ -60,7 +64,9 @@ export function AdminAuctionCard({ auction, index }: { auction: IAuction; index:
               <Icon size={13} className="text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
               <div>
                 <p className="text-sm font-black font-mono text-text-light dark:text-text-dark leading-none">{value}</p>
-                <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-0.5 uppercase tracking-wider">{label}</p>
+                <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-0.5 uppercase tracking-wider">
+                  {label}
+                </p>
               </div>
             </div>
           ))}

@@ -1,4 +1,4 @@
-import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles'
+import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles.constants'
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -18,7 +18,9 @@ export function Step2Name({ inputs, errors, handleInput, onNext, isAuthed }: any
         <h2 className="font-quicksand text-2xl font-bold text-text-light dark:text-text-dark mb-1">
           Your <span className="font-light text-muted-light dark:text-muted-dark">name</span>
         </h2>
-        <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">Who should we thank for this donation?</p>
+        <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+          Who should we thank for this donation?
+        </p>
       </div>
 
       <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">

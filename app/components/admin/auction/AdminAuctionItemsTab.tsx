@@ -1,4 +1,3 @@
-import { getAuctionItemStatusConfig } from 'app/utils/getAuctionItemStatusConfig'
 import { Eye, Package, Pencil, Plus } from 'lucide-react'
 import { IAuction } from 'types/entities/auction'
 import { motion } from 'framer-motion'
@@ -6,6 +5,7 @@ import Picture from '../../common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { getItemStatusConfig } from 'app/utils/auction.utils'
 
 export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
   const router = useRouter()
@@ -29,7 +29,8 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
       {/* ── Header ── */}
       <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark flex items-center justify-between">
         <h2 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
-          Items <span className="ml-1 text-primary-light dark:text-primary-dark tabular-nums">{auction.items.length}</span>
+          Items{' '}
+          <span className="ml-1 text-primary-light dark:text-primary-dark tabular-nums">{auction.items.length}</span>
         </h2>
         <Link
           href={`/admin/auctions/${auction.id}/new?type=${itemTab}`}
@@ -95,7 +96,7 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
             </thead>
             <tbody className="divide-y divide-border-light dark:divide-border-dark">
               {(tab === 'AUCTION' ? auctionItems : fixedItems).map((item) => {
-                const itemStatus = getAuctionItemStatusConfig(item.status)
+                const itemStatus = getItemStatusConfig(item.status)
                 const increase =
                   item.startingPrice != null && item.currentBid != null && item.currentBid > item.startingPrice
                     ? {
@@ -105,7 +106,10 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
                     : null
 
                 return (
-                  <tr key={item.id} className="group hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 transition-colors">
+                  <tr
+                    key={item.id}
+                    className="group hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 transition-colors"
+                  >
                     {/* Item — photo + name + description */}
                     <td className="px-4 py-2.5 min-w-0">
                       <div className="flex items-center gap-2.5">
@@ -125,9 +129,13 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
                           </div>
                         )}
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold text-text-light dark:text-text-dark truncate max-w-50">{item.name}</p>
+                          <p className="text-xs font-semibold text-text-light dark:text-text-dark truncate max-w-50">
+                            {item.name}
+                          </p>
                           {item.description && (
-                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-50">{item.description}</p>
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-50">
+                              {item.description}
+                            </p>
                           )}
                         </div>
                       </div>
@@ -147,7 +155,9 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
                         <td className="px-4 py-2.5 whitespace-nowrap">
                           {increase ? (
                             <>
-                              <p className="text-xs font-mono tabular-nums text-emerald-600 dark:text-emerald-400">+{formatMoney(increase.amount)}</p>
+                              <p className="text-xs font-mono tabular-nums text-emerald-600 dark:text-emerald-400">
+                                +{formatMoney(increase.amount)}
+                              </p>
                               <p className="text-[10px] font-mono tabular-nums text-emerald-600/70 dark:text-emerald-400/70">
                                 ({increase.pct.toFixed(1)}%)
                               </p>
@@ -178,7 +188,11 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
                     )}
 
                     <td className="px-4 py-2.5 whitespace-nowrap">
-                      <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 ${itemStatus.classes}`}>{itemStatus.label}</span>
+                      <span
+                        className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 ${itemStatus.classes}`}
+                      >
+                        {itemStatus.label}
+                      </span>
                     </td>
 
                     {/* Actions — view / edit / delete */}

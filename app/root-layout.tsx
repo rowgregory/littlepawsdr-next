@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, ReactNode, useEffect, useRef } from 'react'
+import { FC, ReactNode, Suspense, useEffect, useRef } from 'react'
 import { Provider } from 'react-redux'
 import { store } from './lib/store/store'
 import { Elements } from '@stripe/react-stripe-js'
@@ -10,7 +10,7 @@ import Header from './components/unique/Header'
 import Footer from './components/unique/Footer'
 import { ThemeProvider } from './lib/providers/ThemeProvider'
 import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigation'
-import { HIDDEN_PATHS } from './lib/constants/navigation'
+import { HIDDEN_PATHS } from './lib/constants/navigation.constants'
 import AuctionEndedModal from './components/modals/AuctionEndedModal'
 import AuctionStartedModal from './components/modals/AuctionStartedModal'
 import { stripePromise } from './lib/stripe-promise'
@@ -21,7 +21,7 @@ import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher-client'
 import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
-import { CartPersistence } from './components/CartPersistence'
+import { CartPersistence } from './components/unique/CartPersistence'
 
 export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ children, auction }) => {
   const segments = useSelectedLayoutSegments()
@@ -66,7 +66,9 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
           <CartToast />
           <AdoptionFeeWelcomeModal />
           <PublicContactModal />
-          <NavigationDrawer auction={auction} />
+          <Suspense fallback={null}>
+            <NavigationDrawer auction={auction} />
+          </Suspense>
 
           <CartPersistence />
 

@@ -1,5 +1,5 @@
 import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
-import { mainNavigationLinks } from 'app/lib/constants/navigation'
+import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { setCloseMobileNavigation, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
 import { store, useUiSelector } from 'app/lib/store/store'
@@ -65,7 +65,11 @@ const NavigationDrawer = ({ auction }) => {
     setLoading(true)
     setError(null)
     try {
-      const res = await signIn('email', { email: magicLinkEmail, redirect: false, redirectTo: `${pathname}?auth=success` })
+      const res = await signIn('email', {
+        email: magicLinkEmail,
+        redirect: false,
+        redirectTo: `${pathname}?auth=success`
+      })
       if (res?.error) throw new Error(res.error)
       setSent(true)
     } catch {
@@ -104,7 +108,9 @@ const NavigationDrawer = ({ auction }) => {
             <div className="sticky top-0 z-10 bg-bg-light dark:bg-bg-dark border-b border-border-light dark:border-border-dark px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                <span className="font-changa text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">Little Paws</span>
+                <span className="font-changa text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
+                  Little Paws
+                </span>
               </div>
               <button
                 onClick={onClose}
@@ -139,7 +145,9 @@ const NavigationDrawer = ({ auction }) => {
                       <p className="font-changa text-xs uppercase tracking-wide text-white leading-snug">
                         {isAuctionActive ? `${auction?.title} — Live Now` : `${auction?.title} — Coming Soon`}
                       </p>
-                      <p className="font-lato text-f10 text-white/70 mt-0.5">{isAuctionActive ? 'Bid now on amazing items' : 'Get ready to bid'}</p>
+                      <p className="font-lato text-f10 text-white/70 mt-0.5">
+                        {isAuctionActive ? 'Bid now on amazing items' : 'Get ready to bid'}
+                      </p>
                     </div>
                     {isAuctionActive && (
                       <motion.span
@@ -185,7 +193,9 @@ const NavigationDrawer = ({ auction }) => {
                 ) : (
                   <div className="px-4 py-4 space-y-3 border-l-2 border-primary-light dark:border-primary-dark">
                     <div>
-                      <p className="font-changa text-xs uppercase tracking-[0.25em] text-text-light dark:text-text-dark">Sign In</p>
+                      <p className="font-changa text-xs uppercase tracking-[0.25em] text-text-light dark:text-text-dark">
+                        Sign In
+                      </p>
                       <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-1 leading-relaxed">
                         Sign in to view your profile, orders, and more.
                       </p>
@@ -241,9 +251,14 @@ const NavigationDrawer = ({ auction }) => {
                       </div>
                     ) : (
                       <div className="flex items-start gap-2 px-3.5 py-2.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                        <Mail className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5" aria-hidden="true" />
+                        <Mail
+                          className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5"
+                          aria-hidden="true"
+                        />
                         <div>
-                          <p className="font-changa text-xs uppercase tracking-[0.15em] text-text-light dark:text-text-dark">Check your inbox</p>
+                          <p className="font-changa text-xs uppercase tracking-[0.15em] text-text-light dark:text-text-dark">
+                            Check your inbox
+                          </p>
                           <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-0.5 leading-relaxed">
                             Magic link sent to <span className="text-text-light dark:text-text-dark">{email}</span>
                           </p>
@@ -273,7 +288,9 @@ const NavigationDrawer = ({ auction }) => {
 
               {/* ── Newsletter ── */}
               <div className="px-4 py-5">
-                <p className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-1">Stay Updated</p>
+                <p className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-1">
+                  Stay Updated
+                </p>
                 <p className="font-lato text-xs text-muted-light dark:text-muted-dark mb-4 leading-relaxed">
                   Subscribe to our newsletter for rescues, events, and adoption opportunities!
                 </p>
@@ -323,7 +340,7 @@ const NavigationDrawer = ({ auction }) => {
 
               {/* ── Nav links ── */}
               <nav className="px-4 py-4 space-y-0.5" aria-label="Mobile navigation">
-                {mainNavigationLinks.map((navLink, idx) => (
+                {mainNavigationLinks().map((navLink, idx) => (
                   <div key={idx}>
                     {navLink.linkKey ? (
                       <Link
@@ -344,8 +361,13 @@ const NavigationDrawer = ({ auction }) => {
                         className="w-full flex items-center gap-3 px-4 py-3 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none"
                       >
                         <navLink.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                        <span className="font-changa text-xs uppercase tracking-[0.15em] flex-1 text-left">{navLink.title}</span>
-                        <motion.div animate={{ rotate: expandedSections.includes(navLink.title) ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                        <span className="font-changa text-xs uppercase tracking-[0.15em] flex-1 text-left">
+                          {navLink.title}
+                        </span>
+                        <motion.div
+                          animate={{ rotate: expandedSections.includes(navLink.title) ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
                           <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
                         </motion.div>
                       </button>
