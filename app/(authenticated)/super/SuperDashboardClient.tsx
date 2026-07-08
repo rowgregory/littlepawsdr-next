@@ -7,11 +7,11 @@ import { signOut } from 'next-auth/react'
 import { CronJob } from 'app/lib/actions/super-user/getCronJobs'
 import { PulseStat } from 'app/lib/actions/super-user/getPulseStats'
 import { AdminUser } from 'app/lib/actions/super-user/getAdminUsers'
-import { LiveActionsFeed } from '../super/LiveActionsFeed'
-import { ServiceStrip } from '../super/ServiceHealthStrip'
-import { CronStrip } from '../super/CronStrip'
-import { PulseColumn } from '../super/PulseColumn'
-import { RightColumn } from '../super/RightColumn'
+import { LiveActionsFeed } from '../../components/super/LiveActionsFeed'
+import { ServiceStrip } from '../../components/super/ServiceHealthStrip'
+import { CronStrip } from '../../components/super/CronStrip'
+import { PulseColumn } from '../../components/super/PulseColumn'
+import { RightColumn } from '../../components/super/RightColumn'
 import { ManagedUser } from 'app/lib/actions/super-user/getManagedUsers'
 import { ServiceHealth } from 'app/lib/actions/super-user/getServiceHealth'
 import { LogEntry } from 'app/lib/actions/super-user/getAuditLogs'
@@ -35,6 +35,7 @@ export default function SuperDashboardClient({
   managedUsers,
   auction
 }: Props) {
+  console.log('SUPER USER AUCTION: ', auction)
   const [refreshing, setRefreshing] = useState(false)
 
   const hasIssues = pulseStats?.some((s) => s.signal === 'red')

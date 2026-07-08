@@ -3,20 +3,26 @@
 import { motion } from 'framer-motion'
 import { FileText, ExternalLink } from 'lucide-react'
 import { NewsletterIssue } from '@prisma/client'
-import { formatDate } from 'app/utils/date.utils'
 import { fadeUp } from 'app/lib/constants/motion.constants'
+import { MONTH_INDEX } from 'app/lib/constants/date.constants'
 
 export default function PublicNewslettersClient({ issues }: { issues: NewsletterIssue[] }) {
-  const byYear = issues.reduce<Record<number, NewsletterIssue[]>>((acc, issue) => {
-    const year = new Date(issue.publishedAt).getFullYear()
-    if (!acc[year]) acc[year] = []
-    acc[year].push(issue)
-    return acc
-  }, {})
+  // Only show live issues, grouped by year (year is a string on the model)
+  const byYear = issues
+    .filter((issue) => issue.isLive)
+    .reduce<Record<string, NewsletterIssue[]>>((acc, issue) => {
+      if (!acc[issue.year]) acc[issue.year] = []
+      acc[issue.year].push(issue)
+      return acc
+    }, {})
 
-  const years = Object.keys(byYear)
-    .map(Number)
-    .sort((a, b) => b - a)
+  // Sort issues within each year, most recent month first
+  for (const year of Object.keys(byYear)) {
+    byYear[year].sort((a, b) => (MONTH_INDEX[b.month] ?? 0) - (MONTH_INDEX[a.month] ?? 0))
+  }
+
+  // Years, newest first
+  const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a))
 
   return (
     <main
@@ -44,7 +50,7 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
             No issues published yet
           </p>
         ) : (
-          <div className="space-y-12">
+          <div className="space-y-10">
             {years.map((year, yi) => (
               <motion.div
                 key={year}
@@ -76,7 +82,7 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
                         href={issue.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Open ${issue.title} PDF in new tab`}
+                        aria-label={`Open ${issue.month} ${issue.year} newsletter PDF in new tab`}
                         className="group flex items-center gap-4 px-5 py-4 hover:bg-surface-light dark:hover:bg-surface-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                       >
                         {/* Icon */}
@@ -84,22 +90,17 @@ export default function PublicNewslettersClient({ issues }: { issues: Newsletter
                           <FileText size={13} aria-hidden="true" />
                         </div>
 
-                        {/* Title + description */}
+                        {/* Month + year */}
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-mono text-text-light dark:text-text-dark group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors duration-200 truncate">
-                            {issue.title}
+                            {issue.month} {issue.year}
                           </p>
-                          {issue.description && (
-                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">
-                              {issue.description}
-                            </p>
-                          )}
                         </div>
 
-                        {/* Date + external icon */}
+                        {/* External icon */}
                         <div className="shrink-0 flex items-center gap-3">
-                          <span className="hidden xs:block text-[10px] font-mono tracking-widest text-muted-light dark:text-muted-dark">
-                            {formatDate(new Date(issue.publishedAt))}
+                          <span className="hidden xs:block text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                            Newsletter
                           </span>
                           <ExternalLink
                             size={11}

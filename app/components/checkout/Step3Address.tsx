@@ -1,5 +1,5 @@
 import { updateAddress } from 'app/lib/actions/user/updateAddress'
-import { STATES } from 'app/lib/constants/states.constants'
+import { STATES } from 'app/lib/constants/location.constants'
 import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles.constants'
 import { setInputs } from 'app/lib/store/slices/formSlice'
 import { store } from 'app/lib/store/store'

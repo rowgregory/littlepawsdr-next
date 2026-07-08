@@ -1,4 +1,4 @@
-import SuperDashboardClient from 'app/components/pages/SuperDashboardClient'
+import SuperDashboardClient from 'app/(authenticated)/super/SuperDashboardClient'
 import getActiveAuctionForSuperuser from 'app/lib/actions/super-user/getActiveAuctionForSuperUser'
 import { getAdminUsers } from 'app/lib/actions/super-user/getAdminUsers'
 import { getAuditLogs } from 'app/lib/actions/super-user/getAuditLogs'
@@ -15,7 +15,7 @@ export default async function SuperDashboardPage() {
     getAdminUsers(),
     getAuditLogs(),
     getManagedUsers(),
-    getActiveAuctionForSuperuser() // your existing auction fetch
+    getActiveAuctionForSuperuser()
   ])
 
   return (

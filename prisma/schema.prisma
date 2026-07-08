@@ -593,13 +593,13 @@ model Log {
 
 // ─── NewsletterIssue ───────────────────────────────────────────────────
 model NewsletterIssue {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  pdfUrl      String
-  publishedAt DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  month     String
+  year      String
+  pdfUrl    String
+  isLive    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ─── AuctionAnomaly ───────────────────────────────────────────────────

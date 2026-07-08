@@ -3,31 +3,11 @@
 import { useState, useMemo } from 'react'
 import { Search, X, ChevronDown, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Pagination } from '../common/Pagination'
 import { formatDate } from 'app/utils/date.utils'
-import { JsonValue } from '@prisma/client/runtime/library'
-import AdminPageHeader from '../common/AdminPageHeader'
-
-const PAGE_SIZE = 50
-
-type Log = {
-  id: string
-  level: string
-  message: string
-  metadata: JsonValue
-  userId: string | null
-  createdAt: Date
-  updatedAt: Date
-}
-
-const LEVELS = ['all', 'info', 'warn', 'error', 'debug'] as const
-
-const levelStyles: Record<string, string> = {
-  info: 'text-primary-light dark:text-primary-dark',
-  warn: 'text-yellow-500 dark:text-yellow-400',
-  error: 'text-red-500 dark:text-red-400',
-  debug: 'text-muted-light dark:text-muted-dark'
-}
+import AdminPageHeader from 'app/components/common/AdminPageHeader'
+import { Pagination } from 'app/components/common/Pagination'
+import { Log } from 'types/entities/log.types'
+import { LEVELS, levelStyles, PAGE_SIZE } from 'app/lib/constants/log.constants'
 
 function LogRow({ log, index }: { log: Log; index: number }) {
   const [expanded, setExpanded] = useState(false)

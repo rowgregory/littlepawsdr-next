@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Little Paws Dachshund Rescue
 
-## Getting Started
+The web platform for [Little Paws Dachshund Rescue](https://littlepawsdr.org), an East Coast based 501(c)(3) nonprofit dedicated to the rescue and re-homing of dachshunds and dachshund mixes.
 
-First, run the development server:
+Built and maintained by [Sqysh](https://sqysh.com).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚠️ Proprietary Software — No Contributions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This repository is **source-available but proprietary**. It is published publicly for transparency and reference only.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **All rights reserved.** This software is the exclusive property of Sqysh.
+- **No contributions accepted.** Pull requests, patches, and feature submissions will not be reviewed or merged.
+- **No license granted.** You may not copy, modify, distribute, sublicense, or use any part of this codebase, in whole or in part, for any purpose without prior written permission from Sqysh.
+- **No forking for reuse.** Viewing the code is permitted; repurposing it is not.
 
-## Learn More
+If you have a question about the platform or a licensing inquiry, contact Sqysh directly.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## About
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+A custom, full-stack platform purpose-built to replace the disconnected third-party tools most rescues rely on. It handles adoptions, fundraising, e-commerce, live auctions, sponsorships, and member management in a single application.
 
-## Deploy on Vercel
+### Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Adoptions** — dachshund listings synced from Rescue Groups, adoption applications, and fee processing
+- **Fundraising** — one-time and recurring donations, live real-time auctions, and "Welcome Wiener" sponsorship campaigns
+- **Store** — merchandise with an automated fulfillment pipeline
+- **Newsletters** — issue archive and subscriber management
+- **Admin** — a full control panel for orders, users, content, and reporting
+- **Member portal** — accounts, order history, and subscriptions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Tech Stack
+
+- **Framework** — Next.js (App Router) + TypeScript
+- **Database** — PostgreSQL (Neon) via Prisma
+- **Auth** — Auth.js (NextAuth v5) with database sessions
+- **Payments** — Stripe
+- **Email** — Resend
+- **Realtime** — Pusher
+- **Storage** — Firebase Storage
+- **Styling** — Tailwind CSS v4
+- **State** — Redux Toolkit
+- **Hosting** — Vercel
+
+## Status
+
+Actively developed and maintained. This is production software running a live nonprofit platform.
+
+---
+
+© Sqysh. All rights reserved.

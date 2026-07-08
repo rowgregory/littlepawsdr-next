@@ -1,5 +1,5 @@
 import { updateAddress } from 'app/lib/actions/user/updateAddress'
-import { STATES } from 'app/lib/constants/states.constants'
+import { STATES } from 'app/lib/constants/location.constants'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, CheckCircle, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'

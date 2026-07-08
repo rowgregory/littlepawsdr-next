@@ -1,5 +1,5 @@
-import AdminLogsClient from 'app/components/pages/AdminLogsClient'
 import getLogs from 'app/lib/actions/log/getLogs'
+import AdminLogsClient from './AdminLogsClient'
 
 export const dynamic = 'force-dynamic'
 
