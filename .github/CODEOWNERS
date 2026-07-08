@@ -1,0 +1,7 @@
+# Every file in this repository is owned by Sqysh.
+
+# Combined with branch protection requiring code-owner review, no change can be
+
+# merged without explicit approval from the owner.
+
+- @rowgregory
