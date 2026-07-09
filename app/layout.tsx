@@ -3,7 +3,7 @@ import { Bebas_Neue, Nunito, Quicksand, Work_Sans } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { RootLayoutWrapper } from './root-layout'
-import getDraftOrActiveAuction from './lib/actions/auction/getDraftOrActiveAuction'
+import { getCachedAuction } from './lib/actions/auction/getCachedAuction'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const result = await getDraftOrActiveAuction()
+  const auction = await getCachedAuction()
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -109,8 +109,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body className={`${quicksand.variable} ${workSans.variable} ${bebas.variable} ${nunito.variable} `}>
-        <SessionProvider>
-          <RootLayoutWrapper auction={result.data}>{children}</RootLayoutWrapper>
+        <SessionProvider refetchOnWindowFocus={false}>
+          <RootLayoutWrapper auction={auction}>{children}</RootLayoutWrapper>
         </SessionProvider>
       </body>
     </html>

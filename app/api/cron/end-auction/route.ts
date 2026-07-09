@@ -2,10 +2,11 @@ import { createLog } from 'app/lib/actions/log/createLog'
 import { auctionWinningBidderTemplate } from 'app/lib/email-templates/winning-bidder'
 import { resend } from 'app/lib/resend'
 import { pusherTrigger } from 'app/utils/pusher.utils'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 
-export async function GET() {
+export async function endAuction() {
   const start = Date.now()
   try {
     const now = new Date()
@@ -44,6 +45,8 @@ export async function GET() {
       data: { status: 'ENDED' }
     })
 
+    revalidateTag('auction', 'max')
+
     await pusherTrigger(`auction-${auction.id}`, 'auction-ended', {
       customAuctionLink: auction.customAuctionLink,
       auctionTitle: auction.title,
@@ -53,7 +56,7 @@ export async function GET() {
       endedAt: now.toISOString()
     })
 
-    const winners = await endAuction(auction.id)
+    const winners = await resolveAuctionWinners(auction.id)
 
     for (const winner of winners) {
       await sendWinnerEmail({
@@ -85,7 +88,7 @@ export async function GET() {
   }
 }
 
-export async function endAuction(auctionId: string) {
+export async function resolveAuctionWinners(auctionId: string) {
   // 1. Get all TOP_BID bids for this auction, grouped by userId
   const topBids = await prisma.auctionBid.findMany({
     where: { auctionId, status: 'TOP_BID' },
@@ -226,4 +229,12 @@ export const sendWinnerEmail = async ({
     })
     throw error
   }
+}
+
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return endAuction()
 }

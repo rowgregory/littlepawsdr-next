@@ -1,5 +1,6 @@
 import { createLog } from 'app/lib/actions/log/createLog'
 import { pusherTrigger } from 'app/utils/pusher.utils'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 
@@ -34,6 +35,8 @@ async function startAuction() {
       data: { status: 'ACTIVE' }
     })
 
+    revalidateTag('auction', 'max')
+
     for (const auction of auctions) {
       await pusherTrigger(`auction-${auction.id}`, 'auction-started', {
         auctionId: auction.id,
@@ -63,10 +66,10 @@ async function startAuction() {
   }
 }
 
-export async function GET() {
-  return startAuction()
-}
-
-export async function POST() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   return startAuction()
 }
