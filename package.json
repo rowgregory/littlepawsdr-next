@@ -33,7 +33,7 @@
     "react-dom": "^19.2.3",
     "react-redux": "^9.1.2",
     "resend": "^4.6.0",
-    "stripe": "^18.5.0",
+    "stripe": "^22.3.0",
     "three": "^0.176.0"
   },
   "devDependencies": {
