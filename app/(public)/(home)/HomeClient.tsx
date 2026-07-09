@@ -10,7 +10,7 @@ import { ApplicationsBlock } from '../../components/home-page/ApplicationsBlock'
 
 export const HomeClient = ({ dachshunds, welcomeWieners }) => {
   return (
-    <div className="min-h-dvh">
+    <>
       <Hero />
       <AboutBlock />
       <AvailableDogsBlock data={dachshunds?.data?.data} />
@@ -20,6 +20,6 @@ export const HomeClient = ({ dachshunds, welcomeWieners }) => {
       <ApplicationsBlock />
       <WelcomeWienersBlock data={welcomeWieners?.data} />
       <InstagramBlock />
-    </div>
+    </>
   )
 }

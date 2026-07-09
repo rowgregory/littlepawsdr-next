@@ -2,8 +2,11 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Picture from '../common/Picture'
+import { ArrowLink } from '../common/ArrowLink'
+import { motion } from 'framer-motion'
+import { card, cardContainer } from 'app/lib/constants/motion.constants'
 
 export const AvailableDogsBlock = ({ data }) => {
   const [atStart, setAtStart] = useState(true)
@@ -66,13 +69,19 @@ export const AvailableDogsBlock = ({ data }) => {
         <div className="max-w-300 mx-auto">
           <div className="flex items-center gap-3 mb-4" aria-hidden="true">
             <div className="w-8 h-px bg-primary-light dark:bg-primary-dark" />
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark font-nunito">Available for Adoption</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-light dark:text-muted-dark font-nunito">
+              Available for Adoption
+            </p>
           </div>
-          <h2 id="available-heading" className="font-quicksand font-black text-[2rem] text-text-light dark:text-text-dark mb-6">
+          <h2
+            id="available-heading"
+            className="font-quicksand font-black text-[2rem] text-text-light dark:text-text-dark mb-6"
+          >
             No Dogs Available Right Now
           </h2>
           <p className="font-nunito text-muted-light dark:text-muted-dark mb-8 max-w-md leading-relaxed">
-            All of our dachshunds have found homes — check back soon, or sign up to be notified when new dogs are available.
+            All of our dachshunds have found homes — check back soon, or sign up to be notified when new dogs are
+            available.
           </p>
           <Link
             href="/dachshunds"
@@ -86,7 +95,10 @@ export const AvailableDogsBlock = ({ data }) => {
   }
 
   return (
-    <section aria-labelledby="available-heading" className="relative w-full overflow-hidden mt-20 1200:-mt-60 bg-bg-light dark:bg-bg-dark">
+    <section
+      aria-labelledby="available-heading"
+      className="relative w-full overflow-hidden mt-20 1200:-mt-60 bg-bg-light dark:bg-bg-dark"
+    >
       <div className="px-4 xs:px-5 sm:px-6 lg:px-8">
         <div ref={containerRef} className="relative max-w-300 mx-auto">
           {/* Header row */}
@@ -165,15 +177,24 @@ export const AvailableDogsBlock = ({ data }) => {
         />
 
         <section style={{ marginLeft: leftOffset }} className="overflow-x-hidden w-full">
-          <ul
+          <motion.ul
             ref={scrollRef}
             role="list"
             aria-label="Dogs available for adoption"
+            variants={cardContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
             className="flex overflow-x-auto snap-x snap-mandatory gap-x-3 scroll-smooth pb-1"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {dachshunds.map((dog, i) => (
-              <li key={dog.id} data-card className="shrink-0 w-[72vw] xs:w-[60vw] sm:w-[42vw] lg:w-[23vw] min-w-56 max-w-72">
+              <motion.li
+                key={dog.id}
+                data-card
+                variants={card}
+                className="shrink-0 w-[72vw] xs:w-[60vw] sm:w-[42vw] lg:w-[23vw] min-w-56 max-w-72"
+              >
                 <Link
                   href={`/dachshunds/${dog.id}`}
                   aria-label={`Meet ${dog?.attributes?.name}, ${dog?.attributes?.ageString}${dog?.attributes?.colorDetails ? `, ${dog?.attributes?.colorDetails}` : ''} — available for adoption`}
@@ -187,7 +208,10 @@ export const AvailableDogsBlock = ({ data }) => {
                   />
 
                   {/* Gradient */}
-                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true" />
+                  <div
+                    className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"
+                    aria-hidden="true"
+                  />
 
                   {/* Hover wash */}
                   <div
@@ -209,23 +233,17 @@ export const AvailableDogsBlock = ({ data }) => {
                     </p>
                   </div>
                 </Link>
-              </li>
+              </motion.li>
             ))}
             <li className="shrink-0" style={{ width: leftOffset - 12 }} aria-hidden="true" />
-          </ul>
+          </motion.ul>
         </section>
       </div>
 
       {/* View all — mobile + desktop below sm */}
       <div className="mt-8 flex justify-center sm:justify-start px-4 xs:px-5 sm:px-6 lg:px-8">
         <div className="max-w-300 mx-auto w-full">
-          <Link
-            href="/dachshunds"
-            className="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary-light dark:border-primary-dark text-text-light dark:text-text-dark text-sm font-semibold font-nunito tracking-wide hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-          >
-            View all {dachshunds.length} available dogs
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </Link>
+          <ArrowLink href="/dachshunds">View all {dachshunds.length} available dogs</ArrowLink>
         </div>
       </div>
     </section>

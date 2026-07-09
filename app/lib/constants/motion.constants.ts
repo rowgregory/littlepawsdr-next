@@ -38,3 +38,44 @@ export const itemVariants = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, easing: 'easeOut' } }
 }
+
+export const container = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 }
+  }
+}
+
+export const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, easing: [0.22, 1, 0.36, 1] }
+  }
+}
+
+export const imageReveal = {
+  hidden: { opacity: 0, scale: 1.05 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1, easing: [0.22, 1, 0.36, 1] }
+  }
+}
+
+export const cardContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+  }
+}
+
+export const card = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, easing: [0.22, 1, 0.36, 1] }
+  }
+}

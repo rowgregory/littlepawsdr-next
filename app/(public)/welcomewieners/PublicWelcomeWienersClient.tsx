@@ -7,16 +7,10 @@ import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wie
 import Picture from '../../components/common/Picture'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import Link from 'next/link'
-
-const filters = [
-  { value: 'all', label: 'All Dogs' },
-  { value: 'medical', label: 'Medical' },
-  { value: 'gear', label: 'Gear' },
-  { value: 'food', label: 'Food' },
-  { value: 'comfort', label: 'Comfort' },
-  { value: 'training', label: 'Training' },
-  { value: 'enrichment', label: 'Enrichment' }
-] as { value: string; label: string }[]
+import { useAppDispatch } from 'app/lib/store/store'
+import { addToCart } from 'app/lib/store/slices/cartSlice'
+import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
+import { FILTERS } from 'app/lib/constants/welcome-wiener.constants'
 
 // ─────────────────────────────────────────────
 // Dog Card
@@ -253,7 +247,9 @@ function DogCard({
 }
 
 export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners: IWelcomeWiener[] }) {
+  const dispatch = useAppDispatch()
   const [activeFilter, setActiveFilter] = useState('all')
+  const [added, setAdded] = useState<Record<string, string[]>>({})
 
   const filtered = welcomeWieners.filter((d) => {
     if (activeFilter === 'all') return true
@@ -264,8 +260,21 @@ export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners:
     all: welcomeWieners?.length ?? 0
   }
 
-  const handleAddProduct = (dog: IWelcomeWiener, product: WelcomeWienerProduct) => {
-    console.log('DOG: ', dog, 'PRODUCT: ', product)
+  const handleAdd = (dog: IWelcomeWiener, product: WelcomeWienerProduct) => {
+    if (added[dog.id]?.includes(product.id)) return
+    const cartItem = {
+      id: product.id,
+      name: `${product.name} for ${dog.name}`,
+      image: dog.images[0] ?? null,
+      price: product.price,
+      quantity: 1,
+      isPhysicalProduct: false,
+      type: 'WELCOME_WIENER'
+    }
+    dispatch(addToCart(cartItem))
+    dispatch(setOpenCartToast(cartItem))
+    setAdded((prev) => ({ ...prev, [dog.id]: [...(prev[dog.id] ?? []), product.id] }))
+    setTimeout(() => setAdded((prev) => ({ ...prev, [dog.id]: prev[dog.id].filter((id) => id !== product.id) })), 2000)
   }
 
   return (
@@ -298,7 +307,7 @@ export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners:
           className="mb-8"
         >
           <ul className="flex items-center gap-2" role="list">
-            {filters.map((f) => (
+            {FILTERS.map((f) => (
               <li key={f.value}>
                 <button
                   onClick={() => setActiveFilter(f.value)}
@@ -334,7 +343,7 @@ export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners:
             >
               {filtered.map((dog, i) => (
                 <div key={dog.id} role="listitem">
-                  <DogCard dog={dog} index={i} onAddProduct={handleAddProduct} />
+                  <DogCard dog={dog} index={i} onAddProduct={handleAdd} />
                 </div>
               ))}
             </motion.div>

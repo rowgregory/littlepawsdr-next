@@ -80,6 +80,7 @@ enum OrderType {
   WELCOME_WIENER
   AUCTION_PURCHASE
   MIXED
+  FEED_A_FOSTER
 }
 
 enum OrderStatus {

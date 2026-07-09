@@ -19,7 +19,6 @@ export interface AdoptionFeeDay {
 
 export interface DashboardStats {
   totalRevenue: number
-  totalOrderRevenue: number
   totalAdoptionRevenue: number
   auctionRevenue: number
   thisMonthRevenue: number
@@ -34,7 +33,12 @@ export interface DashboardStats {
   productCount: number
   bypassCode: string | null
   bypassCodeRotatesAt: string | null
-  monthlyData: { label: string; orders: number; adoptions: number }[]
+  monthlyData: {
+    total: number
+    label: string
+    orders: number
+    adoptions: number
+  }[]
   recentOrders: RecentOrder[]
   // order counts by type
   ordersByType: { type: string; count: number; total: number }[]

@@ -1,60 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { signIn, useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
 import { AdoptionApplicationPaymentForm } from 'app/components/forms/AdoptionApplicationPaymentForm'
 import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
-import { store, useFormSelector } from 'app/lib/store/store'
+import { store } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { slideVariants } from 'app/lib/constants/motion.constants'
 import { IPaymentForm } from 'types/common.types'
-import { setInputs } from 'app/lib/store/slices/formSlice'
-import { useInitializeForm } from '@hooks/useInitializeForm'
-import { CustomSwitch } from '../common/CustomSwitch'
+import { CustomSwitch } from '../../../components/common/CustomSwitch'
 import { updateAdoptionFee } from 'app/lib/actions/adoption-fee/updateAdoptionFee'
-
-const TERMS_AND_CONDITIONS = [
-  {
-    title: 'Adoption Requirements',
-    content: [
-      'Must be 21 years of age or older',
-      'Own or rent your home (landlord approval required for rentals)',
-      'All household members must agree to the adoption',
-      'Financially able to provide proper care'
-    ]
-  },
-  {
-    title: 'Home Environment',
-    content: [
-      'Safe, secure living environment',
-      'Proper fencing if you have a yard',
-      'No history of animal abuse or neglect',
-      'Current pets must be spayed/neutered and up-to-date on vaccinations'
-    ]
-  },
-  {
-    title: 'Adoption Process',
-    content: [
-      'Application fee is non-refundable',
-      'Home visit may be required',
-      'Reference checks will be conducted',
-      'Approval is not guaranteed',
-      'Final adoption fee is separate from application fee'
-    ]
-  },
-  {
-    title: 'Commitment',
-    content: [
-      'Lifetime commitment to the adopted dog',
-      'Provide necessary medical care',
-      'Keep dog indoors as a family member',
-      'Return dog to Little Paws if unable to keep'
-    ]
-  }
-]
+import { STEP_LABELS, STEPS, TERMS_AND_CONDITIONS } from 'app/lib/constants/adoption-application.constants'
+import { STEPS_TYPES } from 'types/adoption-application.types'
 
 // ─── Input ─────────────────────────────────────────────────────────────────────
 function Input({
@@ -109,98 +69,117 @@ function Input({
   )
 }
 
-const STEPS = ['sign-in', 'terms', 'info', 'payment'] as const
-type STEPS_TYPES = 'sign-in' | 'info' | 'terms' | 'payment'
-
-const STEP_LABELS: Record<string, string> = {
-  'sign-in': 'Sign In',
-  terms: 'Terms',
-  info: 'Info',
-  payment: 'Payment'
-}
-
-const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'adoptionFeeForm', data }))
-
 export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm) => {
   const router = useRouter()
   const session = useSession()
-  const [step, setStep] = useState<STEPS_TYPES>(session.data?.user?.id ? 'terms' : 'sign-in')
+  const isAuthed = !!session.data?.user?.id
+
+  const [step, setStep] = useState<STEPS_TYPES>(isAuthed ? 'terms' : 'sign-in')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [bypassPayment, setBypassPayment] = useState(false)
-
-  const [magicEmail, setMagicEmail] = useState('')
   const [adoptionFeeId, setAdoptionFeeId] = useState('')
+
+  // Magic link state
+  const [magicEmail, setMagicEmail] = useState('')
   const [magicLinkSent, setMagicLinkSent] = useState(false)
   const [isSendingMagicLink, setIsSendingMagicLink] = useState(false)
 
-  // Form state
-  const { adoptionFeeForm } = useFormSelector()
-  const inputs = adoptionFeeForm?.inputs
+  // Form inputs — local state, seeded from session/props
+  const [inputs, setInputs] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    state: '',
+    bypassCode: ''
+  })
 
-  useInitializeForm(setForm, { session, savedCards, userName })
+  const [verifyingCode, setVerifyingCode] = useState(false)
+  const [bypassError, setBypassError] = useState('')
+  const [isProceeding, setIsProceeding] = useState(false)
+
+  const patch = (data: Partial<typeof inputs>) => setInputs((prev) => ({ ...prev, ...data }))
+
+  useEffect(() => {
+    if (!isAuthed) return
+
+    setInputs((prev) => ({
+      ...prev,
+      firstName: prev.firstName || userName?.firstName || '',
+      lastName: prev.lastName || userName?.lastName || '',
+      email: prev.email || session.data?.user?.email || ''
+    }))
+
+    setStep((prev) => (prev === 'sign-in' ? 'terms' : prev))
+  }, [isAuthed, userName?.firstName, userName?.lastName, session.data?.user?.email])
 
   const handleContinueToInfo = () => {
-    if (!agreedToTerms) {
-      return
-    }
+    if (!agreedToTerms) return
     setStep('info')
   }
 
   const handleVerifyBypassCode = async () => {
-    if (!inputs?.bypassCode.trim()) return
+    const code = inputs.bypassCode.trim()
+    if (!code) return
 
-    setForm({ verifyingCode: true, bypassError: '' })
+    setVerifyingCode(true)
+    setBypassError('')
 
     try {
-      const result = await verifyBypassCode(inputs?.bypassCode.trim())
+      const result = await verifyBypassCode(code)
       if (result.isValid) {
         setBypassPayment(true)
         setAdoptionFeeId(result.data.adoptionFeeId)
         store.dispatch(setShowConfetti())
       } else {
-        setForm({ bypassPayment: false, bypassError: result.error ?? 'Invalid bypass code' })
+        setBypassPayment(false)
+        setBypassError(result.error ?? 'Invalid bypass code')
       }
     } catch {
-      setForm({ bypassPayment: false, bypassError: 'Error verifying code. Please try again.' })
+      setBypassPayment(false)
+      setBypassError('Error verifying code. Please try again.')
     } finally {
-      setForm({ verifyingCode: false })
+      setVerifyingCode(false)
     }
   }
 
   const handleProceed = async () => {
-    if (bypassPayment && adoptionFeeId) {
-      setForm({ isProceeding: true })
-      try {
-        const result = await updateAdoptionFee({
-          adoptionFeeId,
-          firstName: inputs?.firstName,
-          lastName: inputs?.lastName,
-          email: inputs?.email,
-          state: inputs?.state
-        })
-        if (!result.success) {
-          setForm({ bypassError: result.error ?? 'Something went wrong. Please try again.' })
-
-          return
-        }
-        router.push('/adopt/application/apply')
-      } catch {
-        setForm({ bypassError: 'Something went wrong. Please try again.' })
-      }
-    } else {
+    if (!(bypassPayment && adoptionFeeId)) {
       setStep('payment')
+      return
+    }
+
+    setIsProceeding(true)
+    setBypassError('')
+    try {
+      const result = await updateAdoptionFee({
+        adoptionFeeId,
+        firstName: inputs.firstName,
+        lastName: inputs.lastName,
+        email: inputs.email,
+        state: inputs.state
+      })
+      if (!result.success) {
+        setBypassError(result.error ?? 'Something went wrong. Please try again.')
+        return
+      }
+      router.push('/adopt/application/apply')
+    } catch {
+      setBypassError('Something went wrong. Please try again.')
+    } finally {
+      setIsProceeding(false)
     }
   }
 
   const handleMagicLink = async () => {
     if (!magicEmail) return
     setIsSendingMagicLink(true)
-    await signIn('email', { email: magicEmail, callbackUrl: '/adopt/application', redirect: false })
+    await signIn('email', { email: magicEmail, redirectTo: '/adopt/application', redirect: false })
     setMagicLinkSent(true)
     setIsSendingMagicLink(false)
   }
 
   const currentIndex = STEPS.indexOf(step)
+
   return (
     <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
@@ -308,7 +287,7 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
               {/* Google */}
               <button
                 type="button"
-                onClick={() => signIn('google', { callbackUrl: '/adopt/application' })}
+                onClick={() => signIn('google', { redirectTo: '/adopt/application' })}
                 className="w-full flex items-center justify-center gap-3 px-5 py-3.5 mb-3 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark text-sm font-mono tracking-widest uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -495,30 +474,34 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                   <input
                     id="bypassCode"
                     type="text"
-                    value={inputs?.bypassCode || ''}
-                    onChange={(e) => setForm({ bypassCode: e.target.value, bypassPayment: false, bypassError: '' })}
+                    value={inputs.bypassCode}
+                    onChange={(e) => {
+                      patch({ bypassCode: e.target.value })
+                      setBypassPayment(false)
+                      setBypassError('')
+                    }}
                     placeholder="Enter bypass code"
                     className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
                   />
                   <button
                     type="button"
                     onClick={handleVerifyBypassCode}
-                    disabled={!inputs?.bypassCode?.trim() || inputs?.verifyingCode}
-                    aria-disabled={!inputs?.bypassCode?.trim() || inputs?.verifyingCode}
+                    disabled={!inputs.bypassCode.trim() || verifyingCode}
+                    aria-disabled={!inputs.bypassCode.trim() || verifyingCode}
                     className="px-5 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-text-light dark:text-text-dark disabled:opacity-40 disabled:cursor-not-allowed text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                   >
-                    {inputs?.verifyingCode ? 'Verifying…' : 'Verify'}
+                    {verifyingCode ? 'Verifying…' : 'Verify'}
                   </button>
                 </div>
 
-                {inputs?.bypassError && (
+                {bypassError && (
                   <motion.p
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-2 text-xs text-secondary-light dark:text-secondary-dark"
                     role="alert"
                   >
-                    {inputs?.bypassError}
+                    {bypassError}
                   </motion.p>
                 )}
                 {bypassPayment && (
@@ -553,15 +536,15 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                   <Input
                     id="firstName"
                     label="First Name"
-                    value={inputs?.firstName}
-                    onChange={(value) => setForm({ firstName: value })}
+                    value={inputs.firstName}
+                    onChange={(value) => patch({ firstName: value })}
                     required
                   />
                   <Input
                     id="lastName"
                     label="Last Name"
-                    value={inputs?.lastName}
-                    onChange={(value) => setForm({ lastName: value })}
+                    value={inputs.lastName}
+                    onChange={(value) => patch({ lastName: value })}
                     required
                   />
                 </div>
@@ -569,8 +552,8 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                   id="email"
                   label="Email Address"
                   type="email"
-                  value={session.data?.user?.email}
-                  onChange={(value) => setForm({ email: value })}
+                  value={inputs.email}
+                  onChange={(value) => patch({ email: value })}
                   required
                   disabled
                 />
@@ -637,11 +620,11 @@ export const AdoptionApplicationClient = ({ savedCards, userName }: IPaymentForm
                 {/* ── CTA ── */}
                 <button
                   onClick={handleProceed}
-                  disabled={!inputs?.firstName || !inputs?.lastName || !inputs?.email || inputs?.isProceeding}
-                  aria-disabled={!inputs?.firstName || !inputs?.lastName || !inputs?.email || inputs?.isProceeding}
+                  disabled={!inputs.firstName || !inputs.lastName || !inputs.email || isProceeding}
+                  aria-disabled={!inputs.firstName || !inputs.lastName || !inputs.email || isProceeding}
                   className="w-full bg-button-light dark:bg-button-dark hover:bg-primary-light dark:hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm py-3.5 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark flex items-center justify-center gap-2"
                 >
-                  {inputs?.isProceeding ? (
+                  {isProceeding ? (
                     <>
                       <motion.div
                         animate={{ rotate: 360 }}

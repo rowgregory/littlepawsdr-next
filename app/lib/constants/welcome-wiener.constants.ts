@@ -158,4 +158,16 @@ export const WELCOME_WIENER_CATEGORY_LABELS: Record<WelcomeWienerProduct['catego
   enrichment: 'Enrichment'
 }
 
-export const WELCOME_WIENER_CATEGORIES = Object.keys(WELCOME_WIENER_CATEGORY_LABELS) as WelcomeWienerProduct['category'][]
+export const WELCOME_WIENER_CATEGORIES = Object.keys(
+  WELCOME_WIENER_CATEGORY_LABELS
+) as WelcomeWienerProduct['category'][]
+
+export const FILTERS = [
+  { value: 'all', label: 'All Dogs' },
+  { value: 'medical', label: 'Medical' },
+  { value: 'gear', label: 'Gear' },
+  { value: 'food', label: 'Food' },
+  { value: 'comfort', label: 'Comfort' },
+  { value: 'training', label: 'Training' },
+  { value: 'enrichment', label: 'Enrichment' }
+] as { value: string; label: string }[]

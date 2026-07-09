@@ -1,3 +1,10 @@
+import {
+  HISTORICAL_ADOPTION_FEES,
+  HISTORICAL_AUCTIONS,
+  HISTORICAL_BY_TYPE,
+  HISTORICAL_ONE_TIME_DONATIONS,
+  HISTORICAL_ORDERS
+} from 'app/lib/constants/dashboard.constants'
 import prisma from 'prisma/client'
 
 export async function getDashboardStats() {
@@ -122,6 +129,21 @@ export async function getDashboardStats() {
     total: Number(row._sum.totalAmount ?? 0)
   }))
 
+  // Fold each historical bucket into its matching card (or create the card)
+  for (const h of HISTORICAL_BY_TYPE) {
+    if (h.total <= 0) continue
+    const existing = ordersByType.find((o) => o.type === h.type)
+    if (existing) {
+      existing.total += h.total
+      existing.count += h.count
+    } else {
+      ordersByType.push({ type: h.type, total: h.total, count: h.count })
+    }
+  }
+
+  // Re-sort so the card lands in the right position by revenue
+  ordersByType.sort((a, b) => b.total - a.total)
+
   // Adoption fee heatmap — count of applications per day (workflow tracking)
   const heatmapMap = new Map<string, { count: number; amount: number }>()
   for (const fee of adoptionFeeRecords) {
@@ -148,14 +170,18 @@ export async function getDashboardStats() {
 
   const sumOrders = (arr: { totalAmount?: unknown }[]) => arr.reduce((acc, r) => acc + Number(r.totalAmount ?? 0), 0)
 
-  // ─── Revenue (orders only — no double-count + adoption fees + auctions + orders + one time donations) ─────────────────────────────────
-  const totalRevenue = sumOrders(allOrders) + 16185 + 16317 + 10622 + 49389
+  const HISTORICAL_TOTAL =
+    HISTORICAL_ADOPTION_FEES + HISTORICAL_AUCTIONS + HISTORICAL_ORDERS + HISTORICAL_ONE_TIME_DONATIONS
+
+  const totalRevenue = sumOrders(allOrders) + HISTORICAL_TOTAL
+
   const thisMonthRevenue = sumOrders(thisMonthOrders)
   const lastMonthRevenue = sumOrders(lastMonthOrders)
   const auctionRevenue = Number(totalAuctionRevenue._sum?.totalPrice ?? 0)
 
   // Adoption revenue as a derived slice of orders (for display only, already in totalRevenue)
-  const totalAdoptionRevenue = ordersByType.find((o) => o.type === 'ADOPTION_FEE')?.total ?? 0
+  const totalAdoptionRevenue =
+    ordersByType.find((o) => o.type === 'ADOPTION_FEE')?.total ?? 0 + HISTORICAL_ADOPTION_FEES
 
   const monthlyChange = lastMonthRevenue === 0 ? null : ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
 

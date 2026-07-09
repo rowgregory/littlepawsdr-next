@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import Picture from '../common/Picture'
+import { motion } from 'framer-motion'
+import { container, imageReveal, item } from 'app/lib/constants/motion.constants'
 
 export const AboutBlock = () => {
   return (
-    <section aria-labelledby="about-heading" className="relative w-full bg-bg-light dark:bg-bg-dark">
+    <section aria-labelledby="about-heading" className="relative w-full overflow-x-hidden bg-bg-light dark:bg-bg-dark">
       {/* Texture background */}
       <div
         className="absolute inset-0 bg-repeat dark:opacity-20 pointer-events-none"
@@ -13,7 +17,14 @@ export const AboutBlock = () => {
 
       {/* Full width layout layer */}
       <div className="relative flex flex-col 1200:flex-row">
-        <div className="order-2 1200:order-1 relative w-full max-w-xl mx-auto mt-8 overflow-hidden 1200:absolute 1200:top-0 1200:left-0 1200:max-w-3xl 1200:w-[calc((100vw-75rem)/2+24rem)] 1200:mt-0 1200:mx-0 block">
+        {/* Image — reveals with a slow scale settle */}
+        <motion.div
+          variants={imageReveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="order-2 1200:order-1 relative w-full max-w-xl mx-auto mt-8 overflow-hidden 1200:absolute 1200:top-0 1200:left-0 1200:max-w-3xl 1200:w-[min(calc((100vw-75rem)/2+24rem),50vw)] 1200:mt-0 1200:mx-0 block"
+        >
           <Picture
             priority={false}
             src="/images/geo-dachshund.png"
@@ -28,41 +39,51 @@ export const AboutBlock = () => {
             className="dachshund-tint absolute inset-0 w-full h-full object-cover object-center opacity-20 dark:opacity-30 1200:pt-35"
             style={{ clipPath: 'polygon(0 0, 100% 0, 0% 100%, 0 100%)' }}
           />
-        </div>
+        </motion.div>
 
         {/* Content */}
         <div className="order-1 1200:order-2 mx-auto max-w-180 1000:max-w-240 1200:max-w-300 w-full px-4 xs:px-5 sm:px-6 pt-35 1200:py-35 1200:mb-68 grid grid-cols-12">
-          <div className="col-span-12 1200:col-span-7 1200:col-start-6 space-y-5 sm:space-y-6">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            className="col-span-12 1200:col-span-7 1200:col-start-6 space-y-5 sm:space-y-6"
+          >
             {/* Eyebrow */}
-            <div className="flex items-center gap-3" aria-hidden="true">
+            <motion.div variants={item} className="flex items-center gap-3" aria-hidden="true">
               <div className="w-6 sm:w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" />
               <p className="text-[10px] sm:text-xs font-bold uppercase tracking-tight text-muted-light dark:text-muted-dark font-nunito">
                 About Little Paws
               </p>
-            </div>
+            </motion.div>
 
             {/* Heading */}
-            <h2
+            <motion.h2
+              variants={item}
               id="about-heading"
               className="text-[28px] xs:text-[32px] sm:text-[36px] lg:text-[40px] font-light text-text-light dark:text-text-dark leading-tight font-quicksand"
             >
               <span className="font-black">Little Paws</span> Dachshund Rescue
-            </h2>
+            </motion.h2>
 
             {/* Body copy */}
-            <div className="space-y-3 sm:space-y-4">
+            <motion.div variants={item} className="space-y-3 sm:space-y-4">
               <p className="font-nunito text-sm sm:text-base text-text-light dark:text-text-dark font-semibold leading-relaxed">
-                We are a volunteer-based nonprofit dedicated to rescuing, rehabilitating, and rehoming dachshunds and dachshund mixes across the
-                United States.
+                We are a volunteer-based nonprofit dedicated to rescuing, rehabilitating, and rehoming dachshunds and
+                dachshund mixes across the United States.
               </p>
               <p className="font-nunito text-sm sm:text-base text-muted-light dark:text-muted-dark leading-relaxed">
-                Every dog in our care receives veterinary attention, foster love, and the chance at a forever home. We believe every dachshund
-                deserves a safe, loving family.
+                Every dog in our care receives veterinary attention, foster love, and the chance at a forever home. We
+                believe every dachshund deserves a safe, loving family.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Stats */}
-            <dl className="grid grid-cols-3 gap-3 xs:gap-5 sm:gap-8 pt-4 border-t border-border-light dark:border-border-dark">
+            {/* Stats — each cell staggers in as its own child */}
+            <motion.dl
+              variants={item}
+              className="grid grid-cols-3 gap-3 xs:gap-5 sm:gap-8 pt-4 border-t border-border-light dark:border-border-dark"
+            >
               {[
                 { label: 'Dogs Rescued', value: '1,500' },
                 { label: 'Adoptions', value: '1,200' },
@@ -77,10 +98,10 @@ export const AboutBlock = () => {
                   </dt>
                 </div>
               ))}
-            </dl>
+            </motion.dl>
 
             {/* CTA */}
-            <div className="pt-1 sm:pt-2">
+            <motion.div variants={item} className="pt-1 sm:pt-2">
               <Link
                 href="/about"
                 aria-label="Learn more about Little Paws Dachshund Rescue"
@@ -88,8 +109,8 @@ export const AboutBlock = () => {
               >
                 More about us
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

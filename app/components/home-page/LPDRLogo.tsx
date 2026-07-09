@@ -14,10 +14,10 @@ export const LPDRLogo = () => {
         <div className="inline-flex flex-col mx-auto">
           {/* Row 1 — Little Paws */}
           <div className="flex items-baseline" aria-hidden="true">
-            <span className="font-quicksand font-light text-[clamp(2rem,10vw,16rem)] tracking-tight text-primary-light dark:text-primary-dark">
+            <span className="font-quicksand font-light text-[clamp(3rem,10vw,16rem)] tracking-tight text-primary-light dark:text-primary-dark">
               Little&nbsp;
             </span>
-            <span className="font-quicksand font-black text-[clamp(2.25rem,14vw,22rem)] tracking-tight text-primary-light dark:text-primary-dark">
+            <span className="font-quicksand font-black text-[clamp(3.25rem,14vw,22rem)] tracking-tight text-primary-light dark:text-primary-dark">
               Paws
             </span>
           </div>
@@ -28,7 +28,7 @@ export const LPDRLogo = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="font-nunito font-normal text-[clamp(0.6rem,3vw,5.25rem)] text-muted-light dark:text-muted-dark whitespace-nowrap"
+              className="font-nunito font-normal text-[clamp(0.8rem,3vw,5.25rem)] text-muted-light dark:text-muted-dark whitespace-nowrap"
             >
               Dachshund Rescue
             </motion.span>

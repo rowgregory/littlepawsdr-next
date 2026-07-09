@@ -1,5 +1,4 @@
 import {
-  Bone,
   Dog,
   DollarSign,
   FileText,
@@ -83,16 +82,6 @@ export const mainNavigationLinks = (): Section[] => {
       ],
       priority: 1
     },
-    ...(isFeedAFosterAvailable
-      ? [
-          {
-            title: 'Feed a Foster',
-            icon: Bone,
-            linkKey: '/feed',
-            priority: 1
-          }
-        ]
-      : []),
 
     {
       title: 'Donate',
@@ -102,6 +91,14 @@ export const mainNavigationLinks = (): Section[] => {
           linkKey: '/donate',
           linkText: 'One-Time'
         },
+        ...(isFeedAFosterAvailable
+          ? [
+              {
+                linkKey: '/feed',
+                linkText: 'Feed a Foster'
+              }
+            ]
+          : []),
         {
           linkKey: '/welcomewieners',
           linkText: 'Welcome Wieners'

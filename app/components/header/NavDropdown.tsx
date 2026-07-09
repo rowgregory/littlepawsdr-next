@@ -12,7 +12,23 @@ export const NavDropdown = ({ section }: { section: Section }) => {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLLIElement>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isActive = section?.linkKey === pathname || section?.links?.some((l) => l.linkKey === pathname) || false
+
+  const openMenu = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpen(true)
+  }
+
+  const closeMenu = () => {
+    closeTimer.current = setTimeout(() => setOpen(false), 200)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current)
+    }
+  }, [])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -43,10 +59,10 @@ export const NavDropdown = ({ section }: { section: Section }) => {
     <li
       ref={ref}
       className={`${getHeaderLinksVisibilityClass(section.priority)} relative`}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={openMenu}
+      onMouseLeave={closeMenu}
     >
-      {/* ── Direct link (no dropdown) ── */}
+      {/* Direct link */}
       {section.linkKey && !section.links ? (
         <Link
           href={section.linkKey}
@@ -59,7 +75,7 @@ export const NavDropdown = ({ section }: { section: Section }) => {
           </span>
         </Link>
       ) : (
-        /* ── Dropdown trigger ── */
+        /* Dropdown trigger */
         <button type="button" aria-expanded={open} aria-haspopup="menu" className={labelClass}>
           <span className={`relative py-7 ${isActive || open ? 'text-primary-light dark:text-primary-dark' : ''}`}>
             {section.title}
@@ -76,10 +92,6 @@ export const NavDropdown = ({ section }: { section: Section }) => {
         </button>
       )}
 
-      {/* Hover bridge — keeps menu open while moving cursor down */}
-      {open && <div className="absolute top-full left-0 w-full h-2" aria-hidden="true" />}
-
-      {/* ── Dropdown panel ── */}
       <AnimatePresence>
         {open && section.links && (
           <motion.ul

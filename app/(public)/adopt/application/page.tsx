@@ -1,4 +1,4 @@
-import { AdoptionApplicationClient } from 'app/components/pages/AdoptionApplicationClient'
+import { AdoptionApplicationClient } from 'app/(public)/adopt/application/AdoptionApplicationClient'
 import { hasActiveAdoptionFee } from 'app/lib/actions/adoption-fee/hasActiveAdoptionFee'
 import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'

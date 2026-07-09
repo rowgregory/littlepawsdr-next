@@ -1,13 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { ChevronLeft, ChevronRight, Plus, Check, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
-import { store } from 'app/lib/store/store'
-import { addToCart } from 'app/lib/store/slices/cartSlice'
+import { IWelcomeWiener } from 'types/entities/welcome-wiener'
 import Picture from '../common/Picture'
-import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
 
 export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
   const [atStart, setAtStart] = useState(true)
@@ -60,30 +57,6 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
     el.scrollTo({ left: el.scrollLeft + getCardWidth(), behavior: 'smooth' })
   }, [getCardWidth])
 
-  const [added, setAdded] = useState<Record<string, string[]>>({})
-
-  const handleAdd = (e: React.MouseEvent, dog: IWelcomeWiener, product: WelcomeWienerProduct) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (added[dog.id]?.includes(product.id)) return
-    const cartItem = {
-      id: product.id,
-      name: `${product.name} for ${dog.name}`,
-      image: dog.images[0] ?? null,
-      price: product.price,
-      quantity: 1,
-      isPhysicalProduct: false,
-      type: 'WELCOME_WIENER'
-    }
-    store.dispatch(addToCart(cartItem))
-    store.dispatch(setOpenCartToast(cartItem))
-    setAdded((prev) => ({ ...prev, [dog.id]: [...(prev[dog.id] ?? []), product.id] }))
-    setTimeout(() => setAdded((prev) => ({ ...prev, [dog.id]: prev[dog.id].filter((id) => id !== product.id) })), 2000)
-  }
-
-  const preview = (dog: IWelcomeWiener) => (dog.associatedProducts ?? []).slice(0, 3) as WelcomeWienerProduct[]
-
-  // ── Empty state
   if (!dachshunds.length) {
     return (
       <section
@@ -267,77 +240,9 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                     </p>
                     {dog.age && <p className="text-white/50 text-[10px] font-mono mb-2 sm:mb-3">{dog.age}</p>}
 
-                    {/* Products */}
-                    {preview(dog).length > 0 && (
-                      <div
-                        className="space-y-2 mb-2 sm:mb-3"
-                        role="group"
-                        aria-label={`Donation items for ${dog.name}`}
-                      >
-                        {preview(dog).map((product) => {
-                          const isAdded = added[dog.id]?.includes(product.id)
-                          return (
-                            <button
-                              key={product.id}
-                              type="button"
-                              onClick={(e) => handleAdd(e, dog, product)}
-                              aria-label={
-                                isAdded
-                                  ? `${product.name} added to cart — $${product.price}. Tap to remove.`
-                                  : `Add ${product.name} to cart — $${product.price} for ${dog.name}`
-                              }
-                              aria-pressed={isAdded}
-                              className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 border transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white text-left ${
-                                isAdded
-                                  ? 'border-white bg-white text-black'
-                                  : 'border-white/40 bg-black/40 text-white hover:border-white hover:bg-black/60'
-                              }`}
-                            >
-                              {/* Left: item name + price */}
-                              <span className="flex flex-col min-w-0">
-                                <span className="text-xs font-mono font-medium truncate">{product.name}</span>
-                                <span
-                                  className={`text-[10px] font-mono tabular-nums ${
-                                    isAdded ? 'text-black/60' : 'text-white/60'
-                                  }`}
-                                >
-                                  ${product.price} donation
-                                </span>
-                              </span>
-
-                              {/* Right: explicit add / added pill */}
-                              <span
-                                className={`flex items-center gap-1 shrink-0 px-2 py-1 text-[10px] font-mono tracking-[0.15em] uppercase font-bold ${
-                                  isAdded ? 'bg-black text-white' : 'bg-white text-black'
-                                }`}
-                                aria-hidden="true"
-                              >
-                                {isAdded ? (
-                                  <>
-                                    <Check className="w-3 h-3" />
-                                    Added
-                                  </>
-                                ) : (
-                                  <>
-                                    <Plus className="w-3 h-3" />
-                                    Add
-                                  </>
-                                )}
-                              </span>
-                            </button>
-                          )
-                        })}
-                        {(dog.associatedProducts?.length ?? 0) > 3 && (
-                          <p className="text-[10px] font-mono text-white/40 pl-1">
-                            +{(dog.associatedProducts?.length ?? 0) - 3} more on full profile
-                          </p>
-                        )}
-                      </div>
-                    )}
-
                     {/* Profile link */}
                     <Link
-                      href={`/donate/welcome-wieners/${dog.id}`}
+                      href={`/welcomewieners/${dog.id}`}
                       aria-label={`View full profile for ${dog.name}`}
                       onClick={(e) => e.stopPropagation()}
                       className="flex items-center justify-between w-full px-3 py-2 border border-white/30 bg-black/20 hover:border-white/60 hover:bg-black/40 text-white transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/link"
