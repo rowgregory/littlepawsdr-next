@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation'
 import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcomeWiener'
 import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
 import Link from 'next/link'
-import { Field, SectionLabel } from './form.components'
+import { Field, SectionLabel } from '../ui/form.components'
 import { inputClass, inputErrorClass } from 'app/lib/constants/form.constants'
 
 type FormState = {

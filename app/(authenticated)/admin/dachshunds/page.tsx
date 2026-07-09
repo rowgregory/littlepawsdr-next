@@ -1,5 +1,5 @@
 import AdminDachshundsClient from 'app/(authenticated)/admin/dachshunds/AdminDachshundsClient'
-import { getDachshundsByStatus } from 'app/lib/actions/rescue-groups/getDachshundsByStatus'
+import { getDachshundsByStatus } from 'app/lib/actions/_rescue-groups/getDachshundsByStatus'
 
 export default async function AdminDachshundsPage() {
   const availableResult = await getDachshundsByStatus({ status: 'Available', currentPage: 1, pageLimit: 250 })

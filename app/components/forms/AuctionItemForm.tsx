@@ -20,7 +20,7 @@ import { deleteAuctionItemPhoto } from 'app/lib/actions/auction/deleteAuctionIte
 import Picture from '../common/Picture'
 import Link from 'next/link'
 import { formatMoney } from 'app/utils/currency.utils'
-import { Field, SectionLabel } from './form.components'
+import { Field, SectionLabel } from '../ui/form.components'
 import { inputClass, inputErrorClass } from 'app/lib/constants/form.constants'
 
 export function AuctionItemForm({

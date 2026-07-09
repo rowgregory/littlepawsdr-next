@@ -1,7 +1,5 @@
 'use server'
 
-import { getOrCreateStripeCustomer } from 'app/lib/actions/stripe/getOrCreateCustomer'
-import { validateSavedCard } from 'app/lib/actions/stripe/validateSavedCard'
 import Stripe from 'stripe'
 import { createLog } from '../log/createLog'
 import { stripeClient } from '../../stripe-client'
@@ -11,6 +9,8 @@ import { ProductSizeEntry } from 'types/entities/product'
 import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
 import { stampUserGeo } from '../user/stampUserGeo'
 import { getRequestGeo } from 'app/utils/log.server.utils'
+import { validateSavedCard } from './validateSavedCard'
+import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
 
 type PaymentAddress = {
   addressLine1: string | null

@@ -28,10 +28,10 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
-import { createPaymentIntent } from 'app/lib/actions/stripe/createPaymentIntent'
 import { AddressSectionProps } from 'types/entities/address'
 import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 import { UpdateAddressModal } from 'app/components/modals/UpdateAddressModal'
+import { createPaymentIntent } from 'app/lib/actions/_stripe/createPaymentIntent'
 
 interface IAuctionWinnerPaymentClient {
   winningBidder: IAuctionWinningBidder

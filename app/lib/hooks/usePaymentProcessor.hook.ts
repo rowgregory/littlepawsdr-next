@@ -6,7 +6,7 @@ import { useRef } from 'react'
 import { store } from '../store/store'
 import { setHideConfetti, setShowConfetti } from '../store/slices/uiSlice'
 import { setAdoptionFeeCookie } from '../actions/_infra/setAdoptionFeeCookie'
-import { savePaymentMethod } from '../actions/stripe/savePaymentMethod'
+import { savePaymentMethod } from '../actions/_stripe/savePaymentMethod'
 
 export function usePaymentProcessor() {
   const router = useRouter()

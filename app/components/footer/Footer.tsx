@@ -2,44 +2,7 @@ import Link from 'next/link'
 import Picture from '../common/Picture'
 import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
 import { SyntheticEvent, useState } from 'react'
-
-const NAV_LINKS = [
-  { label: 'Home', href: '/' },
-  { label: 'Adopt', href: '/adopt/application' },
-  { label: 'Foster', href: '/volunteer/foster' },
-  { label: 'Donate', href: '/donate' }
-]
-
-const SOCIAL_LINKS = [
-  {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/LittlePawsDachshundRescue',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-      </svg>
-    )
-  },
-  {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/littlepawsdr/',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-      </svg>
-    )
-  }
-]
-
-const HOURS = [
-  { day: 'Monday', hours: '9:00am – 5:00pm' },
-  { day: 'Tuesday', hours: '9:00am – 5:00pm' },
-  { day: 'Wednesday', hours: '9:00am – 5:00pm' },
-  { day: 'Thursday', hours: '9:00am – 5:00pm' },
-  { day: 'Friday', hours: '9:00am – 5:00pm' },
-  { day: 'Saturday', hours: '10:00am – 3:00pm' },
-  { day: 'Sunday', hours: 'Closed' }
-]
+import { NAV_LINKS, SOCIAL_LINKS } from 'app/lib/constants/footer.constants'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -72,13 +35,16 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-navbar-light dark:bg-navbar-dark border-t border-border-light dark:border-border-dark" aria-label="Site footer">
+    <footer
+      className="bg-navbar-light dark:bg-navbar-dark border-t border-border-light dark:border-border-dark"
+      aria-label="Site footer"
+    >
       <div className="max-w-180 1000:max-w-240 1200:max-w-300 mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Top accent line ── */}
         <div className="h-px bg-primary-light dark:bg-primary-dark opacity-30" aria-hidden="true" />
 
         {/* ── Main grid ── */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 py-14">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-8 py-14">
           {/* Col 1 — Brand ── */}
           <div className="xs:col-span-2 lg:col-span-1">
             <Link
@@ -97,7 +63,9 @@ export default function Footer() {
             <address className="not-italic mt-6 space-y-1.5">
               <div className="flex items-center gap-3">
                 <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Contact</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                  Contact
+                </p>
               </div>
               <a
                 href="mailto:info@littlepawsdr.org"
@@ -127,33 +95,13 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Col 2 — Hours ── */}
-          <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Hours</h2>
-            </div>
-            <dl className="space-y-2">
-              {HOURS.map(({ day, hours }) => (
-                <div key={day} className="flex items-baseline justify-between gap-4">
-                  <dt className="text-[11px] font-mono text-on-dark shrink-0">{day}</dt>
-                  <dd
-                    className={`text-[11px] font-mono text-right ${
-                      hours === 'Closed' ? 'text-muted-dark' : 'text-primary-light dark:text-primary-dark'
-                    }`}
-                  >
-                    {hours}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
           {/* Col 3 — Nav ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
               <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Quick Links</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Quick Links
+              </h2>
             </div>
             <nav aria-label="Footer navigation">
               <ul className="space-y-3" role="list">
@@ -179,9 +127,13 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-5">
               <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Newsletter</h2>
+              <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                Newsletter
+              </h2>
             </div>
-            <p className="text-[11px] font-mono text-on-dark leading-relaxed mb-4">Stay up to date with rescues, events, and ways to help.</p>
+            <p className="text-[11px] font-mono text-on-dark leading-relaxed mb-4">
+              Stay up to date with rescues, events, and ways to help.
+            </p>
             <form onSubmit={handleSubmit} aria-label="Newsletter signup" className="space-y-2.5">
               <div>
                 <label htmlFor="footer-email" className="sr-only">
@@ -214,7 +166,11 @@ export default function Footer() {
                 </p>
               )}
               {success && (
-                <p id="newsletter-success" role="status" className="text-[10px] font-mono tracking-widest text-primary-light dark:text-primary-dark">
+                <p
+                  id="newsletter-success"
+                  role="status"
+                  className="text-[10px] font-mono tracking-widest text-primary-light dark:text-primary-dark"
+                >
                   You&apos;re subscribed — thank you!
                 </p>
               )}
@@ -236,13 +192,13 @@ export default function Footer() {
               href="/terms"
               className="text-[10px] font-mono tracking-[0.15em] uppercase text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
-              Terms &amp; Conditions
+              Terms of Service
             </Link>
           </div>
           <p className="text-[10px] font-mono text-on-dark text-center xs:text-right">
             Built &amp; designed by{' '}
             <a
-              href="https://sqysh.io"
+              href="https://sqysh.com?utm_source=littlepawsdr&utm_medium=referral&utm_campaign=site_footer"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-light dark:text-primary-dark hover:underline underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"

@@ -1,5 +1,5 @@
 import { HomeClient } from './HomeClient'
-import { getDachshundsByStatus } from '../../lib/actions/rescue-groups/getDachshundsByStatus'
+import { getDachshundsByStatus } from '../../lib/actions/_rescue-groups/getDachshundsByStatus'
 import { getLiveWelcomeWieners } from '../../lib/actions/welcome-wiener/getLiveWelcomeWieners'
 
 export default async function HomePage() {

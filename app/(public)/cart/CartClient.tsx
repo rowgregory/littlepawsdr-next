@@ -8,10 +8,12 @@ import { formatMoney } from 'app/utils/currency.utils'
 import { useAppDispatch, useCartSelector } from 'app/lib/store/store'
 import { CartItem, clearCart } from 'app/lib/store/slices/cartSlice'
 import { CartItemRow } from 'app/components/cart/CartItemRow'
+import { useRouter } from 'next/navigation'
 
 export default function CartClient() {
   const { items } = useCartSelector()
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const subtotal = items.reduce((s: number, i: { price: number; quantity: number }) => s + i.price * i.quantity, 0)
   const shipping = items
@@ -23,12 +25,15 @@ export default function CartClient() {
   const isFeedAFosterMonth = new Date().getMonth() === 6 // 0-indexed: 6 = July
 
   return (
-    <main id="main-content" className="min-h-200 bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+    <main
+      id="main-content"
+      className="min-h-200 h-[calc(100svh-536px)] bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+    >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
         {/* ── Header ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-12">
-          <Link
-            href="/merch"
+          <button
+            onClick={() => router.back()}
             className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-200 mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
           >
             <svg
@@ -43,7 +48,7 @@ export default function CartClient() {
               <path d="M19 12H5M5 12l7-7M5 12l7 7" />
             </svg>
             Continue Shopping
-          </Link>
+          </button>
 
           <div className="flex items-center gap-3 mb-2">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />

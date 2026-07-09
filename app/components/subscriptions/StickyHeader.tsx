@@ -1,7 +1,7 @@
 import { TIERS } from 'app/lib/constants/subscriptions.constants'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export function StickyHeader({
   billing,
@@ -14,6 +14,7 @@ export function StickyHeader({
   onSubscribe: () => void
   view: string
 }) {
+  const router = useRouter()
   const selectedTier = TIERS.find((t) => t.id === selected)
 
   if (view !== 'select') return
@@ -28,13 +29,13 @@ export function StickyHeader({
       <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 h-11 flex items-center justify-between gap-4">
         {/* Left — label */}
         <div className="flex items-center gap-3 shrink-0">
-          <Link
-            href="/"
+          <button
+            onClick={() => router.back()}
             aria-label="Go back to home"
             className="text-text-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark"
           >
             <ArrowLeft size={14} aria-hidden="true" />
-          </Link>
+          </button>
           <span className="block w-4 h-px bg-primary-dark shrink-0" aria-hidden="true" />
           <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-dark">Subscriptions</p>
         </div>

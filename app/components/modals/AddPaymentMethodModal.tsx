@@ -9,9 +9,9 @@ import { setCloseAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { useRemoveScroll } from '@hooks/useRemoveScroll.hook'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { createPaymentMethod } from 'app/lib/actions/stripe/createPaymentMethod'
-import { getSetupIntentClientSecret } from 'app/lib/actions/stripe/getSetupIntentClientSecret'
 import { extractErrorMessage } from 'app/utils/log.client.utils'
+import { getSetupIntentClientSecret } from 'app/lib/actions/_stripe/getSetupIntentClientSecret'
+import { createPaymentMethod } from 'app/lib/actions/_stripe/createPaymentMethod'
 
 export default function AddPaymentMethodModal() {
   const { addPaymentMethodModal, isDark } = useUiSelector()

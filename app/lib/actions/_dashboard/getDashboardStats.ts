@@ -6,8 +6,14 @@ import {
   HISTORICAL_ORDERS
 } from 'app/lib/constants/dashboard.constants'
 import prisma from 'prisma/client'
+import { requireAdmin } from '../user/requireAdmin'
 
 export async function getDashboardStats() {
+  const gate = await requireAdmin()
+  if (gate.ok === false) {
+    return { success: false, error: gate.error, data: null }
+  }
+
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)

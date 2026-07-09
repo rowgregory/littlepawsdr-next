@@ -1,6 +1,6 @@
 import { AdoptionApplicationClient } from 'app/(public)/adopt/application/AdoptionApplicationClient'
+import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { hasActiveAdoptionFee } from 'app/lib/actions/adoption-fee/hasActiveAdoptionFee'
-import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
 import { redirect } from 'next/navigation'

@@ -10,25 +10,26 @@ export const magicLinkProvider: EmailConfig = {
   maxAge: 15 * 60, // 15 mins
   from: process.env.RESEND_FROM_EMAIL!,
   sendVerificationRequest: async ({ identifier: email, url }) => {
-    try {
-      const result = await resend.emails.send({
-        from: `Little Paws Dachshund Rescue <${process.env.RESEND_FROM_EMAIL!}>`,
-        to: email,
-        subject: 'Sign in to Little Paws Dachshund Rescue',
-        html: magicLinkTemplate(url)
-      })
-      await createLog('info', 'Magic link sent successfully', {
-        location: ['magicLinkProvider.ts'],
-        email,
-        messageId: result.data?.id
-      })
-    } catch (error) {
+    const { data, error } = await resend.emails.send({
+      from: `Little Paws Dachshund Rescue <${process.env.RESEND_FROM_EMAIL!}>`,
+      to: email,
+      subject: 'Sign in to Little Paws Dachshund Rescue',
+      html: magicLinkTemplate(url)
+    })
+
+    if (error) {
       await createLog('error', 'Failed to send magic link email', {
         location: ['magicLinkProvider.ts'],
         email,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error.message
       })
-      throw error
+      throw new Error(`Failed to send verification email: ${error.message}`)
     }
+
+    createLog('info', 'Magic link sent successfully', {
+      location: ['magicLinkProvider.ts'],
+      email,
+      messageId: data?.id
+    }).catch(console.error)
   }
 }

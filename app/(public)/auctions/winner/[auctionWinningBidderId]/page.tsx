@@ -1,6 +1,6 @@
 import { getAuctionWinningBidderById } from 'app/lib/actions/auction/getAuctionWinningBidderById'
-import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import AuctionWinnerPaymentClient from './AuctionWinnerPaymentClient'
+import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 
 export default async function AuctionWinnerPaymentPage({
   params

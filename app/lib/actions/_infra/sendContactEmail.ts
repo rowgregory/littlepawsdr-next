@@ -6,11 +6,24 @@ import { contactEmailTemplate } from '../../email-templates/contact-email'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export default async function sendContactEmail({ name, email, subject, message }: { name: string; email: string; subject: string; message: string }) {
+export default async function sendContactEmail({
+  name,
+  email,
+  subject,
+  message
+}: {
+  name: string
+  email: string
+  subject: string
+  message: string
+}) {
+  // ToDo
+  // Swith that back to the corret email
+
   try {
     await resend.emails.send({
       from: 'Little Paws DR <noreply@littlepawsdr.org>',
-      to: 'sqysh@sqysh.io',
+      to: 'greg@sqysh.com',
       //   to: 'lpdr@littlepawsdr.org',
       replyTo: email,
       subject: `[Contact] ${subject}`,

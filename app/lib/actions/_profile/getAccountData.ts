@@ -12,7 +12,6 @@ import {
 export const getAccountData = async () => {
   try {
     const session = await auth()
-
     if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
 
     const [user, orders, auctionBids, paymentMethods, adoptionFees] = await Promise.all([

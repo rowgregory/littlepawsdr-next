@@ -1,5 +1,5 @@
 import PublicSubscriptionsClient from 'app/(public)/subscriptions/PublicSubscriptionsClient'
-import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
+import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { Suspense } from 'react'
 
