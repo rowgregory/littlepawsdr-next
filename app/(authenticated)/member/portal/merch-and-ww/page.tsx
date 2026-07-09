@@ -1,4 +1,4 @@
-import MemberPortalMerchAndWWOrdersClient from 'app/components/pages/MemberPortalMerchAndWWOrdersClient'
+import MemberPortalMerchAndWWOrdersClient from 'app/(authenticated)/member/portal/merch-and-ww/MemberPortalMerchAndWWOrdersClient'
 import { getMerchAndWWOrders } from 'app/lib/actions/product/getMerchAndWWOrders'
 
 export default async function MemberPortalMerchAndWWOrdersPage() {

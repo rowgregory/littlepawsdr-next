@@ -1,9 +1,9 @@
-import PublicAuctionInstantBuyClient from 'app/components/pages/PublicAuctionInstantBuyClient'
 import { getAuctionItemById } from 'app/lib/actions/auction/getAuctionItemById'
 import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserAddress } from 'app/lib/actions/user/getUserAddress'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { IAuctionItem } from 'types/entities/auction-item'
+import PublicAuctionInstantBuyClient from './PublicAuctionInstantBuyClient'
 
 export default async function PublicAuctionInstantBuyPage({ params }: { params: Promise<{ auctionItemId: string }> }) {
   const { auctionItemId } = await params

@@ -10,11 +10,11 @@ import { IAuctionItem } from 'types/entities/auction-item'
 import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { formatDate } from 'app/utils/date.utils'
-import AdminPageHeader from '../common/AdminPageHeader'
 import { Anomaly, ANOMALY_COLORS, ANOMALY_LABELS, LiveBidEvent } from 'app/lib/mock/live-auction'
 import { IAuction } from 'types/entities/auction'
 import dismissAuctionAnomaly from 'app/lib/actions/super-user/dismissAuctionAnomoly'
 import { detectAuctionAnomalies } from 'app/lib/actions/super-user/detectAuctionAnomalies'
+import AdminPageHeader from 'app/components/common/AdminPageHeader'
 
 export default function AdminAuctionLiveClient({ auction }: { auction: IAuction | null }) {
   const [items, setItems] = useState<IAuctionItem[]>((auction?.items as IAuctionItem[]) ?? [])

@@ -6,9 +6,9 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatDate } from 'app/utils/date.utils'
-import { StatusPill } from '../ui/StatusPill'
+import { StatusPill } from '../../../../components/ui/StatusPill'
 import { formatMoney } from 'app/utils/currency.utils'
-import Picture from '../common/Picture'
+import Picture from '../../../../components/common/Picture'
 import { MerchAndWWOrder } from 'types/member-portal.types'
 
 function PurchaseRow({ order, index }: { order: MerchAndWWOrder; index: number }) {

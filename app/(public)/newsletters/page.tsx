@@ -1,4 +1,4 @@
-import PublicNewslettersClient from 'app/components/pages/PublicNewslettersClient'
+import PublicNewslettersClient from 'app/(public)/newsletters/PublicNewslettersClient'
 import getNewsletterIssues from 'app/lib/actions/newsletter-issue/getNewsletterIssues'
 
 export default async function PublicNewslettersPage() {

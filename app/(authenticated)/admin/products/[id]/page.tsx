@@ -1,4 +1,4 @@
-import ProductFormClient from 'app/components/pages/ProductFormClient'
+import ProductFormClient from 'app/components/forms/ProductForm'
 import { getProductById } from 'app/lib/actions/product/getProductById'
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {

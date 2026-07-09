@@ -41,7 +41,7 @@ const labelCls = `
 `
 const SIZE_OPTIONS = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
 
-export default function ProductFormClient({ product }: { product?: IProduct }) {
+export default function ProductForm({ product }: { product?: IProduct }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const isEditing = !!product

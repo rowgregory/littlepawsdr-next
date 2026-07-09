@@ -1,17 +1,33 @@
-import { PublicCheckoutClient } from 'app/components/pages/PublicCheckoutClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/stripe/getSavedPaymentMethods'
 import { getUserAddress } from 'app/lib/actions/user/getUserAddress'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
+import { PublicCheckoutClient } from './PublicCheckoutClient'
+import { IPaymentMethod } from 'types/entities/payment-method.types'
 
 export default async function PublicCheckoutPage() {
   const session = await auth()
+  const isAuthed = !!session?.user?.id
 
-  const [savedPaymentMethods, userAddress, userName] = await Promise.all([
-    session?.user?.id ? getSavedPaymentMethods() : Promise.resolve({ success: true, data: [] }),
-    getUserAddress(),
-    getUserName()
-  ])
+  // Logged-out users still reach checkout — the client renders an inline sign-in
+  // step. Only fetch user-scoped data when we actually have a user.
+  const [savedPaymentMethods, userAddress, userName] = isAuthed
+    ? await Promise.all([
+        getSavedPaymentMethods().catch(() => ({ success: false, data: [] as IPaymentMethod[] })),
+        getUserAddress().catch(() => ({ success: false, data: undefined })),
+        getUserName().catch(() => ({ success: false, data: undefined }))
+      ])
+    : [
+        { success: true, data: [] as IPaymentMethod[] },
+        { success: true, data: undefined },
+        { success: true, data: undefined }
+      ]
 
-  return <PublicCheckoutClient savedCards={savedPaymentMethods.data ?? []} userAddress={userAddress?.data} userName={userName?.data} />
+  return (
+    <PublicCheckoutClient
+      savedCards={savedPaymentMethods.data ?? []}
+      userAddress={userAddress?.data}
+      userName={userName?.data}
+    />
+  )
 }

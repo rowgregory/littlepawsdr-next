@@ -1,4 +1,4 @@
-import { Dog } from 'app/components/pages/DachshundDetailClient'
+import { Dog } from 'app/(public)/dachshunds/[id]/DachshundDetailClient'
 import { createLog } from '../log/createLog'
 import { getPicturesAndVideos } from '../../../utils/rescue-group.utils'
 

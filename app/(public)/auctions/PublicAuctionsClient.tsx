@@ -5,10 +5,10 @@ import { motion, useInView } from 'framer-motion'
 import { Gavel, Clock, ChevronRight, TrendingUp, Users, Package, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { IAuctionItem } from 'types/entities/auction-item'
-import Picture from '../common/Picture'
 import { IAuction } from 'types/entities/auction'
 import { useRef } from 'react'
 import { formatMoney } from 'app/utils/currency.utils'
+import Picture from 'app/components/common/Picture'
 
 // ─── Countdown unit ───────────────────────────────────────────────────────────
 function CountUnit({ value, label }: { value: number; label: string }) {

@@ -30,8 +30,8 @@ import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
 import { createPaymentIntent } from 'app/lib/actions/stripe/createPaymentIntent'
 import { AddressSectionProps } from 'types/entities/address'
-import { UpdateAddressModal } from '../modals/UpdateAddressModal'
 import { useDefaultCard } from '@hooks/useDefaultCard.hook'
+import { UpdateAddressModal } from 'app/components/modals/UpdateAddressModal'
 
 interface IAuctionWinnerPaymentClient {
   winningBidder: IAuctionWinningBidder

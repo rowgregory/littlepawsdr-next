@@ -1,11 +1,10 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { DogCard } from '../common/DogCard'
 import { containerVariants } from 'app/lib/constants/motion.constants'
+import { DogCard } from 'app/components/common/DogCard'
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-export default function DachshundsClient({ data }) {
+export default function IncomingDachshundsClient({ data }) {
   return (
     <section
       aria-labelledby="adopt-heading"
@@ -17,7 +16,7 @@ export default function DachshundsClient({ data }) {
           <div className="flex items-center gap-3 mb-3">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
             <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-              Available Now
+              Incoming Dachshunds
             </p>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
@@ -25,7 +24,7 @@ export default function DachshundsClient({ data }) {
               id="adopt-heading"
               className="font-quicksand text-3xl sm:text-4xl font-bold text-text-light dark:text-text-dark"
             >
-              Find Your <span className="font-light text-muted-light dark:text-muted-dark">Forever Wiener</span>
+              Meet Our <span className="font-light text-muted-light dark:text-muted-dark">Incoming Wieners</span>
             </h1>
             <p className="text-sm text-muted-light dark:text-muted-dark font-mono">
               {data?.data?.data?.length} dog{data?.data?.data?.length !== 1 ? 's' : ''} available
@@ -42,9 +41,9 @@ export default function DachshundsClient({ data }) {
               animate="show"
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"
               role="list"
-              aria-label="Available dachshunds"
+              aria-label="Incoming dachshunds"
             >
-              {data?.data?.data?.map((dog, i: number) => (
+              {data?.data?.data?.map((dog, i) => (
                 <DogCard key={dog.id} dog={dog} index={i} />
               ))}
             </motion.ul>

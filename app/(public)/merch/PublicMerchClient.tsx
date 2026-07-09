@@ -8,9 +8,9 @@ import { IProduct } from 'types/entities/product'
 import { store } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import Picture from '../common/Picture'
 import { formatMoney } from 'app/utils/currency.utils'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
+import Picture from 'app/components/common/Picture'
 
 function ProductCard({ product, index }: { product: IProduct; index: number }) {
   const [added, setAdded] = useState(false)

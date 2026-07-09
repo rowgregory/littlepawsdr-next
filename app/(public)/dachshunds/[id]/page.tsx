@@ -1,4 +1,4 @@
-import DachshundDetailClient from 'app/components/pages/DachshundDetailClient'
+import DachshundDetailClient from 'app/(public)/dachshunds/[id]/DachshundDetailClient'
 import { getDachshundById } from 'app/lib/actions/rescue-groups/getDachshundById'
 import { notFound } from 'next/navigation'
 

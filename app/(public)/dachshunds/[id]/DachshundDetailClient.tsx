@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import Picture from '../common/Picture'
+import Picture from '../../../components/common/Picture'
 import { store } from 'app/lib/store/store'
 import { setOpenContactModal } from 'app/lib/store/slices/uiSlice'
 
@@ -66,7 +66,9 @@ const QUALITY_LABELS: Record<string, string> = {
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark  px-4 py-3 min-w-0">
-      <span className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">{label}</span>
+      <span className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+        {label}
+      </span>
       <span className="text-sm font-semibold text-text-light dark:text-text-dark truncate">{value}</span>
     </div>
   )
@@ -77,7 +79,9 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-5">
       <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-      <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">{children}</h2>
+      <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+        {children}
+      </h2>
     </div>
   )
 }
@@ -156,7 +160,14 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                 aria-label="Previous photo"
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                >
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
               </button>
@@ -165,13 +176,23 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                 aria-label="Next photo"
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                >
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </button>
 
               {/* Counter */}
-              <div className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-mono px-2.5 py-1 rounded-full" aria-live="polite">
+              <div
+                className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-mono px-2.5 py-1 rounded-full"
+                aria-live="polite"
+              >
                 {activePhoto + 1} / {a?.photos?.length}
               </div>
 
@@ -196,7 +217,14 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   aria-label="Show previous thumbnails"
                   className="shrink-0 w-8 h-8 rounded-full border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    className="w-3.5 h-3.5"
+                    aria-hidden="true"
+                  >
                     <path d="M15 18l-6-6 6-6" />
                   </svg>
                 </button>
@@ -211,7 +239,9 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                       aria-label={`View photo ${realIdx + 1}`}
                       aria-pressed={activePhoto === realIdx}
                       className={`relative flex-1 aspect-square overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-all ${
-                        activePhoto === realIdx ? 'ring-2 ring-primary-light dark:ring-primary-dark opacity-100' : 'opacity-50 hover:opacity-80'
+                        activePhoto === realIdx
+                          ? 'ring-2 ring-primary-light dark:ring-primary-dark opacity-100'
+                          : 'opacity-50 hover:opacity-80'
                       }`}
                     >
                       <Picture
@@ -231,7 +261,14 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   aria-label="Show more thumbnails"
                   className="shrink-0 w-8 h-8 rounded-full border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    className="w-3.5 h-3.5"
+                    aria-hidden="true"
+                  >
                     <path d="M9 18l6-6-6-6" />
                   </svg>
                 </button>
@@ -265,7 +302,9 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark mb-1">
                 Available for Adoption · {a?.rescueId}
               </p>
-              <h1 className="font-quicksand text-4xl sm:text-5xl font-bold text-text-light dark:text-text-dark leading-tight">{a?.name}</h1>
+              <h1 className="font-quicksand text-4xl sm:text-5xl font-bold text-text-light dark:text-text-dark leading-tight">
+                {a?.name}
+              </h1>
               <p className="mt-2 text-muted-light dark:text-muted-dark text-base">
                 {a?.ageString} · {a?.sex} · {a?.breedString} · {a?.colorDetails}
               </p>
@@ -312,7 +351,11 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                     ok: !a?.qualities?.includes('olderKidsOnly'),
                     note: a?.qualities?.includes('olderKidsOnly') ? 'Older kids only' : undefined
                   },
-                  { label: 'Yard Required', ok: !a?.isYardRequired, note: a?.isYardRequired ? 'Preferred' : 'Not required' },
+                  {
+                    label: 'Yard Required',
+                    ok: !a?.isYardRequired,
+                    note: a?.isYardRequired ? 'Preferred' : 'Not required'
+                  },
                   { label: 'Special Needs', ok: !a?.isSpecialNeeds, note: a?.isSpecialNeeds ? 'Yes' : 'No' },
                   { label: 'Adults OK', ok: true, note: a?.adultSexesOk }
                 ].map(({ label, ok, note }) => (
@@ -338,8 +381,12 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
             <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark  p-5 flex flex-col gap-4">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <p className="text-xs font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Adoption Fee</p>
-                  <p className="text-3xl font-bold font-quicksand text-text-light dark:text-text-dark mt-0.5">{a?.adoptionFeeString}</p>
+                  <p className="text-xs font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                    Adoption Fee
+                  </p>
+                  <p className="text-3xl font-bold font-quicksand text-text-light dark:text-text-dark mt-0.5">
+                    {a?.adoptionFeeString}
+                  </p>
                 </div>
                 {a?.isCourtesyListing && (
                   <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">

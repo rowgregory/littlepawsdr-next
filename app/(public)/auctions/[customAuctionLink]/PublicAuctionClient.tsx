@@ -16,7 +16,6 @@ import {
   Eye
 } from 'lucide-react'
 import Link from 'next/link'
-import Picture from '../common/Picture'
 import { IAuctionItem } from 'types/entities/auction-item'
 import { AuctionStatus, IAuction } from 'types/entities/auction'
 import { useCountdown } from '@hooks/useCountdown.hook'
@@ -26,6 +25,7 @@ import { pusherClient } from 'app/lib/pusher-client'
 import { useRouter } from 'next/navigation'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionEndedModal, setShowConfetti } from 'app/lib/store/slices/uiSlice'
+import Picture from 'app/components/common/Picture'
 
 // ─── Section label ────────────────────────────────────────────────────────────
 function SectionLabel({ children, muted = false }: { children: React.ReactNode; muted?: boolean }) {

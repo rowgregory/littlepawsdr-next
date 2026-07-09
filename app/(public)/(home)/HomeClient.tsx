@@ -1,12 +1,12 @@
-import { Hero } from '../../components/home-page/Hero'
-import { AboutBlock } from '../../components/home-page/AboutBlock'
-import { AvailableDogsBlock } from '../../components/home-page/AvailableDogsCarousel'
-import { LPDRLogo } from '../../components/home-page/LPDRLogo'
-import { DogGalleryBlock } from '../../components/home-page/DogGalleryBlock'
-import { WaysToHelpBlock } from '../../components/home-page/WaysToHelpBlock'
-import { WelcomeWienersBlock } from '../../components/home-page/WelcomeWienersBlock'
-import InstagramBlock from '../../components/home-page/InstagramBlock'
-import { ApplicationsBlock } from '../../components/home-page/ApplicationsBlock'
+import { Hero } from '../../components/home/Hero'
+import { AboutBlock } from '../../components/home/AboutBlock'
+import { AvailableDogsBlock } from '../../components/home/AvailableDogsCarousel'
+import { LPDRLogo } from '../../components/home/LPDRLogo'
+import { DogGalleryBlock } from '../../components/home/DogGalleryBlock'
+import { WaysToHelpBlock } from '../../components/home/WaysToHelpBlock'
+import { WelcomeWienersBlock } from '../../components/home/WelcomeWienersBlock'
+import InstagramBlock from '../../components/home/InstagramBlock'
+import { ApplicationsBlock } from '../../components/home/ApplicationsBlock'
 
 export const HomeClient = ({ dachshunds, welcomeWieners }) => {
   return (

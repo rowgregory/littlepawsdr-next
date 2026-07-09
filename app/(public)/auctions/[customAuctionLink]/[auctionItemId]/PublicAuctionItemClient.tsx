@@ -18,7 +18,6 @@ import {
   Trophy
 } from 'lucide-react'
 import Link from 'next/link'
-import Picture from '../common/Picture'
 import { IAuctionBid } from 'types/entities/auction-bid'
 import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
 import { formatDateTime } from 'app/utils/date.utils'
@@ -26,10 +25,11 @@ import { formatMoney } from 'app/utils/currency.utils'
 import { useCountdown } from '@hooks/useCountdown.hook'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionBidModal, setOpenAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
-import AuctionBidModal from '../modals/AuctionBidModal'
 import { useSession } from 'next-auth/react'
-import AuctionSignInModal from '../modals/AuctionSignInModal'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Picture from 'app/components/common/Picture'
+import AuctionBidModal from 'app/components/modals/AuctionBidModal'
+import AuctionSignInModal from 'app/components/modals/AuctionSignInModal'
 
 function bidderDisplay(bid: IAuctionBid) {
   if (bid.user.anonymousBidding) return bid.bidderName ?? 'Anonymous'
