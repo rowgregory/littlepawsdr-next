@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Gavel, Zap, X, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { useCountdown } from '@hooks/useCountdown'
+import { useCountdown } from '@hooks/useCountdown.hook'
 import { store, useUiSelector } from 'app/lib/store/store'
 import { setCloseAuctionStartedModal } from 'app/lib/store/slices/uiSlice'
 
@@ -13,7 +13,9 @@ function CountUnit({ value, label }: { value: number; label: string }) {
       <span className="font-mono font-black text-2xl text-text-light dark:text-text-dark leading-none tabular-nums">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-1">{label}</span>
+      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-1">
+        {label}
+      </span>
     </div>
   )
 }
@@ -141,7 +143,9 @@ export default function AuctionStartedModal() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light dark:bg-primary-dark opacity-75" />
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light dark:bg-primary-dark" />
                     </span>
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Now Live</p>
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                      Now Live
+                    </p>
                   </div>
                   <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                 </motion.div>
@@ -162,7 +166,8 @@ export default function AuctionStartedModal() {
                   transition={{ delay: 0.4 }}
                   className="text-xs font-mono text-muted-light dark:text-muted-dark"
                 >
-                  {auctionStartedData?.itemCount} item{auctionStartedData?.itemCount !== 1 ? 's' : ''} are up for bidding right now.
+                  {auctionStartedData?.itemCount} item{auctionStartedData?.itemCount !== 1 ? 's' : ''} are up for
+                  bidding right now.
                 </motion.p>
               </div>
 
@@ -208,7 +213,11 @@ export default function AuctionStartedModal() {
                     aria-hidden="true"
                   />
                   <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Start Bidding</span>
-                  <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                  <ChevronRight
+                    size={14}
+                    className="group-hover:translate-x-0.5 transition-transform"
+                    aria-hidden="true"
+                  />
                 </Link>
                 <button
                   onClick={onClose}

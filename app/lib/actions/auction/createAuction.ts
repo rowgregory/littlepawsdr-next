@@ -2,9 +2,9 @@
 
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-import { serializeAuction } from 'app/utils/serializers'
+import { serializeAuction } from 'app/utils/serializers.utils'
 import { auth } from '../../auth'
-import { pusherSuperuser } from 'app/utils/pusherTrigger'
+import { pusherSuperuser } from 'app/utils/pusher.utils'
 
 type CreateAuctionInput = {
   title: string

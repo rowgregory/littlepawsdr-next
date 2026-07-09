@@ -7,7 +7,7 @@ import { Mail, Phone, Shield, Clock, Calendar, MapPin, CheckCircle, XCircle, Che
 import { getUserById } from 'app/lib/actions/user/getUserById'
 import { updateUserRole } from 'app/lib/actions/user/updateUserRole'
 import { formatDate } from 'app/utils/date.utils'
-import { formatRole } from 'app/utils/formatRole'
+import { formatRole } from 'app/utils/user.utils'
 import AdminPageHeader from 'app/components/common/AdminPageHeader'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
@@ -20,7 +20,9 @@ function Field({ icon: Icon, label, children }: { icon: React.ElementType; label
     <div className="flex items-start gap-3 py-3 border-b border-border-light dark:border-border-dark last:border-b-0">
       <Icon className="w-4 h-4 text-muted-light dark:text-muted-dark shrink-0 mt-0.5" aria-hidden="true" />
       <div className="min-w-0 flex-1">
-        <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-0.5">{label}</p>
+        <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
+          {label}
+        </p>
         <div className="text-sm text-text-light dark:text-text-dark wrap-break-word">{children}</div>
       </div>
     </div>
@@ -90,13 +92,19 @@ export default function AdminUserDetailsClient({ user }: { user: UserDetail }) {
             </Field>
             <Field icon={user.emailVerified ? CheckCircle : XCircle} label="Email verified">
               {user.emailVerified ? (
-                <span className="text-emerald-600 dark:text-emerald-400">Verified {formatDate(user.emailVerified)}</span>
+                <span className="text-emerald-600 dark:text-emerald-400">
+                  Verified {formatDate(user.emailVerified)}
+                </span>
               ) : (
                 <span className="text-muted-light dark:text-muted-dark">Not verified</span>
               )}
             </Field>
             <Field icon={Clock} label="Last login">
-              {user.lastLoginAt ? formatDate(user.lastLoginAt) : <span className="text-muted-light dark:text-muted-dark">Never</span>}
+              {user.lastLoginAt ? (
+                formatDate(user.lastLoginAt)
+              ) : (
+                <span className="text-muted-light dark:text-muted-dark">Never</span>
+              )}
             </Field>
             <Field icon={Calendar} label="Joined">
               {formatDate(user.createdAt)}
@@ -112,7 +120,9 @@ export default function AdminUserDetailsClient({ user }: { user: UserDetail }) {
         {/* Role editor */}
         <section className="border border-border-light dark:border-border-dark p-5">
           <p className="text-[15px] font-bold text-text-light dark:text-text-dark mb-1">Change role</p>
-          <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">Admins can manage the site. Supporters are regular members.</p>
+          <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
+            Admins can manage the site. Supporters are regular members.
+          </p>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">

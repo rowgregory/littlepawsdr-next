@@ -6,8 +6,8 @@ import { Role } from '@prisma/client'
 import { authConfig } from './auth.config'
 import googleProvider from './auth/googleProvider'
 import { magicLinkProvider } from './auth/magicLinkProvider'
-import { handleEmailCallback } from './callbacks/handleEmailCallback'
-import { handleGoogleCallback } from './callbacks/handleGoogleCallback'
+import { handleMagicLinkCallback } from './callbacks/magic-link.callback'
+import { handleGoogleCallback } from './callbacks/google.callback'
 import { createLog } from './actions/log/createLog'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -27,7 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       try {
         switch (account?.provider) {
           case 'email':
-            return await handleEmailCallback(user)
+            return await handleMagicLinkCallback(user)
           case 'google':
             return await handleGoogleCallback(user, account, profile)
           default:

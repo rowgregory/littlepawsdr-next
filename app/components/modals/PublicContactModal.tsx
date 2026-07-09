@@ -3,11 +3,11 @@
 import { X, Loader2, Send } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { createFormActions } from 'app/utils/formActions'
+import { createFormActions } from 'app/utils/form.utils'
 import { setCloseContactModal } from 'app/lib/store/slices/uiSlice'
 import { RootState, store, useAppSelector, useUiSelector } from 'app/lib/store/store'
 import sendContactEmail from 'app/lib/actions/_infra/sendContactEmail'
-import { EMAIL_REGEX } from 'app/utils/regex'
+import { EMAIL_REGEX } from 'app/lib/constants/regex.constants'
 
 const FORM_NAME = 'contactForm'
 const { handleInput, setErrors, resetForm } = createFormActions(FORM_NAME, store.dispatch)
@@ -94,7 +94,10 @@ export default function PublicContactModal() {
             <div className="flex items-center justify-between px-5 py-4 border-b border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3">
                 <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <h2 id="contact-modal-title" className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                <h2
+                  id="contact-modal-title"
+                  className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+                >
                   Contact Us
                 </h2>
               </div>
@@ -110,7 +113,9 @@ export default function PublicContactModal() {
             {/* Success */}
             {success ? (
               <div className="px-5 py-12 text-center space-y-2">
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Message Sent</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                  Message Sent
+                </p>
                 <p className="text-sm font-mono text-muted-light dark:text-muted-dark">
                   Thanks for reaching out. We&apos;ll get back to you as soon as we can.
                 </p>
@@ -146,7 +151,11 @@ export default function PublicContactModal() {
                         className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
                       />
                       {errors?.name && (
-                        <p id="contact-name-error" role="alert" className="text-[10px] font-mono text-red-500 dark:text-red-400">
+                        <p
+                          id="contact-name-error"
+                          role="alert"
+                          className="text-[10px] font-mono text-red-500 dark:text-red-400"
+                        >
                           {errors?.name}
                         </p>
                       )}
@@ -172,7 +181,11 @@ export default function PublicContactModal() {
                         className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
                       />
                       {errors?.email && (
-                        <p id="contact-email-error" role="alert" className="text-[10px] font-mono text-red-500 dark:text-red-400">
+                        <p
+                          id="contact-email-error"
+                          role="alert"
+                          className="text-[10px] font-mono text-red-500 dark:text-red-400"
+                        >
                           {errors?.email}
                         </p>
                       )}
@@ -199,7 +212,11 @@ export default function PublicContactModal() {
                       className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
                     />
                     {errors?.subject && (
-                      <p id="contact-subject-error" role="alert" className="text-[10px] font-mono text-red-500 dark:text-red-400">
+                      <p
+                        id="contact-subject-error"
+                        role="alert"
+                        className="text-[10px] font-mono text-red-500 dark:text-red-400"
+                      >
                         {errors?.subject}
                       </p>
                     )}
@@ -225,7 +242,11 @@ export default function PublicContactModal() {
                       className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors resize-none"
                     />
                     {errors?.message && (
-                      <p id="contact-message-error" role="alert" className="text-[10px] font-mono text-red-500 dark:text-red-400">
+                      <p
+                        id="contact-message-error"
+                        role="alert"
+                        className="text-[10px] font-mono text-red-500 dark:text-red-400"
+                      >
                         {errors?.message}
                       </p>
                     )}

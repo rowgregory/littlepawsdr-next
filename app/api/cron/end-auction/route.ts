@@ -1,7 +1,7 @@
 import { createLog } from 'app/lib/actions/log/createLog'
 import { auctionWinningBidderTemplate } from 'app/lib/email-templates/winning-bidder'
 import { resend } from 'app/lib/resend'
-import { pusherTrigger } from 'app/utils/pusherTrigger'
+import { pusherTrigger } from 'app/utils/pusher.utils'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 

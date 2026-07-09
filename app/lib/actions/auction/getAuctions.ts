@@ -1,7 +1,13 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { AuctionStatus } from '@prisma/client'
-import { serializeAuction, serializeAuctionBid, serializeAuctionItem, serializeInstantBuyer, serializeWinningBidder } from 'app/utils/serializers'
+import {
+  serializeAuction,
+  serializeAuctionBid,
+  serializeAuctionItem,
+  serializeInstantBuyer,
+  serializeWinningBidder
+} from 'app/utils/serializers.utils'
 
 export default async function getAuctions({ status }: { status: AuctionStatus[] }) {
   try {

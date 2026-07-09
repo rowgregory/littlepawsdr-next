@@ -4,14 +4,14 @@ import { useCallback } from 'react'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import { useSession } from 'next-auth/react'
 import { store, useFormSelector, useUiSelector } from 'app/lib/store/store'
-import { usePaymentProcessor } from '@hooks/usePaymentProcessor'
-import { useDefaultCard } from '@hooks/useDefaultCard'
+import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
+import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 import { createSubscriptionWithSavedCard } from 'app/lib/actions/stripe/createSubscriptionWithSavedCard'
 import { createSetupIntentForSubscription } from 'app/lib/actions/stripe/createSetupIntentForSubscription'
 import { createSubscriptionAfterSetup } from 'app/lib/actions/stripe/createSubscriptionAfterSetup'
-import { createFormActions } from 'app/utils/formActions'
+import { createFormActions } from 'app/utils/form.utils'
 import { setInputs } from 'app/lib/store/slices/formSlice'
-import { calculateStripeFees } from 'app/utils/calculateStripeFees'
+import { calculateStripeFees } from 'app/utils/stripe.utils'
 import { validatePaymentForm } from 'app/lib/validations/payment.validation'
 import { FormField } from '../ui/FormField'
 import { SavedCardSelector } from '../common/SavedCardSelector'
@@ -19,7 +19,7 @@ import { CardElementField } from '../common/CardElementField'
 import { CoverFeesToggle } from '../common/CoverFeesToggle'
 import { FormError } from '../common/FormError'
 import { SubmitButton } from '../common/SubmitButton'
-import { useInitializeForm } from '@hooks/useInitializeForm'
+import { useInitializeForm } from '@hooks/useInitializeForm.hook'
 import { SubscriptionPaymentFormProps } from 'types/subscriptions.types'
 
 const setForm = (data: Record<string, any>) => store.dispatch(setInputs({ formName: 'subscriptionForm', data }))
@@ -30,7 +30,13 @@ const ordinal = (n: number) => {
   return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`
 }
 
-export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, isDark }: SubscriptionPaymentFormProps & { isDark?: boolean }) {
+export function SubscriptionPaymentForm({
+  tier,
+  billing,
+  savedCards,
+  userName,
+  isDark
+}: SubscriptionPaymentFormProps & { isDark?: boolean }) {
   const stripe = useStripe()
   const elements = useElements()
 
@@ -61,7 +67,10 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, i
   const feesCovered = inputs?.coverFees ? processingFee : 0
   const usingSavedCard = !!inputs?.selectedCardId && !inputs?.useNewCard && isAuthed
   const isValid =
-    !!inputs?.firstName?.trim() && !!inputs?.lastName?.trim() && !!inputs?.email?.trim() && (usingSavedCard ? true : inputs?.cardComplete)
+    !!inputs?.firstName?.trim() &&
+    !!inputs?.lastName?.trim() &&
+    !!inputs?.email?.trim() &&
+    (usingSavedCard ? true : inputs?.cardComplete)
 
   const enteringNewCard = !isAuthed || savedCards.length === 0 || inputs?.useNewCard
 
@@ -121,7 +130,11 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, i
         })
 
         if (stripeError) {
-          setForm({ processingStatus: 'failed', error: stripeError.message ?? 'Card confirmation failed', loading: false })
+          setForm({
+            processingStatus: 'failed',
+            error: stripeError.message ?? 'Card confirmation failed',
+            loading: false
+          })
           return
         }
 
@@ -135,7 +148,13 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, i
         if (!subscriptionResult.success) throw new Error(subscriptionResult.error ?? 'Failed to create subscription')
 
         // Card is always saved for subscriptions — recurring billing requires a stored payment method
-        setupPusherListenerRecurring(subscriptionResult, inputs?.processingStatus, ...pusherCallbacks, true, paymentMethodId)
+        setupPusherListenerRecurring(
+          subscriptionResult,
+          inputs?.processingStatus,
+          ...pusherCallbacks,
+          true,
+          paymentMethodId
+        )
       }
     } catch (err) {
       setForm({
@@ -220,7 +239,8 @@ export function SubscriptionPaymentForm({ tier, billing, savedCards, userName, i
       {/* ── Card storage note (replaces SaveCardToggle — saving is required for subscriptions) ── */}
       {enteringNewCard && (
         <p className={`text-[10px] font-mono leading-relaxed ${c.muted}`}>
-          Your card will be securely saved with Stripe to process your recurring {billing === 'MONTHLY' ? 'monthly' : 'yearly'} payments.
+          Your card will be securely saved with Stripe to process your recurring{' '}
+          {billing === 'MONTHLY' ? 'monthly' : 'yearly'} payments.
         </p>
       )}
 

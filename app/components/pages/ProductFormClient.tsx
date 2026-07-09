@@ -7,7 +7,7 @@ import { Plus, X, Upload, Loader2, ArrowLeft, Package, Save } from 'lucide-react
 import Link from 'next/link'
 import { createProduct } from 'app/lib/actions/product/createProduct'
 import Picture from 'app/components/common/Picture'
-import { uploadFileToFirebase } from 'app/utils/uploadFileToFirebase'
+import { uploadFileToFirebase } from 'app/utils/firebase.utils'
 import { IProduct } from 'types/entities/product'
 import { updateProduct } from 'app/lib/actions/product/updateProduct'
 

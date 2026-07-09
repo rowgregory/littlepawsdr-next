@@ -1,4 +1,4 @@
-import { URL_REGEX } from 'app/utils/regex'
+import { URL_REGEX } from 'app/lib/constants/regex.constants'
 
 export const validateProductForm = (inputs: any, setErrors: (errors: any) => void): boolean => {
   const errors: Record<string, string> = {}

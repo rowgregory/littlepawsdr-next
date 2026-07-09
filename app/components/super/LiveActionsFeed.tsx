@@ -1,7 +1,20 @@
-import { SUPERUSER_CHANNEL } from 'app/utils/pusherTrigger'
+import { SUPERUSER_CHANNEL } from 'app/utils/pusher.utils'
 import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
-import { XCircle, User, ShoppingCart, Gavel, CreditCard, Package, UserX, UserCheck, Star, Activity, FileText, Mail } from 'lucide-react'
+import {
+  XCircle,
+  User,
+  ShoppingCart,
+  Gavel,
+  CreditCard,
+  Package,
+  UserX,
+  UserCheck,
+  Star,
+  Activity,
+  FileText,
+  Mail
+} from 'lucide-react'
 import { PanelHeader } from './PanelHeader'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -27,7 +40,12 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
     color: 'text-primary-light dark:text-primary-dark',
     format: (d) => `${d.email} via ${d.method}`
   },
-  'order-created': { icon: ShoppingCart, label: 'Order Created', color: 'text-green-500', format: (d) => `${d.email} — $${d.amount}` },
+  'order-created': {
+    icon: ShoppingCart,
+    label: 'Order Created',
+    color: 'text-green-500',
+    format: (d) => `${d.email} — $${d.amount}`
+  },
   'order-failed': {
     icon: XCircle,
     label: 'Payment Failed',
@@ -46,8 +64,18 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
     color: 'text-primary-light dark:text-primary-dark',
     format: (d) => `${d.email} — ${d.frequency}`
   },
-  'subscription-updated': { icon: CreditCard, label: 'Subscription Updated', color: 'text-amber-500', format: (d) => `${d.email} — ${d.status}` },
-  'subscription-cancelled': { icon: CreditCard, label: 'Subscription Cancelled', color: 'text-red-500', format: (d) => `${d.email}` },
+  'subscription-updated': {
+    icon: CreditCard,
+    label: 'Subscription Updated',
+    color: 'text-amber-500',
+    format: (d) => `${d.email} — ${d.status}`
+  },
+  'subscription-cancelled': {
+    icon: CreditCard,
+    label: 'Subscription Cancelled',
+    color: 'text-red-500',
+    format: (d) => `${d.email}`
+  },
   'payment-method-attached': {
     icon: CreditCard,
     label: 'Card Added',
@@ -72,14 +100,54 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
     color: 'text-primary-light dark:text-primary-dark',
     format: (d) => `${d.title} by ${d.createdBy}`
   },
-  'auction-started': { icon: Gavel, label: 'Auction Started', color: 'text-green-500', format: (d) => `${d.auctionTitle}` },
-  'auction-ended': { icon: Gavel, label: 'Auction Ended', color: 'text-amber-500', format: (d) => `${d.auctionTitle} — $${d.totalRaised} raised` },
-  'auction-updated': { icon: Gavel, label: 'Auction Ping', color: 'text-muted-light dark:text-muted-dark', format: (d) => `${d.auctionId}` },
-  'order-shipped': { icon: Package, label: 'Order Shipped', color: 'text-green-500', format: (d) => `${d.email ?? d.userId}` },
-  'user-signed-out': { icon: UserX, label: 'Signed Out', color: 'text-muted-light dark:text-muted-dark', format: (d) => `${d.email}` },
-  'user-suspended': { icon: UserX, label: 'User Suspended', color: 'text-amber-500', format: (d) => `${d.targetEmail} by ${d.actor}` },
-  'user-terminated': { icon: UserX, label: 'User Terminated', color: 'text-red-500', format: (d) => `${d.targetEmail} by ${d.actor}` },
-  'user-reinstated': { icon: UserCheck, label: 'User Reinstated', color: 'text-green-500', format: (d) => `${d.targetEmail} by ${d.actor}` },
+  'auction-started': {
+    icon: Gavel,
+    label: 'Auction Started',
+    color: 'text-green-500',
+    format: (d) => `${d.auctionTitle}`
+  },
+  'auction-ended': {
+    icon: Gavel,
+    label: 'Auction Ended',
+    color: 'text-amber-500',
+    format: (d) => `${d.auctionTitle} — $${d.totalRaised} raised`
+  },
+  'auction-updated': {
+    icon: Gavel,
+    label: 'Auction Ping',
+    color: 'text-muted-light dark:text-muted-dark',
+    format: (d) => `${d.auctionId}`
+  },
+  'order-shipped': {
+    icon: Package,
+    label: 'Order Shipped',
+    color: 'text-green-500',
+    format: (d) => `${d.email ?? d.userId}`
+  },
+  'user-signed-out': {
+    icon: UserX,
+    label: 'Signed Out',
+    color: 'text-muted-light dark:text-muted-dark',
+    format: (d) => `${d.email}`
+  },
+  'user-suspended': {
+    icon: UserX,
+    label: 'User Suspended',
+    color: 'text-amber-500',
+    format: (d) => `${d.targetEmail} by ${d.actor}`
+  },
+  'user-terminated': {
+    icon: UserX,
+    label: 'User Terminated',
+    color: 'text-red-500',
+    format: (d) => `${d.targetEmail} by ${d.actor}`
+  },
+  'user-reinstated': {
+    icon: UserCheck,
+    label: 'User Reinstated',
+    color: 'text-green-500',
+    format: (d) => `${d.targetEmail} by ${d.actor}`
+  },
   'adoption-fee-created': {
     icon: FileText,
     label: 'Adoption Fee',
@@ -121,7 +189,14 @@ export function LiveActionsFeed() {
   const FILTERS = ['all', 'orders', 'users', 'auctions', 'payments', 'system']
   const FILTER_MATCH: Record<string, string[]> = {
     orders: ['order-created', 'order-failed', 'order-shipped', 'recurring-donation'],
-    users: ['user-signed-in', 'user-registered', 'user-signed-out', 'user-suspended', 'user-terminated', 'user-reinstated'],
+    users: [
+      'user-signed-in',
+      'user-registered',
+      'user-signed-out',
+      'user-suspended',
+      'user-terminated',
+      'user-reinstated'
+    ],
     auctions: ['auction-created', 'auction-started', 'auction-ended', 'auction-updated', 'bid-placed'],
     payments: [
       'subscription-created',
@@ -193,15 +268,25 @@ export function LiveActionsFeed() {
             {f}
           </button>
         ))}
-        <span className="ml-auto px-3 font-mono text-[9px] text-muted-light dark:text-muted-dark">{filtered.length} events</span>
+        <span className="ml-auto px-3 font-mono text-[9px] text-muted-light dark:text-muted-dark">
+          {filtered.length} events
+        </span>
       </div>
 
       {/* Feed */}
-      <div ref={feedRef} className="flex-1 overflow-y-auto" aria-label="Live platform activity feed" aria-live="polite" aria-atomic="false">
+      <div
+        ref={feedRef}
+        className="flex-1 overflow-y-auto"
+        aria-label="Live platform activity feed"
+        aria-live="polite"
+        aria-atomic="false"
+      >
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-2 py-12">
             <Activity size={20} className="text-muted-light dark:text-muted-dark opacity-30" aria-hidden="true" />
-            <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Waiting for activity...</p>
+            <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Waiting for activity...
+            </p>
           </div>
         ) : (
           <ul role="list">
@@ -209,7 +294,11 @@ export function LiveActionsFeed() {
               {filtered.map((evt) => {
                 const config = EVENT_CONFIG[evt.event] ?? DEFAULT_CONFIG
                 const Icon = config.icon
-                const time = new Date(evt.ts).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                const time = new Date(evt.ts).toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                })
                 const originChannel = evt.data._channel as string | undefined
 
                 return (
@@ -228,16 +317,24 @@ export function LiveActionsFeed() {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                        <span className={`font-mono text-[9px] tracking-[0.12em] uppercase font-bold ${config.color}`}>{config.label}</span>
+                        <span className={`font-mono text-[9px] tracking-[0.12em] uppercase font-bold ${config.color}`}>
+                          {config.label}
+                        </span>
                         {originChannel && (
-                          <span className="font-mono text-[8px] text-muted-light dark:text-muted-dark opacity-60">via {originChannel}</span>
+                          <span className="font-mono text-[8px] text-muted-light dark:text-muted-dark opacity-60">
+                            via {originChannel}
+                          </span>
                         )}
                       </div>
-                      <p className="font-mono text-[10px] text-text-light dark:text-text-dark leading-snug truncate">{config.format(evt.data)}</p>
+                      <p className="font-mono text-[10px] text-text-light dark:text-text-dark leading-snug truncate">
+                        {config.format(evt.data)}
+                      </p>
                     </div>
 
                     {/* Time */}
-                    <span className="font-mono text-[9px] text-muted-light dark:text-muted-dark tabular-nums shrink-0 mt-0.5">{time}</span>
+                    <span className="font-mono text-[9px] text-muted-light dark:text-muted-dark tabular-nums shrink-0 mt-0.5">
+                      {time}
+                    </span>
                   </motion.li>
                 )
               })}

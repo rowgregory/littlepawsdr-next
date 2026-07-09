@@ -2,12 +2,24 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Gavel, Clock, TrendingUp, Users, Package, ChevronRight, ArrowLeft, Zap, Tag, ShoppingCart, Eye } from 'lucide-react'
+import {
+  Gavel,
+  Clock,
+  TrendingUp,
+  Users,
+  Package,
+  ChevronRight,
+  ArrowLeft,
+  Zap,
+  Tag,
+  ShoppingCart,
+  Eye
+} from 'lucide-react'
 import Link from 'next/link'
 import Picture from '../common/Picture'
 import { IAuctionItem } from 'types/entities/auction-item'
 import { AuctionStatus, IAuction } from 'types/entities/auction'
-import { useCountdown } from '@hooks/useCountdown'
+import { useCountdown } from '@hooks/useCountdown.hook'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
 import { pusherClient } from 'app/lib/pusher-client'
@@ -39,7 +51,9 @@ function CountUnit({ value, label }: { value: number; label: string }) {
       <span className="font-mono font-black text-2xl sm:text-3xl text-text-light dark:text-text-dark leading-none tabular-nums">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-1">{label}</span>
+      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-1">
+        {label}
+      </span>
     </div>
   )
 }
@@ -116,10 +130,15 @@ function AuctionItemCard({
           <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
             <div
               className="absolute inset-0 opacity-10"
-              style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '16px 16px' }}
+              style={{
+                backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+                backgroundSize: '16px 16px'
+              }}
               aria-hidden="true"
             />
-            <span className="font-quicksand font-black text-2xl text-primary-light/20 dark:text-primary-dark/20 select-none">LP</span>
+            <span className="font-quicksand font-black text-2xl text-primary-light/20 dark:text-primary-dark/20 select-none">
+              LP
+            </span>
           </div>
         )}
       </div>
@@ -127,15 +146,21 @@ function AuctionItemCard({
       {/* Info */}
       <div className="flex flex-col flex-1 p-4">
         <div className="flex-1">
-          <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug mb-2 line-clamp-2">{item.name}</h3>
-          <p className="text-[11px] font-nunito text-muted-light dark:text-muted-dark leading-relaxed mb-3 line-clamp-2">{item.description}</p>
+          <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug mb-2 line-clamp-2">
+            {item.name}
+          </h3>
+          <p className="text-[11px] font-nunito text-muted-light dark:text-muted-dark leading-relaxed mb-3 line-clamp-2">
+            {item.description}
+          </p>
         </div>
 
         <div className="space-y-2">
           {/* Bid count */}
           {item.sellingFormat !== 'FIXED' && (
             <div className="flex items-center justify-between">
-              <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Bids</span>
+              <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                Bids
+              </span>
               <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">{bidCount}</span>
             </div>
           )}
@@ -146,7 +171,9 @@ function AuctionItemCard({
               <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
                 {item.sellingFormat === 'FIXED' ? 'Price' : item.currentBid ? 'Current Bid' : 'Starting'}
               </span>
-              <span className="font-mono font-black text-sm text-text-light dark:text-text-dark">{formatMoney(displayPrice)}</span>
+              <span className="font-mono font-black text-sm text-text-light dark:text-text-dark">
+                {formatMoney(displayPrice)}
+              </span>
             </div>
           )}
 
@@ -160,7 +187,11 @@ function AuctionItemCard({
               <span className="text-[9px] font-mono tracking-[0.2em] uppercase font-black">
                 {item.sellingFormat === 'FIXED' ? 'Buy Now' : 'Place Bid'}
               </span>
-              <ChevronRight size={12} className="group-hover/btn:translate-x-0.5 transition-transform" aria-hidden="true" />
+              <ChevronRight
+                size={12}
+                className="group-hover/btn:translate-x-0.5 transition-transform"
+                aria-hidden="true"
+              />
             </Link>
           )}
         </div>
@@ -212,7 +243,9 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
       {/* STICKY HEADER */}
       <div className="sticky top-0 z-40 border-b border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 h-12 flex items-center justify-between gap-4">
-          <p className="text-xs font-quicksand font-black text-text-light dark:text-text-dark truncate">{auction.title}</p>
+          <p className="text-xs font-quicksand font-black text-text-light dark:text-text-dark truncate">
+            {auction.title}
+          </p>
           {isActive && !done && (
             <div className="flex items-center gap-1.5 shrink-0">
               <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
@@ -222,7 +255,9 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
               </span>
             </div>
           )}
-          {isEnded && <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>}
+          {isEnded && (
+            <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>
+          )}
         </div>
       </div>
       {/* ══════════════════════════════════════════════
@@ -274,7 +309,11 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
                   <span
                     className={`text-[10px] font-mono tracking-[0.2em] uppercase ${isActive ? 'text-emerald-500' : 'text-primary-light dark:text-primary-dark'}`}
                   >
-                    {isActive ? 'Live Now' : isEnded ? 'Auction Ended' : auction.status.charAt(0) + auction.status.slice(1).toLowerCase()}
+                    {isActive
+                      ? 'Live Now'
+                      : isEnded
+                        ? 'Auction Ended'
+                        : auction.status.charAt(0) + auction.status.slice(1).toLowerCase()}
                   </span>
                 </div>
               </motion.div>
@@ -311,7 +350,9 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
                 <div className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
                   <div className="flex items-center gap-2 mb-4">
                     <Clock size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                    <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Closing In</span>
+                    <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                      Closing In
+                    </span>
                   </div>
                   <div
                     className="flex items-end gap-4 xs:gap-6"
@@ -336,8 +377,12 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="bg-bg-light dark:bg-bg-dark px-3 xs:px-4 py-4">
                     <Icon size={11} className="text-muted-light dark:text-muted-dark mb-2" aria-hidden="true" />
-                    <p className="font-mono font-black text-sm xs:text-base text-text-light dark:text-text-dark leading-none">{value}</p>
-                    <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">{label}</p>
+                    <p className="font-mono font-black text-sm xs:text-base text-text-light dark:text-text-dark leading-none">
+                      {value}
+                    </p>
+                    <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">
+                      {label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -346,7 +391,9 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">Goal Progress</span>
-                  <span className="text-[10px] font-mono font-black text-primary-light dark:text-primary-dark">{pct}%</span>
+                  <span className="text-[10px] font-mono font-black text-primary-light dark:text-primary-dark">
+                    {pct}%
+                  </span>
                 </div>
                 <div
                   className="h-1.5 bg-surface-light dark:bg-surface-dark overflow-hidden"
@@ -367,7 +414,9 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
                   <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
                     {formatMoney(auction.totalAuctionRevenue)} raised
                   </span>
-                  <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">of {formatMoney(auction.goal)}</span>
+                  <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                    of {formatMoney(auction.goal)}
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -384,12 +433,17 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
           <div className="flex items-center justify-between mb-6">
             <div className="space-y-1">
               <SectionLabel>{isActive ? 'Open for Bidding' : 'All Items'}</SectionLabel>
-              <h2 id="available-heading" className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark">
+              <h2
+                id="available-heading"
+                className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark"
+              >
                 {available.length} Item{available.length !== 1 ? 's' : ''}
                 {isActive && (
                   <span className="ml-3 inline-flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
-                    <span className="text-[10px] font-mono text-emerald-500 tracking-[0.15em] uppercase font-normal">Live</span>
+                    <span className="text-[10px] font-mono text-emerald-500 tracking-[0.15em] uppercase font-normal">
+                      Live
+                    </span>
                   </span>
                 )}
               </h2>
@@ -405,7 +459,12 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
           <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px items-stretch bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
             {available.map((item, i) => (
               <div key={item.id} className="bg-bg-light dark:bg-bg-dark" id={`item-${item.id}`}>
-                <AuctionItemCard item={item} auctionStatus={auction.status} index={i} customAuctionLink={customAuctionLink} />
+                <AuctionItemCard
+                  item={item}
+                  auctionStatus={auction.status}
+                  index={i}
+                  customAuctionLink={customAuctionLink}
+                />
               </div>
             ))}
           </div>
@@ -416,14 +475,22 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
           <section aria-labelledby="sold-heading">
             <div className="mb-6">
               <SectionLabel muted>Sold</SectionLabel>
-              <h2 id="sold-heading" className="font-quicksand font-black text-xl xs:text-2xl text-text-light dark:text-text-dark mt-1">
+              <h2
+                id="sold-heading"
+                className="font-quicksand font-black text-xl xs:text-2xl text-text-light dark:text-text-dark mt-1"
+              >
                 {sold.length} Item{sold.length !== 1 ? 's' : ''} Sold
               </h2>
             </div>
             <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-px items-stretch bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
               {sold.map((item, i) => (
                 <div key={item.id} className="bg-bg-light dark:bg-bg-dark">
-                  <AuctionItemCard item={item} auctionStatus={auction.status} index={i} customAuctionLink={customAuctionLink} />
+                  <AuctionItemCard
+                    item={item}
+                    auctionStatus={auction.status}
+                    index={i}
+                    customAuctionLink={customAuctionLink}
+                  />
                 </div>
               ))}
             </div>
@@ -435,11 +502,18 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
           <div className="border border-border-light dark:border-border-dark py-24 flex flex-col items-center justify-center gap-5 text-center px-6">
             <div className="relative w-14 h-14 border border-border-light dark:border-border-dark flex items-center justify-center">
               <Package size={20} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+              <div
+                className="absolute -top-1 -right-1 w-3 h-3 bg-primary-light dark:bg-primary-dark"
+                aria-hidden="true"
+              />
             </div>
             <div>
-              <p className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1.5">No items yet</p>
-              <p className="text-xs font-mono text-muted-light dark:text-muted-dark">Items will appear here once the auction opens.</p>
+              <p className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1.5">
+                No items yet
+              </p>
+              <p className="text-xs font-mono text-muted-light dark:text-muted-dark">
+                Items will appear here once the auction opens.
+              </p>
             </div>
           </div>
         )}
@@ -452,8 +526,18 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
             </div>
             <div className="grid grid-cols-1 xs:grid-cols-3 gap-px bg-border-light dark:bg-border-dark">
               {[
-                { icon: Eye, step: '01', title: 'Browse Items', description: 'Explore all available items and find something you love.' },
-                { icon: Gavel, step: '02', title: 'Place Your Bid', description: 'Click Place Bid on any auction item to submit your bid amount.' },
+                {
+                  icon: Eye,
+                  step: '01',
+                  title: 'Browse Items',
+                  description: 'Explore all available items and find something you love.'
+                },
+                {
+                  icon: Gavel,
+                  step: '02',
+                  title: 'Place Your Bid',
+                  description: 'Click Place Bid on any auction item to submit your bid amount.'
+                },
                 {
                   icon: ShoppingCart,
                   step: '03',
@@ -463,11 +547,17 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
               ].map(({ icon: Icon, step, title, description }) => (
                 <div key={step} className="bg-bg-light dark:bg-bg-dark px-5 py-5">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[9px] font-mono font-black text-primary-light dark:text-primary-dark tracking-widest">{step}</span>
+                    <span className="text-[9px] font-mono font-black text-primary-light dark:text-primary-dark tracking-widest">
+                      {step}
+                    </span>
                     <Icon size={13} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
                   </div>
-                  <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark mb-1.5">{title}</h3>
-                  <p className="text-[11px] font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{description}</p>
+                  <h3 className="font-quicksand font-black text-sm text-text-light dark:text-text-dark mb-1.5">
+                    {title}
+                  </h3>
+                  <p className="text-[11px] font-nunito text-muted-light dark:text-muted-dark leading-relaxed">
+                    {description}
+                  </p>
                 </div>
               ))}
             </div>

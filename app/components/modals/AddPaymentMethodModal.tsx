@@ -6,12 +6,12 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
 import { store, useUiSelector } from 'app/lib/store/store'
 import { setCloseAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
-import { useEscapeKey } from '@hooks/useEscapeKey'
-import { useRemoveScroll } from '@hooks/useRemoveScroll'
+import { useEscapeKey } from '@hooks/useEscapeKey.hook'
+import { useRemoveScroll } from '@hooks/useRemoveScroll.hook'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { extractErrorMessage } from 'app/utils/extractErrorMessage'
 import { createPaymentMethod } from 'app/lib/actions/stripe/createPaymentMethod'
 import { getSetupIntentClientSecret } from 'app/lib/actions/stripe/getSetupIntentClientSecret'
+import { extractErrorMessage } from 'app/utils/log.client.utils'
 
 export default function AddPaymentMethodModal() {
   const { addPaymentMethodModal, isDark } = useUiSelector()
@@ -79,7 +79,8 @@ export default function AddPaymentMethodModal() {
       if (error) throw error
 
       // 3️⃣ Get payment method ID
-      const paymentMethodId = typeof setupIntent?.payment_method === 'string' ? setupIntent.payment_method : setupIntent?.payment_method?.id
+      const paymentMethodId =
+        typeof setupIntent?.payment_method === 'string' ? setupIntent.payment_method : setupIntent?.payment_method?.id
 
       if (!paymentMethodId) throw new Error('No payment method ID returned')
 
@@ -166,9 +167,14 @@ export default function AddPaymentMethodModal() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">Payment Method</span>
+              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+                Payment Method
+              </span>
             </div>
-            <h2 id="add-card-title" className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark">
+            <h2
+              id="add-card-title"
+              className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
+            >
               Add New Card
             </h2>
           </div>
@@ -190,8 +196,12 @@ export default function AddPaymentMethodModal() {
               <div className="w-12 h-12 flex items-center justify-center bg-cyan-600/10 dark:bg-violet-400/10">
                 <CheckCircle className="w-6 h-6 text-cyan-600 dark:text-violet-400" aria-hidden="true" />
               </div>
-              <p className="font-changa text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">Card Added</p>
-              <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Your card has been saved successfully.</p>
+              <p className="font-changa text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                Card Added
+              </p>
+              <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark">
+                Your card has been saved successfully.
+              </p>
             </div>
           ) : (
             <>
@@ -272,7 +282,9 @@ export default function AddPaymentMethodModal() {
                       <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
                         Set as default
                       </p>
-                      <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">Use this card for future payments</p>
+                      <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">
+                        Use this card for future payments
+                      </p>
                     </div>
                   </div>
                   <div
@@ -292,8 +304,13 @@ export default function AddPaymentMethodModal() {
 
               {/* Security note */}
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
-                <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">Your card is secured and encrypted by Stripe</p>
+                <ShieldCheck
+                  className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50 shrink-0"
+                  aria-hidden="true"
+                />
+                <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">
+                  Your card is secured and encrypted by Stripe
+                </p>
               </div>
 
               {/* Error */}

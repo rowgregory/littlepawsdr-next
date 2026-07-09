@@ -1,6 +1,6 @@
 'use client'
 
-import { useCountdown } from '@hooks/useCountdown'
+import { useCountdown } from '@hooks/useCountdown.hook'
 import { motion, useInView } from 'framer-motion'
 import { Gavel, Clock, ChevronRight, TrendingUp, Users, Package, Zap } from 'lucide-react'
 import Link from 'next/link'
@@ -17,7 +17,9 @@ function CountUnit({ value, label }: { value: number; label: string }) {
       <span className="font-mono font-black text-lg text-text-light dark:text-text-dark leading-none tabular-nums">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-[8px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">{label}</span>
+      <span className="text-[8px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">
+        {label}
+      </span>
     </div>
   )
 }
@@ -26,7 +28,10 @@ function Countdown({ endDate }: { endDate: Date }) {
   const { days, hours, minutes, seconds, done } = useCountdown(endDate)
   if (done) return <span className="text-[10px] font-mono text-red-500 tracking-widest uppercase">Ended</span>
   return (
-    <div className="flex items-end gap-2.5" aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}>
+    <div
+      className="flex items-end gap-2.5"
+      aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
+    >
       {days > 0 && <CountUnit value={days} label="d" />}
       <CountUnit value={hours} label="h" />
       <CountUnit value={minutes} label="m" />
@@ -109,10 +114,15 @@ function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: numbe
                   </span>
                 </div>
               </div>
-              <span className="text-[8px] font-mono tracking-[0.5em] uppercase text-muted-light/30 dark:text-muted-dark/30">{auction.title}</span>
+              <span className="text-[8px] font-mono tracking-[0.5em] uppercase text-muted-light/30 dark:text-muted-dark/30">
+                {auction.title}
+              </span>
             </div>
             {/* Corner accents */}
-            <div className="absolute top-4 left-4 w-6 h-6 border-t border-l border-primary-light/30 dark:border-primary-dark/30" aria-hidden="true" />
+            <div
+              className="absolute top-4 left-4 w-6 h-6 border-t border-l border-primary-light/30 dark:border-primary-dark/30"
+              aria-hidden="true"
+            />
             <div
               className="absolute top-4 right-4 w-6 h-6 border-t border-r border-primary-light/30 dark:border-primary-dark/30"
               aria-hidden="true"
@@ -146,11 +156,15 @@ function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: numbe
           {/* Label */}
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Active Auction</span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Active Auction
+            </span>
           </div>
 
           {/* Title */}
-          <h2 className="font-quicksand font-black text-2xl sm:text-3xl text-text-light dark:text-text-dark leading-tight mb-6">{auction.title}</h2>
+          <h2 className="font-quicksand font-black text-2xl sm:text-3xl text-text-light dark:text-text-dark leading-tight mb-6">
+            {auction.title}
+          </h2>
 
           {/* Countdown */}
           <div className="mb-6 pb-6 border-b border-border-light dark:border-border-dark">
@@ -169,8 +183,12 @@ function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: numbe
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="bg-bg-light dark:bg-bg-dark px-3 py-3">
                 <Icon size={12} className="text-muted-light dark:text-muted-dark mb-1.5" aria-hidden="true" />
-                <p className="text-base font-black font-mono text-text-light dark:text-text-dark leading-none">{value}</p>
-                <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-0.5">{label}</p>
+                <p className="text-base font-black font-mono text-text-light dark:text-text-dark leading-none">
+                  {value}
+                </p>
+                <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-0.5">
+                  {label}
+                </p>
               </div>
             ))}
           </div>
@@ -190,8 +208,12 @@ function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: numbe
               />
             </div>
             <div className="flex items-center justify-between mt-1.5">
-              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">{formatMoney(auction.totalAuctionRevenue)} raised</span>
-              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">of {formatMoney(auction.goal)}</span>
+              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                {formatMoney(auction.totalAuctionRevenue)} raised
+              </span>
+              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                of {formatMoney(auction.goal)}
+              </span>
             </div>
           </div>
 
@@ -202,7 +224,11 @@ function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: numbe
             aria-label={`View ${auction.title} auction`}
           >
             <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
-            <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform duration-150" aria-hidden="true" />
+            <ChevronRight
+              size={16}
+              className="group-hover/btn:translate-x-1 transition-transform duration-150"
+              aria-hidden="true"
+            />
           </Link>
         </div>
       </div>
@@ -242,27 +268,37 @@ function PastAuctionCard({ auction, index }: { auction: IAuction; index: number 
           </div>
         )}
         <div className="absolute top-3 left-3 bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-sm px-2.5 py-1 border border-border-light dark:border-border-dark">
-          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark font-black">Ended</span>
+          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark font-black">
+            Ended
+          </span>
         </div>
       </div>
 
       {/* Info */}
       <div className="p-5">
-        <h3 className="font-quicksand font-black text-base text-text-light dark:text-text-dark leading-snug mb-3">{auction.title}</h3>
+        <h3 className="font-quicksand font-black text-base text-text-light dark:text-text-dark leading-snug mb-3">
+          {auction.title}
+        </h3>
 
         {/* Mini stats */}
         <div className="flex items-center gap-4 mb-3">
           <div className="flex items-center gap-1.5">
             <TrendingUp size={11} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
-            <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">{formatMoney(auction.totalAuctionRevenue)}</span>
+            <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">
+              {formatMoney(auction.totalAuctionRevenue)}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <Package size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-            <span className="text-xs font-mono text-muted-light dark:text-muted-dark">{auction.items.length} items</span>
+            <span className="text-xs font-mono text-muted-light dark:text-muted-dark">
+              {auction.items.length} items
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <Users size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-            <span className="text-xs font-mono text-muted-light dark:text-muted-dark">{auction.bidders.length} bidders</span>
+            <span className="text-xs font-mono text-muted-light dark:text-muted-dark">
+              {auction.bidders.length} bidders
+            </span>
           </div>
         </div>
 
@@ -348,7 +384,8 @@ export default function PublicAuctionsClient({ auctions }) {
             transition={{ duration: 0.45, delay: 0.15 }}
             className="text-base sm:text-lg font-mono text-muted-light dark:text-muted-dark max-w-xl leading-relaxed"
           >
-            Bid on incredible items and experiences — every dollar goes directly to rescuing and rehabilitating dachshunds in need.
+            Bid on incredible items and experiences — every dollar goes directly to rescuing and rehabilitating
+            dachshunds in need.
           </motion.p>
 
           {/* Impact strip */}
@@ -360,15 +397,27 @@ export default function PublicAuctionsClient({ auctions }) {
               className="flex flex-wrap items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark mt-8 w-fit"
             >
               {[
-                { icon: Zap, label: 'Total Raised', value: formatMoney(auctions.reduce((s, a) => s + a.totalAuctionRevenue, 0)) },
-                { icon: Package, label: 'Items Auctioned', value: String(auctions.reduce((s, a) => s + a.items.length, 0)) },
+                {
+                  icon: Zap,
+                  label: 'Total Raised',
+                  value: formatMoney(auctions.reduce((s, a) => s + a.totalAuctionRevenue, 0))
+                },
+                {
+                  icon: Package,
+                  label: 'Items Auctioned',
+                  value: String(auctions.reduce((s, a) => s + a.items.length, 0))
+                },
                 { icon: Users, label: 'Bidders', value: String(auctions.reduce((s, a) => s + a.bidders.length, 0)) }
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="bg-bg-light dark:bg-bg-dark px-5 py-3.5 flex items-center gap-3">
                   <Icon size={13} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-black font-mono text-text-light dark:text-text-dark leading-none">{value}</p>
-                    <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-0.5">{label}</p>
+                    <p className="text-sm font-black font-mono text-text-light dark:text-text-dark leading-none">
+                      {value}
+                    </p>
+                    <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-0.5">
+                      {label}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -381,7 +430,10 @@ export default function PublicAuctionsClient({ auctions }) {
           <section aria-labelledby="active-heading" className="mb-16 sm:mb-24">
             <div className="flex items-center gap-3 mb-6">
               <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-              <h2 id="active-heading" className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              <h2
+                id="active-heading"
+                className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+              >
                 Live Now
               </h2>
               <span className="w-1.5 h-1.5 bg-emerald-500 animate-pulse" aria-hidden="true" />
@@ -402,7 +454,10 @@ export default function PublicAuctionsClient({ auctions }) {
           <section aria-labelledby="past-heading">
             <div className="flex items-center gap-3 mb-6">
               <span className="block w-6 h-px bg-border-light dark:bg-border-dark shrink-0" aria-hidden="true" />
-              <h2 id="past-heading" className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              <h2
+                id="past-heading"
+                className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+              >
                 Past Auctions
               </h2>
             </div>

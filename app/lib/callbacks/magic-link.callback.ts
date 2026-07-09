@@ -1,8 +1,8 @@
 import type { User } from 'next-auth'
 import prisma from 'prisma/client'
-import { pusherSuperuser } from 'app/utils/pusherTrigger'
+import { pusherSuperuser } from 'app/utils/pusher.utils'
 
-export async function handleEmailCallback(user: User) {
+export async function handleMagicLinkCallback(user: User) {
   let dbUser = await prisma.user.findUnique({
     where: { email: user.email! },
     include: { accounts: true }

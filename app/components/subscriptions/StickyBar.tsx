@@ -1,4 +1,4 @@
-import { useSounds } from '@hooks/useSounds'
+import { useSounds } from '@hooks/useSounds.hook'
 import { T } from 'app/lib/constants/subscriptions.constants'
 import { AnimatePresence, motion } from 'framer-motion'
 

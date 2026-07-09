@@ -2,11 +2,17 @@
 
 import { ShippingStatus } from '@prisma/client'
 import prisma from 'prisma/client'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
+import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
 import { auth } from 'app/lib/auth'
 import { createLog } from '../log/createLog'
 
-export const updateOrderShippingStatus = async ({ id, shippingStatus }: { id: string; shippingStatus: ShippingStatus }) => {
+export const updateOrderShippingStatus = async ({
+  id,
+  shippingStatus
+}: {
+  id: string
+  shippingStatus: ShippingStatus
+}) => {
   try {
     const [order, session] = await Promise.all([
       prisma.order.update({

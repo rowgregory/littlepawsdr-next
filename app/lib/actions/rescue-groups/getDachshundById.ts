@@ -1,8 +1,10 @@
 import { Dog } from 'app/components/pages/DachshundDetailClient'
 import { createLog } from '../log/createLog'
-import { getPicturesAndVideos } from '../../../utils/rescueGroupsHelpers'
+import { getPicturesAndVideos } from '../../../utils/rescue-group.utils'
 
-export async function getDachshundById(id: string): Promise<{ success: boolean; data?: { data: Dog }; error?: string }> {
+export async function getDachshundById(
+  id: string
+): Promise<{ success: boolean; data?: { data: Dog }; error?: string }> {
   try {
     const response = await fetch(`https://api.rescuegroups.org/v5/public/orgs/5798/animals/${id}`, {
       headers: {

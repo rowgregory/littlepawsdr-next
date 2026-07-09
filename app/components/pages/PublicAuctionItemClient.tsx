@@ -2,14 +2,28 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Gavel, Clock, Tag, ChevronRight, ChevronLeft, ArrowLeft, Package, TrendingUp, Users, Truck, ShieldCheck, Zap, Trophy } from 'lucide-react'
+import {
+  Gavel,
+  Clock,
+  Tag,
+  ChevronRight,
+  ChevronLeft,
+  ArrowLeft,
+  Package,
+  TrendingUp,
+  Users,
+  Truck,
+  ShieldCheck,
+  Zap,
+  Trophy
+} from 'lucide-react'
 import Link from 'next/link'
 import Picture from '../common/Picture'
 import { IAuctionBid } from 'types/entities/auction-bid'
 import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
 import { formatDateTime } from 'app/utils/date.utils'
 import { formatMoney } from 'app/utils/currency.utils'
-import { useCountdown } from '@hooks/useCountdown'
+import { useCountdown } from '@hooks/useCountdown.hook'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionBidModal, setOpenAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
 import AuctionBidModal from '../modals/AuctionBidModal'
@@ -26,13 +40,17 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-1">
       <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-      <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">{children}</p>
+      <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+        {children}
+      </p>
     </div>
   )
 }
 
 function PhotoGallery({ photos, name }: { photos: IAuctionItemPhoto[]; name: string }) {
-  const sorted = [...(photos ?? [])].sort((a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0) || a.sortOrder - b.sortOrder)
+  const sorted = [...(photos ?? [])].sort(
+    (a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0) || a.sortOrder - b.sortOrder
+  )
   const [idx, setIdx] = useState(0)
   const current = sorted[idx]
 
@@ -44,19 +62,38 @@ function PhotoGallery({ photos, name }: { photos: IAuctionItemPhoto[]; name: str
       <div className="aspect-square bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '18px 18px' }}
+          style={{
+            backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+            backgroundSize: '18px 18px'
+          }}
           aria-hidden="true"
         />
         <div className="relative flex flex-col items-center gap-3">
           <div className="w-14 h-14 border border-border-light dark:border-border-dark flex items-center justify-center">
-            <span className="font-quicksand font-black text-lg text-primary-light/20 dark:text-primary-dark/20 select-none">LP</span>
+            <span className="font-quicksand font-black text-lg text-primary-light/20 dark:text-primary-dark/20 select-none">
+              LP
+            </span>
           </div>
-          <span className="text-[8px] font-mono tracking-[0.4em] uppercase text-muted-light/30 dark:text-muted-dark/30">{name}</span>
+          <span className="text-[8px] font-mono tracking-[0.4em] uppercase text-muted-light/30 dark:text-muted-dark/30">
+            {name}
+          </span>
         </div>
-        <div className="absolute top-3 left-3 w-5 h-5 border-t border-l border-primary-light/20 dark:border-primary-dark/20" aria-hidden="true" />
-        <div className="absolute top-3 right-3 w-5 h-5 border-t border-r border-primary-light/20 dark:border-primary-dark/20" aria-hidden="true" />
-        <div className="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-primary-light/20 dark:border-primary-dark/20" aria-hidden="true" />
-        <div className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-primary-light/20 dark:border-primary-dark/20" aria-hidden="true" />
+        <div
+          className="absolute top-3 left-3 w-5 h-5 border-t border-l border-primary-light/20 dark:border-primary-dark/20"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute top-3 right-3 w-5 h-5 border-t border-r border-primary-light/20 dark:border-primary-dark/20"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute bottom-3 left-3 w-5 h-5 border-b border-l border-primary-light/20 dark:border-primary-dark/20"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-primary-light/20 dark:border-primary-dark/20"
+          aria-hidden="true"
+        />
       </div>
     )
   }
@@ -109,10 +146,18 @@ function PhotoGallery({ photos, name }: { photos: IAuctionItemPhoto[]; name: str
               aria-label={`View photo ${i + 1}`}
               onClick={() => setIdx(i)}
               className={`shrink-0 w-14 h-14 overflow-hidden border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                i === idx ? 'border-primary-light dark:border-primary-dark' : 'border-transparent opacity-50 hover:opacity-80'
+                i === idx
+                  ? 'border-primary-light dark:border-primary-dark'
+                  : 'border-transparent opacity-50 hover:opacity-80'
               }`}
             >
-              <Picture priority={true} src={photo.url} alt="" className="w-full h-full object-cover" aria-hidden="true" />
+              <Picture
+                priority={true}
+                src={photo.url}
+                alt=""
+                className="w-full h-full object-cover"
+                aria-hidden="true"
+              />
             </button>
           ))}
         </div>
@@ -127,7 +172,9 @@ function CountUnit({ value, label }: { value: number; label: string }) {
       <span className="font-mono font-black text-xl text-text-light dark:text-text-dark leading-none tabular-nums">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-f8 font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">{label}</span>
+      <span className="text-f8 font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">
+        {label}
+      </span>
     </div>
   )
 }
@@ -151,10 +198,16 @@ function BidRow({ bid, rank, delay }: { bid: IAuctionBid; rank: number; delay: n
         >
           #{rank}
         </span>
-        {isTop && <Trophy size={11} className="text-primary-light dark:text-primary-dark shrink-0" aria-hidden="true" />}
+        {isTop && (
+          <Trophy size={11} className="text-primary-light dark:text-primary-dark shrink-0" aria-hidden="true" />
+        )}
         <div className="min-w-0">
-          <p className="text-xs font-mono font-black text-text-light dark:text-text-dark truncate">{bidderDisplay(bid)}</p>
-          <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{formatDateTime(bid.createdAt)}</p>
+          <p className="text-xs font-mono font-black text-text-light dark:text-text-dark truncate">
+            {bidderDisplay(bid)}
+          </p>
+          <p className="text-[9px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+            {formatDateTime(bid.createdAt)}
+          </p>
         </div>
       </div>
       <span
@@ -196,7 +249,9 @@ function StickyBar({ customAuctionLink, item, isActive, isEnded, days, hours, mi
             </span>
           </div>
         )}
-        {isEnded && <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>}
+        {isEnded && (
+          <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">Auction Ended</span>
+        )}
       </div>
     </div>
   )
@@ -204,7 +259,11 @@ function StickyBar({ customAuctionLink, item, isActive, isEnded, days, hours, mi
 
 function TitleBlock({ headerInView, isFixed, isSold, isActive, item }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 16 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.45, delay: 0.08 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={headerInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.45, delay: 0.08 }}
+    >
       {/* Format + status badges */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <div className="flex items-center gap-1.5 px-2.5 py-1 border border-border-light dark:border-border-dark">
@@ -246,7 +305,9 @@ function TitleBlock({ headerInView, isFixed, isSold, isActive, item }) {
         {item?.name}
       </h1>
 
-      {item?.description && <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{item?.description}</p>}
+      {item?.description && (
+        <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{item?.description}</p>
+      )}
     </motion.div>
   )
 }
@@ -257,14 +318,20 @@ function BidHistory({ item, topBid }) {
       <div className="flex items-center justify-between mb-5">
         <div>
           <SectionLabel>Bid History</SectionLabel>
-          <h2 id="bids-heading" className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark mt-1">
+          <h2
+            id="bids-heading"
+            className="font-quicksand font-black text-2xl xs:text-3xl text-text-light dark:text-text-dark mt-1"
+          >
             {item?.bids.length} Bid{item?.bids.length !== 1 ? 's' : ''}
           </h2>
         </div>
         <div className="flex items-center gap-1.5 px-3 py-2 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
           <TrendingUp size={11} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
           <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-            Top: <span className="text-text-light dark:text-text-dark font-black">{topBid ? formatMoney(topBid.bidAmount) : '—'}</span>
+            Top:{' '}
+            <span className="text-text-light dark:text-text-dark font-black">
+              {topBid ? formatMoney(topBid.bidAmount) : '—'}
+            </span>
           </span>
         </div>
       </div>
@@ -279,7 +346,9 @@ function BidHistory({ item, topBid }) {
             <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4">
               <Icon size={11} className="text-muted-light dark:text-muted-dark mb-1.5" aria-hidden="true" />
               <p className="font-mono font-black text-base text-text-light dark:text-text-dark leading-none">{value}</p>
-              <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">{label}</p>
+              <p className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark mt-1">
+                {label}
+              </p>
             </div>
           ))}
         </div>
@@ -315,7 +384,9 @@ function FixedFooterNav({ auctionItems, item, customAuctionLink, isFixed, isAuth
             >
               <ChevronLeft size={14} aria-hidden="true" />
               <div className="hidden sm:block text-left">
-                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">Prev</p>
+                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">
+                  Prev
+                </p>
                 <p className="text-[10px] font-mono font-black truncate max-w-25">{prev.name}</p>
               </div>
             </Link>
@@ -341,7 +412,9 @@ function FixedFooterNav({ auctionItems, item, customAuctionLink, isFixed, isAuth
             >
               <Gavel size={14} aria-hidden="true" />
               <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
-              {item?.currentBid && <span className="text-[10px] font-mono font-black opacity-80">— {formatMoney(item.currentBid)}</span>}
+              {item?.currentBid && (
+                <span className="text-[10px] font-mono font-black opacity-80">— {formatMoney(item.currentBid)}</span>
+              )}
             </button>
           ) : item?.buyNowPrice != null ? (
             isAuthed ? (
@@ -357,7 +430,9 @@ function FixedFooterNav({ auctionItems, item, customAuctionLink, isFixed, isAuth
             ) : (
               <button
                 type="button"
-                onClick={() => store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))}
+                onClick={() =>
+                  store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))
+                }
                 className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                 aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
               >
@@ -380,7 +455,9 @@ function FixedFooterNav({ auctionItems, item, customAuctionLink, isFixed, isAuth
               aria-label={`Next item: ${next.name}`}
             >
               <div className="hidden sm:block text-right">
-                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">Next</p>
+                <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark">
+                  Next
+                </p>
                 <p className="text-[10px] font-mono font-black truncate max-w-25">{next.name}</p>
               </div>
               <ChevronRight size={14} aria-hidden="true" />
@@ -418,7 +495,10 @@ function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isA
             <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
               {item?.currentBid ? 'Current Bid' : 'Starting Bid'}
             </p>
-            <p className="font-mono font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-none" aria-live="polite">
+            <p
+              className="font-mono font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-none"
+              aria-live="polite"
+            >
               {formatMoney(displayBid)}
             </p>
             {item?.bids.length > 0 && (
@@ -452,7 +532,8 @@ function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isA
         {/* Minimum bid info */}
         {item?.minimumBid != null && !isFixed && (
           <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-            Minimum bid: <span className="text-text-light dark:text-text-dark font-black">{formatMoney(item?.minimumBid)}</span>
+            Minimum bid:{' '}
+            <span className="text-text-light dark:text-text-dark font-black">{formatMoney(item?.minimumBid)}</span>
           </p>
         )}
 
@@ -464,7 +545,9 @@ function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isA
                 onClick={() =>
                   isAuthed
                     ? store.dispatch(setOpenAuctionBidModal(item))
-                    : store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}?bidModal=true`))
+                    : store.dispatch(
+                        setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}?bidModal=true`)
+                      )
                 }
                 type="button"
                 className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
@@ -474,7 +557,11 @@ function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isA
                   <Gavel size={14} aria-hidden="true" />
                   <span className="text-[10px] font-mono tracking-[0.2em] uppercase font-black">Place a Bid</span>
                 </div>
-                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                <ChevronRight
+                  size={14}
+                  className="group-hover:translate-x-0.5 transition-transform"
+                  aria-hidden="true"
+                />
               </button>
             ) : item?.buyNowPrice != null ? (
               isAuthed ? (
@@ -492,7 +579,9 @@ function PriceBlock({ headerInView, item, isActive, isSold, isFixed, topBid, isA
               ) : (
                 <button
                   type="button"
-                  onClick={() => store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))}
+                  onClick={() =>
+                    store.dispatch(setOpenAuctionSignInModal(`/auctions/${customAuctionLink}/${item.id}/instant-buy`))
+                  }
                   className="group w-full flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
                   aria-label={`Buy ${item?.name} now for ${formatMoney(item.buyNowPrice)}`}
                 >
@@ -538,13 +627,21 @@ function ItemDetails({ headerInView, isFixed, item }) {
           { label: 'Quantity', value: String(item?.totalQuantity) },
           {
             label: 'Shipping',
-            value: item?.requiresShipping ? (item?.shippingCosts ? `+${formatMoney(item?.shippingCosts)}` : 'Included') : 'No Shipping'
+            value: item?.requiresShipping
+              ? item?.shippingCosts
+                ? `+${formatMoney(item?.shippingCosts)}`
+                : 'Included'
+              : 'No Shipping'
           },
-          ...(item?.startingPrice != null && !isFixed ? [{ label: 'Starting Bid', value: formatMoney(item?.startingPrice) }] : []),
+          ...(item?.startingPrice != null && !isFixed
+            ? [{ label: 'Starting Bid', value: formatMoney(item?.startingPrice) }]
+            : []),
           ...(item?.buyNowPrice != null ? [{ label: 'Buy Now Price', value: formatMoney(item?.buyNowPrice) }] : [])
         ].map(({ label, value }) => (
           <div key={label} className="flex items-center justify-between px-5 py-3">
-            <span className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark">{label}</span>
+            <span className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark">
+              {label}
+            </span>
             <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">{value}</span>
           </div>
         ))}
@@ -563,7 +660,9 @@ function Countdown({ headerInView, days, hours, minutes, seconds }) {
     >
       <div className="flex items-center gap-2 mb-4">
         <Clock size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Auction Closes In</span>
+        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+          Auction Closes In
+        </span>
       </div>
       <div
         className="flex items-end gap-5"
@@ -612,7 +711,13 @@ export default function PublicAuctionItemClient({ item, auctionItems }) {
       <AuctionSignInModal />
 
       {/* Fixed Footer Nav */}
-      <FixedFooterNav auctionItems={auctionItems} customAuctionLink={customAuctionLink} isAuthed={isAuthed} isFixed={isFixed} item={item} />
+      <FixedFooterNav
+        auctionItems={auctionItems}
+        customAuctionLink={customAuctionLink}
+        isAuthed={isAuthed}
+        isFixed={isFixed}
+        item={item}
+      />
 
       {/* ── Sticky bar ── */}
       <StickyBar
@@ -657,7 +762,9 @@ export default function PublicAuctionItemClient({ item, auctionItems }) {
               topBid={topBid}
             />
             {/* Countdown */}
-            {isActive && !done && <Countdown days={days} headerInView={headerInView} hours={hours} minutes={minutes} seconds={seconds} />}
+            {isActive && !done && (
+              <Countdown days={days} headerInView={headerInView} hours={hours} minutes={minutes} seconds={seconds} />
+            )}
 
             {/* Item details */}
             <ItemDetails headerInView={headerInView} isFixed={isFixed} item={item} />
@@ -672,11 +779,18 @@ export default function PublicAuctionItemClient({ item, auctionItems }) {
           <div className="mt-12 border border-border-light dark:border-border-dark py-16 flex flex-col items-center gap-4 text-center px-6">
             <div className="relative w-12 h-12 border border-border-light dark:border-border-dark flex items-center justify-center">
               <Gavel size={18} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+              <div
+                className="absolute -top-1 -right-1 w-3 h-3 bg-primary-light dark:bg-primary-dark"
+                aria-hidden="true"
+              />
             </div>
             <div>
-              <p className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1">No bids yet</p>
-              <p className="text-xs font-mono text-muted-light dark:text-muted-dark">Be the first to place a bid on this item?.</p>
+              <p className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1">
+                No bids yet
+              </p>
+              <p className="text-xs font-mono text-muted-light dark:text-muted-dark">
+                Be the first to place a bid on this item?.
+              </p>
             </div>
           </div>
         )}

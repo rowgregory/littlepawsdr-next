@@ -7,7 +7,7 @@ import Picture from '../common/Picture'
 import { NavDropdown } from '../header/NavDropdown'
 import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
 import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
-import { useScrollDirection } from '@hooks/useScrollDirection'
+import { useScrollDirection } from '@hooks/useScrollDirection.hook'
 
 export default function Header({ auction }) {
   const { hidden } = useScrollDirection()

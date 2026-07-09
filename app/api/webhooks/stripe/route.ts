@@ -1,8 +1,8 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
 import { stripeClient } from 'app/lib/stripe-client'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
-import sendConfirmationEmail from 'app/utils/sendConfirmationEmail'
+import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
+import sendConfirmationEmail from 'app/utils/_infra.utils'
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
@@ -133,7 +133,13 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     const geoUser = userId
       ? await prisma.user.findUnique({
           where: { id: userId },
-          select: { lastGeoLatitude: true, lastGeoLongitude: true, lastGeoCity: true, lastGeoRegion: true, lastGeoCountry: true }
+          select: {
+            lastGeoLatitude: true,
+            lastGeoLongitude: true,
+            lastGeoCity: true,
+            lastGeoRegion: true,
+            lastGeoCountry: true
+          }
         })
       : null
 
@@ -218,7 +224,9 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
           if (fresh) {
             const sizes = fresh.sizes as ProductSizeEntry[] | null
             const updatedSizes =
-              line.s && sizes ? sizes.map((s) => (s.size === line.s ? { ...s, quantity: Math.max(0, s.quantity - line.q) } : s)) : sizes
+              line.s && sizes
+                ? sizes.map((s) => (s.size === line.s ? { ...s, quantity: Math.max(0, s.quantity - line.q) } : s))
+                : sizes
 
             await prisma.product.update({
               where: { id: product.id },
@@ -352,7 +360,9 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
           const auction = winningBidder.auction
           const userEmail = winningBidder.user?.email
           const updatedEmails =
-            userEmail && !auction.supporterEmails.includes(userEmail) ? [...auction.supporterEmails, userEmail] : auction.supporterEmails
+            userEmail && !auction.supporterEmails.includes(userEmail)
+              ? [...auction.supporterEmails, userEmail]
+              : auction.supporterEmails
 
           await tx.auction.update({
             where: { id: auction.id },
@@ -743,12 +753,16 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       }
     })
 
-    await createLog('info', isCancellingAtPeriodEnd ? 'Subscription scheduled for cancellation' : 'Subscription updated', {
-      subscriptionId: subscription.id,
-      orderId: order.id,
-      status: subscription.status,
-      cancelAtPeriodEnd: isCancellingAtPeriodEnd
-    })
+    await createLog(
+      'info',
+      isCancellingAtPeriodEnd ? 'Subscription scheduled for cancellation' : 'Subscription updated',
+      {
+        subscriptionId: subscription.id,
+        orderId: order.id,
+        status: subscription.status,
+        cancelAtPeriodEnd: isCancellingAtPeriodEnd
+      }
+    )
 
     if (order?.userId) {
       await pusherTrigger(`user-${order.userId}`, 'subscription-updated', {
@@ -840,7 +854,13 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     const geoUser = userId
       ? await prisma.user.findUnique({
           where: { id: userId },
-          select: { lastGeoLatitude: true, lastGeoLongitude: true, lastGeoCity: true, lastGeoRegion: true, lastGeoCountry: true }
+          select: {
+            lastGeoLatitude: true,
+            lastGeoLongitude: true,
+            lastGeoCity: true,
+            lastGeoRegion: true,
+            lastGeoCountry: true
+          }
         })
       : null
 

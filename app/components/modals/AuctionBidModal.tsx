@@ -5,12 +5,12 @@ import { X, Zap, DollarSign, Loader2, AlertCircle, CheckCircle, RefreshCw } from
 import { store } from 'app/lib/store/store'
 import { setCloseAuctionBidModal, setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { placeBid } from 'app/lib/actions/auction/placeBid'
-import { useEscapeKey } from '@hooks/useEscapeKey'
+import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { useRouter } from 'next/navigation'
 import { pusherClient } from 'app/lib/pusher-client'
 import { useSelector } from 'react-redux'
 import { IAuctionItem } from 'types/entities/auction-item'
-import { useSounds } from '@hooks/useSounds'
+import { useSounds } from '@hooks/useSounds.hook'
 
 const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auctionItem: IAuctionItem }) {
   const router = useRouter()

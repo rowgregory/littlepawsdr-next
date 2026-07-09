@@ -1,4 +1,4 @@
-import { EMAIL_REGEX } from 'app/utils/regex'
+import { EMAIL_REGEX } from 'app/lib/constants/regex.constants'
 
 export const validatePaymentForm = (inputs, setErrors, isAuthed) => {
   const errs: Record<string, string> = {}

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import { Section } from 'app/lib/constants/navigation.constants'
-import { getHeaderLinksVisibilityClass } from 'app/utils/getHeaderLinksVisibilityClass'
+import { getHeaderLinksVisibilityClass } from 'app/utils/header.utils'
 
 export const NavDropdown = ({ section }: { section: Section }) => {
   const pathname = usePathname()

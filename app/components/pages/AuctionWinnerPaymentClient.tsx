@@ -27,11 +27,11 @@ import { useUiSelector } from 'app/lib/store/store'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
-import { usePaymentProcessor } from '@hooks/usePaymentProcessor'
+import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
 import { createPaymentIntent } from 'app/lib/actions/stripe/createPaymentIntent'
 import { AddressSectionProps } from 'types/entities/address'
 import { UpdateAddressModal } from '../modals/UpdateAddressModal'
-import { useDefaultCard } from '@hooks/useDefaultCard'
+import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 
 interface IAuctionWinnerPaymentClient {
   winningBidder: IAuctionWinningBidder

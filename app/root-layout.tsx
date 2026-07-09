@@ -8,7 +8,7 @@ import { Confetti3D } from './components/unique/Confetti3D'
 import { Toast } from './components/common/Toast'
 import Header from './components/unique/Header'
 import Footer from './components/unique/Footer'
-import { ThemeProvider } from './lib/providers/ThemeProvider'
+import { ThemeProvider } from './lib/providers/theme.provider'
 import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { HIDDEN_PATHS } from './lib/constants/navigation.constants'
 import AuctionEndedModal from './components/modals/AuctionEndedModal'
@@ -59,7 +59,6 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
         <Elements stripe={stripePromise}>
           <Toast />
           <Confetti3D />
-
           <AuctionEndedModal />
           <AuctionStartedModal />
           <CartBar />
@@ -69,13 +68,9 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
           <Suspense fallback={null}>
             <NavigationDrawer auction={auction} />
           </Suspense>
-
           <CartPersistence />
-
           {!isHidden && <Header auction={auction} />}
-
           {children}
-
           {!isHidden && <Footer />}
         </Elements>
       </ThemeProvider>

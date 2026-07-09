@@ -3,7 +3,7 @@ import { Account } from 'next-auth'
 import { User } from '@prisma/client'
 import prisma from 'prisma/client'
 import { createLog } from '../actions/log/createLog'
-import { pusherSuperuser } from 'app/utils/pusherTrigger'
+import { pusherSuperuser } from 'app/utils/pusher.utils'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
@@ -17,7 +17,11 @@ interface GoogleProfile {
   locale?: string | null
 }
 
-export async function handleGoogleCallback(user: NextAuthUser, account: Account, profile?: GoogleProfile): Promise<boolean | string> {
+export async function handleGoogleCallback(
+  user: NextAuthUser,
+  account: Account,
+  profile?: GoogleProfile
+): Promise<boolean | string> {
   const existingUser = await prisma.user.findUnique({
     where: { email: user.email! },
     include: { accounts: true }
@@ -38,7 +42,11 @@ export async function handleGoogleCallback(user: NextAuthUser, account: Account,
 
     user.id = existingUser.id
 
-    await pusherSuperuser('user-signed-in', { email: existingUser.email, name: existingUser.firstName, userId: existingUser.id })
+    await pusherSuperuser('user-signed-in', {
+      email: existingUser.email,
+      name: existingUser.firstName,
+      userId: existingUser.id
+    })
   } else {
     const newUser = await prisma.user.create({
       data: {
@@ -57,7 +65,12 @@ export async function handleGoogleCallback(user: NextAuthUser, account: Account,
 
     await logNewGoogleUser(user, account)
 
-    await pusherSuperuser('user-registered', { email: newUser.email, name: newUser.firstName, userId: newUser.id, method: 'google' })
+    await pusherSuperuser('user-registered', {
+      email: newUser.email,
+      name: newUser.firstName,
+      userId: newUser.id,
+      method: 'google'
+    })
   }
 
   return true

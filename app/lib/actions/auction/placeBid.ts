@@ -5,7 +5,7 @@ import { auth } from '../../auth'
 import { createLog } from '../log/createLog'
 import { resend } from '../../resend'
 import { auctionOutBidTemplate } from '../../email-templates/out-bid'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusherTrigger'
+import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
 
 export async function placeBid(auctionItemId: string, bidAmount: number) {
   try {
@@ -91,7 +91,9 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
             bidderId: bidder.id,
             bidAmount,
             email,
-            bidderName: user?.anonymousBidding ? null : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || null,
+            bidderName: user?.anonymousBidding
+              ? null
+              : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || null,
             status: 'TOP_BID'
           }
         })
@@ -103,7 +105,9 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
             currentBid: bidAmount,
             minimumBid: bidAmount + 1,
             totalBids: { increment: 1 },
-            topBidder: user?.anonymousBidding ? 'Anonymous' : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Anonymous'
+            topBidder: user?.anonymousBidding
+              ? 'Anonymous'
+              : `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Anonymous'
           }
         })
 

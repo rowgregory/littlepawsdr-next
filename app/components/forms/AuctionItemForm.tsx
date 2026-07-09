@@ -5,14 +5,14 @@ import { updateAuctionItem } from 'app/lib/actions/auction/updateAuctionItem'
 import { resetForm, setInputs } from 'app/lib/store/slices/formSlice'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { store, useFormSelector } from 'app/lib/store/store'
-import { createFormActions } from 'app/utils/formActions'
+import { createFormActions } from 'app/utils/form.utils'
 import { CheckIcon, Eye, ImagePlus, LayoutDashboard, Loader2, Lock, Package, Star, Trash2, X, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { IAuctionItem, SellingFormat } from 'types/entities/auction-item'
 import { useRouter } from 'next/navigation'
 import { AuctionStatus } from 'types/entities/auction'
-import { useAuctionItemValidation } from '@hooks/useAuctionItemValidation'
-import { uploadFileToFirebase } from 'app/utils/uploadFileToFirebase'
+import { useAuctionItemValidation } from '@hooks/useAuctionItemValidation.hook'
+import { uploadFileToFirebase } from 'app/utils/firebase.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { deleteAuctionItem } from 'app/lib/actions/auction/deleteAuctionItem'
 import { setPrimaryAuctionItemPhoto } from 'app/lib/actions/auction/setPrimaryAuctionItemPhoto'
@@ -199,7 +199,10 @@ export function AuctionItemForm({
           <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
             /
           </span>
-          <h1 className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          <h1
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
+            aria-current="page"
+          >
             {isUpdating ? 'Edit Item' : 'New Item'}
           </h1>
         </nav>
@@ -219,7 +222,9 @@ export function AuctionItemForm({
             <div className="min-w-0">
               <div className="flex items-center gap-2.5 mb-2 flex-wrap">
                 <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Auction Item</p>
+                <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  Auction Item
+                </p>
               </div>
               <h2 className="text-xl font-quicksand font-black text-text-light dark:text-text-dark leading-snug truncate">
                 {isUpdating ? `Edit ${inputs?.name ?? 'Item'}` : 'Add Item'}
@@ -356,7 +361,9 @@ export function AuctionItemForm({
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-semibold text-text-light dark:text-text-dark">Requires Shipping</p>
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">Item needs to be physically shipped</p>
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                    Item needs to be physically shipped
+                  </p>
                 </div>
                 <button
                   disabled={isActive}
@@ -364,9 +371,15 @@ export function AuctionItemForm({
                   role="switch"
                   aria-checked={inputs?.requiresShipping}
                   aria-label="Toggle requires shipping"
-                  onClick={() => store.dispatch(setInputs({ formName: 'auctionItemForm', data: { requiresShipping: !inputs?.requiresShipping } }))}
+                  onClick={() =>
+                    store.dispatch(
+                      setInputs({ formName: 'auctionItemForm', data: { requiresShipping: !inputs?.requiresShipping } })
+                    )
+                  }
                   className={`relative w-10 h-5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                    inputs?.requiresShipping ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'
+                    inputs?.requiresShipping
+                      ? 'bg-primary-light dark:bg-primary-dark'
+                      : 'bg-border-light dark:bg-border-dark'
                   } ${isActive ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                 >
                   <span
@@ -428,7 +441,9 @@ export function AuctionItemForm({
             <div className="space-y-5 min-w-0">
               <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
                 <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-                  <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Photos</h3>
+                  <h3 className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    Photos
+                  </h3>
                 </div>
                 <div className="px-4 py-4 flex flex-col gap-1.5">
                   {/* Existing photos (edit mode) */}
@@ -439,7 +454,12 @@ export function AuctionItemForm({
                           key={photo.id}
                           className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
                         >
-                          <Picture priority={false} src={photo.url} alt={photo.name ?? 'Photo'} className="w-full h-full object-cover" />
+                          <Picture
+                            priority={false}
+                            src={photo.url}
+                            alt={photo.name ?? 'Photo'}
+                            className="w-full h-full object-cover"
+                          />
                           {photo.isPrimary && (
                             <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
                               Primary
@@ -455,7 +475,9 @@ export function AuctionItemForm({
                                   store.dispatch(
                                     setInputs({
                                       formName: 'auctionItemForm',
-                                      data: { photos: inputs?.photos?.map((p) => ({ ...p, isPrimary: p.id === photo.id })) }
+                                      data: {
+                                        photos: inputs?.photos?.map((p) => ({ ...p, isPrimary: p.id === photo.id }))
+                                      }
                                     })
                                   )
                                 }}
@@ -496,7 +518,12 @@ export function AuctionItemForm({
                           key={`${file.name}-${i}`}
                           className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
                         >
-                          <Picture priority={false} src={URL.createObjectURL(file)} alt={file.name} className="w-full h-full object-cover" />
+                          <Picture
+                            priority={false}
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-full h-full object-cover"
+                          />
                           {i === 0 && !isUpdating && (
                             <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
                               Primary

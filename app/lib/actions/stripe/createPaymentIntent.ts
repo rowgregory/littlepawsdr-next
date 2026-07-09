@@ -9,8 +9,8 @@ import { OrderType } from '@prisma/client'
 import prisma from 'prisma/client'
 import { ProductSizeEntry } from 'types/entities/product'
 import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
-import { getRequestGeo } from 'app/utils/getRequestGeo'
 import { stampUserGeo } from '../user/stampUserGeo'
+import { getRequestGeo } from 'app/utils/log.server.utils'
 
 type PaymentAddress = {
   addressLine1: string | null
@@ -146,7 +146,11 @@ export async function createPaymentIntent({
         state: address?.state || '',
         zipPostalCode: address?.zipPostalCode || '',
         country: address?.country || 'US',
-        items: items?.length ? JSON.stringify(items.map((i) => ({ i: i.id, q: i.quantity, s: i.size ?? null, w: i.welcomeWienerId ?? null }))) : '',
+        items: items?.length
+          ? JSON.stringify(
+              items.map((i) => ({ i: i.id, q: i.quantity, s: i.size ?? null, w: i.welcomeWienerId ?? null }))
+            )
+          : '',
         winningBidderId: winningBidderId ?? '',
         auctionItemId: auctionItemId ?? ''
       }

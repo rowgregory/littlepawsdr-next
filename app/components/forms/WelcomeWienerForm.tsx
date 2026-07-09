@@ -9,7 +9,7 @@ import {
   WELCOME_WIENER_CATEGORY_LABELS
 } from 'app/lib/constants/welcome-wiener.constants'
 import { store } from 'app/lib/store/store'
-import { uploadFileToFirebase } from 'app/utils/uploadFileToFirebase'
+import { uploadFileToFirebase } from 'app/utils/firebase.utils'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { useState } from 'react'
 import { Toggle } from '../ui/Toggle'

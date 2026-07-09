@@ -3,9 +3,14 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { auth } from '../../auth'
-import { pusherSuperuser } from 'app/utils/pusherTrigger'
+import { pusherSuperuser } from 'app/utils/pusher.utils'
 
-export const createAdoptionFee = async (data: { firstName: string; lastName: string; state: string; bypassCode: string }) => {
+export const createAdoptionFee = async (data: {
+  firstName: string
+  lastName: string
+  state: string
+  bypassCode: string
+}) => {
   const session = await auth()
   try {
     if (!data.firstName?.trim() || !data.lastName?.trim()) {
