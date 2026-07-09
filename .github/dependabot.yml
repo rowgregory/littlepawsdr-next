@@ -8,13 +8,11 @@ updates:
       day: "monday"
     open-pull-requests-limit: 5
     groups:
-      # One PR for all minor/patch bumps
       minor-and-patch:
         update-types:
           - "minor"
           - "patch"
     ignore:
-      # Handle major bumps by hand — this stack breaks on majors
       - dependency-name: "next"
         update-types: ["version-update:semver-major"]
       - dependency-name: "react"
