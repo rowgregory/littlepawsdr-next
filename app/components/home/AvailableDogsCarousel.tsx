@@ -193,12 +193,12 @@ export const AvailableDogsBlock = ({ data }) => {
                 key={dog.id}
                 data-card
                 variants={card}
-                className="shrink-0 w-[72vw] xs:w-[60vw] sm:w-[42vw] lg:w-[23vw] min-w-56 max-w-72"
+                className="shrink-0 w-[72vw] xs:w-[60vw] sm:w-[42vw] lg:w-[23vw] min-w-56 max-w-72 group"
               >
                 <Link
                   href={`/dachshunds/${dog.id}`}
                   aria-label={`Meet ${dog?.attributes?.name}, ${dog?.attributes?.ageString}${dog?.attributes?.colorDetails ? `, ${dog?.attributes?.colorDetails}` : ''} — available for adoption`}
-                  className="group relative block overflow-hidden focus:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark aspect-3/4"
+                  className="group relative block overflow-hidden focus:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark aspect-3/5 group-hover:aspect-3/4.5 duration-150"
                 >
                   <Picture
                     priority={i < 3}
@@ -215,15 +215,19 @@ export const AvailableDogsBlock = ({ data }) => {
 
                   {/* Hover wash */}
                   <div
-                    className="absolute inset-0 bg-primary-light/0 group-hover:bg-primary-light/20 dark:group-hover:bg-primary-dark/20 transition-colors duration-300"
+                    className="absolute inset-0 bg-primary-light/0 group-hover:bg-primary-light/40 dark:group-hover:bg-primary-dark/20 transition-colors duration-300"
                     aria-hidden="true"
                   />
 
-                  {/* Label */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                    <p className="text-white/50 text-[10px] font-mono mb-0.5" aria-hidden="true">
+                  {/* Top Left Label */}
+                  <div className="absolute top-0 left-0 right-0 p-4 sm:p-5">
+                    <p className="text-white/90 text-[40px] font-mono mb-0.5" aria-hidden="true">
                       {String(i + 1).padStart(2, '0')}
                     </p>
+                  </div>
+
+                  {/* Label */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                     <p className="text-white font-quicksand font-bold text-lg sm:text-xl group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors leading-tight">
                       {dog?.attributes?.name}
                     </p>

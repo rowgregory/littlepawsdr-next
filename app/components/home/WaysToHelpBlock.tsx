@@ -1,5 +1,6 @@
 'use client'
 
+import { containerVariants, rowVariants } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -70,18 +71,20 @@ const ROWS: HelpRow[] = [
     cost: '$15 app fee',
     href: '/dachshunds',
     cta: 'Apply'
-  }
+  },
+  ...(new Date().getMonth() === 6
+    ? [
+        {
+          id: 8,
+          label: 'Feed a Foster',
+          description: 'Sponsor food and supplies for a foster pup',
+          cost: '$15–$50',
+          href: '/feed',
+          cta: 'Donate'
+        }
+      ]
+    : [])
 ]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } }
-}
-
-const rowVariants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, easing: 'easeOut' } }
-}
 
 export const WaysToHelpBlock = () => {
   return (
@@ -99,7 +102,9 @@ export const WaysToHelpBlock = () => {
       <div className="relative max-w-300 mx-auto">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-14 1200:mb-16 space-y-2">
-          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Ways to Help</p>
+          <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+            Ways to Help
+          </p>
           <h2
             id="ways-to-help-heading"
             className="font-quicksand text-text-light dark:text-text-dark leading-tight"
@@ -115,13 +120,19 @@ export const WaysToHelpBlock = () => {
           aria-hidden="true"
         >
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Initiative</span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Initiative
+            </span>
           </div>
           <div className="sm:w-36 shrink-0">
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Cost</span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Cost
+            </span>
           </div>
           <div className="sm:w-40 shrink-0 flex sm:justify-end">
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Action</span>
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Action
+            </span>
           </div>
         </div>
 
@@ -148,8 +159,12 @@ export const WaysToHelpBlock = () => {
               >
                 {/* Label + description */}
                 <div className="flex-1 min-w-0">
-                  <p className="font-quicksand font-bold text-sm sm:text-base 1200:text-lg text-text-light dark:text-text-dark">{row.label}</p>
-                  <p className="font-nunito text-xs sm:text-sm text-muted-light dark:text-muted-dark mt-0.5 leading-relaxed">{row.description}</p>
+                  <p className="font-quicksand font-bold text-sm sm:text-base 1200:text-lg text-text-light dark:text-text-dark">
+                    {row.label}
+                  </p>
+                  <p className="font-nunito text-xs sm:text-sm text-muted-light dark:text-muted-dark mt-0.5 leading-relaxed">
+                    {row.description}
+                  </p>
                 </div>
 
                 {/* Cost + CTA — inline on mobile, separate columns on sm+ */}

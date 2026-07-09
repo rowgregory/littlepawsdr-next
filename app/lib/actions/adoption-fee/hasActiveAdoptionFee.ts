@@ -3,6 +3,7 @@
 import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context'
 
 export const hasActiveAdoptionFee = async () => {
   try {
@@ -25,6 +26,9 @@ export const hasActiveAdoptionFee = async () => {
       expiresAt: fee.expiresAt
     }
   } catch (error) {
+    // Let Next's dynamic-rendering signal propagate — don't swallow it
+    if (isDynamicServerError(error)) throw error
+
     await createLog('error', 'Failed to check active adoption fee', {
       error: error instanceof Error ? error.message : 'Unknown error'
     })

@@ -1,4 +1,4 @@
-import { Hero } from '../../components/home/Hero'
+import { Hero } from '../../components/home/hero/Hero'
 import { AboutBlock } from '../../components/home/AboutBlock'
 import { AvailableDogsBlock } from '../../components/home/AvailableDogsCarousel'
 import { LPDRLogo } from '../../components/home/LPDRLogo'

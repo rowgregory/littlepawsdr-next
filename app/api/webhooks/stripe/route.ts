@@ -698,13 +698,19 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       }
     })
 
+    // No matching order — this is an orphan/legacy Stripe event (old test data,
+    // or a subscription never tracked in our DB). Ignore it silently.
+    if (!latestOrder) {
+      return
+    }
+
     await createLog('info', 'Recurring donation cancelled', {
       subscriptionId: subscription.id,
-      orderId: latestOrder?.id,
-      userId: latestOrder?.userId
+      orderId: latestOrder.id,
+      userId: latestOrder.userId
     })
 
-    if (latestOrder?.userId) {
+    if (latestOrder.userId) {
       await pusherTrigger(`user-${latestOrder.userId}`, 'subscription-cancelled', {
         subscriptionId: subscription.id,
         orderId: latestOrder.id
@@ -712,11 +718,11 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     }
 
     await pusherSuperuser('subscription-cancelled', {
-      userId: latestOrder?.user?.id ?? null,
-      email: latestOrder?.user?.email ?? null,
-      name: latestOrder?.user?.firstName ?? null,
+      userId: latestOrder.user?.id ?? null,
+      email: latestOrder.user?.email ?? null,
+      name: latestOrder.user?.firstName ?? null,
       stripeSubscriptionId: subscription.id,
-      orderId: latestOrder?.id ?? null
+      orderId: latestOrder.id
     })
   } catch (error) {
     await createLog('error', 'Error cancelling recurring donation', {

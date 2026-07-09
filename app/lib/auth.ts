@@ -9,6 +9,7 @@ import { magicLinkProvider } from './auth/magic-link.provider'
 import { handleMagicLinkCallback } from './callbacks/magic-link.callback'
 import { handleGoogleCallback } from './callbacks/google.callback'
 import { createLog } from './actions/log/createLog'
+import { pusherSuperuser } from 'app/utils/pusher.utils'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -33,7 +34,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           default:
             return true
         }
-      } catch {
+      } catch (error) {
+        await createLog('error', 'Sign-in callback failed', {
+          provider: account?.provider,
+          email: user?.email,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        })
         return false
       }
     },
@@ -51,7 +57,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.name = `${dbUser.firstName} ${dbUser.lastName}`.trim()
       }
 
-      // fire-and-forget lastLoginAt
+      return session
+    }
+  },
+  events: {
+    async signIn({ user }) {
       prisma.user
         .update({
           where: { id: user.id },
@@ -63,8 +73,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             userId: user.id
           })
         )
+    },
 
-      return session
+    async createUser({ user }) {
+      // Google gives user.name ("First Last"); magic link gives nothing, so derive from email
+      const emailName = user.email!.split('@')[0]
+      const [firstName, ...rest] = (user.name ?? '').trim().split(' ').filter(Boolean)
+
+      await prisma.user
+        .update({
+          where: { id: user.id },
+          data: {
+            firstName: firstName || emailName.charAt(0).toUpperCase() + emailName.slice(1),
+            lastName: rest.length ? rest.join(' ') : null
+          }
+        })
+        .catch((err) =>
+          createLog('error', 'Failed to backfill new user name', {
+            error: err instanceof Error ? err.message : 'Unknown error',
+            userId: user.id
+          })
+        )
+
+      await pusherSuperuser('user-registered', {
+        email: user.email,
+        userId: user.id
+      }).catch(console.error)
     }
   }
 })

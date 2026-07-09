@@ -3,12 +3,21 @@ import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentM
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export default async function PublicDonatePage() {
   const session = await auth()
+  const isAuthed = !!session?.user?.id
 
-  const [paymentMethodsResult, userNameResult] = session
-    ? await Promise.all([getSavedPaymentMethods(), getUserName()])
-    : [{ data: null }, { data: null }]
+  const [paymentMethodsResult, userNameResult] = isAuthed
+    ? await Promise.all([
+        getSavedPaymentMethods().catch(() => ({ success: false, data: [] })),
+        getUserName().catch(() => ({ success: false, data: null }))
+      ])
+    : [
+        { success: true, data: [] },
+        { success: true, data: null }
+      ]
 
-  return <PublicDonateClient savedCards={paymentMethodsResult.data} userName={userNameResult.data} />
+  return <PublicDonateClient savedCards={paymentMethodsResult.data ?? []} userName={userNameResult.data ?? null} />
 }
