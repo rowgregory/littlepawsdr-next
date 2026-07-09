@@ -7,20 +7,13 @@ import Link from 'next/link'
 import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../../../components/common/Picture'
-import { store } from 'app/lib/store/store'
+import { useAppDispatch } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
-
-const CATEGORY_LABELS: Record<WelcomeWienerProduct['category'], string> = {
-  gear: 'Gear',
-  comfort: 'Comfort',
-  food: 'Food',
-  medical: 'Medical',
-  training: 'Training',
-  enrichment: 'Enrichment'
-}
+import { WELCOME_WIENER_CATEGORY_LABELS } from 'app/lib/constants/welcome-wiener.constants'
 
 export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWiener: IWelcomeWiener }) {
+  const dispatch = useAppDispatch()
   const [photoIndex, setPhotoIndex] = useState(0)
   const [added, setAdded] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
@@ -48,8 +41,8 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
       isPhysicalProduct: false,
       welcomeWienerId: welcomeWiener.id
     }
-    store.dispatch(setOpenCartToast(cartItem))
-    store.dispatch(addToCart(cartItem))
+    dispatch(setOpenCartToast(cartItem))
+    dispatch(addToCart(cartItem))
 
     setTimeout(() => setAdded((prev) => prev.filter((id) => id !== product.id)), 2000)
   }
@@ -75,7 +68,7 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
         {/* ── Back ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-8">
           <Link
-            href="/donate/welcome-wieners"
+            href="/welcomewieners"
             className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
           >
             <ChevronLeft className="w-3 h-3" aria-hidden="true" />
@@ -306,7 +299,7 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                               : 'border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:border-primary-light/50 dark:hover:border-primary-dark/50'
                           }`}
                       >
-                        {CATEGORY_LABELS[cat]}
+                        {WELCOME_WIENER_CATEGORY_LABELS[cat]}
                       </button>
                     ))}
                   </div>
@@ -363,7 +356,7 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                                     : 'border-border-light dark:border-border-dark text-muted-light/60 dark:text-muted-dark/60'
                                 }`}
                               >
-                                {CATEGORY_LABELS[product.category]}
+                                {WELCOME_WIENER_CATEGORY_LABELS[product.category]}
                               </span>
                             </div>
 

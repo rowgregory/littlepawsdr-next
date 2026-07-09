@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { DogCard } from '../../components/common/DogCard'
 import { containerVariants } from 'app/lib/constants/motion.constants'
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-export default function DachshundsClient({ data }) {
+export default function PublicDachshundsClient({ data }) {
   return (
     <section
       aria-labelledby="adopt-heading"

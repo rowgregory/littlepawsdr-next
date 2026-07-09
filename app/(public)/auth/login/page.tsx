@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { GoogleButton } from 'app/components/ui/GoogleButton'
-import { MagicLink } from 'app/components/ui/MagicLink'
+import { GoogleButton } from 'app/components/login/GoogleButton'
+import { MagicLink } from 'app/components/login/MagicLink'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -37,14 +37,21 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-sm xs:mx-auto flex flex-col justify-between min-h-[calc(100dvh-5rem)] xs:min-h-0">
         <div>
           {/* ── Logo ── */}
-          <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mb-8 xs:mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="mb-8 xs:mb-10"
+          >
             <Link
               href="/"
               className="inline-flex items-center gap-2 mb-5 xs:mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               aria-label="Little Paws Dachshund Rescue — Home"
             >
               <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-primary-light dark:text-primary-dark">Little Paws</span>
+              <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-primary-light dark:text-primary-dark">
+                Little Paws
+              </span>
               <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
             </Link>
 
@@ -64,7 +71,10 @@ export default function LoginPage() {
             className="border border-border-light dark:border-border-dark bg-bg-light dark:bg-surface-dark relative overflow-hidden"
           >
             {/* Card top accent */}
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+            <div
+              className="absolute top-0 left-0 w-full h-0.5 bg-primary-light dark:bg-primary-dark"
+              aria-hidden="true"
+            />
 
             <AnimatePresence mode="wait">
               {sent ? (
@@ -99,9 +109,15 @@ export default function LoginPage() {
                   </motion.div>
 
                   <div>
-                    <p className="font-quicksand font-black text-xl text-text-light dark:text-text-dark mb-1">Check your email</p>
-                    <p className="text-[11px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">Magic link sent to</p>
-                    <p className="text-[12px] font-mono text-primary-light dark:text-primary-dark font-bold mt-0.5 truncate px-2">{email}</p>
+                    <p className="font-quicksand font-black text-xl text-text-light dark:text-text-dark mb-1">
+                      Check your email
+                    </p>
+                    <p className="text-[11px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
+                      Magic link sent to
+                    </p>
+                    <p className="text-[12px] font-mono text-primary-light dark:text-primary-dark font-bold mt-0.5 truncate px-2">
+                      {email}
+                    </p>
                   </div>
 
                   <div className="w-full border border-border-light dark:border-border-dark bg-surface-light dark:bg-bg-dark px-4 py-3">
@@ -120,7 +136,9 @@ export default function LoginPage() {
                     Try a different email
                   </button>
 
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">Didn&apos;t receive it? Check your spam folder.</p>
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                    Didn&apos;t receive it? Check your spam folder.
+                  </p>
                 </motion.div>
               ) : (
                 /* ── Form ── */
@@ -137,7 +155,9 @@ export default function LoginPage() {
                   {/* Divider */}
                   <div className="flex items-center gap-3" aria-hidden="true">
                     <span className="flex-1 h-px bg-border-light dark:bg-border-dark" />
-                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">or</span>
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                      or
+                    </span>
                     <span className="flex-1 h-px bg-border-light dark:bg-border-dark" />
                   </div>
 
@@ -177,7 +197,9 @@ export default function LoginPage() {
               <span className="font-quicksand font-black text-[15px] xs:text-[17px] text-primary-light dark:text-primary-dark tabular-nums leading-none">
                 {value}
               </span>
-              <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">{label}</span>
+              <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                {label}
+              </span>
             </div>
           ))}
         </motion.div>

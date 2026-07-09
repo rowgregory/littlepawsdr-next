@@ -131,7 +131,7 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
                 </span>
                 <div className="w-6 h-px bg-border-light dark:bg-border-dark" aria-hidden="true" />
                 <Link
-                  href="/donate/welcome-wieners"
+                  href="/welcomewieners"
                   className="hidden sm:inline font-mono text-[10px] tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark hover:underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                 >
                   View all →

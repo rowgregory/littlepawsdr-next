@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { signIn } from 'next-auth/react'
 import { store, useUiSelector } from 'app/lib/store/store'
 import { setCloseAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
-import { GoogleIcon } from '../ui/icons/GoogleIcon'
+import { GoogleIcon } from '../login/GoogleIcon'
 
 export default function AuctionSignInModal() {
   const { auctionSignInModal, auctionSignInRedirectTo } = useUiSelector()
@@ -90,7 +90,10 @@ export default function AuctionSignInModal() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3">
                 <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <h2 id="auction-signin-title" className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                <h2
+                  id="auction-signin-title"
+                  className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
+                >
                   Sign in to Bid
                 </h2>
               </div>
@@ -109,10 +112,12 @@ export default function AuctionSignInModal() {
                 <div className="w-12 h-12 mx-auto border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex items-center justify-center mb-4">
                   <Mail size={20} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
                 </div>
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Check your inbox</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                  Check your inbox
+                </p>
                 <p className="text-sm font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-                  We sent a magic link to <strong className="text-text-light dark:text-text-dark">{email}</strong>. Click it to sign in and
-                  you&apos;ll be taken straight to the auction.
+                  We sent a magic link to <strong className="text-text-light dark:text-text-dark">{email}</strong>.
+                  Click it to sign in and you&apos;ll be taken straight to the auction.
                 </p>
                 <button
                   onClick={() => {
@@ -151,7 +156,10 @@ export default function AuctionSignInModal() {
 
                 {/* Magic link */}
                 <div className="space-y-2">
-                  <label htmlFor="signin-email" className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  <label
+                    htmlFor="signin-email"
+                    className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+                  >
                     Email
                   </label>
                   <input

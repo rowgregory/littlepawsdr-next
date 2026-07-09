@@ -6,61 +6,8 @@ import { useSearchParams } from 'next/navigation'
 import Picture from '../../../components/common/Picture'
 import { store } from 'app/lib/store/store'
 import { setOpenContactModal } from 'app/lib/store/slices/uiSlice'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-export interface DogAttributes {
-  name: string
-  slug: string
-  ageString: string
-  ageGroup: string
-  sex: string
-  breedString: string
-  colorDetails: string
-  sizeCurrent: number
-  sizeUOM: string
-  sizeGroup: string
-  activityLevel: string
-  energyLevel: string
-  exerciseNeeds: string
-  groomingNeeds: string
-  sheddingLevel: string
-  coatLength: string
-  vocalLevel: string
-  fenceNeeds: string
-  newPeopleReaction: string
-  ownerExperience: string
-  adultSexesOk: string
-  isDogsOk: boolean
-  isCatsOk: boolean
-  isSpecialNeeds: boolean
-  isAdoptionPending: boolean
-  isCourtesyListing: boolean
-  isSponsorable: boolean
-  isYardRequired: boolean
-  qualities: string[]
-  photos: string[]
-  descriptionHtml: string
-  descriptionText: string
-  adoptionFeeString: string
-  rescueId: string
-  url: string
-}
-
-export interface Dog {
-  id: string
-  attributes: DogAttributes
-}
-
-// ─── Quality label map ────────────────────────────────────────────────────────
-const QUALITY_LABELS: Record<string, string> = {
-  affectionate: 'Affectionate',
-  cratetrained: 'Crate Trained',
-  eagerToPlease: 'Eager to Please',
-  noLargeDogs: 'No Large Dogs',
-  olderKidsOnly: 'Older Kids Only',
-  ongoingMedical: 'Ongoing Medical Needs',
-  protective: 'Protective'
-}
+import { QUALITY_LABELS } from 'app/lib/constants/rescue-groups.constants'
+import { Dog } from 'types/entities/rescue-groups'
 
 // ─── Stat pill ────────────────────────────────────────────────────────────────
 function StatPill({ label, value }: { label: string; value: string }) {

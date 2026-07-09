@@ -10,7 +10,7 @@ import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { GoogleIcon } from '../ui/icons/GoogleIcon'
+import { GoogleIcon } from '../login/GoogleIcon'
 
 const NavigationDrawer = ({ auction }) => {
   const { mobileNavigation } = useUiSelector()

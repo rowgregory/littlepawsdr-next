@@ -4,9 +4,9 @@ import { store, useCartSelector, useUiSelector } from 'app/lib/store/store'
 import GoogleTranslate from './GoogleTranslate'
 import { setOpenContactModal, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
 import Picture from '../common/Picture'
-import { NavDropdown } from '../header/NavDropdown'
+import { NavDropdown } from './NavDropdown'
 import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
-import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
+import AuctionAnnouncementStrip from '../unique/AuctionAnnouncementStrip'
 import { useScrollDirection } from '@hooks/useScrollDirection.hook'
 
 export default function Header({ auction }) {

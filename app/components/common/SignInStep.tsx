@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useUiSelector } from 'app/lib/store/store'
-import { GoogleButton } from '../ui/GoogleButton'
-import { MagicLink } from '../ui/MagicLink'
+import { GoogleButton } from '../login/GoogleButton'
+import { MagicLink } from '../login/MagicLink'
 
 export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?: boolean }) {
   const [email, setEmail] = useState('')
@@ -48,7 +48,11 @@ export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?
       </div>
 
       {sent ? (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className={`px-4 py-4 border ${c.sentBox}`}>
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`px-4 py-4 border ${c.sentBox}`}
+        >
           <p className={`text-[10px] font-mono tracking-[0.2em] uppercase mb-1 ${c.primary}`}>Check your inbox</p>
           <p className={`text-sm font-mono ${c.muted}`}>
             We sent a magic link to <span className={c.text}>{email}</span>. Click the link to sign in and return here.

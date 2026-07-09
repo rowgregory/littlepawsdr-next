@@ -1,5 +1,3 @@
-// components/shared/FormField.tsx
-
 type FormFieldProps = {
   id: string
   label: string

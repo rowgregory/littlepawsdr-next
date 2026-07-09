@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation'
 export function CartBar() {
   const { items } = useCartSelector()
   const pathname = usePathname()
-  const isWienerPage = pathname === '/donate/welcome-wieners' || pathname.startsWith('/donate/welcome-wieners/')
+  const isWienerPage = pathname === '/welcomewieners' || pathname.startsWith('/welcomewieners/')
 
   const [expanded, setExpanded] = useState(false)
   const isExpanded = expanded && items.length > 0
@@ -52,7 +52,11 @@ export function CartBar() {
               className="overflow-hidden bg-bg-light dark:bg-bg-dark border-t border-x border-border-light dark:border-border-dark max-w-lg mx-auto"
             >
               {/* Item list */}
-              <ul className="divide-y divide-border-light dark:divide-border-dark max-h-56 overflow-y-auto" role="list" aria-label="Cart items">
+              <ul
+                className="divide-y divide-border-light dark:divide-border-dark max-h-56 overflow-y-auto"
+                role="list"
+                aria-label="Cart items"
+              >
                 {items.map((item) => (
                   <li key={item.id} className="flex items-center gap-3 px-4 py-3" role="listitem">
                     {/* Image */}
@@ -72,7 +76,9 @@ export function CartBar() {
                     {/* Name + qty */}
                     <div className="flex-1 min-w-0">
                       <p className="text-[11px] font-mono text-text-light dark:text-text-dark truncate">{item.name}</p>
-                      {item.quantity > 1 && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">×{item.quantity}</p>}
+                      {item.quantity > 1 && (
+                        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">×{item.quantity}</p>
+                      )}
                     </div>
 
                     {/* Price */}
@@ -134,7 +140,9 @@ export function CartBar() {
             <div className="flex-1" aria-hidden="true" />
 
             {/* Total */}
-            <span className="font-quicksand font-black text-lg text-text-light dark:text-text-dark tabular-nums">${totalPrice}</span>
+            <span className="font-quicksand font-black text-lg text-text-light dark:text-text-dark tabular-nums">
+              ${totalPrice}
+            </span>
 
             {/* Checkout */}
             <Link

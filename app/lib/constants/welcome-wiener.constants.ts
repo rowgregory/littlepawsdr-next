@@ -1,4 +1,5 @@
 import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import type { WelcomeWienerCategory } from 'types/entities/welcome-wiener'
 
 export const WELCOME_WIENER_CATALOG: WelcomeWienerProduct[] = [
   // Gear
@@ -162,6 +163,8 @@ export const WELCOME_WIENER_CATEGORIES = Object.keys(
   WELCOME_WIENER_CATEGORY_LABELS
 ) as WelcomeWienerProduct['category'][]
 
+export type FilterValue = 'all' | WelcomeWienerCategory
+
 export const FILTERS = [
   { value: 'all', label: 'All Dogs' },
   { value: 'medical', label: 'Medical' },
@@ -170,4 +173,4 @@ export const FILTERS = [
   { value: 'comfort', label: 'Comfort' },
   { value: 'training', label: 'Training' },
   { value: 'enrichment', label: 'Enrichment' }
-] as { value: string; label: string }[]
+] as const satisfies readonly { value: FilterValue; label: string }[]
