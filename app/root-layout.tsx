@@ -23,14 +23,15 @@ import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import { CartPersistence } from './components/cart/CartPersistence'
 
-export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any; hasActiveFee: boolean }> = ({
-  children,
-  auction,
-  hasActiveFee
-}) => {
+interface RootLayoutWrapperProps {
+  children: ReactNode
+  auction: any
+  hasActiveFee: boolean
+}
+
+export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auction, hasActiveFee }) => {
   const segments = useSelectedLayoutSegments()
   const isNotFound = segments[0] === '__DEFAULT__' || segments.includes('/_not-found')
-
   const pathname = usePathname()
   const isHidden = HIDDEN_PATHS.some((path) => pathname.startsWith(path)) || isNotFound
 
@@ -40,11 +41,14 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any; hasActiv
   const activeAuctionId = auction?.id ?? null
 
   useEffect(() => {
+    routerRef.current = router
+  }, [router])
+
+  useEffect(() => {
     if (!activeAuctionId) return
 
     const channel = pusherClient.subscribe(`auction-${activeAuctionId}`)
-
-    channel.bind('auction-started', (data) => {
+    channel.bind('auction-started', (data: any) => {
       routerRef.current.refresh()
       store.dispatch(setOpenAuctionStartedModal(data))
     })
