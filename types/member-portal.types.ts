@@ -90,6 +90,7 @@ export interface MemberPortalClientProps {
   paymentMethods: IPaymentMethod[]
   adoptionFees: IAdoptionFee[]
   merchAndWWOrders: MerchAndWWOrder[]
+  showWelcome: boolean
 }
 
 export type Tier = (typeof TIERS)[number]

@@ -106,6 +106,7 @@ export function AddressSection({ address }: AddressSectionProps) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }: IAuctionWinnerPaymentClient) {
+  // ToDo
   // ── Stripe ────────────────────────────────────────────────────────────────
   const stripe = useStripe()
   const elements = useElements()
@@ -122,7 +123,6 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
   const [error, setError] = useState<string | null>(null)
   const [saveCard, setSaveCard] = useState(false)
   const [coverFees, setCoverFees] = useState(true)
-  const [processingStatus, setProcessingStatus] = useState('idle')
   const [useNewCard, setUseNewCard] = useState(savedCards?.length === 0)
   const [selectedCardId, setSelectedCardId] = useState<string | null>(savedCards?.[0]?.stripePaymentId ?? null)
 
@@ -146,7 +146,6 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
     if (!stripe || !elements) return
     setLoading(true)
     setError(null)
-    setProcessingStatus('processing')
 
     try {
       if (usingSavedCard) {
@@ -168,12 +167,9 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
         }
 
         setupPusherListenerOneTime(
-          result.paymentIntentId!,
           false, // saved card — already saved
           selectedCardId,
-          processingStatus,
           setError,
-          setProcessingStatus,
           setLoading
         )
       } else {
@@ -204,16 +200,12 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
         })
 
         if (result.error) {
-          setProcessingStatus('failed')
           setError(result.error.message || 'Payment failed')
         } else if (result.paymentIntent?.status === 'succeeded') {
           setupPusherListenerOneTime(
-            result.paymentIntent.id,
             saveCard,
             getPaymentMethodId(result.paymentIntent.payment_method),
-            processingStatus,
             setError,
-            setProcessingStatus,
             setLoading
           )
         }

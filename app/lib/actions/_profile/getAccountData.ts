@@ -25,7 +25,8 @@ export const getAccountData = async () => {
           phone: true,
           anonymousBidding: true,
           address: true,
-          createdAt: true
+          createdAt: true,
+          hasSeenWelcome: true
         }
       }),
       prisma.order.findMany({
@@ -188,7 +189,8 @@ export const getAccountData = async () => {
           phone: user.phone,
           anonymousBidding: user.anonymousBidding,
           address: user.address,
-          createdAt: user.createdAt
+          createdAt: user.createdAt,
+          hasSeenWelcome: user.hasSeenWelcome
         },
         donations,
         subscriptions,

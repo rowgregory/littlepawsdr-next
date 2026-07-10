@@ -42,12 +42,12 @@ export function HeroDesktopBar({
           >
             {i === current ? (
               <span className="relative flex items-center justify-center w-5 h-5" aria-hidden="true">
-                <span className="absolute inset-0 rounded-full border-2 border-primary-light dark:border-primary-dark" />
-                <span className="w-2 h-2 rounded-full bg-primary-light dark:bg-primary-dark" />
+                <span className="absolute inset-0  border-2 border-primary-light dark:border-primary-dark" />
+                <span className="w-2 h-2  bg-primary-light dark:bg-primary-dark" />
               </span>
             ) : (
               <span
-                className="w-2 h-2 rounded-full bg-muted-light/40 dark:bg-on-dark/40 hover:bg-primary-light dark:hover:bg-primary-dark transition-colors"
+                className="w-2 h-2  bg-muted-light/40 dark:bg-on-dark/40 hover:bg-primary-light dark:hover:bg-primary-dark transition-colors"
                 aria-hidden="true"
               />
             )}

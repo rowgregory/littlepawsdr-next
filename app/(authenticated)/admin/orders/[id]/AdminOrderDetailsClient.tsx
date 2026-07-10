@@ -13,7 +13,9 @@ import { SerializedOrder } from 'types/entities/order.types'
 import { STATUS_STYLES } from 'app/lib/constants/order.constants'
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">{children}</p>
+  return (
+    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">{children}</p>
+  )
 }
 
 function money(n: number) {
@@ -42,7 +44,10 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
         showToast({
           type: 'success',
           message: `Order #${order.id.slice(-8)} marked as shipped`,
-          description: [order.customerName, `${itemCount} item${itemCount === 1 ? '' : 's'}`, destination].filter(Boolean).join(' · ') || undefined,
+          description:
+            [order.customerName, `${itemCount} item${itemCount === 1 ? '' : 's'}`, destination]
+              .filter(Boolean)
+              .join(' · ') || undefined,
           duration: 5000
         })
       )
@@ -80,14 +85,18 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
           <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
             /
           </span>
-          <p className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          <p
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
+            aria-current="page"
+          >
             #{order.id.slice(-8)}
           </p>
         </nav>
 
         <span
           className={`shrink-0 inline-flex items-center px-2 py-0.5 border text-[8px] font-mono tracking-[0.2em] uppercase ${
-            STATUS_STYLES[order.status] ?? 'border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark'
+            STATUS_STYLES[order.status] ??
+            'border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark'
           }`}
         >
           {order.status}
@@ -104,7 +113,10 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
             className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <div className="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
-              <h2 id="items-heading" className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark">
+              <h2
+                id="items-heading"
+                className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark"
+              >
                 <Package className="w-4 h-4 text-primary-light dark:text-primary-dark" aria-hidden="true" />
                 {order.items.length === 0 ? 'Donation' : 'Items'}
               </h2>
@@ -136,7 +148,9 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
 
                 <dl className="space-y-1.5 border-t border-border-light dark:border-border-dark pt-3">
                   <div className="flex justify-between">
-                    <dt className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Donation</dt>
+                    <dt className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                      Donation
+                    </dt>
                     <dd className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark">
                       {money(order.totalAmount - order.feesCovered)}
                     </dd>
@@ -146,20 +160,32 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
                       <dt className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
                         Fees covered by donor
                       </dt>
-                      <dd className="text-xs font-mono tabular-nums text-emerald-600 dark:text-emerald-400">+{money(order.feesCovered)}</dd>
+                      <dd className="text-xs font-mono tabular-nums text-emerald-600 dark:text-emerald-400">
+                        +{money(order.feesCovered)}
+                      </dd>
                     </div>
                   )}
                   {order.isRecurring && order.nextBillingDate && (
                     <div className="flex justify-between">
-                      <dt className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">Next billing</dt>
+                      <dt className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                        Next billing
+                      </dt>
                       <dd className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark">
-                        {new Date(order.nextBillingDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        {new Date(order.nextBillingDate).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
                       </dd>
                     </div>
                   )}
                   <div className="flex justify-between pt-1.5 border-t border-border-light dark:border-border-dark">
-                    <dt className="text-[10px] font-mono tracking-[0.2em] uppercase font-bold text-text-light dark:text-text-dark">Total charged</dt>
-                    <dd className="text-sm font-mono font-bold tabular-nums text-primary-light dark:text-primary-dark">{money(order.totalAmount)}</dd>
+                    <dt className="text-[10px] font-mono tracking-[0.2em] uppercase font-bold text-text-light dark:text-text-dark">
+                      Total charged
+                    </dt>
+                    <dd className="text-sm font-mono font-bold tabular-nums text-primary-light dark:text-primary-dark">
+                      {money(order.totalAmount)}
+                    </dd>
                   </div>
                 </dl>
               </div>
@@ -184,7 +210,9 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 min-w-0">
-                          <p className="text-sm font-nunito text-text-light dark:text-text-dark truncate">{item.itemName ?? 'Unnamed item'}</p>
+                          <p className="text-sm font-nunito text-text-light dark:text-text-dark truncate">
+                            {item.itemName ?? 'Unnamed item'}
+                          </p>
                           {!item.isPhysical && (
                             <span className="shrink-0 px-1.5 py-0.5 border border-primary-light/30 dark:border-primary-dark/30 text-[8px] font-mono tracking-[0.15em] uppercase text-primary-light dark:text-primary-dark">
                               Donation
@@ -199,7 +227,10 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
                               {item.shippingPrice > 0 && <> · +{money(item.shippingPrice)} shipping</>}
                             </>
                           ) : (
-                            <>{(item.quantity ?? 1) > 1 ? `${item.quantity} × ${money(item.price)}` : money(item.price)} · no shipping</>
+                            <>
+                              {(item.quantity ?? 1) > 1 ? `${item.quantity} × ${money(item.price)}` : money(item.price)}{' '}
+                              · no shipping
+                            </>
                           )}
                         </p>
                         {item.welcomeWienerId && (
@@ -268,7 +299,7 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
                         <motion.span
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                          className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
+                          className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current "
                           aria-hidden="true"
                         />
                         Marking...
@@ -291,7 +322,10 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
             className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-              <h2 id="customer-heading" className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark">
+              <h2
+                id="customer-heading"
+                className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark"
+              >
                 <User className="w-4 h-4 text-primary-light dark:text-primary-dark" aria-hidden="true" />
                 Customer
               </h2>
@@ -299,11 +333,15 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
             <div className="px-4 py-4 space-y-3">
               <div>
                 <Label>Name</Label>
-                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1">{order.customerName || '—'}</p>
+                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1">
+                  {order.customerName || '—'}
+                </p>
               </div>
               <div>
                 <Label>Email</Label>
-                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1 break-all">{order.customerEmail || '—'}</p>
+                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1 break-all">
+                  {order.customerEmail || '—'}
+                </p>
               </div>
               {(order.geoCity || order.geoRegion) && (
                 <div>
@@ -323,7 +361,10 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
             className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-              <h2 id="payment-heading" className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark">
+              <h2
+                id="payment-heading"
+                className="flex items-center gap-2 font-quicksand font-black text-sm text-text-light dark:text-text-dark"
+              >
                 <CreditCard className="w-4 h-4 text-primary-light dark:text-primary-dark" aria-hidden="true" />
                 Payment
               </h2>
@@ -331,7 +372,9 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
             <div className="px-4 py-4 space-y-3">
               <div>
                 <Label>Type</Label>
-                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1">{order.type.replaceAll('_', ' ')}</p>
+                <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1">
+                  {order.type.replaceAll('_', ' ')}
+                </p>
               </div>
               <div>
                 <Label>Placed</Label>
@@ -342,7 +385,9 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
               {order.paymentIntentId && (
                 <div>
                   <Label>Payment intent</Label>
-                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1 break-all">{order.paymentIntentId}</p>
+                  <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1 break-all">
+                    {order.paymentIntentId}
+                  </p>
                 </div>
               )}
             </div>

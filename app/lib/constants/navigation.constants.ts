@@ -47,7 +47,7 @@ export const HIDDEN_PATHS = [
   '/donate'
 ]
 
-export const mainNavigationLinks = (): Section[] => {
+export const mainNavigationLinks = (hasActiveFee: boolean): Section[] => {
   const now = new Date()
   const isFeedAFosterAvailable = now.getMonth() === 6
   return [
@@ -115,7 +115,7 @@ export const mainNavigationLinks = (): Section[] => {
       icon: Heart,
       links: [
         {
-          linkKey: '/adopt/application',
+          linkKey: hasActiveFee ? '/adopt/application' : '/adopt',
           linkText: 'Application'
         },
         {

@@ -3,7 +3,7 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { auth } from '../../auth'
-import { pusherSuperuser } from 'app/utils/pusher.utils'
+import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 import { CreateAuctionItemInput } from 'types/entities/auction-item'
 
 export const createAuctionItem = async (data: CreateAuctionItemInput) => {

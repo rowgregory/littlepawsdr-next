@@ -1,4 +1,4 @@
-import { SUPERUSER_CHANNEL } from 'app/utils/pusher.utils'
+import { SUPERUSER_CHANNEL } from 'app/lib/pusher/pusher.utils'
 import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
 import {

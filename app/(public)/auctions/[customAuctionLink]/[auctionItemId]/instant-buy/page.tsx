@@ -32,16 +32,11 @@ export default async function PublicAuctionInstantBuyPage({ params }: { params: 
     <PublicAuctionInstantBuyClient
       auctionItem={itemResult.auctionItem as unknown as IAuctionItem}
       savedCards={cardsResult.success ? (cardsResult.data ?? []) : []}
-      initialFormData={{
-        firstName: userNameResult.data?.firstName ?? '',
-        lastName: userNameResult.data?.lastName ?? '',
-        addressLine1: userAddressResult.data?.addressLine1 ?? '',
-        addressLine2: userAddressResult.data?.addressLine2 ?? '',
-        city: userAddressResult.data?.city ?? '',
-        state: userAddressResult.data?.state ?? '',
-        zipPostalCode: userAddressResult.data?.zipPostalCode ?? '',
-        coverFees: true
-      }}
+      isAuthed={isAuthed}
+      userId={session.user.id}
+      userEmail={session.user.email}
+      userName={userNameResult.data}
+      userAddress={userAddressResult.data}
     />
   )
 }

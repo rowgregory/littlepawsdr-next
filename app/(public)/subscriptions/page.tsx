@@ -2,7 +2,6 @@ import PublicSubscriptionsClient from 'app/(public)/subscriptions/PublicSubscrip
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/user/getUserName'
 import { auth } from 'app/lib/auth'
-import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,11 +20,9 @@ export default async function PublicSubscriptionsPage() {
       ]
 
   return (
-    <Suspense fallback={<div />}>
-      <PublicSubscriptionsClient
-        savedPaymentMethods={paymentMethodsResult?.data ?? []}
-        userName={userNameResult?.data ?? null}
-      />
-    </Suspense>
+    <PublicSubscriptionsClient
+      savedPaymentMethods={paymentMethodsResult?.data ?? []}
+      userName={userNameResult?.data ?? null}
+    />
   )
 }

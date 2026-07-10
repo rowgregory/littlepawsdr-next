@@ -2,10 +2,10 @@ import { useSession } from 'next-auth/react'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { T } from 'app/lib/constants/subscriptions.constants'
-import { StepIndicator } from '../common/StepIndicator'
-import { SignedInRow } from '../common/SignedInRow'
-import { StepSignIn } from '../common/SignInStep'
-import { SubscriptionPaymentForm } from '../forms/SubscriptionsPaymentForm'
+import { StepIndicator } from '../payment/StepIndicator'
+import { SignedInRow } from '../payment/SignedInRow'
+import { StepSignIn } from '../payment/SignInStep'
+import { SubscriptionPaymentForm } from '../_subscriptions/SubscriptionsPaymentForm'
 import { PlanSummary } from './PlanSummary'
 
 const paymentStepLabels = ['Choose Plan', 'Sign-In', 'Payment']
@@ -67,7 +67,11 @@ export function SubscriptionPaymentView({ setView, selectedTier, billing, savedP
                   tier={selectedTier!}
                   billing={billing}
                   savedCards={savedPaymentMethods}
-                  userName={userName}
+                  isAuthed={isAuthed}
+                  userId={session.data.user.id}
+                  firstName={userName.firstName}
+                  lastName={userName.lastName}
+                  email={session.data.user.email}
                   isDark
                 />
               </div>

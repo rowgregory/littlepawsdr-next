@@ -1,10 +1,16 @@
 'use server'
 
 import { auth } from 'app/lib/auth'
-import { stripeClient } from 'app/lib/stripe-client'
+import { stripeClient } from 'app/lib/stripe/stripe-client'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-export const updateSubscriptionPaymentMethod = async ({ subscriptionId, paymentMethodId }: { subscriptionId: string; paymentMethodId: string }) => {
+export const updateSubscriptionPaymentMethod = async ({
+  subscriptionId,
+  paymentMethodId
+}: {
+  subscriptionId: string
+  paymentMethodId: string
+}) => {
   try {
     const session = await auth()
     if (!session?.user?.id) return { success: false, error: 'Unauthorized' }

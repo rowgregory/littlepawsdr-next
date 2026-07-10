@@ -73,7 +73,7 @@ const LightningTransition = ({ isActive, onComplete }: { isActive: boolean; onCo
         {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-white rounded-full"
+            className="absolute w-2 h-2 bg-white "
             style={{ left: `${20 + i * 15}%`, top: `${30 + Math.sin(i) * 20}%` }}
             initial={{ scale: 0, opacity: 0, rotate: 0 }}
             animate={{
@@ -91,7 +91,7 @@ const LightningTransition = ({ isActive, onComplete }: { isActive: boolean; onCo
         {[...Array(3)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute border-4 border-white/80 rounded-full"
+            className="absolute border-4 border-white/80 "
             style={{ left: '50%', top: '50%', width: 100, height: 100, marginLeft: -50, marginTop: -50 }}
             initial={{ scale: 0, opacity: 0.8 }}
             animate={{ scale: [0, 3, 6], opacity: [0.8, 0.4, 0], rotate: [0, 180] }}
@@ -124,7 +124,9 @@ const useLightningTransition = () => {
     }, 750)
   }
 
-  const LightningComponent = () => <LightningTransition key={key} isActive={isActive} onComplete={() => setIsActive(false)} />
+  const LightningComponent = () => (
+    <LightningTransition key={key} isActive={isActive} onComplete={() => setIsActive(false)} />
+  )
 
   return { triggerLightning, LightningComponent, isActive }
 }

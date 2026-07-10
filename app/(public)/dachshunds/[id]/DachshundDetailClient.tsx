@@ -105,7 +105,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               <button
                 onClick={prevPhoto}
                 aria-label="Previous photo"
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9  bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -121,7 +121,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               <button
                 onClick={nextPhoto}
                 aria-label="Next photo"
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9  bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -137,7 +137,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
 
               {/* Counter */}
               <div
-                className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-mono px-2.5 py-1 rounded-full"
+                className="absolute bottom-3 right-3 bg-black/50 text-white text-xs font-mono px-2.5 py-1 "
                 aria-live="polite"
               >
                 {activePhoto + 1} / {a?.photos?.length}
@@ -145,12 +145,12 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
 
               {/* Special needs badge */}
               {a?.isSpecialNeeds && (
-                <div className="absolute top-3 left-3 bg-secondary-light dark:bg-secondary-dark text-white text-xs font-bold px-3 py-1 rounded-full tracking-wide">
+                <div className="absolute top-3 left-3 bg-secondary-light dark:bg-secondary-dark text-white text-xs font-bold px-3 py-1  tracking-wide">
                   Special Needs
                 </div>
               )}
               {a?.isAdoptionPending && (
-                <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full tracking-wide">
+                <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1  tracking-wide">
                   Adoption Pending
                 </div>
               )}
@@ -162,7 +162,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                 <button
                   onClick={() => setThumbStart((s) => Math.max(0, s - THUMB_PAGE))}
                   aria-label="Show previous thumbnails"
-                  className="shrink-0 w-8 h-8 rounded-full border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
+                  className="shrink-0 w-8 h-8  border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -206,7 +206,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                 <button
                   onClick={() => setThumbStart((s) => s + THUMB_PAGE)}
                   aria-label="Show more thumbnails"
-                  className="shrink-0 w-8 h-8 rounded-full border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
+                  className="shrink-0 w-8 h-8  border border-border-light dark:border-border-dark flex items-center justify-center text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -262,7 +262,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   <span
                     key={q}
                     role="listitem"
-                    className="text-xs font-medium px-3 py-1.5 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark"
+                    className="text-xs font-medium px-3 py-1.5  bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark"
                   >
                     {QUALITY_LABELS[q] ?? q}
                   </span>
@@ -312,7 +312,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   >
                     <span
                       aria-hidden="true"
-                      className={`w-2 h-2 rounded-full shrink-0 ${ok ? 'bg-primary-light dark:bg-primary-dark' : 'bg-secondary-light dark:bg-secondary-dark'}`}
+                      className={`w-2 h-2  shrink-0 ${ok ? 'bg-primary-light dark:bg-primary-dark' : 'bg-secondary-light dark:bg-secondary-dark'}`}
                     />
                     <div className="min-w-0">
                       <p className="text-xs font-medium text-text-light dark:text-text-dark">{label}</p>
@@ -336,7 +336,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   </p>
                 </div>
                 {a?.isCourtesyListing && (
-                  <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                  <span className="text-xs font-medium px-3 py-1.5  bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
                     Courtesy Listing
                   </span>
                 )}

@@ -41,8 +41,13 @@ export function AdoptionFeeWelcomeModal() {
 
               <div className="px-8 py-8 space-y-6">
                 {/* Icon */}
-                <div className="w-14 h-14 rounded-full bg-primary-light/10 dark:bg-primary-dark/20 flex items-center justify-center">
-                  <svg className="w-7 h-7 text-primary-light dark:text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14  bg-primary-light/10 dark:bg-primary-dark/20 flex items-center justify-center">
+                  <svg
+                    className="w-7 h-7 text-primary-light dark:text-primary-dark"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -63,7 +68,8 @@ export function AdoptionFeeWelcomeModal() {
                   </p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     Need to come back later? The application is always available in your{' '}
-                    <span className="font-semibold text-neutral-900 dark:text-white">Member Portal</span> — no need to pay again.
+                    <span className="font-semibold text-neutral-900 dark:text-white">Member Portal</span> — no need to
+                    pay again.
                   </p>
                 </div>
 
@@ -75,7 +81,12 @@ export function AdoptionFeeWelcomeModal() {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                   <p className="text-xs text-primary-light dark:text-primary-dark">
                     Your access expires in 7 days. We recommend completing your application as soon as possible.

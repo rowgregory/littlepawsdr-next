@@ -13,31 +13,34 @@ export function usePaymentProcessor() {
   const session = useSession()
   const hasProcessedOrder = useRef(false)
   const hasProcessedRecurringOrder = useRef(false)
+  const processingStatusRef = useRef<string>('idle')
 
   const getPaymentMethodId = (paymentMethod: string | PaymentMethod | undefined): string | undefined => {
     return typeof paymentMethod === 'string' ? paymentMethod : paymentMethod?.id
   }
 
   const setupPusherListenerOneTime = (
-    paymentIntentId: string,
     saveCard?: boolean,
     paymentMethod?: string,
-    processingStatus?: string,
-    setError?: any,
-    setProcessingStatus?: any,
-    setLoading?: any
+    setError?: (v: string) => void,
+    setLoading?: (v: boolean) => void
   ) => {
-    const channelId = session?.data?.user?.id || `guest-${paymentIntentId}`
+    processingStatusRef.current = 'processing'
+    hasProcessedOrder.current = false
+
+    const channelId = session?.data?.user?.id
+    if (!channelId) return
+
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER
     })
     const channel = pusher.subscribe(`payment-${channelId}`)
 
     const timeout = setTimeout(() => {
-      if (processingStatus === 'processing') {
-        setError('Order processing timeout. Please check your email for confirmation.')
-        setProcessingStatus('failed')
-        setLoading(false)
+      if (processingStatusRef.current === 'processing') {
+        processingStatusRef.current = 'failed'
+        setError?.('Order processing timeout. Please check your email for confirmation.')
+        setLoading?.(false)
       }
     }, 10000)
 
@@ -46,7 +49,7 @@ export function usePaymentProcessor() {
       hasProcessedOrder.current = true
 
       clearTimeout(timeout)
-      setProcessingStatus('success')
+      processingStatusRef.current = 'success'
 
       if (saveCard && session?.data?.user?.id && paymentMethod) {
         savePaymentMethod(session?.data?.user?.id, paymentMethod as string, true).catch(console.error)
@@ -56,7 +59,7 @@ export function usePaymentProcessor() {
         if (data.adoptionFeeId) {
           await setAdoptionFeeCookie(data.adoptionFeeId)
         }
-        router.push(`/adopt/application/apply`)
+        router.push(`/adopt/application`)
       } else {
         router.push(`/order-confirmation/${data.orderId}`)
       }
@@ -65,16 +68,16 @@ export function usePaymentProcessor() {
 
       store.dispatch(setShowConfetti())
       setTimeout(() => {
-        setLoading(false)
+        setLoading?.(false)
         store.dispatch(setHideConfetti())
       }, 2000)
     })
 
     channel.bind('order-failed', (data: any) => {
       clearTimeout(timeout)
-      setProcessingStatus('failed')
-      setError(data.error || 'Order processing failed')
-      setLoading(false)
+      processingStatusRef.current = 'failed'
+      setError?.(data.error || 'Order processing failed')
+      setLoading?.(false)
       channel.unbind('order-created')
       channel.unbind('order-failed')
     })
@@ -82,9 +85,7 @@ export function usePaymentProcessor() {
 
   const setupPusherListenerRecurring = (
     subscriptionResult?: any,
-    processingStatus?: string,
     setError?: any,
-    setProcessingStatus?: any,
     setLoading?: any,
     saveCard?: boolean,
     paymentMethodId?: string | PaymentMethod
@@ -98,9 +99,9 @@ export function usePaymentProcessor() {
     const channel = pusher.subscribe(channelId)
 
     const timeout = setTimeout(() => {
-      if (processingStatus === 'processing') {
+      if (processingStatusRef.current === 'processing') {
         setError('Order processing timeout. Please check your email for confirmation.')
-        setProcessingStatus('failed')
+        processingStatusRef.current = 'failed'
         setLoading(false)
       }
     }, 10000)
@@ -110,7 +111,7 @@ export function usePaymentProcessor() {
       hasProcessedRecurringOrder.current = true
 
       clearTimeout(timeout)
-      setProcessingStatus('success')
+      processingStatusRef.current = 'success'
 
       if (saveCard && session?.data?.user?.id && paymentMethodId) {
         savePaymentMethod(session?.data?.user?.id, paymentMethodId as string, true).catch(console.error)
@@ -129,7 +130,7 @@ export function usePaymentProcessor() {
 
     channel.bind('order-failed', (data: any) => {
       clearTimeout(timeout)
-      setProcessingStatus('failed')
+      processingStatusRef.current = 'failed'
       setLoading(false)
       setError(data.error || 'Order processing failed')
       channel.unbind_all()

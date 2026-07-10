@@ -1,8 +1,8 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
-import { stripeClient } from 'app/lib/stripe-client'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
-import sendConfirmationEmail from 'app/utils/_infra.utils'
+import { stripeClient } from 'app/lib/stripe/stripe-client'
+import sendConfirmationEmail from 'app/lib/email/sendConfirmatioinEmail'
+import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
@@ -173,7 +173,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         geoRegion: geoUser?.lastGeoRegion ?? null,
         geoCountry: geoUser?.lastGeoCountry ?? null,
         geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
-      }
+      },
+      include: { items: true }
     })
 
     if ((orderType === 'PRODUCT' || orderType === 'MIXED' || orderType === 'WELCOME_WIENER') && metadata?.items) {
@@ -419,8 +420,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       }
     }
 
-    // Send confirmation email
-    await sendConfirmationEmail(order, orderType, amount)
+    await sendConfirmationEmail(order)
 
     // Push to Pusher
     const channelId = userId
@@ -897,7 +897,8 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         geoRegion: geoUser?.lastGeoRegion ?? null,
         geoCountry: geoUser?.lastGeoCountry ?? null,
         geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
-      }
+      },
+      include: { items: true }
     })
 
     await createLog('info', `Recurring donation ${isFirstPayment ? 'created' : 'renewed'}`, {
@@ -909,7 +910,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
     // Only send confirmation email on first payment
     if (isFirstPayment) {
-      await sendConfirmationEmail(order, 'RECURRING_DONATION', amount * 100)
+      await sendConfirmationEmail(order)
     }
 
     const channelId = `payment-${subscriptionId}`

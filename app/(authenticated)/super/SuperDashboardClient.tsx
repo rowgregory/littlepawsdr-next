@@ -73,7 +73,7 @@ export default function SuperDashboardClient({
             }`}
           >
             <span
-              className={`w-1 h-1 rounded-full animate-pulse ${hasIssues ? 'bg-red-500' : hasWarnings ? 'bg-amber-500' : 'bg-green-500'}`}
+              className={`w-1 h-1  animate-pulse ${hasIssues ? 'bg-red-500' : hasWarnings ? 'bg-amber-500' : 'bg-green-500'}`}
             />
             {hasIssues ? 'Issues' : hasWarnings ? 'Warnings' : 'All Systems Go'}
           </div>

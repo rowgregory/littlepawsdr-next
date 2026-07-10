@@ -13,4 +13,7 @@ export type FormProps = {
 export type IPaymentForm = {
   savedCards: IPaymentMethod[]
   userName?: { firstName: string; lastName: string } | any
+  isAuthed: boolean
+  id?: string
+  email?: string
 }

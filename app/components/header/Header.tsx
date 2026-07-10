@@ -9,7 +9,7 @@ import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
 import AuctionAnnouncementStrip from '../unique/AuctionAnnouncementStrip'
 import { useScrollDirection } from '@hooks/useScrollDirection.hook'
 
-export default function Header({ auction }) {
+export default function Header({ auction, hasActiveFee }) {
   const { hidden } = useScrollDirection()
   const { mobileNavigation } = useUiSelector()
   const { items } = useCartSelector()
@@ -72,7 +72,7 @@ export default function Header({ auction }) {
                     />
                     {totalItems > 0 && (
                       <span
-                        className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-white text-[9px] font-mono font-bold rounded-full"
+                        className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-white text-[9px] font-mono font-bold "
                         aria-hidden="true"
                       >
                         {totalItems > 9 ? '9+' : totalItems}
@@ -177,7 +177,7 @@ export default function Header({ auction }) {
 
             <nav aria-label="Main navigation">
               <ul className="flex items-center space-x-6 list-none">
-                {mainNavigationLinks().map((section) => (
+                {mainNavigationLinks(hasActiveFee).map((section) => (
                   <NavDropdown key={section.title} section={section} />
                 ))}
               </ul>

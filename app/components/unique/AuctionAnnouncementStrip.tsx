@@ -55,8 +55,8 @@ export default function AuctionAnnouncementStrip({ auction }: AuctionStripProps)
             {/* Pulse dot */}
             {isActive && (
               <span className="relative shrink-0 flex h-2 w-2" aria-hidden="true">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                <span className="animate-ping absolute inline-flex h-full w-full  bg-white opacity-75" />
+                <span className="relative inline-flex  h-2 w-2 bg-white" />
               </span>
             )}
 
@@ -87,7 +87,11 @@ export default function AuctionAnnouncementStrip({ auction }: AuctionStripProps)
               className="group inline-flex items-center gap-1.5 text-[10px] font-mono tracking-[0.2em] uppercase text-white border border-white/40 hover:border-white hover:bg-white/10 px-3 py-1 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-transparent whitespace-nowrap"
             >
               {isActive ? 'Bid Now' : 'Learn More'}
-              <ArrowRight size={10} className="group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true" />
+              <ArrowRight
+                size={10}
+                className="group-hover:translate-x-0.5 transition-transform duration-200"
+                aria-hidden="true"
+              />
             </Link>
           </div>
         </div>

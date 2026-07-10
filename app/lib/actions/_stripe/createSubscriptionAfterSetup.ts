@@ -1,6 +1,6 @@
 'use server'
 
-import { stripeClient } from '../../stripe-client'
+import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 import { RecurringFrequency } from '@prisma/client'
 import { stampUserGeo } from '../user/stampUserGeo'

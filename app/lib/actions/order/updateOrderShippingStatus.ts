@@ -2,7 +2,7 @@
 
 import { ShippingStatus } from '@prisma/client'
 import prisma from 'prisma/client'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
+import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import { auth } from 'app/lib/auth'
 import { createLog } from '../log/createLog'
 

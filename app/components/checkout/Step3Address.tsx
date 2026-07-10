@@ -1,14 +1,44 @@
 import { updateAddress } from 'app/lib/actions/user/updateAddress'
 import { STATES } from 'app/lib/constants/location.constants'
-import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles.constants'
-import { setInputs } from 'app/lib/store/slices/formSlice'
-import { store } from 'app/lib/store/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { FormField } from 'app/components/ui/FormField'
 
-export function Step3Address({ inputs, errors, handleInput, onNext, onBack, userAddress, useSaved, setUseSaved }: any) {
+interface IAddress {
+  addressLine1: string | null
+  addressLine2?: string | null
+  city: string | null
+  state: string | null
+  zipPostalCode: string | null
+}
+
+interface Props {
+  inputs: any
+  errors: Record<string, string>
+  handleInput: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
+  onNext: () => void
+  onBack: () => void
+  userAddress: IAddress | null
+  useSaved: boolean
+  setUseSaved: (value: boolean) => void
+  onUseDifferentAddress: () => void
+  onUseSavedAddress: () => void
+}
+
+export function Step3Address({
+  inputs,
+  errors,
+  handleInput,
+  onNext,
+  onBack,
+  userAddress,
+  useSaved,
+  setUseSaved,
+  onUseDifferentAddress,
+  onUseSavedAddress
+}: Props) {
   const [showReplaceModal, setShowReplaceModal] = useState(false)
   const router = useRouter()
 
@@ -80,7 +110,6 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
                 <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed mb-6">
                   Would you like to save this as your new address, or just use it for this order?
                 </p>
-
                 <div className="space-y-2">
                   <button
                     type="button"
@@ -118,6 +147,7 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
           </>
         )}
       </AnimatePresence>
+
       <motion.div
         key="step-address"
         initial={{ opacity: 0, y: 10 }}
@@ -135,7 +165,6 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
           </p>
         </div>
 
-        {/* ── Saved address ── */}
         {userAddress && useSaved ? (
           <div className="space-y-2">
             <button
@@ -162,18 +191,7 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
               type="button"
               onClick={() => {
                 setUseSaved(false)
-                store.dispatch(
-                  setInputs({
-                    formName: 'checkoutForm',
-                    data: {
-                      addressLine1: '',
-                      addressLine2: '',
-                      city: '',
-                      state: '',
-                      zipPostalCode: ''
-                    }
-                  })
-                )
+                onUseDifferentAddress()
               }}
               className="w-full flex items-center gap-2 px-3.5 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
@@ -188,18 +206,7 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
                 type="button"
                 onClick={() => {
                   setUseSaved(true)
-                  store.dispatch(
-                    setInputs({
-                      formName: 'checkoutForm',
-                      data: {
-                        addressLine1: userAddress?.addressLine1 ?? '',
-                        addressLine2: userAddress?.addressLine2 ?? '',
-                        city: userAddress?.city ?? '',
-                        state: userAddress?.state ?? '',
-                        zipPostalCode: userAddress?.zipPostalCode ?? ''
-                      }
-                    })
-                  )
+                  onUseSavedAddress()
                 }}
                 className="w-full flex items-center gap-2 px-3.5 py-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
@@ -208,138 +215,76 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
               </button>
             )}
 
-            {/* Street */}
-            <div>
-              <label htmlFor="checkout-addressLine1" className={labelClass}>
-                Street Address
-              </label>
-              <input
-                id="checkout-addressLine1"
-                type="text"
-                name="addressLine1"
-                value={inputs?.addressLine1 ?? ''}
-                onChange={handleInput}
-                placeholder="123 Main Street"
-                autoComplete="street-address"
-                required
-                aria-required="true"
-                aria-invalid={!!errors?.addressLine1}
-                aria-describedby={errors?.addressLine1 ? 'address-error' : undefined}
-                className={fieldClass}
-              />
-              {errors?.addressLine1 && (
-                <p id="address-error" role="alert" className={errorClass}>
-                  {errors.addressLine1}
-                </p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="checkout-addressLine2" className={labelClass}>
-                Unit / Apartment No.
-              </label>
-              <input
-                id="checkout-addressLine2"
-                type="text"
-                name="addressLine2"
-                value={inputs?.addressLine2 ?? ''}
-                onChange={handleInput}
-                placeholder="Unit 1"
-                autoComplete="street-address"
-                aria-required="true"
-                aria-invalid={!!errors?.addressLine2}
-                aria-describedby={errors?.addressLine2 ? 'address-error' : undefined}
-                className={fieldClass}
-              />
-              {errors?.addressLine2 && (
-                <p id="address-error" role="alert" className={errorClass}>
-                  {errors.addressLine2}
-                </p>
-              )}
-            </div>
+            <FormField
+              id="checkout-addressLine1"
+              label="Street Address"
+              name="addressLine1"
+              value={inputs?.addressLine1 ?? ''}
+              onChange={handleInput}
+              placeholder="123 Main Street"
+              autoComplete="street-address"
+              error={errors?.addressLine1}
+              required
+            />
 
-            {/* City + State */}
+            <FormField
+              id="checkout-addressLine2"
+              label="Unit / Apartment No."
+              name="addressLine2"
+              value={inputs?.addressLine2 ?? ''}
+              onChange={handleInput}
+              placeholder="Unit 1"
+              autoComplete="street-address"
+              error={errors?.addressLine2}
+            />
+
             <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
-              <div>
-                <label htmlFor="checkout-city" className={labelClass}>
-                  City
-                </label>
-                <input
-                  id="checkout-city"
-                  type="text"
-                  name="city"
-                  value={inputs?.city ?? ''}
-                  onChange={handleInput}
-                  placeholder="Boston"
-                  autoComplete="address-level2"
-                  required
-                  aria-required="true"
-                  aria-invalid={!!errors?.city}
-                  aria-describedby={errors?.city ? 'city-error' : undefined}
-                  className={fieldClass}
-                />
-                {errors?.city && (
-                  <p id="city-error" role="alert" className={errorClass}>
-                    {errors.city}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="checkout-state" className={labelClass}>
-                  State
-                </label>
-                <select
-                  id="checkout-state"
-                  name="state"
-                  value={inputs?.state ?? ''}
-                  onChange={handleInput}
-                  required
-                  aria-required="true"
-                  aria-invalid={!!errors?.state}
-                  aria-describedby={errors?.state ? 'state-error' : undefined}
-                  className={fieldClass}
-                >
-                  <option value="" disabled>
-                    Select state
+              <FormField
+                id="checkout-city"
+                label="City"
+                name="city"
+                value={inputs?.city ?? ''}
+                onChange={handleInput}
+                placeholder="Boston"
+                autoComplete="address-level2"
+                error={errors?.city}
+                required
+              />
+
+              {/* State — select, use FormField with children */}
+              <FormField
+                id="checkout-state"
+                label="State"
+                name="state"
+                type="select"
+                value={inputs?.state ?? ''}
+                onChange={handleInput}
+                error={errors?.state}
+                required
+              >
+                <option value="" disabled>
+                  Select state
+                </option>
+                {STATES.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.text}
                   </option>
-                  {STATES.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {s.text}
-                    </option>
-                  ))}
-                </select>
-                {errors?.state && (
-                  <p id="state-error" role="alert" className={errorClass}>
-                    {errors.state}
-                  </p>
-                )}
-              </div>
+                ))}
+              </FormField>
             </div>
 
-            {/* ZIP */}
-            <div>
-              <label htmlFor="checkout-zip" className={labelClass}>
-                ZIP / Postal Code
-              </label>
-              <input
-                id="checkout-zip"
-                type="text"
-                name="zipPostalCode"
-                value={inputs?.zipPostalCode ?? ''}
-                onChange={handleInput}
-                placeholder="02101"
-                autoComplete="postal-code"
-                required
-                aria-required="true"
-                aria-invalid={!!errors?.zipPostalCode}
-                aria-describedby={errors?.zipPostalCode ? 'zip-error' : undefined}
-                className={`${fieldClass} max-w-45`}
-              />
-              {errors?.zipPostalCode && (
-                <p id="zip-error" role="alert" className={errorClass}>
-                  {errors.zipPostalCode}
-                </p>
-              )}
-            </div>
+            <FormField
+              id="checkout-zip"
+              label="ZIP / Postal Code"
+              name="zipPostalCode"
+              value={inputs?.zipPostalCode ?? ''}
+              onChange={handleInput}
+              placeholder="02101"
+              autoComplete="postal-code"
+              error={errors?.zipPostalCode}
+              required
+              className="max-w-45"
+            />
           </div>
         )}
 
@@ -357,8 +302,7 @@ export function Step3Address({ inputs, errors, handleInput, onNext, onBack, user
             onClick={handleContinue}
             disabled={!isValid}
             aria-disabled={!isValid}
-            className={`flex-1 py-4 font-black text-[11px] tracking-[0.2em] uppercase font-mono transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark flex items-center justify-center gap-2
-            ${
+            className={`flex-1 py-4 font-black text-[11px] tracking-[0.2em] uppercase font-mono transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark flex items-center justify-center gap-2 ${
               isValid
                 ? 'bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white cursor-pointer'
                 : 'bg-surface-light dark:bg-surface-dark text-muted-light dark:text-muted-dark border-2 border-border-light dark:border-border-dark cursor-not-allowed'

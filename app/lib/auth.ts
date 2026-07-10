@@ -9,7 +9,7 @@ import { magicLinkProvider } from './auth/magic-link.provider'
 import { handleMagicLinkCallback } from './callbacks/magic-link.callback'
 import { handleGoogleCallback } from './callbacks/google.callback'
 import { createLog } from './actions/log/createLog'
-import { pusherSuperuser } from 'app/utils/pusher.utils'
+import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,

@@ -7,7 +7,7 @@ import { Plus, X, Upload, Loader2, ArrowLeft, Package, Save } from 'lucide-react
 import Link from 'next/link'
 import { createProduct } from 'app/lib/actions/product/createProduct'
 import Picture from 'app/components/common/Picture'
-import { uploadFileToFirebase } from 'app/utils/firebase.utils'
+import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
 import { IProduct } from 'types/entities/product'
 import { updateProduct } from 'app/lib/actions/product/updateProduct'
 
@@ -500,7 +500,7 @@ export default function ProductForm({ product }: { product?: IProduct }) {
                 <button
                   type="button"
                   onClick={() => set('isPhysicalProduct', !form.isPhysicalProduct)}
-                  className={`relative w-10 h-5.5 rounded-full transition-colors focus:outline-none ${
+                  className={`relative w-10 h-5.5  transition-colors focus:outline-none ${
                     form.isPhysicalProduct
                       ? 'bg-primary-light dark:bg-primary-dark'
                       : 'bg-border-light dark:bg-border-dark'
@@ -509,7 +509,7 @@ export default function ProductForm({ product }: { product?: IProduct }) {
                   role="switch"
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-4.5 h-4.5 rounded-full bg-white transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-4.5 h-4.5  bg-white transition-transform ${
                       form.isPhysicalProduct ? 'translate-x-4.5' : 'translate-x-0'
                     }`}
                   />
@@ -529,14 +529,14 @@ export default function ProductForm({ product }: { product?: IProduct }) {
                 <button
                   type="button"
                   onClick={() => set('isLive', !form.isLive)}
-                  className={`relative w-10 h-5.5 rounded-full transition-colors focus:outline-none ${
+                  className={`relative w-10 h-5.5  transition-colors focus:outline-none ${
                     form.isLive ? 'bg-primary-light dark:bg-primary-dark' : 'bg-border-light dark:bg-border-dark'
                   }`}
                   aria-checked={form.isLive}
                   role="switch"
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-4.5 h-4.5 rounded-full bg-white transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-4.5 h-4.5  bg-white transition-transform ${
                       form.isLive ? 'translate-x-4.5' : 'translate-x-0'
                     }`}
                   />

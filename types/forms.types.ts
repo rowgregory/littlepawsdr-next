@@ -1,5 +1,3 @@
-import { IPaymentMethod } from './entities/payment-method.types'
-
 export interface CheckoutFormInputs {
   // identity
   firstName?: string
@@ -25,14 +23,4 @@ export interface CheckoutFormInputs {
   loading?: boolean
   error?: string | null
   processingStatus?: string
-}
-
-export interface IStep4Payment {
-  inputs: CheckoutFormInputs | undefined
-  setForm: (data: Partial<CheckoutFormInputs>) => void
-  onBack: () => void
-  onSubmit: (e: { preventDefault: () => void }) => void | Promise<void>
-  savedCards: IPaymentMethod[]
-  processingFee: number
-  finalAmount: number
 }

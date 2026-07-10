@@ -2,7 +2,7 @@ import { User as NextAuthUser } from 'next-auth'
 import { Account } from 'next-auth'
 import { User } from '@prisma/client'
 import prisma from 'prisma/client'
-import { pusherSuperuser } from 'app/utils/pusher.utils'
+import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {

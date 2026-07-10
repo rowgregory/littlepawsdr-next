@@ -20,7 +20,6 @@ const nextConfig: NextConfig = {
     return [
       { source: '/available', destination: '/dachshunds', permanent: true },
       { source: '/store', destination: '/merch', permanent: true },
-      { source: '/adopt', destination: '/adopt/application', permanent: true },
       { source: '/donate/welcome-wieners', destination: '/welcomewieners', permanent: true },
       { source: '/donate/shop-to-help', destination: '/shoptohelp', permanent: true },
       { source: '/donate/feed-a-foster', destination: '/feed', permanent: true },

@@ -2,7 +2,7 @@
 
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
-import { stripeClient } from '../../stripe-client'
+import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 
 export async function createPaymentMethod({

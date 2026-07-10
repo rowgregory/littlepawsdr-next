@@ -11,15 +11,6 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isLoggedIn = hasSessionCookie(request)
 
-  // Adoption application — cookie-only fee gate (real check happens server-side on /apply)
-  if (pathname === '/adopt/application') {
-    const hasFee = request.cookies.get('lpdr_active_adoption_fee')?.value === '1'
-    if (hasFee) {
-      return NextResponse.redirect(new URL(isLoggedIn ? '/adopt/application/apply' : '/auth/login', request.url))
-    }
-    return NextResponse.next()
-  }
-
   // Bounce logged-in users away from the login page
   if (pathname === '/auth/login' && isLoggedIn) {
     const redirect = request.cookies.get('lpdr_redirect')?.value

@@ -9,10 +9,10 @@ import {
   WELCOME_WIENER_CATEGORY_LABELS
 } from 'app/lib/constants/welcome-wiener.constants'
 import { store } from 'app/lib/store/store'
-import { uploadFileToFirebase } from 'app/utils/firebase.utils'
+import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { useState } from 'react'
-import { Toggle } from '../ui/Toggle'
+import { Toggle } from '../_primitives/Toggle'
 import { useRouter } from 'next/navigation'
 import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcomeWiener'
 import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'

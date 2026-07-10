@@ -14,7 +14,7 @@ const RainbowBurgerMenu = () => {
     >
       {/* Top Bar - Animated Rainbow */}
       <motion.div
-        className="w-full h-1.5 rounded-full shadow-sm"
+        className="w-full h-1.5  shadow-sm"
         style={{
           background: 'linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ef4444)',
           backgroundSize: '200% 100%'
@@ -35,7 +35,7 @@ const RainbowBurgerMenu = () => {
 
       {/* Middle Bar - Animated Rainbow */}
       <motion.div
-        className="w-full h-1.5 rounded-full shadow-sm"
+        className="w-full h-1.5  shadow-sm"
         style={{
           background: 'linear-gradient(90deg, #8b5cf6, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6)',
           backgroundSize: '200% 100%'
@@ -54,7 +54,7 @@ const RainbowBurgerMenu = () => {
 
       {/* Bottom Bar - Animated Rainbow */}
       <motion.div
-        className="w-full h-1.5 rounded-full shadow-sm"
+        className="w-full h-1.5  shadow-sm"
         style={{
           background: 'linear-gradient(90deg, #22c55e, #3b82f6, #8b5cf6, #ef4444, #f97316, #eab308, #22c55e)',
           backgroundSize: '200% 100%'

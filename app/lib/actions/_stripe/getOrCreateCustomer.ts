@@ -1,7 +1,13 @@
-import { stripeClient } from 'app/lib/stripe-client'
+import { stripeClient } from 'app/lib/stripe/stripe-client'
 import prisma from 'prisma/client'
 
-export async function getOrCreateStripeCustomer({ userId, email }: { userId?: string; email: string }): Promise<string> {
+export async function getOrCreateStripeCustomer({
+  userId,
+  email
+}: {
+  userId?: string
+  email: string
+}): Promise<string> {
   // 1 ── stored id: the fast path every call after the first takes
   if (userId) {
     const user = await prisma.user.findUnique({

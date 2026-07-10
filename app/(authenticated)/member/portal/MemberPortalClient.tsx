@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { MemberPortalClientProps } from 'types/member-portal.types'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { updateUserName } from 'app/lib/actions/user/updateUserName'
-import { pusherClient } from 'app/lib/pusher-client'
+import { pusherClient } from 'app/lib/pusher/pusher-client'
 import { TopBar } from 'app/components/member/portal/TopBar'
 import { Header } from 'app/components/member/portal/Header'
 import { MerchAndWienerGifts } from 'app/components/member/portal/MerchAndWienerGifts'
@@ -21,6 +21,7 @@ import { Auctions } from 'app/components/member/portal/Auctions'
 import { ShippedCelebration } from 'app/components/member/portal/ShippedCelebration'
 import { setDefaultPaymentMethod } from 'app/lib/actions/_stripe/setDefaultPaymentMethod'
 import { deletePaymentMethod } from 'app/lib/actions/_stripe/deletePaymentMethod'
+import { WelcomeGate } from 'app/components/modals/WelcomeGate'
 
 export default function MemberPortalClient({
   user,
@@ -29,7 +30,8 @@ export default function MemberPortalClient({
   auctionParticipation,
   paymentMethods,
   adoptionFees,
-  merchAndWWOrders
+  merchAndWWOrders,
+  showWelcome
 }: MemberPortalClientProps) {
   const router = useRouter()
   const session = useSession()
@@ -110,68 +112,75 @@ export default function MemberPortalClient({
   }, [isAuthed, router, session.data?.user?.id])
 
   return (
-    <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
-        {/* ── TopBar ──  */}
-        <TopBar />
+    <>
+      <WelcomeGate show={showWelcome} userName={user?.firstName ?? null} />
+      <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
+          {/* ── TopBar ──  */}
+          <TopBar />
 
-        {/* ── Header ── */}
-        <Header
-          auctionParticipation={auctionParticipation}
-          editingName={editingName}
-          firstNameInput={firstNameInput}
-          handleUpdateName={handleUpdateName}
-          lastNameInput={lastNameInput}
-          merchAndWWOrders={merchAndWWOrders}
-          nameLoading={nameLoading}
-          setEditingName={setEditingName}
-          setFirstNameInput={setFirstNameInput}
-          setLastNameInput={setLastNameInput}
-          subscriptions={subscriptions}
-          totalGiven={totalGiven}
-          user={user}
-        />
-
-        {/* ── Sections ── */}
-        <div className="flex flex-col gap-14 sm:gap-16">
-          {/* ── Merch & Wiener Gifts ── */}
-          <MerchAndWienerGifts merchAndWWOrders={merchAndWWOrders} />
-
-          {/* ── Shipping Address ── */}
-          <ShippingAddress addressModalOpen={addressModalOpen} setAddressModalOpen={setAddressModalOpen} user={user} />
-
-          {/* ── Payment Methods ── */}
-          <PaymentMethods
-            deleteError={deleteError}
-            handleDeletePaymentMethod={handleDeletePaymentMethod}
-            handleSetDefaultPaymentMethod={handleSetDefaultPaymentMethod}
-            paymentMethods={paymentMethods}
-            setDefaultSuccess={setDefaultSuccess}
+          {/* ── Header ── */}
+          <Header
+            auctionParticipation={auctionParticipation}
+            editingName={editingName}
+            firstNameInput={firstNameInput}
+            handleUpdateName={handleUpdateName}
+            lastNameInput={lastNameInput}
+            merchAndWWOrders={merchAndWWOrders}
+            nameLoading={nameLoading}
+            setEditingName={setEditingName}
+            setFirstNameInput={setFirstNameInput}
+            setLastNameInput={setLastNameInput}
+            subscriptions={subscriptions}
+            totalGiven={totalGiven}
+            user={user}
           />
 
-          {/* ── Adoption Fees ── */}
-          <AdoptionFees adoptionFees={adoptionFees} />
+          {/* ── Sections ── */}
+          <div className="flex flex-col gap-14 sm:gap-16">
+            {/* ── Payment Methods ── */}
+            <PaymentMethods
+              deleteError={deleteError}
+              handleDeletePaymentMethod={handleDeletePaymentMethod}
+              handleSetDefaultPaymentMethod={handleSetDefaultPaymentMethod}
+              paymentMethods={paymentMethods}
+              setDefaultSuccess={setDefaultSuccess}
+            />
 
-          {/* ── Subscriptions ── */}
-          <Subscriptions subscriptions={subscriptions} />
+            {/* ── Shipping Address ── */}
+            <ShippingAddress
+              addressModalOpen={addressModalOpen}
+              setAddressModalOpen={setAddressModalOpen}
+              user={user}
+            />
 
-          {/* ── One-time donations ── */}
-          <OneTimeDonations donations={donations} />
+            {/* ── Merch & Wiener Gifts ── */}
+            <MerchAndWienerGifts merchAndWWOrders={merchAndWWOrders} />
 
-          {/* ── Auctions ── */}
-          <Auctions auctionParticipation={auctionParticipation} />
+            {/* ── Adoption Fees ── */}
+            <AdoptionFees adoptionFees={adoptionFees} />
 
-          <AnimatePresence>
-            {shippedOrderId && (
-              <ShippedCelebration
-                key={shippedOrderId}
-                orderId={shippedOrderId}
-                onClose={() => setShippedOrderId(null)}
-              />
-            )}
-          </AnimatePresence>
+            {/* ── Subscriptions ── */}
+            <Subscriptions subscriptions={subscriptions} />
+
+            {/* ── One-time donations ── */}
+            <OneTimeDonations donations={donations} />
+
+            {/* ── Auctions ── */}
+            <Auctions auctionParticipation={auctionParticipation} />
+
+            <AnimatePresence>
+              {shippedOrderId && (
+                <ShippedCelebration
+                  key={shippedOrderId}
+                  orderId={shippedOrderId}
+                  onClose={() => setShippedOrderId(null)}
+                />
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   )
 }

@@ -13,17 +13,21 @@ import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigati
 import { HIDDEN_PATHS } from './lib/constants/navigation.constants'
 import AuctionEndedModal from './components/modals/AuctionEndedModal'
 import AuctionStartedModal from './components/modals/AuctionStartedModal'
-import { stripePromise } from './lib/stripe-promise'
+import { stripePromise } from './lib/stripe/stripe-promise'
 import { CartBar } from './components/cart/CartBar'
 import { CartToast } from './components/cart/CartToast'
 import { AdoptionFeeWelcomeModal } from './components/modals/AdoptionFeeModal'
 import PublicContactModal from './components/modals/PublicContactModal'
-import { pusherClient } from './lib/pusher-client'
+import { pusherClient } from './lib/pusher/pusher-client'
 import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import { CartPersistence } from './components/cart/CartPersistence'
 
-export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ children, auction }) => {
+export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any; hasActiveFee: boolean }> = ({
+  children,
+  auction,
+  hasActiveFee
+}) => {
   const segments = useSelectedLayoutSegments()
   const isNotFound = segments[0] === '__DEFAULT__' || segments.includes('/_not-found')
 
@@ -66,10 +70,10 @@ export const RootLayoutWrapper: FC<{ children: ReactNode; auction: any }> = ({ c
           <AdoptionFeeWelcomeModal />
           <PublicContactModal />
           <Suspense fallback={null}>
-            <NavigationDrawer auction={auction} />
+            <NavigationDrawer auction={auction} hasActiveFee={hasActiveFee} />
           </Suspense>
           <CartPersistence />
-          {!isHidden && <Header auction={auction} />}
+          {!isHidden && <Header auction={auction} hasActiveFee={hasActiveFee} />}
           {children}
           {!isHidden && <Footer />}
         </Elements>

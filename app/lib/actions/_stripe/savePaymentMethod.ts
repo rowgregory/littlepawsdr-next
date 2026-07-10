@@ -1,6 +1,6 @@
 'use server'
 
-import { stripeClient } from 'app/lib/stripe-client'
+import { stripeClient } from 'app/lib/stripe/stripe-client'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 

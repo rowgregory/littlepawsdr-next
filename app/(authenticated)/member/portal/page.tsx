@@ -1,6 +1,8 @@
 import { getAccountData } from 'app/lib/actions/_profile/getAccountData'
 import MemberPortalClient from './MemberPortalClient'
 
+export const dynamic = 'force-dynamic'
+
 export default async function MemberPortalPage() {
   const result = await getAccountData()
 
@@ -13,6 +15,7 @@ export default async function MemberPortalPage() {
       paymentMethods={result?.data?.paymentMethods}
       adoptionFees={result?.data?.adoptionFees}
       merchAndWWOrders={result?.data?.merchAndWWOrders}
+      showWelcome={!result?.data?.user?.hasSeenWelcome}
     />
   )
 }

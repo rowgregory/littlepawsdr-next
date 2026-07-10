@@ -1,5 +1,5 @@
 import { createLog } from 'app/lib/actions/log/createLog'
-import { pusherTrigger } from 'app/utils/pusher.utils'
+import { pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 

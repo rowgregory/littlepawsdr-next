@@ -69,7 +69,9 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-3">
       <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-      <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">{children}</p>
+      <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+        {children}
+      </p>
     </div>
   )
 }
@@ -82,14 +84,16 @@ export default function AdoptionInformation() {
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
           <div className="flex items-center gap-3 mb-4">
             <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Adopt</p>
+            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+              Adopt
+            </p>
           </div>
           <h1 className="font-quicksand text-4xl sm:text-5xl font-bold text-text-light dark:text-text-dark leading-tight mb-5">
             Adoption <span className="font-light text-muted-light dark:text-muted-dark">Information</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-light dark:text-on-dark leading-relaxed max-w-2xl">
-            You are considering adopting a dog that is intelligent, loyal, fun loving, full of love, and more than likely very vocal. A dachshund will
-            bring you so much enjoyment, fun, and fulfillment every single day.
+            You are considering adopting a dog that is intelligent, loyal, fun loving, full of love, and more than
+            likely very vocal. A dachshund will bring you so much enjoyment, fun, and fulfillment every single day.
           </p>
         </motion.div>
 
@@ -105,22 +109,30 @@ export default function AdoptionInformation() {
         >
           <div className="bg-surface-light dark:bg-surface-dark p-6 sm:p-8 flex flex-col justify-center gap-4">
             <SectionLabel>A Big Decision</SectionLabel>
-            <h2 id="decision-heading" className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark leading-snug">
+            <h2
+              id="decision-heading"
+              className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark leading-snug"
+            >
               We are committed to finding each dachshund a responsible and loving home.
             </h2>
             <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed">
-              We strive to make the best match we can, setting each dog and adopter up for success. Our number one concern is for our dogs. We require
-              all individuals to read each dog&apos;s bio completely to ensure the dog of interest is the best match for your family and that the
-              dog&apos;s needs can be met.
+              We strive to make the best match we can, setting each dog and adopter up for success. Our number one
+              concern is for our dogs. We require all individuals to read each dog&apos;s bio completely to ensure the
+              dog of interest is the best match for your family and that the dog&apos;s needs can be met.
             </p>
           </div>
           <div className="bg-bg-light dark:bg-bg-dark p-6 sm:p-8 flex flex-col gap-4">
             <SectionLabel>Requirements</SectionLabel>
-            <h2 className="font-quicksand text-lg font-bold text-text-light dark:text-text-dark mb-2">Guidelines we strongly adhere to</h2>
+            <h2 className="font-quicksand text-lg font-bold text-text-light dark:text-text-dark mb-2">
+              Guidelines we strongly adhere to
+            </h2>
             <ul className="space-y-3" role="list">
               {adoptionGuidelinesAndRequirements.map((req, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-muted-light dark:text-on-dark">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
+                  <span
+                    className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                    aria-hidden="true"
+                  />
                   {req}
                 </li>
               ))}
@@ -138,15 +150,21 @@ export default function AdoptionInformation() {
           aria-labelledby="puppy-heading"
         >
           <SectionLabel>Adopting a Puppy</SectionLabel>
-          <h2 id="puppy-heading" className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4">
+          <h2
+            id="puppy-heading"
+            className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4"
+          >
             What to Know Before You Apply
           </h2>
 
           <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-8">
             <p className="text-sm sm:text-base text-muted-light dark:text-on-dark leading-relaxed">
-              The general guideline is that puppies may be left alone for no longer in hours than the number of months of their age.{' '}
-              <strong className="text-text-light dark:text-text-dark">Puppies require extensive attention, especially initially.</strong> Please
-              consider a young adult if your schedule doesn&apos;t permit frequent puppy breaks.
+              The general guideline is that puppies may be left alone for no longer in hours than the number of months
+              of their age.{' '}
+              <strong className="text-text-light dark:text-text-dark">
+                Puppies require extensive attention, especially initially.
+              </strong>{' '}
+              Please consider a young adult if your schedule doesn&apos;t permit frequent puppy breaks.
             </p>
           </div>
 
@@ -165,7 +183,10 @@ export default function AdoptionInformation() {
                 custom={i * 0.5}
                 className="bg-bg-light dark:bg-bg-dark p-5 sm:p-6 grid grid-cols-[48px_1fr] gap-4 items-start"
               >
-                <span className="font-mono text-2xl font-bold text-primary-light dark:text-primary-dark leading-none pt-0.5" aria-hidden="true">
+                <span
+                  className="font-mono text-2xl font-bold text-primary-light dark:text-primary-dark leading-none pt-0.5"
+                  aria-hidden="true"
+                >
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
@@ -199,7 +220,10 @@ export default function AdoptionInformation() {
           aria-labelledby="states-heading"
         >
           <SectionLabel>Service Area</SectionLabel>
-          <h2 id="states-heading" className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-6">
+          <h2
+            id="states-heading"
+            className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-6"
+          >
             States We Rescue In
           </h2>
           <div className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5 sm:p-6">
@@ -210,7 +234,7 @@ export default function AdoptionInformation() {
             >
               {statesWeRescue.map((state) => (
                 <li key={state} className="flex items-center gap-2 text-sm text-text-light dark:text-text-dark">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+                  <span className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                   {state}
                 </li>
               ))}
@@ -228,37 +252,57 @@ export default function AdoptionInformation() {
           aria-labelledby="transport-heading"
         >
           <SectionLabel>Transportation</SectionLabel>
-          <h2 id="transport-heading" className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4">
+          <h2
+            id="transport-heading"
+            className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4"
+          >
             Getting Your Dog Home
           </h2>
           <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed mb-6">
-            We do not have a physical location — all our dogs are fostered in individual homes on the east coast. A LPDR volunteer transport may be
-            arranged to bring a dog to you; however, the distance must be reasonable.
+            We do not have a physical location — all our dogs are fostered in individual homes on the east coast. A LPDR
+            volunteer transport may be arranged to bring a dog to you; however, the distance must be reasonable.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark mb-6">
             <div className="bg-surface-light dark:bg-surface-dark p-5 sm:p-6">
-              <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">Travel Restrictions</h3>
+              <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">
+                Travel Restrictions
+              </h3>
               <ul className="space-y-2 text-sm text-muted-light dark:text-on-dark" role="list">
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
+                  <span
+                    className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                    aria-hidden="true"
+                  />
                   Dogs in the south may not be available for transport to northern states and vice versa.
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
-                  Dogs in southern Florida and southern Georgia have travel restrictions limited to Florida and parts of South Carolina.
+                  <span
+                    className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                    aria-hidden="true"
+                  />
+                  Dogs in southern Florida and southern Georgia have travel restrictions limited to Florida and parts of
+                  South Carolina.
                 </li>
               </ul>
             </div>
             <div className="bg-surface-light dark:bg-surface-dark p-5 sm:p-6">
-              <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">Transport Costs</h3>
+              <h3 className="text-xs font-mono tracking-widest uppercase text-primary-light dark:text-primary-dark mb-3">
+                Transport Costs
+              </h3>
               <ul className="space-y-2 text-sm text-muted-light dark:text-on-dark" role="list">
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
+                  <span
+                    className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                    aria-hidden="true"
+                  />
                   Includes health certificate required by law when crossing state lines.
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5" aria-hidden="true" />
+                  <span
+                    className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
+                    aria-hidden="true"
+                  />
                   Certificate costs vary and may exceed adoption fees in some cases.
                 </li>
               </ul>
@@ -267,8 +311,9 @@ export default function AdoptionInformation() {
 
           <div className="bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark p-5 sm:p-6">
             <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed">
-              We will inform you if the dog you applied for is not able to travel long distances. Adopters are also welcome to travel to their newly
-              adopted dog to bring them home — a crate for safe transport would be the responsibility of the adopter.
+              We will inform you if the dog you applied for is not able to travel long distances. Adopters are also
+              welcome to travel to their newly adopted dog to bring them home — a crate for safe transport would be the
+              responsibility of the adopter.
             </p>
           </div>
         </motion.section>

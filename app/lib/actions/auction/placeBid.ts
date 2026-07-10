@@ -3,9 +3,9 @@
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
 import { createLog } from '../log/createLog'
-import { resend } from '../../resend'
-import { auctionOutBidTemplate } from '../../email-templates/out-bid'
-import { pusherSuperuser, pusherTrigger } from 'app/utils/pusher.utils'
+import { resend } from '../../email/resend'
+import { auctionOutBidTemplate } from '../../email/templates/out-bid.template'
+import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 
 export async function placeBid(auctionItemId: string, bidAmount: number) {
   try {

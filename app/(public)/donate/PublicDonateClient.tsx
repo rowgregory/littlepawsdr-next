@@ -2,29 +2,21 @@
 
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { useSession } from 'next-auth/react'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
-import { DonateForm } from '../../components/forms/DonateForm'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { DonateForm } from 'app/components/_donate/DonateForm'
+import { getInitials } from 'app/utils/user.utils'
 
 type IPublicDonateClient = {
   savedCards: IPaymentMethod[]
   userName: { firstName: string; lastName: string }
+  isAuthed: boolean
+  email?: string | null
+  userId?: string | null
 }
 
-export default function PublicDonateClient({ savedCards, userName }: IPublicDonateClient) {
-  const session = useSession()
-  const user = session?.data?.user
-
-  const initials = user?.name
-    ? user.name
-        .split(' ')
-        .map((n: string) => n[0])
-        .slice(0, 2)
-        .join('')
-    : user?.email?.[0]?.toUpperCase()
-
+export default function PublicDonateClient({ savedCards, userName, isAuthed, email, userId }: IPublicDonateClient) {
   return (
     <>
       {/* ── Thin sticky header ── */}
@@ -41,21 +33,22 @@ export default function PublicDonateClient({ savedCards, userName }: IPublicDona
           </Link>
 
           {/* Signed-in indicator */}
-          {user && (
+          {email && (
             <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[11px] font-mono text-on-dark truncate max-w-[45vw] sm:max-w-xs">{user.email}</span>
+              <span className="text-[11px] font-mono text-on-dark truncate max-w-[45vw] sm:max-w-xs">{email}</span>
               <div
                 aria-hidden="true"
                 className="shrink-0 w-7 h-7 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center"
               >
                 <span className="text-[9px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">
-                  {initials}
+                  {getInitials(userName.firstName, userName.lastName)}
                 </span>
               </div>
             </div>
           )}
         </div>
       </header>
+
       <main className="min-h-dvh px-4 1150:px-0 pt-12 sm:pt-16 pb-24 sm:pb-32 bg-bg-light dark:bg-bg-dark flex flex-col gap-y-20 sm:gap-y-28">
         <div className="max-w-5xl mx-auto w-full">
           {/* ── Page header ── */}
@@ -152,37 +145,35 @@ export default function PublicDonateClient({ savedCards, userName }: IPublicDona
                 </ul>
               </div>
               {/* ── Logged-in indicator ── */}
-              {session?.data?.user && (
+              {email && userName.firstName && (
                 <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1}>
                   <div className="h-px bg-border-light dark:bg-border-dark mb-8" aria-hidden="true" />
                   <div className="flex items-center gap-3">
                     {/* Avatar initials circle */}
                     <div
                       aria-hidden="true"
-                      className="shrink-0 w-8 h-8 rounded-full bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center"
+                      className="shrink-0 w-8 h-8  bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center"
                     >
                       <span className="text-[10px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">
-                        {session.data?.user?.name
-                          ? session.data.user.name
+                        {userName.firstName
+                          ? userName.firstName
                               .split(' ')
                               .map((n: string) => n[0])
                               .slice(0, 2)
                               .join('')
-                          : session.data?.user?.email?.[0]}
+                          : email?.[0]}
                       </span>
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
                         Signed in as
                       </p>
-                      <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">
-                        {session.data.user.email}
-                      </p>
+                      <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">{email}</p>
                     </div>
                     {/* Active dot */}
                     <div
                       aria-hidden="true"
-                      className="shrink-0 ml-auto w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark"
+                      className="shrink-0 ml-auto w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark"
                     />
                   </div>
                 </motion.div>
@@ -190,7 +181,7 @@ export default function PublicDonateClient({ savedCards, userName }: IPublicDona
             </motion.aside>
 
             {/* ── RIGHT PANEL — the form ── */}
-            <DonateForm savedCards={savedCards} userName={userName} />
+            <DonateForm savedCards={savedCards} userName={userName} isAuthed={isAuthed} email={email} userId={userId} />
           </div>
           {/* end two-column grid */}
         </div>

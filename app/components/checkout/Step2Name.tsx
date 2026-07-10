@@ -1,6 +1,6 @@
-import { errorClass, fieldClass, labelClass } from 'app/lib/constants/styles.constants'
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { FormField } from 'app/components/ui/FormField'
 
 export function Step2Name({ inputs, errors, handleInput, onNext, isAuthed }: any) {
   const isValid = !!inputs?.firstName?.trim() && !!inputs?.lastName?.trim()
@@ -24,81 +24,43 @@ export function Step2Name({ inputs, errors, handleInput, onNext, isAuthed }: any
       </div>
 
       <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
-        <div>
-          <label htmlFor="checkout-firstName" className={labelClass}>
-            First Name
-          </label>
-          <input
-            id="checkout-firstName"
-            type="text"
-            name="firstName"
-            value={inputs?.firstName ?? ''}
-            onChange={handleInput}
-            placeholder="Jane"
-            autoComplete="given-name"
-            required
-            aria-required="true"
-            aria-invalid={!!errors?.firstName}
-            aria-describedby={errors?.firstName ? 'firstName-error' : undefined}
-            className={fieldClass}
-          />
-          {errors?.firstName && (
-            <p id="firstName-error" role="alert" className={errorClass}>
-              {errors.firstName}
-            </p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="checkout-lastName" className={labelClass}>
-            Last Name
-          </label>
-          <input
-            id="checkout-lastName"
-            type="text"
-            name="lastName"
-            value={inputs?.lastName ?? ''}
-            onChange={handleInput}
-            placeholder="Smith"
-            autoComplete="family-name"
-            required
-            aria-required="true"
-            aria-invalid={!!errors?.lastName}
-            aria-describedby={errors?.lastName ? 'lastName-error' : undefined}
-            className={fieldClass}
-          />
-          {errors?.lastName && (
-            <p id="lastName-error" role="alert" className={errorClass}>
-              {errors.lastName}
-            </p>
-          )}
-        </div>
+        <FormField
+          id="checkout-firstName"
+          label="First Name"
+          name="firstName"
+          value={inputs?.firstName ?? ''}
+          onChange={handleInput}
+          placeholder="Jane"
+          autoComplete="given-name"
+          error={errors?.firstName}
+          required
+        />
+        <FormField
+          id="checkout-lastName"
+          label="Last Name"
+          name="lastName"
+          value={inputs?.lastName ?? ''}
+          onChange={handleInput}
+          placeholder="Smith"
+          autoComplete="family-name"
+          error={errors?.lastName}
+          required
+        />
       </div>
 
       {!isAuthed && (
-        <div>
-          <label htmlFor="checkout-email" className={labelClass}>
-            Email Address
-          </label>
-          <input
-            id="checkout-email"
-            type="email"
-            name="email"
-            value={inputs?.email ?? ''}
-            onChange={handleInput}
-            placeholder="jane@example.com"
-            autoComplete="email"
-            required
-            aria-required="true"
-            aria-invalid={!!errors?.email}
-            aria-describedby={errors?.email ? 'checkout-email-error' : undefined}
-            className={fieldClass}
-          />
-          {errors?.email && (
-            <p id="checkout-email-error" role="alert" className={errorClass}>
-              {errors.email}
-            </p>
-          )}
-        </div>
+        <FormField
+          id="checkout-email"
+          label="Email Address"
+          name="email"
+          type="email"
+          value={inputs?.email ?? ''}
+          onChange={handleInput}
+          placeholder="jane@example.com"
+          autoComplete="email"
+          error={errors?.email}
+          required
+        />
       )}
 
       <button

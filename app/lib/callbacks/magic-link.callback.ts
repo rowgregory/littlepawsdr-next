@@ -1,6 +1,6 @@
 import type { User } from 'next-auth'
 import prisma from 'prisma/client'
-import { pusherSuperuser } from 'app/utils/pusher.utils'
+import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 
 export async function handleMagicLinkCallback(user: User) {
   const dbUser = await prisma.user.findUnique({

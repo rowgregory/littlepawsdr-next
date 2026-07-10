@@ -185,6 +185,8 @@ model User {
 
   emailVerified DateTime?
 
+  hasSeenWelcome Boolean @default(false)
+
   // Flexible user-specific data
   metadata Json? // ← Future-proof
 

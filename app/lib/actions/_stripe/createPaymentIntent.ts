@@ -2,7 +2,7 @@
 
 import Stripe from 'stripe'
 import { createLog } from '../log/createLog'
-import { stripeClient } from '../../stripe-client'
+import { stripeClient } from '../../stripe/stripe-client'
 import { OrderType } from '@prisma/client'
 import prisma from 'prisma/client'
 import { ProductSizeEntry } from 'types/entities/product'
@@ -106,8 +106,16 @@ export async function createPaymentIntent({
       }
     }
 
-    const baseCents = items?.length ? Math.round(computedBase * 100) : amount
-    const finalCents = coverFees ? baseCents + Math.round(feesCovered * 100) : baseCents
+    let finalCents: number
+
+    if (items?.length) {
+      // computedBase IS used here — it's the DB-validated total for items
+      const baseCents = Math.round(computedBase * 100)
+      finalCents = coverFees ? baseCents + Math.round(feesCovered * 100) : baseCents
+    } else {
+      // No items → computedBase is irrelevant, client sent the final total
+      finalCents = amount
+    }
 
     const geo = await getRequestGeo()
     await stampUserGeo(userId, geo)

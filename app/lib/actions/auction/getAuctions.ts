@@ -7,7 +7,7 @@ import {
   serializeAuctionItem,
   serializeInstantBuyer,
   serializeWinningBidder
-} from 'app/utils/serializers.utils'
+} from 'app/lib/serializers'
 
 export default async function getAuctions({ status }: { status: AuctionStatus[] }) {
   try {

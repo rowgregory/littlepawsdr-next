@@ -6,3 +6,9 @@ export function formatRole(role: string): string {
   }
   return ROLE_LABELS[role] ?? role
 }
+
+export function getInitials(firstName?: string | null, lastName?: string | null, email?: string): string {
+  if (firstName && lastName) return `${firstName[0]}${lastName[0]}`.toUpperCase()
+  if (firstName) return firstName.slice(0, 2).toUpperCase()
+  return (email ?? '??').slice(0, 2).toUpperCase()
+}

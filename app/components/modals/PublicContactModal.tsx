@@ -3,53 +3,71 @@
 import { X, Loader2, Send } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { createFormActions } from 'app/utils/form.utils'
 import { setCloseContactModal } from 'app/lib/store/slices/uiSlice'
-import { RootState, store, useAppSelector, useUiSelector } from 'app/lib/store/store'
-import sendContactEmail from 'app/lib/actions/_infra/sendContactEmail'
+import { store, useUiSelector } from 'app/lib/store/store'
+import sendContactEmail from 'app/lib/email/sendContactEmail'
 import { EMAIL_REGEX } from 'app/lib/constants/regex.constants'
+import { FormField } from '../ui/FormField'
 
-const FORM_NAME = 'contactForm'
-const { handleInput, setErrors, resetForm } = createFormActions(FORM_NAME, store.dispatch)
+interface FormInputs {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
+interface FormErrors {
+  name?: string
+  email?: string
+  subject?: string
+  message?: string
+  form?: string
+}
+
+const EMPTY: FormInputs = { name: '', email: '', subject: '', message: '' }
+
+function validate(inputs: FormInputs): FormErrors {
+  const errs: FormErrors = {}
+  if (!inputs.name.trim()) errs.name = 'Name is required'
+  if (!EMAIL_REGEX.test(inputs.email.trim())) errs.email = 'Email is required'
+  if (!inputs.subject.trim()) errs.subject = 'Subject is required'
+  if (!inputs.message.trim()) errs.message = 'Message is required'
+  return errs
+}
 
 export default function PublicContactModal() {
-  const contactForm = useAppSelector((state: RootState) => state.form[FORM_NAME])
-  const inputs = contactForm?.inputs
-  const errors = contactForm?.errors
   const { contactModal } = useUiSelector()
 
+  const [inputs, setInputs] = useState<FormInputs>(EMPTY)
+  const [errors, setErrors] = useState<FormErrors>({})
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const patch = (data: Partial<FormInputs>) => setInputs((prev) => ({ ...prev, ...data }))
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    patch({ [e.target.name]: e.target.value } as Partial<FormInputs>)
+
   const handleClose = () => {
     store.dispatch(setCloseContactModal())
-    resetForm()
+    setInputs(EMPTY)
+    setErrors({})
     setSuccess(false)
   }
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const newErrors: Record<string, string> = {}
-    if (!inputs?.name?.trim()) newErrors.name = 'Name is required'
-    if (!EMAIL_REGEX.test(inputs?.email?.trim())) newErrors.email = 'Email is required'
-    if (!inputs?.subject?.trim()) newErrors.subject = 'Subject is required'
-    if (!inputs?.message?.trim()) newErrors.message = 'Message is required'
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
+    const errs = validate(inputs)
+    if (Object.keys(errs).length) {
+      setErrors(errs)
       return
     }
 
     setLoading(true)
     setErrors({})
 
-    const result = await sendContactEmail({
-      name: inputs?.name,
-      email: inputs?.email,
-      subject: inputs?.subject,
-      message: inputs?.message
-    })
+    const result = await sendContactEmail(inputs)
 
     setLoading(false)
 
@@ -58,7 +76,7 @@ export default function PublicContactModal() {
       return
     }
 
-    resetForm()
+    setInputs(EMPTY)
     setSuccess(true)
   }
 
@@ -66,7 +84,6 @@ export default function PublicContactModal() {
     <AnimatePresence>
       {contactModal && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -78,7 +95,6 @@ export default function PublicContactModal() {
             aria-hidden="true"
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
             role="dialog"
@@ -129,132 +145,59 @@ export default function PublicContactModal() {
             ) : (
               <form onSubmit={handleSubmit} noValidate>
                 <div className="px-5 py-6 space-y-4">
-                  {/* Name + Email */}
                   <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label
-                        htmlFor="contact-name"
-                        className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
-                      >
-                        Name <span aria-hidden="true">*</span>
-                      </label>
-                      <input
-                        id="contact-name"
-                        name="name"
-                        type="text"
-                        value={inputs?.name ?? ''}
-                        onChange={handleInput}
-                        placeholder="Jane Smith"
-                        autoComplete="name"
-                        aria-invalid={!!errors?.name}
-                        aria-describedby={errors?.name ? 'contact-name-error' : undefined}
-                        className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
-                      />
-                      {errors?.name && (
-                        <p
-                          id="contact-name-error"
-                          role="alert"
-                          className="text-[10px] font-mono text-red-500 dark:text-red-400"
-                        >
-                          {errors?.name}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label
-                        htmlFor="contact-email"
-                        className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
-                      >
-                        Email <span aria-hidden="true">*</span>
-                      </label>
-                      <input
-                        id="contact-email"
-                        name="email"
-                        type="email"
-                        value={inputs?.email ?? ''}
-                        onChange={handleInput}
-                        placeholder="jane@example.com"
-                        autoComplete="email"
-                        aria-invalid={!!errors?.email}
-                        aria-describedby={errors?.email ? 'contact-email-error' : undefined}
-                        className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
-                      />
-                      {errors?.email && (
-                        <p
-                          id="contact-email-error"
-                          role="alert"
-                          className="text-[10px] font-mono text-red-500 dark:text-red-400"
-                        >
-                          {errors?.email}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Subject */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="contact-subject"
-                      className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
-                    >
-                      Subject <span aria-hidden="true">*</span>
-                    </label>
-                    <input
-                      id="contact-subject"
-                      name="subject"
-                      type="text"
-                      value={inputs?.subject ?? ''}
+                    <FormField
+                      id="contact-name"
+                      label="Name"
+                      name="name"
+                      value={inputs.name}
                       onChange={handleInput}
-                      placeholder="How can we help?"
-                      aria-invalid={!!errors?.subject}
-                      aria-describedby={errors?.subject ? 'contact-subject-error' : undefined}
-                      className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors"
+                      placeholder="Jane Smith"
+                      autoComplete="name"
+                      error={errors.name}
+                      required
                     />
-                    {errors?.subject && (
-                      <p
-                        id="contact-subject-error"
-                        role="alert"
-                        className="text-[10px] font-mono text-red-500 dark:text-red-400"
-                      >
-                        {errors?.subject}
-                      </p>
-                    )}
+                    <FormField
+                      id="contact-email"
+                      label="Email"
+                      name="email"
+                      type="email"
+                      value={inputs.email}
+                      onChange={handleInput}
+                      placeholder="jane@example.com"
+                      autoComplete="email"
+                      error={errors.email}
+                      required
+                    />
                   </div>
 
-                  {/* Message */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="contact-message"
-                      className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
-                    >
-                      Message <span aria-hidden="true">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      value={inputs?.message ?? ''}
-                      onChange={handleInput as any}
-                      placeholder="Tell us what's on your mind..."
-                      rows={5}
-                      aria-invalid={!!errors?.message}
-                      aria-describedby={errors?.message ? 'contact-message-error' : undefined}
-                      className="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-xs font-mono text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark transition-colors resize-none"
-                    />
-                    {errors?.message && (
-                      <p
-                        id="contact-message-error"
-                        role="alert"
-                        className="text-[10px] font-mono text-red-500 dark:text-red-400"
-                      >
-                        {errors?.message}
-                      </p>
-                    )}
-                  </div>
+                  <FormField
+                    id="contact-subject"
+                    label="Subject"
+                    name="subject"
+                    value={inputs.subject}
+                    onChange={handleInput}
+                    placeholder="How can we help?"
+                    error={errors.subject}
+                    required
+                  />
 
-                  {errors?.form && (
+                  <FormField
+                    id="contact-message"
+                    label="Message"
+                    name="message"
+                    type="textarea"
+                    value={inputs.message}
+                    onChange={handleInput}
+                    placeholder="Tell us what's on your mind..."
+                    rows={5}
+                    error={errors.message}
+                    required
+                  />
+
+                  {errors.form && (
                     <p role="alert" className="text-[10px] font-mono tracking-widest text-red-500 dark:text-red-400">
-                      {errors?.form}
+                      {errors.form}
                     </p>
                   )}
                 </div>

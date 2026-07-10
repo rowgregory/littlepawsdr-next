@@ -4,6 +4,7 @@ import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { RootLayoutWrapper } from './root-layout'
 import { getCachedAuction } from './lib/actions/auction/getCachedAuction'
+import { cookies } from 'next/headers'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -98,6 +99,9 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const hasActiveFee = cookieStore.get('lpdr_active_adoption_fee')?.value === '1'
+
   const auction = await getCachedAuction()
   return (
     <html lang="en" suppressHydrationWarning>
@@ -110,7 +114,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={`${quicksand.variable} ${workSans.variable} ${bebas.variable} ${nunito.variable} `}>
         <SessionProvider refetchOnWindowFocus={false}>
-          <RootLayoutWrapper auction={auction}>{children}</RootLayoutWrapper>
+          <RootLayoutWrapper auction={auction} hasActiveFee={hasActiveFee}>
+            {children}
+          </RootLayoutWrapper>
         </SessionProvider>
       </body>
     </html>

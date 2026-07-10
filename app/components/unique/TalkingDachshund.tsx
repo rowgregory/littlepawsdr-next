@@ -44,6 +44,8 @@ export function TalkingDachshund({
   const mouthLineRef = useRef<SVGPathElement>(null)
   const lidLRef = useRef<SVGEllipseElement>(null)
   const lidRRef = useRef<SVGEllipseElement>(null)
+  const earLRef = useRef<SVGPathElement>(null)
+  const earRRef = useRef<SVGPathElement>(null)
 
   const talkingRef = useRef(false)
 
@@ -148,6 +150,40 @@ export function TalkingDachshund({
 
   const showBubble = typed.length > 0
 
+  // ── Ear flick loop (idle, always runs) ──
+  useEffect(() => {
+    let flickTimer: ReturnType<typeof setTimeout>
+    let resetTimer: ReturnType<typeof setTimeout>
+
+    const flick = () => {
+      // Randomly flick one or both ears with a small rotation
+      const both = Math.random() > 0.6
+      const angle = 3 + Math.random() * 4 // 3–7deg
+
+      if (both || Math.random() > 0.5) {
+        earLRef.current?.style.setProperty('transform', `rotate(-${angle}deg)`)
+      }
+      if (both || Math.random() > 0.5) {
+        earRRef.current?.style.setProperty('transform', `rotate(${angle}deg)`)
+      }
+
+      // Return to rest shortly after
+      resetTimer = setTimeout(() => {
+        earLRef.current?.style.setProperty('transform', 'rotate(0deg)')
+        earRRef.current?.style.setProperty('transform', 'rotate(0deg)')
+      }, 350)
+
+      // Schedule next flick at a random idle interval
+      flickTimer = setTimeout(flick, 2000 + Math.random() * 4000)
+    }
+
+    flickTimer = setTimeout(flick, 2000)
+    return () => {
+      clearTimeout(flickTimer)
+      clearTimeout(resetTimer)
+    }
+  }, [])
+
   return (
     <div className={className} style={wrapperFlex}>
       {showBubble && (
@@ -160,27 +196,41 @@ export function TalkingDachshund({
             background: 'var(--dachshund-bubble-bg, #1a1420)',
             color: 'var(--dachshund-bubble-fg, #e9dcf2)',
             border: '1px solid var(--dachshund-bubble-border, #3a2a48)',
-            borderRadius: 12,
             padding: '10px 14px',
             fontSize: 13,
             lineHeight: 1.4,
             fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace'
           }}
         >
-          {typed}
+          {/* Reserve the FULL message's box — invisible, sets final width/height */}
+          <span style={{ visibility: 'hidden' }} aria-hidden="true">
+            {message}
+          </span>
+
+          {/* Typed text overlaid on the reserved space — fills in without resizing the box */}
           <span
-            aria-hidden="true"
             style={{
-              display: 'inline-block',
-              width: 2,
-              height: '1em',
-              marginLeft: 2,
-              verticalAlign: '-2px',
-              background: 'currentColor',
-              opacity: isTalking ? 1 : 0,
-              animation: isTalking ? 'dachshund-caret 0.8s step-end infinite' : 'none'
+              position: 'absolute',
+              inset: 0,
+              padding: '10px 14px'
             }}
-          />
+          >
+            {typed}
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'inline-block',
+                width: 2,
+                height: '1em',
+                marginLeft: 2,
+                verticalAlign: '-2px',
+                background: 'currentColor',
+                opacity: isTalking ? 1 : 0,
+                animation: isTalking ? 'dachshund-caret 0.8s step-end infinite' : 'none'
+              }}
+            />
+          </span>
+
           {/* bubble tail */}
           <BubbleTail side={bubbleSide} />
         </div>
@@ -211,12 +261,16 @@ export function TalkingDachshund({
 
         <g>
           <path
+            ref={earLRef}
             d="M92 66 C 54 58, 26 92, 26 150 C 26 200, 44 236, 70 238 C 88 239, 96 210, 92 168 C 89 132, 84 96, 92 66 Z"
             fill="url(#dh-ear)"
+            style={{ transformOrigin: '85px 70px', transition: 'transform 0.4s ease-in-out' }}
           />
           <path
+            ref={earRRef}
             d="M168 66 C 206 58, 234 92, 234 150 C 234 200, 216 236, 190 238 C 172 239, 164 210, 168 168 C 171 132, 176 96, 168 66 Z"
             fill="url(#dh-ear)"
+            style={{ transformOrigin: '175px 70px', transition: 'transform 0.4s ease-in-out' }}
           />
 
           <path

@@ -140,8 +140,8 @@ export default function AuctionStartedModal() {
                   <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                   <div className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light dark:bg-primary-dark opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light dark:bg-primary-dark" />
+                      <span className="animate-ping absolute inline-flex h-full w-full  bg-primary-light dark:bg-primary-dark opacity-75" />
+                      <span className="relative inline-flex  h-2 w-2 bg-primary-light dark:bg-primary-dark" />
                     </span>
                     <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                       Now Live

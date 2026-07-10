@@ -1,6 +1,6 @@
 import prisma from 'prisma/client'
 import { auth } from '../../auth'
-import { stripeClient } from '../../stripe-client'
+import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 
 export const getSubscriptionById = async (id: string) => {
@@ -30,7 +30,9 @@ export const getSubscriptionById = async (id: string) => {
     let stripePaymentMethod = null
 
     if (order.stripeSubscriptionId) {
-      stripeSubscription = await stripeClient.subscriptions.retrieve(order.stripeSubscriptionId, { expand: ['default_payment_method'] })
+      stripeSubscription = await stripeClient.subscriptions.retrieve(order.stripeSubscriptionId, {
+        expand: ['default_payment_method']
+      })
     }
 
     if (order.paymentMethodId) {

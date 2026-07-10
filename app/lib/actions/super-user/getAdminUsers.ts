@@ -1,5 +1,6 @@
 'use server'
 
+import { getInitials } from 'app/utils/user.utils'
 import prisma from 'prisma/client'
 
 export interface AdminUser {
@@ -11,12 +12,6 @@ export interface AdminUser {
   grantedAt: string
   avatarColor: string
   lastActive: string
-}
-
-function getInitials(firstName?: string | null, lastName?: string | null, email?: string): string {
-  if (firstName && lastName) return `${firstName[0]}${lastName[0]}`.toUpperCase()
-  if (firstName) return firstName.slice(0, 2).toUpperCase()
-  return (email ?? '??').slice(0, 2).toUpperCase()
 }
 
 function getAvatarColor(id: string): string {
@@ -66,7 +61,10 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
   return admins.map((user) => ({
     id: user.id,
     initials: getInitials(user.firstName, user.lastName, user.email),
-    name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : (user.firstName ?? user.email.split('@')[0]),
+    name:
+      user.firstName && user.lastName
+        ? `${user.firstName} ${user.lastName}`
+        : (user.firstName ?? user.email.split('@')[0]),
     email: user.email,
     role: user.role as 'SUPERUSER' | 'ADMIN',
     grantedAt: formatGrantedAt(user.createdAt),

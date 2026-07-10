@@ -93,10 +93,7 @@ export function AdoptASeniorClient() {
               <ul className="space-y-1.5 text-xs text-muted-light dark:text-on-dark" role="list">
                 {['Spay / Neuter', 'Rabies & Distemper shots', 'Microchip implant', 'Dental if needed'].map((item) => (
                   <li key={item} className="flex items-center gap-2">
-                    <span
-                      className="w-1.5 h-1.5 rounded-full bg-primary-light dark:bg-primary-dark shrink-0"
-                      aria-hidden="true"
-                    />
+                    <span className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                     {item}
                   </li>
                 ))}

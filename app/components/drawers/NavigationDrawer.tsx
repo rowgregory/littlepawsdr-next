@@ -12,7 +12,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { GoogleIcon } from '../login/GoogleIcon'
 
-const NavigationDrawer = ({ auction }) => {
+const NavigationDrawer = ({ auction, hasActiveFee }) => {
   const { mobileNavigation } = useUiSelector()
   const pathname = usePathname()
   const session = useSession()
@@ -340,7 +340,7 @@ const NavigationDrawer = ({ auction }) => {
 
               {/* ── Nav links ── */}
               <nav className="px-4 py-4 space-y-0.5" aria-label="Mobile navigation">
-                {mainNavigationLinks().map((navLink, idx) => (
+                {mainNavigationLinks(hasActiveFee).map((navLink, idx) => (
                   <div key={idx}>
                     {navLink.linkKey ? (
                       <Link

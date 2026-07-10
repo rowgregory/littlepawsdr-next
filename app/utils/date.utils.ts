@@ -47,3 +47,9 @@ export function toDatetimeLocal(date: Date | string | null | undefined): string 
   if (isNaN(d.getTime())) return ''
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
 }
+
+export function ordinal(n: number) {
+  const s = ['th', 'st', 'nd', 'rd']
+  const v = n % 100
+  return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`
+}

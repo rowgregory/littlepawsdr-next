@@ -1,7 +1,7 @@
 'use server'
 
 import { createLog } from '../log/createLog'
-import { stripeClient } from '../../stripe-client'
+import { stripeClient } from '../../stripe/stripe-client'
 import { RecurringFrequency } from '@prisma/client'
 import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
 
