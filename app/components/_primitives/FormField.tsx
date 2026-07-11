@@ -15,6 +15,7 @@ type FormFieldProps = {
   children?: React.ReactNode // for select options
   hint?: string
   disabled?: boolean
+  maxLength?: number
 }
 
 export function FormField({
@@ -33,7 +34,8 @@ export function FormField({
   rows,
   children,
   hint,
-  disabled = false
+  disabled = false,
+  maxLength
 }: FormFieldProps) {
   const fieldClass = `w-full px-3.5 py-3 text-sm font-mono border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 transition-colors duration-200 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark ${readOnly || disabled ? 'cursor-not-allowed opacity-70' : ''} ${className}`
   const labelClass = `block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2`
@@ -95,6 +97,7 @@ export function FormField({
           aria-describedby={error ? `${id}-error` : undefined}
           className={fieldClass}
           disabled={disabled}
+          maxLength={maxLength}
         />
       )}
 

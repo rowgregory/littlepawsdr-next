@@ -91,7 +91,7 @@ export default function PublicAuctionInstantBuyClient({
     selectedCardId: savedCards[0]?.stripePaymentId ?? null,
     useNewCard: savedCards.length === 0,
     saveCard: false,
-    coverFees: false,
+    coverFees: true,
     loading: false,
     error: null
   })

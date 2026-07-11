@@ -56,6 +56,8 @@
   --color-on-dark: #a1a1aa; /* zinc-400 — neutral gray for text on dark surfaces */
 
   --breakpoint-xs: 480px;
+  --breakpoint-620: 620px;
+  --breakpoint-768: 768px;
   --breakpoint-968: 968px;
   --breakpoint-1000: 1000px;
   --breakpoint-lg-2: 1100px;
@@ -187,4 +189,16 @@ input[type="number"]::-webkit-outer-spin-button {
   );
   animation: shimmer 2.5s ease-in-out infinite;
   pointer-events: none;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

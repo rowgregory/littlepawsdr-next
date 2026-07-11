@@ -1,6 +1,14 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import Pusher from 'pusher-js'
 
+type OrderCreatedEvent = {
+  orderId?: string
+}
+
+type OrderFailedEvent = {
+  error?: string
+}
+
 export async function setupPusherListenerRecurring(
   subscriptionResult: { subscriptionId: string },
   router: AppRouterInstance
@@ -23,7 +31,7 @@ export async function setupPusherListenerRecurring(
       }
     }, 10000)
 
-    channel.bind('order-created', (data: any) => {
+    channel.bind('order-created', (data: OrderCreatedEvent) => {
       if (hasProcessed) return
       hasProcessed = true
       clearTimeout(timeout)
@@ -35,7 +43,7 @@ export async function setupPusherListenerRecurring(
       resolve()
     })
 
-    channel.bind('order-failed', (data: any) => {
+    channel.bind('order-failed', (data: OrderFailedEvent) => {
       clearTimeout(timeout)
       processingStatus = 'failed'
       channel.unbind_all()

@@ -41,58 +41,56 @@ export function AuctionItemPhotoPanel({
           Photos
         </h3>
       </div>
-      <div className="px-4 py-4 flex flex-col gap-1.5">
+      {/* Existing + pending photos grid */}
+      <div className="grid grid-cols-3 gap-2 mb-2">
         {/* Existing photos */}
-        {isUpdating && photos.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 mb-2">
-            {photos.map((photo) => (
-              <div
-                key={photo.id}
-                className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
-              >
-                <Picture
-                  priority={false}
-                  src={photo.url}
-                  alt={photo.name ?? 'Photo'}
-                  className="w-full h-full object-cover"
-                />
-                {photo.isPrimary && (
-                  <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
-                    Primary
-                  </span>
-                )}
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  {!photo.isPrimary && (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        await setPrimaryAuctionItemPhoto(photo.id, auctionItemId!, auctionId)
-                        router.refresh()
-                        onPatchPhotos(photos.map((p) => ({ ...p, isPrimary: p.id === photo.id })))
-                      }}
-                      aria-label="Set as primary photo"
-                      className="w-7 h-7 flex items-center justify-center bg-white/20 hover:bg-primary-light dark:hover:bg-primary-dark text-white backdrop-blur-sm transition-colors"
-                    >
-                      <Star size={13} aria-hidden="true" />
-                    </button>
-                  )}
+        {isUpdating &&
+          photos.map((photo) => (
+            <div
+              key={photo.id}
+              className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
+            >
+              <Picture
+                priority={false}
+                src={photo.url}
+                alt={photo.name ?? 'Photo'}
+                className="w-full h-full object-cover"
+              />
+              {photo.isPrimary && (
+                <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
+                  Primary
+                </span>
+              )}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                {!photo.isPrimary && (
                   <button
                     type="button"
                     onClick={async () => {
-                      await deleteAuctionItemPhoto(photo.id, auctionId)
+                      await setPrimaryAuctionItemPhoto(photo.id, auctionItemId!, auctionId)
                       router.refresh()
-                      onPatchPhotos(photos.filter((p) => p.id !== photo.id))
+                      onPatchPhotos(photos.map((p) => ({ ...p, isPrimary: p.id === photo.id })))
                     }}
-                    aria-label="Remove photo"
-                    className="w-7 h-7 flex items-center justify-center bg-white/20 hover:bg-red-500 text-white backdrop-blur-sm transition-colors"
+                    aria-label="Set as primary photo"
+                    className="w-7 h-7 flex items-center justify-center bg-white/20 hover:bg-primary-light dark:hover:bg-primary-dark text-white backdrop-blur-sm transition-colors"
                   >
-                    <Trash2 size={13} aria-hidden="true" />
+                    <Star size={13} aria-hidden="true" />
                   </button>
-                </div>
+                )}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await deleteAuctionItemPhoto(photo.id, auctionId)
+                    router.refresh()
+                    onPatchPhotos(photos.filter((p) => p.id !== photo.id))
+                  }}
+                  aria-label="Remove photo"
+                  className="w-7 h-7 flex items-center justify-center bg-white/20 hover:bg-red-500 text-white backdrop-blur-sm transition-colors"
+                >
+                  <Trash2 size={13} aria-hidden="true" />
+                </button>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
 
         {/* Pending photos */}
         {pendingPhotos.map(({ file, previewUrl }, i) => (
@@ -119,34 +117,34 @@ export function AuctionItemPhotoPanel({
             </button>
           </div>
         ))}
-
-        {/* File input */}
-        <label
-          htmlFor="photos"
-          className="flex items-center justify-center gap-2 px-4 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase cursor-pointer transition-colors"
-        >
-          <ImagePlus size={13} aria-hidden="true" />
-          {pendingPhotos.length > 0 ? `${pendingPhotos.length} selected — add more` : 'Select photos'}
-        </label>
-        <input
-          id="photos"
-          type="file"
-          accept="image/*"
-          multiple
-          className="sr-only"
-          onChange={async (e) => {
-            const files = Array.from(e.target.files ?? [])
-            const pending = await Promise.all(
-              files.map(async (file) => {
-                const converted = await convertIfHeic(file)
-                return { file: converted, previewUrl: URL.createObjectURL(converted) }
-              })
-            )
-            onSetPendingPhotos((prev) => [...prev, ...pending])
-            e.target.value = ''
-          }}
-        />
       </div>
+
+      {/* File input */}
+      <label
+        htmlFor="photos"
+        className="flex items-center justify-center gap-2 px-4 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase cursor-pointer transition-colors"
+      >
+        <ImagePlus size={13} aria-hidden="true" />
+        {pendingPhotos.length > 0 ? `${pendingPhotos.length} selected — add more` : 'Select photos'}
+      </label>
+      <input
+        id="photos"
+        type="file"
+        accept="image/*"
+        multiple
+        className="sr-only"
+        onChange={async (e) => {
+          const files = Array.from(e.target.files ?? [])
+          const pending = await Promise.all(
+            files.map(async (file) => {
+              const converted = await convertIfHeic(file)
+              return { file: converted, previewUrl: URL.createObjectURL(converted) }
+            })
+          )
+          onSetPendingPhotos((prev) => [...prev, ...pending])
+          e.target.value = ''
+        }}
+      />
     </section>
   )
 }

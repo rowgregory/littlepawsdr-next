@@ -16,7 +16,6 @@ import { AuctionStartedModal } from './components/modals/AuctionStartedModal'
 import { stripePromise } from './lib/stripe/stripe-promise'
 import { CartBar } from './components/cart/CartBar'
 import { CartToast } from './components/cart/CartToast'
-import { AdoptionFeeWelcomeModal } from './components/modals/AdoptionFeeModal'
 import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher/pusher-client'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
@@ -88,7 +87,7 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
           <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
           <CartBar />
           <CartToast />
-          <AdoptionFeeWelcomeModal />
+
           <PublicContactModal />
           <Suspense fallback={null}>
             <NavigationDrawer auction={auction} hasActiveFee={hasActiveFee} />

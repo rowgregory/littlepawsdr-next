@@ -2,6 +2,16 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import Pusher from 'pusher-js'
 import { setAdoptionFeeCookie } from '../actions/_infra/setAdoptionFeeCookie'
 
+type OrderCreatedEvent = {
+  type: string
+  orderId?: string
+  adoptionFeeId?: string
+}
+
+type OrderFailedEvent = {
+  error?: string
+}
+
 export async function setupPusherListenerOneTime(channelId: string, router: AppRouterInstance): Promise<void> {
   let processingStatus = 'processing'
   let hasProcessed = false
@@ -21,7 +31,7 @@ export async function setupPusherListenerOneTime(channelId: string, router: AppR
       }
     }, 10000)
 
-    channel.bind('order-created', (data: any) => {
+    channel.bind('order-created', (data: OrderCreatedEvent) => {
       if (hasProcessed) return
       hasProcessed = true
       clearTimeout(timeout)
@@ -42,7 +52,7 @@ export async function setupPusherListenerOneTime(channelId: string, router: AppR
       finish().catch(reject)
     })
 
-    channel.bind('order-failed', (data: any) => {
+    channel.bind('order-failed', (data: OrderFailedEvent) => {
       clearTimeout(timeout)
       processingStatus = 'failed'
       channel.unbind_all()

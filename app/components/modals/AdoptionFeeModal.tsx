@@ -1,20 +1,11 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { store, useUiSelector } from 'app/lib/store/store'
-import { setCloseAdoptionFeeWelcomeModal } from 'app/lib/store/slices/uiSlice'
 
-export function AdoptionFeeWelcomeModal() {
-  const { adoptionFeeWelcomeModal } = useUiSelector()
-  const onClose = () => store.dispatch(setCloseAdoptionFeeWelcomeModal())
-
-  const handleLaunch = () => {
-    onClose()
-  }
-
+export function AdoptionFeeWelcomeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   return (
     <AnimatePresence>
-      {adoptionFeeWelcomeModal && (
+      {isOpen && (
         <>
           {/* Overlay */}
           <motion.div
@@ -95,7 +86,7 @@ export function AdoptionFeeWelcomeModal() {
 
                 {/* CTA */}
                 <button
-                  onClick={handleLaunch}
+                  onClick={onClose}
                   className="w-full py-3 px-6 bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white text-sm font-semibold transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark focus-visible:ring-offset-2"
                 >
                   Sounds good →

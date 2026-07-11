@@ -1,5 +1,6 @@
 import { Loader2 } from 'lucide-react'
 import { FormField } from 'app/components/_primitives'
+import { STATES } from 'app/lib/constants/location.constants'
 
 type AddressErrors = {
   addressLine1?: string
@@ -37,7 +38,7 @@ export function InstantBuyAddressSection({
   onPatch,
   onEdit,
   onCancel,
-  onSave,
+  onSave
 }: Props) {
   const saveDisabled =
     !inputs.addressLine1.trim() ||
@@ -126,13 +127,18 @@ export function InstantBuyAddressSection({
                 id="state"
                 name="state"
                 label="State"
+                type="select"
                 value={inputs.state}
                 onChange={(e) => onPatch({ state: e.target.value })}
-                autoComplete="address-level1"
-                placeholder="MA"
                 error={addressErrors.state}
-                className="uppercase"
-              />
+              >
+                <option value="">Select a state</option>
+                {STATES.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.text}
+                  </option>
+                ))}
+              </FormField>
               <FormField
                 id="zipPostalCode"
                 name="zipPostalCode"
@@ -142,6 +148,7 @@ export function InstantBuyAddressSection({
                 autoComplete="postal-code"
                 placeholder="02101"
                 error={addressErrors.zipPostalCode}
+                maxLength={5}
               />
             </div>
             <div className="flex gap-3">
