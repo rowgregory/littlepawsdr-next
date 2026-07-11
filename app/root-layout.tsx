@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, ReactNode, Suspense, useEffect, useRef } from 'react'
+import { FC, ReactNode, Suspense, useEffect, useRef, useState } from 'react'
 import { Provider } from 'react-redux'
 import { store } from './lib/store/store'
 import { Elements } from '@stripe/react-stripe-js'
@@ -12,16 +12,16 @@ import { ThemeProvider } from './lib/providers/theme.provider'
 import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { HIDDEN_PATHS } from './lib/constants/navigation.constants'
 import AuctionEndedModal from './components/modals/AuctionEndedModal'
-import AuctionStartedModal from './components/modals/AuctionStartedModal'
+import { AuctionStartedModal } from './components/modals/AuctionStartedModal'
 import { stripePromise } from './lib/stripe/stripe-promise'
 import { CartBar } from './components/cart/CartBar'
 import { CartToast } from './components/cart/CartToast'
 import { AdoptionFeeWelcomeModal } from './components/modals/AdoptionFeeModal'
 import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher/pusher-client'
-import { setOpenAuctionStartedModal } from './lib/store/slices/uiSlice'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import { CartPersistence } from './components/cart/CartPersistence'
+import { AuctionStartedData } from 'types/entities/auction'
 
 interface RootLayoutWrapperProps {
   children: ReactNode
@@ -40,6 +40,8 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
 
   const activeAuctionId = auction?.id ?? null
 
+  const [auctionStartedData, setAuctionStartedData] = useState<AuctionStartedData | null>(null)
+
   useEffect(() => {
     routerRef.current = router
   }, [router])
@@ -48,9 +50,10 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
     if (!activeAuctionId) return
 
     const channel = pusherClient.subscribe(`auction-${activeAuctionId}`)
-    channel.bind('auction-started', (data: any) => {
+
+    channel.bind('auction-started', (data: AuctionStartedData) => {
       routerRef.current.refresh()
-      store.dispatch(setOpenAuctionStartedModal(data))
+      setAuctionStartedData(data)
     })
     channel.bind('auction-ended', () => routerRef.current.refresh())
     channel.bind('auction-updated', () => routerRef.current.refresh())
@@ -61,14 +64,23 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
     }
   }, [activeAuctionId])
 
+  const [burstTrigger, setBurstTrigger] = useState(0)
+
+  // expose via context or prop — simplest is a window event
+  useEffect(() => {
+    const handler = () => setBurstTrigger((t) => t + 1)
+    window.addEventListener('confetti-burst', handler)
+    return () => window.removeEventListener('confetti-burst', handler)
+  }, [])
+
   return (
     <Provider store={store}>
       <ThemeProvider>
         <Elements stripe={stripePromise}>
           <Toast />
-          <Confetti3D />
+          <Confetti3D burstTrigger={burstTrigger} />
           <AuctionEndedModal />
-          <AuctionStartedModal />
+          <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
           <CartBar />
           <CartToast />
           <AdoptionFeeWelcomeModal />

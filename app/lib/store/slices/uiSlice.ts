@@ -103,12 +103,12 @@ const uiSlice = createSlice({
     setCloseAuctionDrawer: (state) => {
       state.auctionDrawer = false
     },
-    setOpenAuctionItemDrawer: (state) => {
-      state.auctionItemDrawer = true
-    },
-    setCloseAuctionItemDrawer: (state) => {
-      state.auctionItemDrawer = false
-    },
+    // setOpenAuctionItemDrawer: (state) => {
+    //   state.auctionItemDrawer = true
+    // },
+    // setCloseAuctionItemDrawer: (state) => {
+    //   state.auctionItemDrawer = false
+    // },
     setOpenAuctionBidModal: (state, { payload }) => {
       state.auctionBidModal = true
       state.auctionItem = payload
@@ -147,12 +147,12 @@ const uiSlice = createSlice({
     setCloseAddPaymentMethodModal: (state) => {
       state.addPaymentMethodModal = false
     },
-    setOpenWelcomeWienerDrawer: (state) => {
-      state.welcomeWienerDrawer = true
-    },
-    setCloseWelcomeWienerDrawer: (state) => {
-      state.welcomeWienerDrawer = false
-    },
+    // setOpenWelcomeWienerDrawer: (state) => {
+    //   state.welcomeWienerDrawer = true
+    // },
+    // setCloseWelcomeWienerDrawer: (state) => {
+    //   state.welcomeWienerDrawer = false
+    // },
     setOpenCartToast: (state, { payload }) => {
       state.cartToast = true
       state.item = payload
@@ -161,32 +161,32 @@ const uiSlice = createSlice({
       state.cartToast = false
       state.item = null
     },
-    setOpenProductDrawer: (state) => {
-      state.productDrawer = true
-    },
-    setCloseProductDrawer: (state) => {
-      state.productDrawer = false
-    },
-    setOpenOrderDrawer: (state, { payload }) => {
-      state.orderDrawer = true
-      state.order = payload
-    },
-    setCloseOrderDrawer: (state) => {
-      state.orderDrawer = false
-      state.order = null
-    },
+    // setOpenProductDrawer: (state) => {
+    //   state.productDrawer = true
+    // },
+    // setCloseProductDrawer: (state) => {
+    //   state.productDrawer = false
+    // },
+    // setOpenOrderDrawer: (state, { payload }) => {
+    //   state.orderDrawer = true
+    //   state.order = payload
+    // },
+    // setCloseOrderDrawer: (state) => {
+    //   state.orderDrawer = false
+    //   state.order = null
+    // },
     setOpenAdoptionFeeWelcomeModal: (state) => {
       state.adoptionFeeWelcomeModal = true
     },
     setCloseAdoptionFeeWelcomeModal: (state) => {
       state.adoptionFeeWelcomeModal = false
     },
-    setOpenCreateAdminNewsletterIssueModal: (state) => {
-      state.adminCreateNewsletterIssueModal = true
-    },
-    setCloseCreateAdminNewsletterIssueModal: (state) => {
-      state.adminCreateNewsletterIssueModal = false
-    },
+    // setOpenCreateAdminNewsletterIssueModal: (state) => {
+    //   state.adminCreateNewsletterIssueModal = true
+    // },
+    // setCloseCreateAdminNewsletterIssueModal: (state) => {
+    //   state.adminCreateNewsletterIssueModal = false
+    // },
     setOpenContactModal: (state) => {
       state.contactModal = true
     },
@@ -217,8 +217,8 @@ export const {
   setIsDark,
   setCloseAuctionDrawer,
   setOpenAuctionDrawer,
-  setCloseAuctionItemDrawer,
-  setOpenAuctionItemDrawer,
+  // setCloseAuctionItemDrawer,
+  // setOpenAuctionItemDrawer,
   setCloseAuctionBidModal,
   setOpenAuctionBidModal,
   setCloseAuctionEndedModal,
@@ -227,18 +227,18 @@ export const {
   setOpenWinningBidderDrawer,
   setCloseAddPaymentMethodModal,
   setOpenAddPaymentMethodModal,
-  setCloseWelcomeWienerDrawer,
-  setOpenWelcomeWienerDrawer,
+  // setCloseWelcomeWienerDrawer,
+  // setOpenWelcomeWienerDrawer,
   setCloseCartToast,
   setOpenCartToast,
-  setOpenProductDrawer,
-  setCloseProductDrawer,
-  setCloseOrderDrawer,
-  setOpenOrderDrawer,
+  // setOpenProductDrawer,
+  // setCloseProductDrawer,
+  // setCloseOrderDrawer,
+  // setOpenOrderDrawer,
   setCloseAdoptionFeeWelcomeModal,
   setOpenAdoptionFeeWelcomeModal,
-  setCloseCreateAdminNewsletterIssueModal,
-  setOpenCreateAdminNewsletterIssueModal,
+  // setCloseCreateAdminNewsletterIssueModal,
+  // setOpenCreateAdminNewsletterIssueModal,
   setCloseContactModal,
   setOpenContactModal,
   setCloseAuctionStartedModal,

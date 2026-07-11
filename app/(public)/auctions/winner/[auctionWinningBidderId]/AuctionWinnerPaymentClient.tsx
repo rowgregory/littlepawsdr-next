@@ -158,7 +158,6 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
           coverFees,
           feesCovered,
           savedCardId: selectedCardId,
-          address: winningBidder?.user?.address,
           winningBidderId: winningBidder.id
         })
 
@@ -186,7 +185,6 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
           saveCard,
           coverFees,
           feesCovered,
-          address: winningBidder?.user?.address,
           winningBidderId: winningBidder.id
         })
 

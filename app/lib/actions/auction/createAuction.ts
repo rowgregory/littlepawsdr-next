@@ -2,7 +2,6 @@
 
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-import { serializeAuction } from 'app/lib/serializers'
 import { auth } from '../../auth'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 
@@ -70,7 +69,7 @@ export const createAuction = async (data: CreateAuctionInput) => {
       createdBy
     })
 
-    return { success: true, data: serializeAuction(auction) }
+    return { success: true, data: { id: auction.id } }
   } catch (error) {
     await createLog('error', 'Failed to create auction', {
       error: error instanceof Error ? error.message : 'Unknown error',

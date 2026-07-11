@@ -1,4 +1,4 @@
-import type { Address, OrderStatus, OrderType, ShippingStatus } from '@prisma/client'
+import type { Address, OrderStatus, OrderType, PaymentStatus, ShippingStatus } from '@prisma/client'
 import { IAdoptionFee } from './entities/adoption-fee'
 import { IPaymentMethod } from './entities/payment-method.types'
 import { IUser } from './entities/user'
@@ -77,7 +77,15 @@ export interface AuctionParticipation {
 
 export type PortalUser = Pick<
   IUser,
-  'id' | 'firstName' | 'lastName' | 'email' | 'phone' | 'anonymousBidding' | 'createdAt'
+  | 'id'
+  | 'firstName'
+  | 'lastName'
+  | 'email'
+  | 'phone'
+  | 'anonymousBidding'
+  | 'createdAt'
+  | 'autoPay'
+  | 'autoPayCoverFees'
 > & {
   address: Address | null
 }
@@ -91,6 +99,7 @@ export interface MemberPortalClientProps {
   adoptionFees: IAdoptionFee[]
   merchAndWWOrders: MerchAndWWOrder[]
   showWelcome: boolean
+  auctionPurchases: AuctionPurchase[]
 }
 
 export type Tier = (typeof TIERS)[number]
@@ -101,4 +110,17 @@ export interface SubscriptionSelectorProps {
   setBilling: Dispatch<SetStateAction<BillingInterval>>
   selected: TierId | null
   setSelected: Dispatch<SetStateAction<TierId | null>>
+}
+
+export interface AuctionPurchase {
+  id: string
+  auctionId: string
+  totalAmount: number
+  createdAt: Date
+  paymentStatus: PaymentStatus
+  items: {
+    id: string
+    name: string
+    image: string | null
+  }[]
 }

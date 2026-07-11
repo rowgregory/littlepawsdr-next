@@ -32,3 +32,11 @@ export interface IAuction {
 }
 
 export type Tab = (typeof TABS)[number]['label']
+
+export interface AuctionStartedData {
+  auctionId: string
+  auctionTitle: string
+  itemCount: number
+  endDate: string
+  customAuctionLink?: string
+}

@@ -4,12 +4,12 @@ import { Gavel, ShoppingBag, TrendingUp, Clock, Edit2, LayoutDashboard, Lock, Ta
 import { formatMoney } from 'app/utils/currency.utils'
 import Link from 'next/link'
 import { getItemStatusConfig } from 'app/utils/auction.utils'
-import { PhotoGallery } from 'app/components/admin/auction/PhotoGallery'
-import { StatCard } from 'app/components/admin/auction/StatCard'
-import { BidsTable } from 'app/components/admin/auction/BidsTable'
+import { PhotoGallery } from 'app/components/auction/PhotoGallery'
+import { BidsTable } from 'app/components/auction/admin/BidsTable'
 import { AuctionItemStatus, AuctionStatus } from '@prisma/client'
 import { IAuctionBid } from 'types/entities/auction-bid'
 import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
+import { StatCard } from 'app/components/auction/admin/StatCard'
 
 export default function AdminAuctionItemViewClient({
   auctionItem
@@ -52,13 +52,20 @@ export default function AdminAuctionItemViewClient({
       : [{ label: 'Quantity', value: item.totalQuantity ? String(item.totalQuantity) : '—' }]),
     ...(item.status === 'SOLD' ? [{ label: 'Sold Price', value: formatMoney(item.soldPrice) }] : []),
     { label: 'Requires Shipping', value: item.requiresShipping ? 'Yes' : 'No' },
-    ...(item.requiresShipping ? [{ label: 'Shipping Cost', value: item.shippingCosts != null ? formatMoney(item.shippingCosts) : 'TBD' }] : [])
+    ...(item.requiresShipping
+      ? [{ label: 'Shipping Cost', value: item.shippingCosts != null ? formatMoney(item.shippingCosts) : 'TBD' }]
+      : [])
   ]
 
   const auctionEnded = item.auction?.status === 'ENDED'
 
   const stats = [
-    { label: 'Total Bids', value: String(item.totalBids), icon: Gavel, iconColor: 'text-primary-light dark:text-primary-dark' },
+    {
+      label: 'Total Bids',
+      value: String(item.totalBids),
+      icon: Gavel,
+      iconColor: 'text-primary-light dark:text-primary-dark'
+    },
     { label: 'High Bid', value: formatMoney(highBid), icon: TrendingUp, iconColor: 'text-emerald-500' },
     item.isAuction
       ? { label: 'Starting', value: formatMoney(item.startingPrice), icon: Clock, iconColor: 'text-amber-500' }
@@ -67,7 +74,11 @@ export default function AdminAuctionItemViewClient({
       ? { label: 'Status', value: item.status.toLowerCase(), icon: Tag, iconColor: 'text-pink-500' }
       : {
           label: 'Shipping',
-          value: item.requiresShipping ? (item.shippingCosts != null ? formatMoney(item.shippingCosts) : 'TBD') : 'None',
+          value: item.requiresShipping
+            ? item.shippingCosts != null
+              ? formatMoney(item.shippingCosts)
+              : 'TBD'
+            : 'None',
           icon: Truck,
           iconColor: 'text-pink-500'
         }
@@ -85,7 +96,10 @@ export default function AdminAuctionItemViewClient({
             <LayoutDashboard className="w-3 h-3" aria-hidden="true" />
             Dashboard
           </Link>
-          <span className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
+          <span
+            className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-border-dark"
+            aria-hidden="true"
+          >
             /
           </span>
           <Link
@@ -94,7 +108,10 @@ export default function AdminAuctionItemViewClient({
           >
             Auctions
           </Link>
-          <span className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
+          <span
+            className="hidden sm:inline text-[9px] font-mono text-border-light dark:text-border-dark"
+            aria-hidden="true"
+          >
             /
           </span>
           <Link
@@ -106,7 +123,10 @@ export default function AdminAuctionItemViewClient({
           <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
             /
           </span>
-          <h1 className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate" aria-current="page">
+          <h1
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
+            aria-current="page"
+          >
             {item.name}
           </h1>
         </nav>
@@ -126,8 +146,12 @@ export default function AdminAuctionItemViewClient({
             <div className="min-w-0">
               <div className="flex items-center gap-2.5 mb-2 flex-wrap">
                 <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">Auction Item</p>
-                <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 border ${statusConfig.classes}`}>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
+                  Auction Item
+                </p>
+                <span
+                  className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 border ${statusConfig.classes}`}
+                >
                   {statusConfig.label}
                 </span>
                 {isActive && (
@@ -137,12 +161,20 @@ export default function AdminAuctionItemViewClient({
                   </span>
                 )}
               </div>
-              <h2 className="font-quicksand font-black text-xl sm:text-3xl text-text-light dark:text-text-dark wrap-break-word">{item.name}</h2>
+              <h2 className="font-quicksand font-black text-xl sm:text-3xl text-text-light dark:text-text-dark wrap-break-word">
+                {item.name}
+              </h2>
             </div>
 
             <Link
-              href={`/admin/auctions/${item.auctionId}/${item.id}/edit`}
-              className="flex items-center gap-2 px-3.5 py-2 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark text-[10px] font-mono tracking-[0.2em] uppercase hover:text-primary-light dark:hover:text-primary-dark hover:border-primary-light/40 dark:hover:border-primary-dark/40 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+              href={auctionEnded ? '#' : `/admin/auctions/${item.auctionId}/${item.id}/edit`}
+              aria-disabled={auctionEnded}
+              onClick={auctionEnded ? (e) => e.preventDefault() : undefined}
+              className={`flex items-center gap-2 px-3.5 py-2 border text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                auctionEnded
+                  ? 'border-border-light dark:border-border-dark text-muted-light/30 dark:text-muted-dark/30 cursor-not-allowed'
+                  : 'border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:border-primary-light/40 dark:hover:border-primary-dark/40'
+              }`}
             >
               <Edit2 size={12} aria-hidden="true" />
               Edit Item
@@ -172,7 +204,10 @@ export default function AdminAuctionItemViewClient({
                   className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
                 >
                   <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-                    <h3 id="item-description" className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    <h3
+                      id="item-description"
+                      className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+                    >
                       Description
                     </h3>
                   </div>
@@ -188,15 +223,22 @@ export default function AdminAuctionItemViewClient({
                 className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
               >
                 <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-                  <h3 id="item-details" className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  <h3
+                    id="item-details"
+                    className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+                  >
                     Details
                   </h3>
                 </div>
                 <dl className="divide-y divide-border-light dark:divide-border-dark">
                   {detailRows.map(({ label, value }) => (
                     <div key={label} className="grid grid-cols-[45%_1fr] gap-2 px-4 py-2.5">
-                      <dt className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark self-center">{label}</dt>
-                      <dd className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark capitalize">{value}</dd>
+                      <dt className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark self-center">
+                        {label}
+                      </dt>
+                      <dd className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark capitalize">
+                        {value}
+                      </dd>
                     </div>
                   ))}
                 </dl>

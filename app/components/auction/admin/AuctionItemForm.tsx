@@ -17,10 +17,11 @@ import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 
 import { FormField } from 'app/components/ui/FormField'
-import Picture from '../common/Picture'
+import Picture from '../../common/Picture'
 
 import type { IAuctionItem, SellingFormat } from 'types/entities/auction-item'
 import type { AuctionStatus } from 'types/entities/auction'
+import { convertIfHeic } from 'app/utils/common.utils'
 
 interface FormInputs {
   name: string
@@ -39,6 +40,11 @@ interface FormErrors {
   startingPrice?: string
   buyNowPrice?: string
   form?: string
+}
+
+interface PendingPhoto {
+  file: File
+  previewUrl: string
 }
 
 function validate(inputs: FormInputs, type: SellingFormat): FormErrors {
@@ -87,7 +93,7 @@ export function AuctionItemForm({
   const [loading, setLoading] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDel, setConfirmDel] = useState(false)
-  const [pendingPhotos, setPendingPhotos] = useState<File[]>([])
+  const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([])
   const [uploadProgress, setUploadProgress] = useState<number>(0)
 
   const handleSave = async () => {
@@ -104,7 +110,7 @@ export function AuctionItemForm({
     if (pendingPhotos.length > 0) {
       try {
         photos = await Promise.all(
-          pendingPhotos.map((file) => uploadFileToFirebase(file, (progress) => setUploadProgress(progress)))
+          pendingPhotos.map(({ file }) => uploadFileToFirebase(file, (progress) => setUploadProgress(progress)))
         )
       } catch {
         setErrors({ form: 'Failed to upload photos. Please try again.' })
@@ -523,36 +529,35 @@ export function AuctionItemForm({
                   )}
 
                   {/* Pending photos */}
-                  {pendingPhotos.length > 0 && (
-                    <div className="grid grid-cols-3 gap-2 mb-2">
-                      {pendingPhotos.map((file, i) => (
-                        <div
-                          key={`${file.name}-${i}`}
-                          className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
-                        >
-                          <Picture
-                            priority={false}
-                            src={URL.createObjectURL(file)}
-                            alt={file.name}
-                            className="w-full h-full object-cover"
-                          />
-                          {i === 0 && !isUpdating && (
-                            <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
-                              Primary
-                            </span>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => setPendingPhotos((prev) => prev.filter((_, idx) => idx !== i))}
-                            className="absolute top-1 right-1 w-5 h-5 flex items-center justify-center bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                            aria-label={`Remove ${file.name}`}
-                          >
-                            <X size={10} aria-hidden="true" />
-                          </button>
-                        </div>
-                      ))}
+                  {pendingPhotos.map(({ file, previewUrl }, i) => (
+                    <div
+                      key={`${file.name}-${i}`}
+                      className="relative group aspect-square border border-border-light dark:border-border-dark overflow-hidden"
+                    >
+                      <Picture
+                        priority={false}
+                        src={previewUrl}
+                        alt={file.name}
+                        className="w-full h-full object-cover"
+                      />
+                      {i === 0 && !isUpdating && (
+                        <span className="absolute top-1 left-1 text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 bg-primary-light dark:bg-primary-dark text-white">
+                          Primary
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          URL.revokeObjectURL(previewUrl)
+                          setPendingPhotos((prev) => prev.filter((_, idx) => idx !== i))
+                        }}
+                        className="absolute top-1 right-1 w-5 h-5 flex items-center justify-center bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        aria-label={`Remove ${file.name}`}
+                      >
+                        <X size={10} aria-hidden="true" />
+                      </button>
                     </div>
-                  )}
+                  ))}
 
                   {/* File input */}
                   <label
@@ -568,9 +573,18 @@ export function AuctionItemForm({
                     accept="image/*"
                     multiple
                     className="sr-only"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const files = Array.from(e.target.files ?? [])
-                      setPendingPhotos((prev) => [...prev, ...files])
+                      const pending = await Promise.all(
+                        files.map(async (file) => {
+                          const converted = await convertIfHeic(file)
+                          return {
+                            file: converted,
+                            previewUrl: URL.createObjectURL(converted)
+                          }
+                        })
+                      )
+                      setPendingPhotos((prev) => [...prev, ...pending])
                       e.target.value = ''
                     }}
                   />
@@ -578,7 +592,7 @@ export function AuctionItemForm({
               </section>
 
               {/* Danger zone */}
-              {isUpdating && (
+              {isUpdating && auctionStatus === 'DRAFT' && (
                 <div className="border border-red-500/20 bg-red-500/5">
                   <div className="px-4 py-3 border-b border-red-500/20">
                     <div className="flex items-center gap-2">
@@ -586,23 +600,22 @@ export function AuctionItemForm({
                       <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-red-500">Danger Zone</p>
                     </div>
                   </div>
-                  <div className="px-4 py-4 relative">
+                  <div className="px-4 py-4">
                     <p className="text-xs font-semibold text-text-light dark:text-text-dark mb-0.5">Delete Item</p>
                     <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mb-4 leading-relaxed">
-                      {isActive
-                        ? 'Items cannot be deleted while the auction is live.'
-                        : 'Permanently removes this item and all associated bids and photos. This cannot be undone.'}
+                      Permanently removes this item and its data. Photos are removed from our records but may remain in
+                      storage.
                     </p>
                     <button
                       type="button"
                       onClick={handleDelete}
-                      disabled={isActive || deleting}
+                      disabled={deleting}
                       aria-busy={deleting}
                       className={`w-full py-2.5 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 disabled:opacity-50 ${
                         confirmDel
                           ? 'border border-transparent bg-red-500 text-white'
                           : 'border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white'
-                      } ${isActive ? 'cursor-not-allowed' : ''}`}
+                      }`}
                     >
                       {deleting ? (
                         <span className="flex items-center justify-center gap-2">
@@ -627,7 +640,6 @@ export function AuctionItemForm({
                         Cancel
                       </button>
                     )}
-                    {isActive && <div className="absolute inset-0 cursor-not-allowed" aria-hidden="true" />}
                   </div>
                 </div>
               )}

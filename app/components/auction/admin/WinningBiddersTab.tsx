@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Copy } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 
-export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }) {
+export function WinningBiddersTab({ auction }: { auction: IAuction }) {
   return (
     <div className="border border-border-light dark:border-border-dark">
       <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
@@ -30,10 +30,18 @@ export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }
               ))}
             </tr>
           </thead>
-          <motion.tbody key="winningBidders" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>
+          <motion.tbody
+            key="winningBidders"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.15 }}
+          >
             {auction.winningBidders.length > 0 ? (
               auction.winningBidders.map((bidder) => {
-                const name = [bidder.user?.firstName, bidder.user?.lastName].filter(Boolean).join(' ') || bidder.user?.email || 'Guest'
+                const name =
+                  [bidder.user?.firstName, bidder.user?.lastName].filter(Boolean).join(' ') ||
+                  bidder.user?.email ||
+                  'Guest'
                 return (
                   <tr
                     onClick={() => store.dispatch(setOpenWinningBidderDrawer(bidder))}
@@ -44,7 +52,9 @@ export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }
                     <td className="px-5 py-3.5">
                       <p className="text-xs font-semibold text-text-light dark:text-text-dark">{name}</p>
                       {bidder.user?.email && (
-                        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{bidder.user.email}</p>
+                        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                          {bidder.user.email}
+                        </p>
                       )}
                     </td>
 
@@ -53,7 +63,10 @@ export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }
                       <div className="space-y-1">
                         {bidder.auctionItems?.map((item) => (
                           <div key={item.id} className="flex items-center gap-2">
-                            <span className="block w-1 h-1 shrink-0 bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+                            <span
+                              className="block w-1 h-1 shrink-0 bg-primary-light dark:bg-primary-dark"
+                              aria-hidden="true"
+                            />
                             <p className="text-xs text-text-light dark:text-text-dark truncate max-w-50">{item.name}</p>
                             <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">
                               ${Number(item.soldPrice).toLocaleString()}
@@ -91,7 +104,9 @@ export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }
                       {bidder.winningBidPaymentStatus !== 'PAID' && (
                         <button
                           type="button"
-                          onClick={() => navigator.clipboard.writeText(`https://littlepawsdr.org/auctions/winner/${bidder.id}`)}
+                          onClick={() =>
+                            navigator.clipboard.writeText(`https://littlepawsdr.org/auctions/winner/${bidder.id}`)
+                          }
                           className="flex items-center gap-1.5 mt-1.5 text-[10px] font-mono text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                           aria-label={`Copy payment link for ${name}`}
                         >
@@ -102,7 +117,9 @@ export function AdminAuctionWinningBiddersTab({ auction }: { auction: IAuction }
                     </td>
                     {/* Emails sent */}
                     <td className="px-5 py-3.5">
-                      <p className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark">{bidder.emailNotificationCount}</p>
+                      <p className="text-xs font-mono tabular-nums text-text-light dark:text-text-dark">
+                        {bidder.emailNotificationCount}
+                      </p>
                     </td>
                   </tr>
                 )

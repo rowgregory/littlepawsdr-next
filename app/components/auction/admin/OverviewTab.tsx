@@ -1,36 +1,63 @@
 import { formatDateTime, getDaysRemaining } from 'app/utils/date.utils'
 import { IAuction } from 'types/entities/auction'
-import { AdminAuctionStatCard } from './AdminAuctionStatCard'
+import { StatCard } from './StatCard'
 import { formatMoney } from 'app/utils/currency.utils'
 import { Clock, DollarSign, Gavel, Package, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Picture from '../../common/Picture'
+import { getDisplayRevenue } from 'app/utils/auction.utils'
 
-export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
-  const pct = auction.goal > 0 ? Math.min(100, Math.round((auction.totalAuctionRevenue / auction.goal) * 100)) : 0
+export function OverviewTab({ auction }: { auction: IAuction }) {
+  const isEnded = auction.status === 'ENDED'
+  const displayRevenue = getDisplayRevenue(auction)
+  const pct = auction.goal > 0 ? Math.min(100, Math.round((displayRevenue / auction.goal) * 100)) : 0
   const daysLeft = getDaysRemaining(auction.endDate)
 
   return (
     <div className="space-y-4">
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
-        <AdminAuctionStatCard
-          label="Revenue"
-          value={formatMoney(auction.totalAuctionRevenue)}
+        <StatCard
+          label={isEnded ? 'Revenue' : 'Secured'}
+          value={formatMoney(displayRevenue)}
           icon={DollarSign}
           iconColor="text-primary-light dark:text-primary-dark"
           delay={0}
         />
-        <AdminAuctionStatCard label="Items" value={String(auction.items.length)} icon={Package} iconColor="text-violet-500" delay={0.06} />
-        <AdminAuctionStatCard label="Bidders" value={String(auction.bidders.length)} icon={Users} iconColor="text-pink-500" delay={0.12} />
-        <AdminAuctionStatCard label="Total Bids" value={String(auction.bids.length)} icon={Gavel} iconColor="text-amber-500" delay={0.18} />
+        <StatCard
+          label="Items"
+          value={String(auction.items.length)}
+          icon={Package}
+          iconColor="text-violet-500"
+          delay={0.06}
+        />
+        <StatCard
+          label="Bidders"
+          value={String(auction.bidders.length)}
+          icon={Users}
+          iconColor="text-pink-500"
+          delay={0.12}
+        />
+        <StatCard
+          label="Total Bids"
+          value={String(auction.bids.length)}
+          icon={Gavel}
+          iconColor="text-amber-500"
+          delay={0.18}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Goal progress */}
-        <section aria-labelledby="goal-heading" className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+        <section
+          aria-labelledby="goal-heading"
+          className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
+        >
           <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-            <h2 id="goal-heading" className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+            <h2
+              id="goal-heading"
+              className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+            >
               Goal Progress
             </h2>
           </div>
@@ -38,11 +65,16 @@ export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-2xl font-black font-quicksand tabular-nums text-text-light dark:text-text-dark">
-                  {formatMoney(auction.totalAuctionRevenue)}
+                  {formatMoney(displayRevenue)}
                 </p>
-                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">of {formatMoney(auction.goal)} goal</p>
+                <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                  {isEnded ? 'total revenue · ' : 'secured · '}
+                  goal {formatMoney(auction.goal)}
+                </p>
               </div>
-              <p className="text-xl font-black font-mono tabular-nums text-primary-light dark:text-primary-dark">{pct}%</p>
+              <p className="text-xl font-black font-mono tabular-nums text-primary-light dark:text-primary-dark">
+                {pct}%
+              </p>
             </div>
 
             <div
@@ -63,12 +95,20 @@ export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
 
             <dl className="grid grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
               <div className="bg-bg-light dark:bg-bg-dark px-3 py-2">
-                <dt className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Start</dt>
-                <dd className="text-[11px] font-mono text-text-light dark:text-text-dark mt-0.5">{formatDateTime(auction.startDate)}</dd>
+                <dt className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                  Start
+                </dt>
+                <dd className="text-[11px] font-mono text-text-light dark:text-text-dark mt-0.5">
+                  {formatDateTime(auction.startDate)}
+                </dd>
               </div>
               <div className="bg-bg-light dark:bg-bg-dark px-3 py-2">
-                <dt className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">End</dt>
-                <dd className="text-[11px] font-mono text-text-light dark:text-text-dark mt-0.5">{formatDateTime(auction.endDate)}</dd>
+                <dt className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                  End
+                </dt>
+                <dd className="text-[11px] font-mono text-text-light dark:text-text-dark mt-0.5">
+                  {formatDateTime(auction.endDate)}
+                </dd>
               </div>
             </dl>
 
@@ -81,13 +121,16 @@ export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
           </div>
         </section>
 
-        {/* Top items */}
+        {/* Top items — unchanged */}
         <section
           aria-labelledby="top-items-heading"
           className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
         >
           <div className="px-4 py-2.5 border-b border-border-light dark:border-border-dark">
-            <h2 id="top-items-heading" className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+            <h2
+              id="top-items-heading"
+              className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark"
+            >
               Top Items by Bids
             </h2>
           </div>
@@ -101,7 +144,9 @@ export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
                     key={item.id}
                     className="px-4 py-2.5 flex items-center gap-3 hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 transition-colors"
                   >
-                    <span className="text-[10px] font-mono tabular-nums text-muted-light dark:text-muted-dark w-4 shrink-0">{i + 1}</span>
+                    <span className="text-[10px] font-mono tabular-nums text-muted-light dark:text-muted-dark w-4 shrink-0">
+                      {i + 1}
+                    </span>
                     {item.photos[0] ? (
                       <Picture
                         priority={false}
@@ -120,7 +165,9 @@ export function AdminAuctionOverviewTab({ auction }: { auction: IAuction }) {
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-text-light dark:text-text-dark truncate">{item.name}</p>
                     </div>
-                    <p className="text-[10px] font-mono tabular-nums text-muted-light dark:text-muted-dark shrink-0">{item.totalBids} bids</p>
+                    <p className="text-[10px] font-mono tabular-nums text-muted-light dark:text-muted-dark shrink-0">
+                      {item.totalBids} bids
+                    </p>
                     <p className="text-xs font-black font-mono tabular-nums text-text-light dark:text-text-dark shrink-0 w-16 text-right">
                       {formatMoney(item.currentBid)}
                     </p>

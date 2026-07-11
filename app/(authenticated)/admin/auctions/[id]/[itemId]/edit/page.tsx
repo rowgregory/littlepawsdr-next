@@ -1,8 +1,12 @@
 import { notFound } from 'next/navigation'
 import prisma from 'prisma/client'
-import { AuctionItemForm } from 'app/components/forms/AuctionItemForm'
+import { AuctionItemForm } from 'app/components/auction/admin/AuctionItemForm'
 
-export default async function AdminAuctionEditItemPage({ params }: { params: Promise<{ id: string; itemId: string }> }) {
+export default async function AdminAuctionEditItemPage({
+  params
+}: {
+  params: Promise<{ id: string; itemId: string }>
+}) {
   const { id, itemId } = await params
 
   const auction = await prisma.auction.findUnique({ where: { id }, select: { id: true, status: true } })
@@ -29,5 +33,12 @@ export default async function AdminAuctionEditItemPage({ params }: { params: Pro
     }))
   }
 
-  return <AuctionItemForm auctionItem={serializedItem} auctionId={id} type={item.sellingFormat} auctionStatus={auction.status} />
+  return (
+    <AuctionItemForm
+      auctionItem={serializedItem}
+      auctionId={id}
+      type={item.sellingFormat}
+      auctionStatus={auction.status}
+    />
+  )
 }

@@ -34,7 +34,9 @@ export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners:
   const handleAdd = (dog: IWelcomeWiener, product: WelcomeWienerProduct) => {
     if (added[dog.id]?.includes(product.id)) return
     const cartItem = {
-      id: product.id,
+      id: `${dog.id}-${product.id}`,
+      welcomeWienerId: dog.id,
+      welcomeWienerProductId: product.id,
       name: `${product.name} for ${dog.name}`,
       image: dog.images[0] ?? null,
       price: product.price,

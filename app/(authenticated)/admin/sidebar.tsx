@@ -60,7 +60,7 @@ const navGroups: NavGroup[] = [
   }
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
 
   const isActive = (href: string) =>
@@ -76,7 +76,7 @@ export default function AdminSidebar() {
   return (
     <nav
       aria-label="Admin sections"
-      className="w-52 shrink-0 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col py-4 h-screen sticky top-0"
+      className="flex w-52 shrink-0 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col py-4 h-screen sticky top-0"
     >
       {/* Brand */}
       <Link href="/" aria-label="Little Paws admin home" className="flex items-center gap-2.5 px-4 mb-6">
@@ -102,6 +102,7 @@ export default function AdminSidebar() {
                 <Link
                   key={item.label}
                   href={item.href}
+                  onClick={onClose}
                   aria-current={active ? 'page' : undefined}
                   className={rowClass(active)}
                 >

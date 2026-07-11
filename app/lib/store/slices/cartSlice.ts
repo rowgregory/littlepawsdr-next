@@ -1,7 +1,8 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface CartItem {
-  id: string
+  id?: string
+  welcomeWienerId?: string
   name: string
   image?: string | null
   price: number
@@ -76,6 +77,7 @@ export const cartSlice = createSlice({
   }
 })
 
-export const { addToCart, removeFromCart, clearCart, decrementQuantity, incrementQuantity, hydrateCart } = cartSlice.actions
+export const { addToCart, removeFromCart, clearCart, decrementQuantity, incrementQuantity, hydrateCart } =
+  cartSlice.actions
 
 export const cartReducer = cartSlice.reducer as Reducer

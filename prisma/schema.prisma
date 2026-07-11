@@ -191,6 +191,8 @@ model User {
   metadata Json? // ← Future-proof
 
   anonymousBidding Boolean @default(true)
+  autoPay          Boolean @default(false)
+  autoPayCoverFees Boolean @default(false)
 
   stripeCustomerId String?
   paymentMethods   PaymentMethod[]

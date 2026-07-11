@@ -20,7 +20,7 @@ export default function OrderConfirmationClient({ order }) {
   useEffect(() => {
     store.dispatch(clearCart())
   }, [])
-
+  console.log(order)
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 
   return (

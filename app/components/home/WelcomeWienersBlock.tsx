@@ -268,7 +268,7 @@ export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
       <div className="flex justify-center sm:justify-start px-4 xs:px-5 sm:px-6 lg:px-8">
         <div className="max-w-300 mx-auto w-full">
           <Link
-            href="/welcome-wieners"
+            href="/welcomewieners"
             className="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary-light dark:border-primary-dark text-text-light dark:text-text-dark text-sm font-semibold font-nunito tracking-wide hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white dark:hover:text-bg-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
           >
             View all {dachshunds.length} welcome wieners

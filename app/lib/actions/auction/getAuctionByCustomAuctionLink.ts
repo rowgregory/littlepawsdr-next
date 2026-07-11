@@ -57,6 +57,10 @@ export const getAuctionByCustomAuctionLink = async (link: string) => {
           totalPrice: wb.totalPrice ? Number(wb.totalPrice) : null,
           itemSoldPrice: wb.itemSoldPrice ? Number(wb.itemSoldPrice) : null,
           shipping: wb.shipping ? Number(wb.shipping) : null
+        })),
+        instantBuyers: auction.instantBuyers.map((ib) => ({
+          ...ib,
+          totalPrice: ib.totalPrice ? Number(ib.totalPrice) : null
         }))
       } as unknown as IAuction
     }

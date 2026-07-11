@@ -1,35 +1,19 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Gavel, Zap, X, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
 import { useCountdown } from '@hooks/useCountdown.hook'
-import { store, useUiSelector } from 'app/lib/store/store'
-import { setCloseAuctionStartedModal } from 'app/lib/store/slices/uiSlice'
+import Link from 'next/link'
+import { AuctionStartedData } from 'types/entities/auction'
+import { CountUnit } from '../_primitives'
 
-function CountUnit({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <span className="font-mono font-black text-2xl text-text-light dark:text-text-dark leading-none tabular-nums">
-        {String(value).padStart(2, '0')}
-      </span>
-      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-1">
-        {label}
-      </span>
-    </div>
-  )
-}
-
-export default function AuctionStartedModal() {
-  const { auctionStartedModal, auctionStartedData } = useUiSelector()
-  const { days, hours, minutes, done } = useCountdown(auctionStartedData?.endDate)
-  const onClose = () => store.dispatch(setCloseAuctionStartedModal())
+export function AuctionStartedModal({ data, onClose }: { data: AuctionStartedData | null; onClose: () => void }) {
+  const { days, hours, minutes, done } = useCountdown(new Date(data?.endDate))
 
   return (
     <AnimatePresence>
-      {auctionStartedModal && (
+      {data && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -41,7 +25,6 @@ export default function AuctionStartedModal() {
             aria-hidden="true"
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
             role="dialog"
@@ -54,7 +37,7 @@ export default function AuctionStartedModal() {
             className="fixed inset-0 z-120 flex items-center justify-center p-4 pointer-events-none"
           >
             <div className="relative w-full max-w-md bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark pointer-events-auto overflow-hidden">
-              {/* Animated gradient top bar */}
+              {/* Animated top bar */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -64,7 +47,7 @@ export default function AuctionStartedModal() {
                 aria-hidden="true"
               />
 
-              {/* Shimmer sweep */}
+              {/* Shimmer */}
               <motion.div
                 className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-transparent via-white/60 to-transparent pointer-events-none"
                 animate={{ x: ['-100%', '200%'] }}
@@ -100,9 +83,7 @@ export default function AuctionStartedModal() {
 
               {/* Header */}
               <div className="px-8 pt-12 pb-7 text-center border-b border-border-light dark:border-border-dark">
-                {/* Icon */}
                 <div className="relative w-16 h-16 mx-auto mb-6">
-                  {/* Outer pulse rings */}
                   {[1, 2].map((i) => (
                     <motion.div
                       key={i}
@@ -130,7 +111,6 @@ export default function AuctionStartedModal() {
                   </motion.div>
                 </div>
 
-                {/* Live label */}
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -140,8 +120,8 @@ export default function AuctionStartedModal() {
                   <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                   <div className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
-                      <span className="animate-ping absolute inline-flex h-full w-full  bg-primary-light dark:bg-primary-dark opacity-75" />
-                      <span className="relative inline-flex  h-2 w-2 bg-primary-light dark:bg-primary-dark" />
+                      <span className="animate-ping absolute inline-flex h-full w-full bg-primary-light dark:bg-primary-dark opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 bg-primary-light dark:bg-primary-dark" />
                     </span>
                     <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                       Now Live
@@ -157,7 +137,7 @@ export default function AuctionStartedModal() {
                   transition={{ delay: 0.35 }}
                   className="font-quicksand font-black text-2xl text-text-light dark:text-text-dark leading-snug mb-2"
                 >
-                  {auctionStartedData?.auctionTitle}
+                  {data.auctionTitle}
                 </motion.h2>
 
                 <motion.p
@@ -166,8 +146,7 @@ export default function AuctionStartedModal() {
                   transition={{ delay: 0.4 }}
                   className="text-xs font-mono text-muted-light dark:text-muted-dark"
                 >
-                  {auctionStartedData?.itemCount} item{auctionStartedData?.itemCount !== 1 ? 's' : ''} are up for
-                  bidding right now.
+                  {data.itemCount} item{data.itemCount !== 1 ? 's' : ''} are up for bidding right now.
                 </motion.p>
               </div>
 
@@ -200,12 +179,10 @@ export default function AuctionStartedModal() {
                 className="px-8 py-6 flex flex-col gap-3"
               >
                 <Link
-                  href={`/auctions/${auctionStartedData?.customAuctionLink}`}
+                  href={`/auctions/${data.customAuctionLink ?? data.auctionId}`}
                   onClick={onClose}
                   className="group relative overflow-hidden flex items-center justify-between px-5 py-4 bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-                  aria-label={`Go to ${auctionStartedData?.auctionTitle}`}
                 >
-                  {/* Shimmer */}
                   <motion.span
                     className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -skew-x-12 pointer-events-none"
                     animate={{ x: ['-150%', '250%'] }}

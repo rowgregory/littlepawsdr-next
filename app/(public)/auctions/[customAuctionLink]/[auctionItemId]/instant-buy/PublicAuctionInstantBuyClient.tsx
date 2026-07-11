@@ -102,7 +102,6 @@ export default function PublicAuctionInstantBuyClient({
   // UI-only toggles — not part of the payment payload
   const [editingName, setEditingName] = useState(!userName?.firstName)
   const [editingAddress, setEditingAddress] = useState(!userAddress?.addressLine1)
-  const [succeeded, setSucceeded] = useState(false)
 
   // Per-section field errors
   const [nameErrors, setNameErrors] = useState<Record<string, string>>({})
@@ -188,6 +187,7 @@ export default function PublicAuctionInstantBuyClient({
 
     setSavingAddress(true)
     const result = await updateAddress({
+      name: `${inputs.firstName.trim()} ${inputs.lastName.trim()}`,
       addressLine1: inputs.addressLine1.trim(),
       addressLine2: inputs.addressLine2?.trim() || null,
       city: inputs.city.trim(),
@@ -209,7 +209,7 @@ export default function PublicAuctionInstantBuyClient({
   }
 
   // ── Submit ────────────────────────────────────────────────────────────────
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault()
     if (!stripe || !elements || !isValid) return
 
@@ -222,7 +222,6 @@ export default function PublicAuctionInstantBuyClient({
         (value: string) => patch({ error: value }),
         () => {
           patch({ loading: false })
-          setSucceeded(true)
         }
       ] as const
 
@@ -278,41 +277,6 @@ export default function PublicAuctionInstantBuyClient({
         error: err instanceof Error ? err.message : 'Something went wrong. Please try again.'
       })
     }
-  }
-
-  // ── Success screen ────────────────────────────────────────────────────────
-  if (succeeded) {
-    return (
-      <div className="min-h-screen bg-bg-light dark:bg-bg-dark flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center space-y-4">
-          <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto">
-            <svg
-              className="w-6 h-6 text-green-600 dark:text-green-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h1 className="font-changa text-xl uppercase tracking-[0.15em] text-text-light dark:text-text-dark">
-            Purchase Complete
-          </h1>
-          <p className="font-lato text-sm text-muted-light dark:text-muted-dark leading-relaxed">
-            Thank you for your purchase of{' '}
-            <span className="text-text-light dark:text-text-dark font-semibold">{auctionItem?.name}</span>. You&apos;ll
-            receive a confirmation email shortly.
-          </p>
-          <Link
-            href={`/auctions/${auctionItem?.auction.customAuctionLink}`}
-            className="inline-block mt-4 font-changa text-xs uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors"
-          >
-            ← Back to Auction
-          </Link>
-        </div>
-      </div>
-    )
   }
 
   return (

@@ -1,7 +1,6 @@
 import { useCallback, useRef, useEffect } from 'react'
 
 const SOUND_PATHS = {
-  se0: '/sound-effects/se0.mp3',
   se1: '/sound-effects/se1.mp3',
   se2: '/sound-effects/se2.mp3'
 } as const

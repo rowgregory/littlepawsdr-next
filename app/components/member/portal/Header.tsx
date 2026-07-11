@@ -3,7 +3,15 @@ import { formatMoney } from 'app/utils/currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
-import { AuctionParticipation, MerchAndWWOrder, PortalUser, Subscription } from 'types/member-portal.types'
+import {
+  AuctionParticipation,
+  AuctionPurchase,
+  MerchAndWWOrder,
+  PortalUser,
+  Subscription
+} from 'types/member-portal.types'
+import { FormField } from 'app/components/ui/FormField'
+import { Toggle } from 'app/components/_primitives/Toggle'
 
 interface HeaderProps {
   user: PortalUser
@@ -19,6 +27,13 @@ interface HeaderProps {
   subscriptions: Subscription[]
   merchAndWWOrders: MerchAndWWOrder[]
   auctionParticipation: AuctionParticipation[]
+  auctionPurchases: AuctionPurchase[]
+  anonymousBidding: boolean
+  onToggleAnonymousBidding: () => void
+  autoPay: boolean
+  onToggleAutoPay: () => void
+  autoPayCoverFees: boolean
+  onToggleAutoPayCoverFees: () => void
 }
 
 export function Header({
@@ -34,10 +49,22 @@ export function Header({
   totalGiven,
   subscriptions,
   merchAndWWOrders,
-  auctionParticipation
+  auctionParticipation,
+  auctionPurchases,
+  anonymousBidding,
+  onToggleAnonymousBidding,
+  autoPay,
+  onToggleAutoPay,
+  autoPayCoverFees,
+  onToggleAutoPayCoverFees
 }: HeaderProps) {
   const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || 'Member'
   const initials = [user?.firstName?.[0], user?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
+
+  const totalAuctions = new Set([
+    ...(auctionParticipation ?? []).map((a) => a.auctionId),
+    ...(auctionPurchases ?? []).map((p) => p.auctionId).filter(Boolean)
+  ]).size
 
   return (
     <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-12 sm:mb-16">
@@ -72,27 +99,29 @@ export function Header({
                 className="flex flex-col xs:flex-row gap-2 mt-1"
                 aria-label="Update your name"
               >
-                <input
-                  type="text"
+                <FormField
+                  id="portal-firstName"
+                  label="First name"
+                  name="firstName"
                   value={firstNameInput}
                   onChange={(e) => setFirstNameInput(e.target.value)}
                   placeholder="First name"
                   autoComplete="given-name"
                   required
-                  aria-label="First name"
-                  className="w-full xs:w-32 px-3 py-2 text-sm font-mono border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark"
+                  className="xs:w-32"
                 />
-                <input
-                  type="text"
+                <FormField
+                  id="portal-lastName"
+                  label="Last name"
+                  name="lastName"
                   value={lastNameInput}
                   onChange={(e) => setLastNameInput(e.target.value)}
                   placeholder="Last name"
                   autoComplete="family-name"
                   required
-                  aria-label="Last name"
-                  className="w-full xs:w-32 px-3 py-2 text-sm font-mono border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark"
+                  className="xs:w-32"
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-end">
                   <button
                     type="submit"
                     disabled={nameLoading}
@@ -152,13 +181,44 @@ export function Header({
         </div>
       </div>
 
+      {/* Bidding preferences */}
+      <div className="mt-6 px-4 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark space-y-4">
+        <Toggle
+          id="anonymous-bidding"
+          label="Anonymous bidding"
+          description="Your name won't be shown to other bidders when you place a bid."
+          checked={anonymousBidding}
+          onToggle={onToggleAnonymousBidding}
+        />
+        <div className="border-t border-border-light dark:border-border-dark pt-4">
+          <Toggle
+            id="auto-pay"
+            label="Auto-pay when I win"
+            description="Automatically charge your saved card when the auction ends and you're a top bidder — no action needed."
+            checked={autoPay}
+            onToggle={onToggleAutoPay}
+          />
+        </div>
+        {autoPay && (
+          <div className="border-t border-border-light dark:border-border-dark pt-4">
+            <Toggle
+              id="auto-pay-cover-fees"
+              label="Cover processing fees when auto-paying"
+              description="Add the Stripe processing fee to your charge so 100% of your bid goes to the rescue."
+              checked={autoPayCoverFees}
+              onToggle={onToggleAutoPayCoverFees}
+            />
+          </div>
+        )}
+      </div>
+
       {/* Stats strip */}
-      <div className="mt-8 grid grid-cols-2 xs:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
+      <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
         {[
           { label: 'Total Given', value: formatMoney(Number(totalGiven)) },
           { label: 'Subscriptions', value: String(subscriptions.filter((s) => s.status === 'CONFIRMED').length) },
-          { label: 'Merch & Welcome Wieners', value: String(merchAndWWOrders.length) },
-          { label: 'Auctions', value: String(auctionParticipation.length) }
+          { label: 'Merch & WW Orders', value: String(merchAndWWOrders.length) },
+          { label: 'Auctions', value: String(totalAuctions) }
         ].map(({ label, value }) => (
           <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4 sm:py-5">
             <p className="text-[9px] font-mono tracking-[0.18em] uppercase text-muted-light dark:text-muted-dark mb-1">

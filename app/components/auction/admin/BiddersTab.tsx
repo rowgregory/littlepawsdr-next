@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react'
 import { IAuction } from 'types/entities/auction'
 import { IAuctionItem } from 'types/entities/auction-item'
 
-export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
+export function BiddersTab({ auction }: { auction: IAuction }) {
   const [expanded, setExpanded] = useState<string | null>(null)
 
   return (
@@ -37,7 +37,10 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
           <motion.tbody key="bidders" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>
             {auction.bidders.length > 0 ? (
               auction.bidders.map((bidder, i) => {
-                const name = [bidder.user?.firstName, bidder.user?.lastName].filter(Boolean).join(' ') || bidder.user?.email || 'Guest'
+                const name =
+                  [bidder.user?.firstName, bidder.user?.lastName].filter(Boolean).join(' ') ||
+                  bidder.user?.email ||
+                  'Guest'
                 const bidderBids = auction.bids.filter((b) => b.userId === bidder.user.id)
                 const topBid = bidderBids.reduce((max, b) => Math.max(max, Number(b.bidAmount)), 0)
                 const biddedItems = [...new Set(bidderBids.map((b) => b.auctionItemId))]
@@ -50,7 +53,9 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
                     <tr
                       key={bidder.id}
                       className={`border-b border-border-light dark:border-border-dark last:border-0 transition-colors ${
-                        isExpanded ? 'bg-surface-light dark:bg-surface-dark' : 'hover:bg-surface-light dark:hover:bg-surface-dark'
+                        isExpanded
+                          ? 'bg-surface-light dark:bg-surface-dark'
+                          : 'hover:bg-surface-light dark:hover:bg-surface-dark'
                       }`}
                     >
                       {/* Expand toggle */}
@@ -61,7 +66,11 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
                           aria-expanded={isExpanded}
                           className="text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                         >
-                          {isExpanded ? <ChevronDown size={13} aria-hidden="true" /> : <ChevronRight size={13} aria-hidden="true" />}
+                          {isExpanded ? (
+                            <ChevronDown size={13} aria-hidden="true" />
+                          ) : (
+                            <ChevronRight size={13} aria-hidden="true" />
+                          )}
                         </button>
                       </td>
 
@@ -69,13 +78,17 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
                       <td className="px-5 py-3.5">
                         <p className="text-xs font-semibold text-text-light dark:text-text-dark">{name}</p>
                         {bidder.user?.email && (
-                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{bidder.user.email}</p>
+                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                            {bidder.user.email}
+                          </p>
                         )}
                       </td>
 
                       {/* Total bids */}
                       <td className="px-5 py-3.5">
-                        <span className="text-xs font-mono font-bold text-text-light dark:text-text-dark">{bidderBids.length}</span>
+                        <span className="text-xs font-mono font-bold text-text-light dark:text-text-dark">
+                          {bidderBids.length}
+                        </span>
                         <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-1">
                           across {biddedItems.length} item{biddedItems.length !== 1 ? 's' : ''}
                         </span>
@@ -103,7 +116,9 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
 
                       {/* Status */}
                       <td className="px-5 py-3.5">
-                        <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">{bidder.status}</span>
+                        <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                          {bidder.status}
+                        </span>
                       </td>
                     </tr>
 
@@ -128,13 +143,16 @@ export function AdminAuctionBiddersTab({ auction }: { auction: IAuction }) {
                               {biddedItems.map((item) => {
                                 const itemBids = bidderBids.filter((b) => b.auctionItemId === item.id)
                                 const itemTopBid = Math.max(...itemBids.map((b) => Number(b.bidAmount)))
-                                const isTopBidder = item.topBidder === (bidder.user?.anonymousBidding ? 'Anonymous' : name)
+                                const isTopBidder =
+                                  item.topBidder === bidder.user?.anonymousBidding ? 'Anonymous' : name
                                 return (
                                   <div
                                     key={item.id}
                                     className="flex items-center gap-4 px-3 py-2 border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark"
                                   >
-                                    <p className="text-xs font-mono text-text-light dark:text-text-dark flex-1 truncate">{item.name}</p>
+                                    <p className="text-xs font-mono text-text-light dark:text-text-dark flex-1 truncate">
+                                      {item.name}
+                                    </p>
                                     <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
                                       {itemBids.length} bid{itemBids.length !== 1 ? 's' : ''}
                                     </span>

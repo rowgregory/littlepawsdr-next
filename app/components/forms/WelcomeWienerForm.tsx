@@ -17,8 +17,8 @@ import { useRouter } from 'next/navigation'
 import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcomeWiener'
 import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
 import Link from 'next/link'
-import { Field, SectionLabel } from '../ui/form.components'
-import { inputClass, inputErrorClass } from 'app/lib/constants/form.constants'
+import { SectionLabel } from '../_primitives'
+import { FormField } from '../ui/FormField'
 
 type FormState = {
   name: string
@@ -52,19 +52,19 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
   const [uploadProgress, setUploadProgress] = useState(0)
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([])
 
-  const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
-    setForm((prev) => ({ ...prev, [key]: value }))
+  const patch = (data: Partial<FormState>) => setForm((prev) => ({ ...prev, ...data }))
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    patch({ [e.target.name]: e.target.value } as Partial<FormState>)
 
   const associated = form.associatedProducts
   const isAdded = (id: string) => associated.some((p) => p.id === id)
 
   const toggleProduct = (product: WelcomeWienerProduct) => {
-    update(
-      'associatedProducts',
-      isAdded(product.id) ? associated.filter((p) => p.id !== product.id) : [...associated, product]
-    )
+    patch({
+      associatedProducts: isAdded(product.id) ? associated.filter((p) => p.id !== product.id) : [...associated, product]
+    })
   }
-
   const handleSave = async () => {
     if (!form.name.trim()) {
       setErrors({ name: 'Required' })
@@ -193,43 +193,36 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
               {/* ── Profile ── */}
               <SectionLabel>Profile</SectionLabel>
 
-              <Field id="ww-name" label="Name *" error={errors?.name}>
-                <input
-                  id="ww-name"
-                  name="name"
-                  type="text"
-                  value={form?.name ?? ''}
-                  onChange={(e) => update('name', e.target.value)}
-                  placeholder="Peanut"
-                  className={`${inputClass} ${errors?.name ? inputErrorClass : ''}`}
-                  aria-invalid={!!errors?.name}
-                  autoFocus
-                />
-              </Field>
+              <FormField
+                id="ww-name"
+                label="Name"
+                name="name"
+                value={form?.name ?? ''}
+                onChange={handleInput}
+                placeholder="Peanut"
+                error={errors?.name}
+                required
+              />
 
-              <Field id="ww-bio" label="Bio">
-                <textarea
-                  id="ww-bio"
-                  name="bio"
-                  value={form?.bio ?? ''}
-                  onChange={(e) => update('bio', e.target.value)}
-                  placeholder="Tell this pup's story..."
-                  rows={6}
-                  className={`${inputClass} resize-y`}
-                />
-              </Field>
+              <FormField
+                id="ww-bio"
+                label="Bio"
+                name="bio"
+                type="textarea"
+                value={form?.bio ?? ''}
+                onChange={handleInput}
+                placeholder="Tell this pup's story..."
+                rows={6}
+              />
 
-              <Field id="ww-age" label="Age">
-                <input
-                  id="ww-age"
-                  name="age"
-                  type="text"
-                  value={form?.age ?? ''}
-                  onChange={(e) => update('age', e.target.value)}
-                  placeholder="3 years"
-                  className={`${inputClass}`}
-                />
-              </Field>
+              <FormField
+                id="ww-age"
+                label="Age"
+                name="age"
+                value={form?.age ?? ''}
+                onChange={handleInput}
+                placeholder="3 years"
+              />
 
               {/* ── Donation products ── */}
               <SectionLabel>Donation Products</SectionLabel>
@@ -304,7 +297,7 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                 label="Live"
                 description="Visible to the public on the donation page"
                 checked={form?.isLive ?? false}
-                onToggle={() => update('isLive', !form.isLive)}
+                onToggle={() => patch({ isLive: !form.isLive })}
               />
 
               <section className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
@@ -330,12 +323,7 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                           />
                           <button
                             type="button"
-                            onClick={() =>
-                              update(
-                                'images',
-                                form.images.filter((url: string) => url !== photo)
-                              )
-                            }
+                            onClick={() => patch({ images: form.images.filter((url: string) => url !== photo) })}
                             aria-label={`Remove image ${i + 1}`}
                             className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center focus:outline-none"
                           >

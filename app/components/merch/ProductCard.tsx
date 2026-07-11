@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Check, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
 import { IProduct } from 'types/entities/product'
-import { store } from 'app/lib/store/store'
+import { store, useCartSelector } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatMoney } from 'app/utils/currency.utils'
@@ -12,11 +12,24 @@ import Picture from 'app/components/common/Picture'
 
 export function ProductCard({ product, index }: { product: IProduct; index: number }) {
   const [added, setAdded] = useState(false)
-  const isOutOfStock = product.countInStock === 0
+  const { items: cartItems } = useCartSelector()
+
+  // console.log(product)
+
+  const outOfStock = product?.countInStock === 0
+  const inCart = cartItems.find((i) => i.id === product.id)?.quantity ?? 0
+  console.log('inCart: ', inCart)
+
+  const stockForSelection = product?.countInStock ?? 99
+  console.log('stockForSelection: ', stockForSelection)
+  const remaining = Math.max(0, stockForSelection - inCart)
+  console.log('remaining: ', remaining)
+  const atCartLimit = !outOfStock && remaining === 0
+  const canAdd = !outOfStock && !atCartLimit
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (isOutOfStock || added) return
+    if (outOfStock || !canAdd || added) return
 
     const cartItem = {
       id: product.id,
@@ -64,7 +77,7 @@ export function ProductCard({ product, index }: { product: IProduct; index: numb
         )}
 
         {/* Out of stock overlay */}
-        {isOutOfStock && (
+        {outOfStock && (
           <div className="absolute inset-0 bg-bg-light/70 dark:bg-bg-dark/70 flex items-center justify-center">
             <span className="px-3 py-1 border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
               Out of stock
@@ -73,7 +86,7 @@ export function ProductCard({ product, index }: { product: IProduct; index: numb
         )}
 
         {/* Hover cue */}
-        {!isOutOfStock && (
+        {!outOfStock && (
           <div
             className="absolute inset-0 bg-primary-light/0 group-hover:bg-primary-light/5 dark:group-hover:bg-primary-dark/5 transition-colors duration-300"
             aria-hidden="true"
@@ -124,53 +137,63 @@ export function ProductCard({ product, index }: { product: IProduct; index: numb
           </div>
 
           {!product.sizes && (
-            <motion.button
-              type="button"
-              onClick={handleAdd}
-              disabled={isOutOfStock}
-              aria-label={
-                isOutOfStock
-                  ? `${product.name} is out of stock`
-                  : added
-                    ? `${product.name} added to cart`
-                    : `Add ${product.name} to cart`
-              }
-              aria-disabled={isOutOfStock}
-              whileHover={!isOutOfStock && !added ? { scale: 1.04 } : {}}
-              whileTap={!isOutOfStock && !added ? { scale: 0.96 } : {}}
-              className={`shrink-0 w-9 h-9 flex items-center justify-center border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark
-              ${
-                isOutOfStock
-                  ? 'border-border-light dark:border-border-dark cursor-not-allowed opacity-40'
-                  : added
-                    ? 'border-primary-light dark:border-primary-dark bg-primary-light dark:bg-primary-dark'
-                    : 'border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark'
-              }`}
-            >
-              <AnimatePresence mode="wait">
-                {added ? (
-                  <motion.span
-                    key="check"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Check className="w-4 h-4 text-white" aria-hidden="true" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="plus"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Plus className="w-4 h-4 text-muted-light dark:text-muted-dark" aria-hidden="true" />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
+            <div className="flex flex-col items-end gap-1">
+              <motion.button
+                type="button"
+                onClick={handleAdd}
+                disabled={outOfStock || !canAdd}
+                aria-label={
+                  outOfStock
+                    ? `${product.name} is out of stock`
+                    : !canAdd
+                      ? `Maximum quantity in cart`
+                      : added
+                        ? `${product.name} added to cart`
+                        : `Add ${product.name} to cart`
+                }
+                aria-disabled={outOfStock || !canAdd}
+                whileHover={!outOfStock && !added && canAdd ? { scale: 1.04 } : {}}
+                whileTap={!outOfStock && !added && canAdd ? { scale: 0.96 } : {}}
+                className={`shrink-0 w-9 h-9 flex items-center justify-center border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark
+        ${
+          outOfStock || !canAdd
+            ? 'border-border-light dark:border-border-dark cursor-not-allowed opacity-40'
+            : added
+              ? 'border-primary-light dark:border-primary-dark bg-primary-light dark:bg-primary-dark'
+              : 'border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark'
+        }`}
+              >
+                <AnimatePresence mode="wait">
+                  {added ? (
+                    <motion.span
+                      key="check"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Check className="w-4 h-4 text-white" aria-hidden="true" />
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="plus"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Plus className="w-4 h-4 text-muted-light dark:text-muted-dark" aria-hidden="true" />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+
+              {!canAdd && !outOfStock && (
+                <p className="text-[9px] font-mono text-amber-500 dark:text-amber-400 text-right">
+                  Max {remaining === 0 ? 'reached' : `${remaining} left`}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>

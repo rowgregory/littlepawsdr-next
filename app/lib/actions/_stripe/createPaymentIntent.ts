@@ -12,15 +12,6 @@ import { getRequestGeo } from 'app/utils/log.server.utils'
 import { validateSavedCard } from './validateSavedCard'
 import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
 
-type PaymentAddress = {
-  addressLine1: string | null
-  addressLine2: string | null
-  city: string | null
-  state: string | null
-  zipPostalCode: string | null
-  country: string
-}
-
 type PaymentItem = {
   id: string
   name: string
@@ -30,6 +21,7 @@ type PaymentItem = {
   isPhysicalProduct: boolean
   size?: string | null
   welcomeWienerId?: string | null
+  welcomeWienerProductId?: string | null
 }
 
 export type CreatePaymentIntentParams = {
@@ -42,7 +34,6 @@ export type CreatePaymentIntentParams = {
   coverFees?: boolean
   feesCovered?: number
   savedCardId?: string | null
-  address?: PaymentAddress | null
   items?: PaymentItem[]
   winningBidderId?: string
   auctionItemId?: string
@@ -58,7 +49,6 @@ export async function createPaymentIntent({
   coverFees = false,
   feesCovered = 0,
   savedCardId,
-  address,
   items,
   winningBidderId,
   auctionItemId
@@ -71,12 +61,14 @@ export async function createPaymentIntent({
     // ── 1. Validate items + compute amount from the DB (unchanged) ──────────
     let computedBase = 0 // dollars
 
+    console.log('ITEMS:: ', items)
+
     if (items?.length) {
-      const ids = items.map((i) => i.id)
+      const ids = items.map((i) => i.id).filter((id): id is string => !!id)
       const wienerIds = items.map((i) => i.welcomeWienerId).filter(Boolean) as string[]
 
       const [products, wieners] = await Promise.all([
-        prisma.product.findMany({ where: { id: { in: ids } } }),
+        ids.length ? prisma.product.findMany({ where: { id: { in: ids } } }) : Promise.resolve([]),
         wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([])
       ])
 
@@ -99,7 +91,7 @@ export async function createPaymentIntent({
         if (!wiener.isLive) throw new Error(`${wiener.name} is no longer accepting donations`)
 
         const options = wiener.associatedProducts as unknown as WelcomeWienerProduct[]
-        const option = options.find((o) => o.id === item.id)
+        const option = options.find((o) => o.id === (item.welcomeWienerProductId ?? item.id))
         if (!option) throw new Error(`Invalid donation option for ${wiener.name}`)
 
         computedBase += Number(option.price) * item.quantity
@@ -148,15 +140,15 @@ export async function createPaymentIntent({
         saveCard: saveCard ? 'true' : 'false',
         coverFees: coverFees ? 'true' : 'false',
         feesCovered: feesCovered.toString(),
-        addressLine1: address?.addressLine1 || '',
-        addressLine2: address?.addressLine2 || '',
-        city: address?.city || '',
-        state: address?.state || '',
-        zipPostalCode: address?.zipPostalCode || '',
-        country: address?.country || 'US',
         items: items?.length
           ? JSON.stringify(
-              items.map((i) => ({ i: i.id, q: i.quantity, s: i.size ?? null, w: i.welcomeWienerId ?? null }))
+              items.map((i) => ({
+                i: i.id,
+                q: i.quantity,
+                s: i.size ?? null,
+                w: i.welcomeWienerId ?? null,
+                wp: i.welcomeWienerProductId ?? null
+              }))
             )
           : '',
         winningBidderId: winningBidderId ?? '',

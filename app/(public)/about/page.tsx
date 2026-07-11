@@ -4,9 +4,18 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Heart, Home, Shield, Users, ArrowRight, Dog, Star } from 'lucide-react'
 import Link from 'next/link'
+import { SectionLabel } from 'app/components/_primitives'
 
 // ─── Fade up animation helper ─────────────────────────────────────────────────
-function FadeUp({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+function FadeUp({
+  children,
+  delay = 0,
+  className = ''
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-48px' })
   return (
@@ -19,16 +28,6 @@ function FadeUp({ children, delay = 0, className = '' }: { children: React.React
     >
       {children}
     </motion.div>
-  )
-}
-
-// ─── Section label ────────────────────────────────────────────────────────────
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-      <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">{children}</p>
-    </div>
   )
 }
 
@@ -109,7 +108,9 @@ function TeamMember({ name, role, delay }: { name: string; role: string; delay: 
       </div>
       <div className="min-w-0">
         <p className="text-sm font-quicksand font-black text-text-light dark:text-text-dark truncate">{name}</p>
-        <p className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark mt-0.5">{role}</p>
+        <p className="text-[10px] font-mono tracking-[0.12em] uppercase text-muted-light dark:text-muted-dark mt-0.5">
+          {role}
+        </p>
       </div>
     </motion.div>
   )
@@ -125,7 +126,11 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════ */}
-      <section ref={heroRef} aria-labelledby="hero-heading" className="relative border-b border-border-light dark:border-border-dark overflow-hidden">
+      <section
+        ref={heroRef}
+        aria-labelledby="hero-heading"
+        className="relative border-b border-border-light dark:border-border-dark overflow-hidden"
+      >
         {/* Dot grid background */}
         <div
           className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
@@ -142,8 +147,12 @@ export default function AboutPage() {
 
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-24 lg:py-32">
           <div className="max-w-3xl">
-            <motion.div initial={{ opacity: 0, x: -16 }} animate={heroInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.4 }}>
-              <SectionLabel>Our Story</SectionLabel>
+            <motion.div
+              initial={{ opacity: 0, x: -16 }}
+              animate={heroInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4 }}
+            >
+              <SectionLabel className="mb-4">Our Story</SectionLabel>
             </motion.div>
 
             <motion.h1
@@ -162,8 +171,9 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="text-base xs:text-lg font-nunito text-muted-light dark:text-muted-dark leading-relaxed max-w-2xl mb-10"
             >
-              Little Paws Dachshund Rescue is a volunteer-run, 501(c)(3) nonprofit dedicated to rescuing, rehabilitating, and rehoming dachshunds and
-              dachshund mixes in need. Since 2008, we&apos;ve placed thousands of dogs into loving forever homes across the eastern United States.
+              Little Paws Dachshund Rescue is a volunteer-run, 501(c)(3) nonprofit dedicated to rescuing,
+              rehabilitating, and rehoming dachshunds and dachshund mixes in need. Since 2008, we&apos;ve placed
+              thousands of dogs into loving forever homes across the eastern United States.
             </motion.p>
 
             <motion.div
@@ -211,7 +221,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             <FadeUp>
-              <SectionLabel>Our Mission</SectionLabel>
+              <SectionLabel className="mb-4">Our Mission</SectionLabel>
               <h2
                 id="mission-heading"
                 className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight mb-6"
@@ -220,17 +230,17 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 font-nunito text-base text-muted-light dark:text-muted-dark leading-relaxed">
                 <p>
-                  We pull dachshunds from overcrowded shelters, owner surrenders, and neglect situations across the eastern United States. Every dog
-                  in our care receives a full veterinary evaluation, necessary medical treatment, and a loving foster home while they wait for their
-                  forever family.
+                  We pull dachshunds from overcrowded shelters, owner surrenders, and neglect situations across the
+                  eastern United States. Every dog in our care receives a full veterinary evaluation, necessary medical
+                  treatment, and a loving foster home while they wait for their forever family.
                 </p>
                 <p>
-                  Our rigorous adoption process ensures each dog is matched with a family that fits their personality, energy level, and medical needs
-                  — because the right match means a lifelong bond.
+                  Our rigorous adoption process ensures each dog is matched with a family that fits their personality,
+                  energy level, and medical needs — because the right match means a lifelong bond.
                 </p>
                 <p>
-                  As a foster-based rescue, we have no physical shelter. Every dog in our program lives in a real home, learning what it means to be
-                  loved.
+                  As a foster-based rescue, we have no physical shelter. Every dog in our program lives in a real home,
+                  learning what it means to be loved.
                 </p>
               </div>
             </FadeUp>
@@ -246,7 +256,9 @@ export default function AboutPage() {
               ].map(({ label, value }, i) => (
                 <FadeUp key={label} delay={i * 0.05}>
                   <div className="flex items-center justify-between px-5 py-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark">
-                    <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">{label}</span>
+                    <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                      {label}
+                    </span>
                     <span className="text-xs font-mono font-black text-text-light dark:text-text-dark">{value}</span>
                   </div>
                 </FadeUp>
@@ -265,8 +277,11 @@ export default function AboutPage() {
       >
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-20">
           <FadeUp className="mb-10">
-            <SectionLabel>What We Stand For</SectionLabel>
-            <h2 id="values-heading" className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight">
+            <SectionLabel className="mb-4">What We Stand For</SectionLabel>
+            <h2
+              id="values-heading"
+              className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight"
+            >
               Our Core Values
             </h2>
           </FadeUp>
@@ -314,8 +329,11 @@ export default function AboutPage() {
       <section aria-labelledby="process-heading" className="border-b border-border-light dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-20">
           <FadeUp className="mb-10">
-            <SectionLabel>How We Work</SectionLabel>
-            <h2 id="process-heading" className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight">
+            <SectionLabel className="mb-4">How We Work</SectionLabel>
+            <h2
+              id="process-heading"
+              className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight"
+            >
               From Rescue to Forever Home
             </h2>
           </FadeUp>
@@ -356,11 +374,17 @@ export default function AboutPage() {
               <FadeUp key={step} delay={i * 0.07}>
                 <div className="grid grid-cols-[48px_1fr] xs:grid-cols-[64px_1fr] sm:grid-cols-[80px_1fr] gap-0 border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark">
                   <div className="flex items-center justify-center border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark py-6">
-                    <span className="text-[10px] font-mono font-black text-primary-light dark:text-primary-dark tracking-widest">{step}</span>
+                    <span className="text-[10px] font-mono font-black text-primary-light dark:text-primary-dark tracking-widest">
+                      {step}
+                    </span>
                   </div>
                   <div className="px-5 xs:px-6 py-5 xs:py-6">
-                    <h3 className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1.5">{title}</h3>
-                    <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">{description}</p>
+                    <h3 className="font-quicksand font-black text-base text-text-light dark:text-text-dark mb-1.5">
+                      {title}
+                    </h3>
+                    <p className="text-sm font-nunito text-muted-light dark:text-muted-dark leading-relaxed">
+                      {description}
+                    </p>
                   </div>
                 </div>
               </FadeUp>
@@ -372,17 +396,24 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════════
           TEAM
       ══════════════════════════════════════════════ */}
-      <section aria-labelledby="team-heading" className="border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+      <section
+        aria-labelledby="team-heading"
+        className="border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
+      >
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <FadeUp>
-              <SectionLabel>The People Behind LPDR</SectionLabel>
-              <h2 id="team-heading" className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight mb-4">
+              <SectionLabel className="mb-4">The People Behind LPDR</SectionLabel>
+              <h2
+                id="team-heading"
+                className="font-quicksand font-black text-3xl xs:text-4xl text-text-light dark:text-text-dark leading-tight mb-4"
+              >
                 Our Leadership Team
               </h2>
               <p className="text-sm xs:text-base font-nunito text-muted-light dark:text-muted-dark leading-relaxed mb-8">
-                Little Paws is run entirely by passionate volunteers who give their time, expertise, and love to ensure every dachshund finds their
-                perfect home. Our board and coordinators bring decades of rescue experience to this work.
+                Little Paws is run entirely by passionate volunteers who give their time, expertise, and love to ensure
+                every dachshund finds their perfect home. Our board and coordinators bring decades of rescue experience
+                to this work.
               </p>
 
               <div className="flex items-center gap-3 p-4 border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark">
@@ -390,7 +421,8 @@ export default function AboutPage() {
                   <Star size={14} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
                 </div>
                 <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-                  Interested in joining our volunteer team? We&apos;re always looking for fosters, transporters, and coordinators.{' '}
+                  Interested in joining our volunteer team? We&apos;re always looking for fosters, transporters, and
+                  coordinators.{' '}
                   <Link
                     href="/volunteer"
                     className="text-primary-light dark:text-primary-dark hover:underline focus:outline-none focus-visible:underline"
@@ -404,7 +436,9 @@ export default function AboutPage() {
             <FadeUp delay={0.1}>
               <div className="border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark divide-y divide-border-light dark:divide-border-dark">
                 <div className="px-5 py-3.5 bg-surface-light dark:bg-surface-dark">
-                  <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Board & Coordinators</p>
+                  <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    Board & Coordinators
+                  </p>
                 </div>
                 <div className="px-5">
                   {[
@@ -440,7 +474,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 xs:px-5 sm:px-6 py-16 sm:py-24">
           <div className="max-w-2xl">
             <FadeUp>
-              <SectionLabel>Get Involved</SectionLabel>
+              <SectionLabel className="mb-4">Get Involved</SectionLabel>
               <h2
                 id="cta-heading"
                 className="font-quicksand font-black text-3xl xs:text-4xl sm:text-5xl text-text-light dark:text-text-dark leading-tight mb-6"
@@ -448,8 +482,8 @@ export default function AboutPage() {
                 Ready to make a difference?
               </h2>
               <p className="text-base font-nunito text-muted-light dark:text-muted-dark leading-relaxed mb-8">
-                Whether you&apos;re looking to adopt, foster, volunteer, or donate — there&apos;s a place for you in the Little Paws family. Every
-                contribution, big or small, saves lives.
+                Whether you&apos;re looking to adopt, foster, volunteer, or donate — there&apos;s a place for you in the
+                Little Paws family. Every contribution, big or small, saves lives.
               </p>
 
               <div className="grid grid-cols-1 xs:grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
@@ -475,7 +509,9 @@ export default function AboutPage() {
                       <p className="text-sm font-quicksand font-black text-text-light dark:text-text-dark group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors">
                         {label}
                       </p>
-                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">{description}</p>
+                      <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
+                        {description}
+                      </p>
                     </div>
                     <ArrowRight
                       size={14}

@@ -5,11 +5,7 @@ import { Gavel, Calendar, Users, TrendingUp, ChevronRight, Clock, Package as Pac
 import { IAuction } from 'types/entities/auction'
 import { motion } from 'framer-motion'
 import { getAuctionStatusConfig } from 'app/utils/auction.utils'
-
-function getProgressPct(revenue: number, goal: number) {
-  if (!goal) return 0
-  return Math.min(100, Math.round((revenue / goal) * 100))
-}
+import { getProgressPct } from 'app/utils/math.utils'
 
 export function AdminAuctionCard({ auction, index }: { auction: IAuction; index: number }) {
   const statusConfig = getAuctionStatusConfig(auction.status)

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, DollarSign, FileText, Radio, CheckCircle, Gavel } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionDrawer } from 'app/lib/store/slices/uiSlice'
-import { AdminAuctionCard } from '../../../components/admin/auction/AdminAuctionCard'
+import { AdminAuctionCard } from '../../../components/auction/admin/AdminAuctionCard'
 import AdminPageHeader from 'app/components/common/AdminPageHeader'
 import AdminHeaderButton from 'app/components/common/AdminHeaderButton'
 import { Stat } from 'app/components/common/Stat'
@@ -32,7 +32,10 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
         title="Auctions"
         count={{ value: auctions.length, noun: 'auction' }}
         action={
-          <AdminHeaderButton onClick={() => store.dispatch(setOpenAuctionDrawer())} icon={<Plus size={12} aria-hidden="true" />}>
+          <AdminHeaderButton
+            onClick={() => store.dispatch(setOpenAuctionDrawer())}
+            icon={<Plus size={12} aria-hidden="true" />}
+          >
             New Auction
           </AdminHeaderButton>
         }
@@ -48,7 +51,13 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
         </div>
 
         {/* ── Filter tabs ── */}
-        <AdminFilterTabs options={AUCTION_FILTERS} value={filter} onChange={setFilter} counts={counts} label="Filter auctions by status" />
+        <AdminFilterTabs
+          options={AUCTION_FILTERS}
+          value={filter}
+          onChange={setFilter}
+          counts={counts}
+          label="Filter auctions by status"
+        />
 
         {/* ── Grid ── */}
         <AnimatePresence mode="wait">

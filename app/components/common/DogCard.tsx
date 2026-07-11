@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import Picture from './Picture'
-import { IDachshund } from 'types/entities/rescue-groups'
+import { IDachshund } from 'types/rescue-groups.types'
 import { cardVariants } from 'app/lib/constants/motion.constants'
 
 export function DogCard({ dog, index }: { dog: IDachshund; index: number }) {

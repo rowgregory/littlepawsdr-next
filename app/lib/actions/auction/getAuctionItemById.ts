@@ -90,7 +90,12 @@ export const getAuctionItemById = async (id: string) => {
               itemSoldPrice: item.winningBidder.itemSoldPrice ? Number(item.winningBidder.itemSoldPrice) : null,
               shipping: item.winningBidder.shipping ? Number(item.winningBidder.shipping) : null
             }
-          : null
+          : null,
+
+        instantBuyers: item.instantBuyers.map((ib) => ({
+          ...ib,
+          totalPrice: ib.totalPrice ? Number(ib.totalPrice) : null
+        }))
       }
     }
   } catch (error) {

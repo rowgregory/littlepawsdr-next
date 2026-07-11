@@ -1,23 +1,36 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { IAuction, Tab } from 'types/entities/auction'
 import { formatDate } from 'app/utils/date.utils'
-import { AdminAuctionOverviewTab } from 'app/components/admin/auction/AdminAuctionOverviewTab'
-import { AdminAuctionItemsTab } from 'app/components/admin/auction/AdminAuctionItemsTab'
-import { AdminAuctionBiddersTab } from 'app/components/admin/auction/AdminAuctionBiddersTab'
-import { AdminAuctionWinningBiddersTab } from 'app/components/admin/auction/AdminAuctionWinningBiddersTab'
-import { AdminAuctionSettingsTab } from 'app/components/admin/auction/AdminAuctionSettingsTab'
-import { LayoutDashboard } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { getAuctionStatusConfig } from 'app/utils/auction.utils'
+import {
+  ItemsTab,
+  OverviewTab,
+  SettingsTab,
+  BiddersTab,
+  WinningBiddersTab,
+  Tabs,
+  TopBar
+} from 'app/components/auction/admin'
 import { TABS } from 'app/lib/constants/auction.constants'
+import { Check, Copy, ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+
+const TAB_PANELS: Record<string, React.ComponentType<{ auction: IAuction }>> = {
+  Overview: OverviewTab,
+  Items: ItemsTab,
+  Settings: SettingsTab,
+  Bidders: BiddersTab,
+  'Winning Bidders': WinningBiddersTab
+}
 
 export default function AdminAuctionClient({ auction }: { auction: IAuction }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const [copied, setCopied] = useState(false)
 
   const statusConfig = getAuctionStatusConfig(auction.status)
   const visibleTabs = TABS.filter((t) => t.statuses.includes(auction.status))
@@ -30,97 +43,84 @@ export default function AdminAuctionClient({ auction }: { auction: IAuction }) {
     router.replace(`${pathname}?tab=${tabSlug(label)}`, { scroll: false })
   }
 
+  const ActivePanel = TAB_PANELS[activeTab]
+
+  const auctionUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/auctions/${auction.customAuctionLink}`
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(auctionUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
       {/* ── Topbar ── */}
-      <header className="sticky top-0 z-10 w-full border-b border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur px-4 h-10 flex items-center justify-between gap-4">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 min-w-0">
-          <Link
-            href="/admin/dashboard"
-            className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-          >
-            <LayoutDashboard className="w-3 h-3" aria-hidden="true" />
-            Dashboard
-          </Link>
-          <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
-            /
-          </span>
-          <Link
-            href="/admin/auctions"
-            className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-          >
-            Auctions
-          </Link>
-          <span className="text-[9px] font-mono text-border-light dark:text-border-dark" aria-hidden="true">
-            /
-          </span>
-          <h1
-            className="text-[9px] font-mono tracking-[0.15em] uppercase text-text-light dark:text-text-dark truncate"
-            aria-current="page"
-          >
-            {auction.title}
-          </h1>
-        </nav>
-
-        <span
-          className={`shrink-0 text-[8px] font-black tracking-widest uppercase px-2 py-0.5 ${statusConfig.classes}`}
-        >
-          {statusConfig.label}
-        </span>
-      </header>
+      <TopBar auction={auction} statusConfig={statusConfig} />
 
       {/* ── Title band ── */}
-      <div className="w-full px-4 sm:px-6 pt-6 pb-4">
-        <h2 className="text-2xl sm:text-3xl font-black font-quicksand text-text-light dark:text-text-dark">
-          {auction.title}
-        </h2>
-        <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1">
-          {formatDate(auction.startDate)} — {formatDate(auction.endDate)}
-        </p>
+      <div className="w-full px-4 sm:px-6 pt-6 pb-4 space-y-4">
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-black font-quicksand text-text-light dark:text-text-dark">
+            {auction.title}
+          </h2>
+          <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-1">
+            {formatDate(auction.startDate)} — {formatDate(auction.endDate)}
+          </p>
+        </div>
+
+        {auction.customAuctionLink && (
+          <div className="flex items-center gap-px border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
+            <div className="flex items-center gap-2 px-3 py-2 flex-1 min-w-0">
+              <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark shrink-0">
+                littlepawsdr.org/auctions/
+              </span>
+              <span className="text-[10px] font-mono font-bold text-text-light dark:text-text-dark truncate">
+                {auction.customAuctionLink}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleCopy}
+              aria-label={copied ? 'Link copied' : 'Copy auction link'}
+              className="shrink-0 flex items-center gap-1.5 px-3 py-2 border-l border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+            >
+              {copied ? (
+                <>
+                  <Check size={11} className="text-emerald-500" aria-hidden="true" />
+                  <span className="text-emerald-500">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={11} aria-hidden="true" />
+                  Copy
+                </>
+              )}
+            </button>
+
+            <a
+              href={auctionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View public auction page"
+              className="shrink-0 flex items-center gap-1.5 px-3 py-2 border-l border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+            >
+              <ExternalLink size={11} aria-hidden="true" />
+              View
+            </a>
+          </div>
+        )}
       </div>
 
       <div className="w-full px-4 sm:px-6 pb-6">
         {/* ── Tabs ── */}
-        <div
-          role="tablist"
-          aria-label="Auction sections"
-          className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit mb-6 flex-wrap"
-        >
-          {visibleTabs.map((tab) => (
-            <button
-              key={tab.label}
-              role="tab"
-              id={`tab-${tab.label}`}
-              aria-selected={activeTab === tab.label}
-              aria-controls={`panel-${tab.label}`}
-              onClick={() => selectTab(tab.label)}
-              className={`relative px-4 py-2 text-[9px] font-mono tracking-[0.2em] uppercase transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                activeTab === tab.label
-                  ? 'text-text-light dark:text-text-dark bg-bg-light dark:bg-bg-dark'
-                  : 'text-muted-light dark:text-muted-dark bg-surface-light dark:bg-surface-dark hover:text-text-light dark:hover:text-text-dark'
-              }`}
-            >
-              {activeTab === tab.label && (
-                <motion.span
-                  layoutId="auction-detail-tab"
-                  className="absolute inset-x-0 bottom-0 h-0.5 bg-primary-light dark:bg-primary-dark"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  aria-hidden="true"
-                />
-              )}
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <Tabs activeTab={activeTab} selectTab={selectTab} visibleTabs={visibleTabs} />
 
         {/* ── Panels ── */}
         <div role="tabpanel" id={`panel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
           <motion.div key={activeTab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}>
-            {activeTab === 'Overview' && <AdminAuctionOverviewTab auction={auction} />}
-            {activeTab === 'Items' && <AdminAuctionItemsTab auction={auction} />}
-            {activeTab === 'Bidders' && <AdminAuctionBiddersTab auction={auction} />}
-            {activeTab === 'Winning Bidders' && <AdminAuctionWinningBiddersTab auction={auction} />}
-            {activeTab === 'Settings' && <AdminAuctionSettingsTab auction={auction} />}
+            {ActivePanel && <ActivePanel auction={auction} />}
           </motion.div>
         </div>
       </div>

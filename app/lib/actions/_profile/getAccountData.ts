@@ -3,6 +3,7 @@ import { auth } from '../../auth'
 import { createLog } from '../log/createLog'
 import {
   AuctionParticipation,
+  AuctionPurchase,
   Donation,
   MerchAndWWOrder,
   ParticipationItem,
@@ -14,9 +15,11 @@ export const getAccountData = async () => {
     const session = await auth()
     if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
 
-    const [user, orders, auctionBids, paymentMethods, adoptionFees] = await Promise.all([
+    const userId = session.user.id
+
+    const [user, orders, auctionBids, paymentMethods, adoptionFees, instantBuyers] = await Promise.all([
       prisma.user.findUnique({
-        where: { id: session.user.id },
+        where: { id: userId },
         select: {
           id: true,
           firstName: true,
@@ -26,16 +29,18 @@ export const getAccountData = async () => {
           anonymousBidding: true,
           address: true,
           createdAt: true,
-          hasSeenWelcome: true
+          hasSeenWelcome: true,
+          autoPay: true,
+          autoPayCoverFees: true
         }
       }),
       prisma.order.findMany({
-        where: { userId: session.user.id },
+        where: { userId },
         include: { items: true },
         orderBy: { createdAt: 'desc' }
       }),
       prisma.auctionBid.findMany({
-        where: { userId: session.user.id },
+        where: { userId },
         include: {
           auctionItem: {
             include: {
@@ -55,16 +60,37 @@ export const getAccountData = async () => {
         orderBy: { createdAt: 'desc' }
       }),
       prisma.paymentMethod.findMany({
-        where: { userId: session.user.id },
+        where: { userId },
         orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }]
       }),
       prisma.adoptionFee.findMany({
-        where: { userId: session.user.id },
+        where: { userId },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.auctionItemInstantBuyer.findMany({
+        where: { userId },
+        include: {
+          auctionItem: {
+            select: {
+              id: true,
+              name: true,
+              photos: {
+                orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+                take: 1
+              }
+            }
+          },
+          auction: {
+            select: { id: true }
+          }
+        },
         orderBy: { createdAt: 'desc' }
       })
     ])
 
     if (!user) return { success: false, error: 'User not found', data: null }
+
+    // ── Orders ────────────────────────────────────────────────────────────────
 
     const donations: Donation[] = orders
       .filter((o) => o.type === 'ONE_TIME_DONATION')
@@ -87,7 +113,7 @@ export const getAccountData = async () => {
       }))
 
     const merchAndWWOrders: MerchAndWWOrder[] = orders
-      .filter((o) => o.type === 'PRODUCT' || o.type === 'WELCOME_WIENER' || o.type === 'MIXED')
+      .filter((o) => ['PRODUCT', 'WELCOME_WIENER', 'MIXED'].includes(o.type))
       .map((o) => ({
         id: o.id,
         type: o.type,
@@ -115,6 +141,25 @@ export const getAccountData = async () => {
           : null
       }))
 
+    // ── Auction instant buys ─────────────────────────────────────────────────
+
+    const auctionPurchases: AuctionPurchase[] = instantBuyers.map((ib) => ({
+      id: ib.id,
+      auctionId: ib.auctionId,
+      totalAmount: Number(ib.totalPrice ?? 0),
+      createdAt: ib.createdAt,
+      paymentStatus: ib.paymentStatus,
+      items: [
+        {
+          id: ib.auctionItemId,
+          name: ib.auctionItem.name,
+          image: ib.auctionItem.photos[0]?.url ?? null
+        }
+      ]
+    }))
+
+    // ── Auction participation ─────────────────────────────────────────────────
+
     const byAuction = new Map<string, AuctionParticipation & { itemMap: Map<string, ParticipationItem> }>()
 
     for (const bid of auctionBids) {
@@ -141,7 +186,7 @@ export const getAccountData = async () => {
       group.myBidCount += 1
 
       const winner = bid.auctionItem.winningBidder
-      const iWon = winner?.userId === session.user.id
+      const iWon = winner?.userId === userId
 
       if (iWon) {
         group.paymentLink = `/auctions/winner/${winner!.id}`
@@ -178,35 +223,30 @@ export const getAccountData = async () => {
       items: [...itemMap.values()]
     }))
 
+    // ── Adoption fees ─────────────────────────────────────────────────────────
+
+    const adoptionFeesData = adoptionFees.map((fee) => ({
+      id: fee.id,
+      firstName: fee.firstName,
+      lastName: fee.lastName,
+      feeAmount: fee.feeAmount ? Number(fee.feeAmount) : null,
+      status: fee.status,
+      expiresAt: fee.expiresAt,
+      createdAt: fee.createdAt,
+      bypassCode: fee.bypassCode
+    }))
+
     return {
       success: true,
       data: {
-        user: {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          phone: user.phone,
-          anonymousBidding: user.anonymousBidding,
-          address: user.address,
-          createdAt: user.createdAt,
-          hasSeenWelcome: user.hasSeenWelcome
-        },
+        user,
         donations,
         subscriptions,
         merchAndWWOrders,
+        auctionPurchases,
         auctionParticipation,
         paymentMethods,
-        adoptionFees: adoptionFees.map((fee) => ({
-          id: fee.id,
-          firstName: fee.firstName,
-          lastName: fee.lastName,
-          feeAmount: fee.feeAmount ? Number(fee.feeAmount) : null,
-          status: fee.status,
-          expiresAt: fee.expiresAt,
-          createdAt: fee.createdAt,
-          bypassCode: fee.bypassCode
-        }))
+        adoptionFees: adoptionFeesData
       }
     }
   } catch (error) {
@@ -214,7 +254,6 @@ export const getAccountData = async () => {
       error: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : null
     })
-
     return { success: false, error: 'Failed to fetch account data', data: null }
   }
 }

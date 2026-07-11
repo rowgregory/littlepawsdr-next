@@ -76,7 +76,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
     const result = await placeBid(auctionItem.id, quickBidAmount)
 
     setIsQuickBidding(false)
-    playQuickBid('se0')
+    playQuickBid('se1')
 
     if (!result.success) {
       if (result.error === 'LOCK_NOT_ACQUIRED' && result.data?.newMinimumBid) {

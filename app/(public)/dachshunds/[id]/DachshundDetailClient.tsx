@@ -7,7 +7,7 @@ import Picture from '../../../components/common/Picture'
 import { store } from 'app/lib/store/store'
 import { setOpenContactModal } from 'app/lib/store/slices/uiSlice'
 import { QUALITY_LABELS } from 'app/lib/constants/rescue-groups.constants'
-import { Dog } from 'types/entities/rescue-groups'
+import { Dog } from 'types/rescue-groups.types'
 
 // ─── Stat pill ────────────────────────────────────────────────────────────────
 function StatPill({ label, value }: { label: string; value: string }) {

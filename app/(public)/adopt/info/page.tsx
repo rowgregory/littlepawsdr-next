@@ -1,80 +1,14 @@
 'use client'
 
+import { SectionLabel } from 'app/components/_primitives'
+import {
+  ADOPTION_GUIDELINES_AND_REQUIREMENTS,
+  FIVE_STEP_PROCESS,
+  STATES_WE_RESCUE
+} from 'app/lib/constants/about.page.constants'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-
-export const adoptionGuidelinesAndRequirements = [
-  'All adopters must be at least 21 years of age',
-  'You must own your home or have written permission from your landlord',
-  'All current pets must be spayed/neutered and up-to-date on vaccinations',
-  'You must have a secure, fenced yard or adequate exercise plan',
-  'Previous pet ownership experience is strongly preferred',
-  'Home visits may be required for certain dogs',
-  'You must be financially prepared for ongoing veterinary care'
-]
-
-export const fiveStepProcess = [
-  {
-    titleKey: 'Submit Application',
-    text: 'Complete our comprehensive adoption application with detailed information about your lifestyle and experience.',
-    linkKey: 'Start Application',
-    path: '/adopt'
-  },
-  {
-    titleKey: 'Application Review',
-    text: 'Our team will review your application and contact your references within 3-5 business days.',
-    text2: 'We may contact you for additional information if needed.'
-  },
-  {
-    titleKey: 'Meet & Greet',
-    text: 'Schedule a meeting with your potential new companion and their foster family.',
-    text2: 'This helps ensure compatibility and allows you to ask questions.'
-  },
-  {
-    titleKey: 'Home Check',
-    text: 'A brief home visit to ensure your space is safe and suitable for your new pet.',
-    text3: 'This can often be done virtually for approved adopters.'
-  },
-  {
-    titleKey: 'Adoption Day',
-    text: 'Finalize paperwork, pay adoption fee, and welcome your new family member home!',
-    text2: 'We provide ongoing support during the transition period.'
-  }
-]
-
-export const statesWeRescue = [
-  'Florida',
-  'Georgia',
-  'South Carolina',
-  'North Carolina',
-  'Virginia',
-  'Maryland',
-  'Delaware',
-  'Pennsylvania',
-  'New Jersey',
-  'New York',
-  'Connecticut'
-]
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, easing: [0.25, 0.46, 0.45, 0.94], delay: i * 0.07 }
-  })
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-3">
-      <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-      <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-        {children}
-      </p>
-    </div>
-  )
-}
 
 export default function AdoptionInformation() {
   return (
@@ -108,7 +42,7 @@ export default function AdoptionInformation() {
           className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark"
         >
           <div className="bg-surface-light dark:bg-surface-dark p-6 sm:p-8 flex flex-col justify-center gap-4">
-            <SectionLabel>A Big Decision</SectionLabel>
+            <SectionLabel className="mb-3">A Big Decision</SectionLabel>
             <h2
               id="decision-heading"
               className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark leading-snug"
@@ -122,12 +56,12 @@ export default function AdoptionInformation() {
             </p>
           </div>
           <div className="bg-bg-light dark:bg-bg-dark p-6 sm:p-8 flex flex-col gap-4">
-            <SectionLabel>Requirements</SectionLabel>
+            <SectionLabel className="mb-3">Requirements</SectionLabel>
             <h2 className="font-quicksand text-lg font-bold text-text-light dark:text-text-dark mb-2">
               Guidelines we strongly adhere to
             </h2>
             <ul className="space-y-3" role="list">
-              {adoptionGuidelinesAndRequirements.map((req, i) => (
+              {ADOPTION_GUIDELINES_AND_REQUIREMENTS.map((req, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-muted-light dark:text-on-dark">
                   <span
                     className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
@@ -149,7 +83,7 @@ export default function AdoptionInformation() {
           custom={0}
           aria-labelledby="puppy-heading"
         >
-          <SectionLabel>Adopting a Puppy</SectionLabel>
+          <SectionLabel className="mb-3">Adopting a Puppy</SectionLabel>
           <h2
             id="puppy-heading"
             className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4"
@@ -173,7 +107,7 @@ export default function AdoptionInformation() {
             className="flex flex-col gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark"
             aria-label="Five step adoption process"
           >
-            {fiveStepProcess.map((step, i) => (
+            {FIVE_STEP_PROCESS.map((step, i) => (
               <motion.li
                 key={i}
                 variants={fadeUp}
@@ -219,7 +153,7 @@ export default function AdoptionInformation() {
           custom={0}
           aria-labelledby="states-heading"
         >
-          <SectionLabel>Service Area</SectionLabel>
+          <SectionLabel className="mb-3">Service Area</SectionLabel>
           <h2
             id="states-heading"
             className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-6"
@@ -232,7 +166,7 @@ export default function AdoptionInformation() {
               role="list"
               aria-label="States where Little Paws Dachshund Rescue operates"
             >
-              {statesWeRescue.map((state) => (
+              {STATES_WE_RESCUE.map((state) => (
                 <li key={state} className="flex items-center gap-2 text-sm text-text-light dark:text-text-dark">
                   <span className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
                   {state}
@@ -251,7 +185,7 @@ export default function AdoptionInformation() {
           custom={0}
           aria-labelledby="transport-heading"
         >
-          <SectionLabel>Transportation</SectionLabel>
+          <SectionLabel className="mb-3">Transportation</SectionLabel>
           <h2
             id="transport-heading"
             className="font-quicksand text-2xl sm:text-3xl font-bold text-text-light dark:text-text-dark mb-4"

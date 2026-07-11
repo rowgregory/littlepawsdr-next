@@ -7,7 +7,7 @@ import { formatDate } from 'app/utils/date.utils'
 import AdminPageHeader from 'app/components/common/AdminPageHeader'
 import AdminFilterTabs from 'app/components/common/AdminFilterTabs'
 import AdminTable, { type Column } from 'app/components/common/AdminTable'
-import { IDachshund } from 'types/entities/rescue-groups'
+import { IDachshund } from 'types/rescue-groups.types'
 
 type Tab = 'AVAILABLE' | 'HOLD'
 
@@ -41,7 +41,9 @@ const columns: Column<IDachshund>[] = [
           )}
         </div>
         <div className="min-w-0">
-          <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug">{dog?.attributes?.name ?? '—'}</p>
+          <p className="font-quicksand font-black text-sm text-text-light dark:text-text-dark leading-snug">
+            {dog?.attributes?.name ?? '—'}
+          </p>
           {dog?.attributes?.qualities?.length > 0 && (
             <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">
               {dog.attributes.qualities.slice(0, 3).map(formatQuality).join(' · ')}

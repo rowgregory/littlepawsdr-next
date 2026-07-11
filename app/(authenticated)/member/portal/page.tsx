@@ -16,6 +16,7 @@ export default async function MemberPortalPage() {
       adoptionFees={result?.data?.adoptionFees}
       merchAndWWOrders={result?.data?.merchAndWWOrders}
       showWelcome={!result?.data?.user?.hasSeenWelcome}
+      auctionPurchases={result.data.auctionPurchases}
     />
   )
 }

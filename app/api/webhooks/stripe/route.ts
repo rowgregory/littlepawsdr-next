@@ -138,10 +138,19 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
             lastGeoLongitude: true,
             lastGeoCity: true,
             lastGeoRegion: true,
-            lastGeoCountry: true
+            lastGeoCountry: true,
+            address: true // add this
           }
         })
       : null
+
+    const address = geoUser?.address as {
+      addressLine1?: string
+      addressLine2?: string
+      city?: string
+      state?: string
+      zipPostalCode?: string
+    } | null
 
     const order = await prisma.order.create({
       data: {
@@ -153,12 +162,12 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         customerName: metadata?.name?.trim() || '',
         userId,
         paidAt: new Date(),
-        addressLine1: metadata?.addressLine1 || null,
-        addressLine2: metadata?.addressLine2 || null,
-        city: metadata?.city || null,
-        state: metadata?.state || null,
-        zipPostalCode: metadata?.zipPostalCode || null,
-        country: metadata?.country || null,
+        addressLine1: address?.addressLine1 ?? null,
+        addressLine2: address?.addressLine2 ?? null,
+        city: address?.city ?? null,
+        state: address?.state ?? null,
+        zipPostalCode: address?.zipPostalCode ?? null,
+        country: 'US',
         coverFees: metadata?.coverFees === 'true',
         feesCovered: parseFloat(metadata?.feesCovered || '0') || 0,
         isRecurring,
@@ -183,6 +192,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         q: number
         s: string | null
         w: string | null
+        wp: string | null
       }>
 
       const ids = compact.map((c) => c.i)
@@ -248,7 +258,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
         }
 
         const options = wiener.associatedProducts as unknown as WelcomeWienerProduct[]
-        const option = options.find((o) => o.id === line.i)
+        const option = options.find((o) => o.id === (line.wp ?? line.i))
         const price = Number(option?.price ?? 0)
 
         await prisma.orderItem.create({

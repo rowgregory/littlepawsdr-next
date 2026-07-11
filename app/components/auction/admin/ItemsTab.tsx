@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { getItemStatusConfig } from 'app/utils/auction.utils'
 
-export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
+export function ItemsTab({ auction }: { auction: IAuction }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -33,8 +33,14 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
           <span className="ml-1 text-primary-light dark:text-primary-dark tabular-nums">{auction.items.length}</span>
         </h2>
         <Link
-          href={`/admin/auctions/${auction.id}/new?type=${itemTab}`}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark text-[9px] font-mono tracking-[0.2em] uppercase hover:bg-secondary-light dark:hover:bg-secondary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+          href={auction.status === 'ENDED' ? '#' : `/admin/auctions/${auction.id}/new?type=${itemTab}`}
+          aria-disabled={auction.status === 'ENDED'}
+          onClick={auction.status === 'ENDED' ? (e) => e.preventDefault() : undefined}
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-[9px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+            auction.status === 'ENDED'
+              ? 'bg-surface-light dark:bg-surface-dark text-muted-light dark:text-muted-dark border border-border-light dark:border-border-dark cursor-not-allowed opacity-50'
+              : 'bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark hover:bg-secondary-light dark:hover:bg-secondary-dark'
+          }`}
         >
           <Plus size={11} aria-hidden="true" /> Add {itemTab === 'AUCTION' ? 'Auction' : 'Instant Buy'} Item
         </Link>
@@ -206,9 +212,19 @@ export function AdminAuctionItemsTab({ auction }: { auction: IAuction }) {
                           <Eye size={13} aria-hidden="true" />
                         </Link>
                         <Link
-                          href={`/admin/auctions/${item.auctionId}/${item.id}/edit`}
-                          aria-label={`Edit ${item.name}`}
-                          className="p-1.5 text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                          href={auction.status === 'ENDED' ? '#' : `/admin/auctions/${item.auctionId}/${item.id}/edit`}
+                          aria-label={
+                            auction.status === 'ENDED'
+                              ? `Cannot edit ${item.name} — auction has ended`
+                              : `Edit ${item.name}`
+                          }
+                          aria-disabled={auction.status === 'ENDED'}
+                          onClick={auction.status === 'ENDED' ? (e) => e.preventDefault() : undefined}
+                          className={`p-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                            auction.status === 'ENDED'
+                              ? 'text-muted-light/30 dark:text-muted-dark/30 cursor-not-allowed'
+                              : 'text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark'
+                          }`}
                         >
                           <Pencil size={13} aria-hidden="true" />
                         </Link>

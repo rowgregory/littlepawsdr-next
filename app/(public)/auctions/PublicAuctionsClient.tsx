@@ -9,20 +9,7 @@ import { IAuction } from 'types/entities/auction'
 import { useRef } from 'react'
 import { formatMoney } from 'app/utils/currency.utils'
 import Picture from 'app/components/common/Picture'
-
-// ─── Countdown unit ───────────────────────────────────────────────────────────
-function CountUnit({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <span className="font-mono font-black text-lg text-text-light dark:text-text-dark leading-none tabular-nums">
-        {String(value).padStart(2, '0')}
-      </span>
-      <span className="text-[8px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mt-0.5">
-        {label}
-      </span>
-    </div>
-  )
-}
+import { CountUnit } from 'app/components/_primitives'
 
 function Countdown({ endDate }: { endDate: Date }) {
   const { days, hours, minutes, seconds, done } = useCountdown(endDate)
@@ -32,10 +19,10 @@ function Countdown({ endDate }: { endDate: Date }) {
       className="flex items-end gap-2.5"
       aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
     >
-      {days > 0 && <CountUnit value={days} label="d" />}
-      <CountUnit value={hours} label="h" />
-      <CountUnit value={minutes} label="m" />
-      <CountUnit value={seconds} label="s" />
+      {days > 0 && <CountUnit value={days} label="d" size="sm" />}
+      <CountUnit value={hours} label="h" size="sm" />
+      <CountUnit value={minutes} label="m" size="sm" />
+      <CountUnit value={seconds} label="s" size="sm" />
     </div>
   )
 }

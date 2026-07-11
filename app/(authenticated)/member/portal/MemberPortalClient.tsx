@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from 'framer-motion'
 import { useSession } from 'next-auth/react'
-import { store } from 'app/lib/store/store'
+import { useAppDispatch } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MemberPortalClientProps } from 'types/member-portal.types'
@@ -22,6 +22,9 @@ import { ShippedCelebration } from 'app/components/member/portal/ShippedCelebrat
 import { setDefaultPaymentMethod } from 'app/lib/actions/_stripe/setDefaultPaymentMethod'
 import { deletePaymentMethod } from 'app/lib/actions/_stripe/deletePaymentMethod'
 import { WelcomeGate } from 'app/components/modals/WelcomeGate'
+import { toggleAnonymousBidding } from 'app/lib/actions/user/toggleAnonymousBidding'
+import { toggleAutoPay } from 'app/lib/actions/user/toggleAutoPay'
+import { toggleAutoPayCoverFees } from 'app/lib/actions/user/toggleAutoPayCoverFees'
 
 export default function MemberPortalClient({
   user,
@@ -31,10 +34,12 @@ export default function MemberPortalClient({
   paymentMethods,
   adoptionFees,
   merchAndWWOrders,
-  showWelcome
+  showWelcome,
+  auctionPurchases
 }: MemberPortalClientProps) {
   const router = useRouter()
   const session = useSession()
+  const dispatch = useAppDispatch()
 
   const [shippedOrderId, setShippedOrderId] = useState<string | null>(null)
   const [addressModalOpen, setAddressModalOpen] = useState(false)
@@ -44,15 +49,21 @@ export default function MemberPortalClient({
   const [firstNameInput, setFirstNameInput] = useState(user.firstName ?? '')
   const [lastNameInput, setLastNameInput] = useState(user.lastName ?? '')
   const [nameLoading, setNameLoading] = useState(false)
+  const [anonymousBidding, setAnonymousBidding] = useState(user.anonymousBidding)
+  const [autoPay, setAutoPay] = useState(user.autoPay)
+  const [autoPayCoverFees, setAutoPayCoverFees] = useState(user.autoPayCoverFees)
 
   const isAuthed = session.status === 'authenticated'
 
   const totalGiven = [
-    ...(donations ?? []).map((d) => Number(d.amount)),
-    ...(subscriptions ?? []).map((s) => Number(s.amount)),
-    ...(auctionParticipation ?? []).flatMap((a) => a.items.filter((i) => i.isWinner).map((i) => i.myHighestBid)),
-    ...(adoptionFees ?? []).map((a) => Number(a.feeAmount)),
-    ...(merchAndWWOrders ?? []).map((o) => Number(o.totalAmount))
+    ...(donations ?? []).map((d) => Number(d.amount) || 0),
+    ...(subscriptions ?? []).map((s) => Number(s.amount) || 0),
+    ...(auctionParticipation ?? []).flatMap((a) =>
+      a.items.filter((i) => i.isWinner).map((i) => Number(i.myHighestBid) || 0)
+    ),
+    ...(adoptionFees ?? []).map((a) => Number(a.feeAmount) || 0),
+    ...(merchAndWWOrders ?? []).map((o) => Number(o.totalAmount) || 0),
+    ...(auctionPurchases ?? []).map((o) => Number(o.totalAmount) || 0)
   ].reduce((sum, n) => sum + n, 0)
 
   const handleSetDefaultPaymentMethod = async (id: string) => {
@@ -83,15 +94,58 @@ export default function MemberPortalClient({
       })
 
       if (!result.success) throw new Error(result.error ?? 'Failed to update name')
-      store.dispatch(showToast({ message: 'Name updated', type: 'success' }))
+      dispatch(showToast({ message: 'Name updated', type: 'success' }))
       setEditingName(false)
       router.refresh()
     } catch (err) {
-      store.dispatch(
-        showToast({ message: err instanceof Error ? err.message : 'Failed to update name', type: 'error' })
-      )
+      dispatch(showToast({ message: err instanceof Error ? err.message : 'Failed to update name', type: 'error' }))
     } finally {
       setNameLoading(false)
+    }
+  }
+
+  const handleToggleAnonymousBidding = async () => {
+    const prev = anonymousBidding
+    setAnonymousBidding(!prev) // optimistic
+    const result = await toggleAnonymousBidding()
+    if (!result.success) {
+      setAnonymousBidding(prev) // revert on failure
+      dispatch(
+        showToast({
+          message: 'Failed to update setting',
+          description: result.error ?? 'Something went wrong.'
+        })
+      )
+    }
+  }
+
+  const handleToggleAutoPay = async () => {
+    const prev = autoPay
+    setAutoPay(!prev)
+    const result = await toggleAutoPay()
+    if (!result.success) {
+      setAutoPay(prev)
+      dispatch(
+        showToast({
+          message: 'Failed to update setting',
+          description: result.error ?? 'Something went wrong.'
+        })
+      )
+    }
+  }
+
+  const handleToggleAutoPayCoverFees = async () => {
+    const prev = autoPayCoverFees
+    setAutoPayCoverFees(!prev)
+    const result = await toggleAutoPayCoverFees()
+    if (!result.success) {
+      setAutoPayCoverFees(prev)
+      dispatch(
+        showToast({
+          message: 'Failed to update setting',
+          description: result.error ?? 'Something went wrong.'
+        })
+      )
     }
   }
 
@@ -134,6 +188,13 @@ export default function MemberPortalClient({
             subscriptions={subscriptions}
             totalGiven={totalGiven}
             user={user}
+            auctionPurchases={auctionPurchases}
+            anonymousBidding={anonymousBidding}
+            onToggleAnonymousBidding={handleToggleAnonymousBidding}
+            autoPay={autoPay}
+            onToggleAutoPay={handleToggleAutoPay}
+            autoPayCoverFees={autoPayCoverFees}
+            onToggleAutoPayCoverFees={handleToggleAutoPayCoverFees}
           />
 
           {/* ── Sections ── */}
@@ -167,7 +228,7 @@ export default function MemberPortalClient({
             <OneTimeDonations donations={donations} />
 
             {/* ── Auctions ── */}
-            <Auctions auctionParticipation={auctionParticipation} />
+            <Auctions auctionParticipation={auctionParticipation} auctionPurchases={auctionPurchases} />
 
             <AnimatePresence>
               {shippedOrderId && (

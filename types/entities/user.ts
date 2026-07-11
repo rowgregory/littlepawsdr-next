@@ -30,6 +30,8 @@ export interface IUser {
 
   // Preferences / billing
   anonymousBidding: boolean
+  autoPay: boolean
+  autoPayCoverFees: boolean
   stripeCustomerId: string | null
   metadata: Record<string, unknown> | null
 
