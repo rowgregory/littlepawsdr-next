@@ -80,14 +80,17 @@ const columns: Column<OrderRow>[] = [
   },
   {
     header: 'Shipping',
-    className: 'text-[10px] font-mono text-muted-light dark:text-muted-dark whitespace-nowrap',
+    className: 'text-[10px] font-mono whitespace-nowrap',
     cell: (o) =>
       o.shippingStatus === 'SHIPPED' ? (
         <span className="text-emerald-600 dark:text-emerald-400">Shipped</span>
       ) : o.shippingStatus === 'PENDING_FULFILLMENT' ? (
-        <span className="text-amber-600 dark:text-amber-400">Needs shipping</span>
+        <span className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-black">
+          <Truck className="w-3 h-3 shrink-0" aria-hidden="true" />
+          Needs shipping
+        </span>
       ) : (
-        '—'
+        <span className="text-muted-light dark:text-muted-dark">—</span>
       )
   },
   {
@@ -113,7 +116,8 @@ export function AdminOrdersClient({ orders }: { orders: OrderRow[] }) {
     return {
       revenue: confirmed.reduce((s, o) => s + o.totalAmount, 0),
       confirmedCount: confirmed.length,
-      needsShipping: orders.filter((o) => o.status === 'CONFIRMED' && o.shippingStatus === 'PENDING_FULFILLMENT').length,
+      needsShipping: orders.filter((o) => o.status === 'CONFIRMED' && o.shippingStatus === 'PENDING_FULFILLMENT')
+        .length,
       failed: orders.filter((o) => o.status === 'FAILED').length
     }
   }, [orders])
@@ -148,7 +152,14 @@ export function AdminOrdersClient({ orders }: { orders: OrderRow[] }) {
         </div>
 
         {/* ── Filter tabs ── */}
-        <AdminFilterTabs options={FILTERS} value={filter} onChange={setFilter} counts={counts} labels={FILTER_LABELS} label="Filter orders by type" />
+        <AdminFilterTabs
+          options={FILTERS}
+          value={filter}
+          onChange={setFilter}
+          counts={counts}
+          labels={FILTER_LABELS}
+          label="Filter orders by type"
+        />
 
         {/* ── Table ── */}
         <AdminTable
@@ -157,6 +168,11 @@ export function AdminOrdersClient({ orders }: { orders: OrderRow[] }) {
           rowKey={(o) => o.id}
           caption="All orders, newest first"
           emptyMessage={`No ${FILTER_LABELS[filter].toLowerCase()} orders`}
+          rowClassName={(o) =>
+            o.status === 'CONFIRMED' && o.shippingStatus === 'PENDING_FULFILLMENT'
+              ? 'group border-l-2 border-l-amber-500 hover:bg-amber-500/5 transition-colors'
+              : 'group hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 transition-colors'
+          }
         />
       </div>
     </main>

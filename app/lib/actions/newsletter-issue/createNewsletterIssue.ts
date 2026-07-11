@@ -39,8 +39,6 @@ export default async function createNewsletterIssue(input: CreateNewsletterIssue
     getRequestContext().catch(() => ({}) as RequestContext)
   ])
 
-  console.log('gate : ', gate)
-
   try {
     const issue = await prisma.newsletterIssue.create({
       data: { month, year, pdfUrl, isLive }

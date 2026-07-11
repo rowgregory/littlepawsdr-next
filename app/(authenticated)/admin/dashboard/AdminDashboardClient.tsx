@@ -3,147 +3,43 @@
 import { useState } from 'react'
 import { Gift, TrendingUp, TrendingDown, Copy, Check } from 'lucide-react'
 import { sourceMeta } from 'app/lib/constants/dashboard.constants'
-
-const fmt = (n: number) => '$' + Math.round(n).toLocaleString('en-US')
+import { RevenueChart } from 'app/components/dashboard/RevenueChart'
+import { formatMoney } from 'app/utils/currency.utils'
+import { motion } from 'framer-motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 
 const fmtType = (type: string) =>
   sourceMeta[type]?.label ?? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ')
-
-function RevenueChart({ data }: { data: { label: string; total: number }[] }) {
-  if (data.length === 0) {
-    return (
-      <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
-        No data yet
-      </p>
-    )
-  }
-
-  const W = 640
-  const H = 200
-  const padX = 48
-  const padY = 20
-  const innerW = W - padX * 2
-  const innerH = H - padY * 2
-
-  const dataMax = Math.max(...data.map((d) => d.total))
-  // When there's no revenue yet, use a small nominal scale so the axis reads
-  // sensibly ($0 / $1k / ...) instead of five identical $0k lines.
-  const max = dataMax > 0 ? dataMax : 4000
-  const step = data.length > 1 ? innerW / (data.length - 1) : 0
-
-  const points = data.map((d, i) => ({
-    x: padX + step * i,
-    y: padY + innerH - (d.total / max) * innerH,
-    ...d
-  }))
-
-  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
-
-  const gridLines = [0, 0.25, 0.5, 0.75, 1].map((frac) => ({
-    y: padY + innerH - frac * innerH,
-    value: Math.round((max * frac) / 1000)
-  }))
-
-  const LABEL_STYLE = {
-    fontSize: '9px',
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-    letterSpacing: '0.15em'
-  } as const
-
-  return (
-    <div className="w-full overflow-hidden">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        width="100%"
-        role="img"
-        aria-label={`Revenue over the last ${data.length} months, from ${fmt(
-          data[0].total
-        )} to ${fmt(data[data.length - 1].total)}.`}
-        className="overflow-visible"
-      >
-        {gridLines.map((g, i) => (
-          <g key={i}>
-            <line
-              x1={padX}
-              y1={g.y}
-              x2={W - padX}
-              y2={g.y}
-              className="stroke-border-light dark:stroke-border-dark"
-              strokeWidth="1"
-            />
-            <text
-              x={padX - 10}
-              y={g.y + 3}
-              textAnchor="end"
-              className="fill-muted-light dark:fill-muted-dark"
-              style={LABEL_STYLE}
-            >
-              ${g.value}K
-            </text>
-          </g>
-        ))}
-
-        <path
-          d={linePath}
-          fill="none"
-          className="stroke-primary-light dark:stroke-primary-dark"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-
-        {points.map((p, i) => (
-          <g key={i}>
-            <circle cx={p.x} cy={p.y} r="3" className="fill-primary-light dark:fill-primary-dark" />
-            <text
-              x={p.x}
-              y={H - 2}
-              textAnchor="middle"
-              className="fill-muted-light dark:fill-muted-dark"
-              style={LABEL_STYLE}
-            >
-              {p.label.toUpperCase()}
-            </text>
-          </g>
-        ))}
-      </svg>
-    </div>
-  )
-}
 
 export default function AdminDashboardClient({ stats }) {
   const [copied, setCopied] = useState(false)
 
   const monthlyUp = stats.monthlyChange >= 0
-
   const wieners = [...(stats.welcomeWienerRevenue ?? [])].sort((a, b) => b.totalRaised - a.totalRaised)
   const wienerTotal = wieners.reduce((s, w) => s + w.totalRaised, 0)
   const wienerMax = wieners[0]?.totalRaised ?? 0
-
-  const chartData = (stats.monthlyData ?? []).map((m) => ({
-    label: m.label,
-    total: m.total
-  }))
-
-  // Revenue by source, largest first. Adoption fees already flow through the
-  // orders table as ADOPTION_FEE, so ordersByType is the complete picture.
+  const chartData = (stats.monthlyData ?? []).map((m) => ({ label: m.label, total: m.total }))
   const sources = [...(stats.ordersByType ?? [])].sort((a, b) => b.total - a.total)
 
   const copyCode = async () => {
     if (!stats.bypassCode) return
     try {
       await navigator.clipboard.writeText(stats.bypassCode)
-    } catch {
-      // clipboard may be unavailable; still show confirmation
-    }
+    } catch {}
     setCopied(true)
     setTimeout(() => setCopied(false), 1800)
   }
 
   return (
     <div className="w-full">
-      {/* ── Header bar with bypass code ── */}
-      <header className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      {/* ── Header ── */}
+      <motion.header
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+        custom={0}
+        className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+      >
         <div>
           <h1 className="font-mono text-sm tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
             Dashboard
@@ -153,7 +49,6 @@ export default function AdminDashboardClient({ stats }) {
           </p>
         </div>
 
-        {/* Bypass code */}
         <div className="lg:max-w-md w-full">
           {stats.bypassCode ? (
             <button
@@ -197,16 +92,22 @@ export default function AdminDashboardClient({ stats }) {
             </p>
           )}
         </div>
-      </header>
+      </motion.header>
 
       <div className="px-4 sm:px-6 py-6 pb-12">
         {/* Total revenue */}
-        <section className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-5">
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={1}
+          className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-5"
+        >
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
             Total revenue · all time
           </p>
           <p className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-none">
-            {fmt(stats.totalRevenue)}
+            {formatMoney(stats.totalRevenue)}
           </p>
           <div className="inline-flex items-center gap-1.5 mt-3">
             {monthlyUp ? (
@@ -215,61 +116,72 @@ export default function AdminDashboardClient({ stats }) {
               <TrendingDown className="w-3.5 h-3.5 text-red-600 dark:text-red-400" aria-hidden="true" />
             )}
             <span
-              className={`font-mono text-[10px] tracking-[0.15em] uppercase ${
-                monthlyUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-              }`}
+              className={`font-mono text-[10px] tracking-[0.15em] uppercase ${monthlyUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
             >
               {monthlyUp ? 'Up' : 'Down'} {Math.abs(stats.monthlyChange)}% vs last month
             </span>
           </div>
-        </section>
+        </motion.section>
 
         {/* Revenue by source */}
-        <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2.5">
-          Revenue by source
-        </p>
-        <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mb-6">
-          {sources.map(({ type, total }) => {
-            const Icon = sourceMeta[type]?.icon ?? Gift
-            return (
-              <div
-                key={type}
-                className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-4"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <Icon className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
-                  <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark truncate">
-                    {fmtType(type)}
-                  </span>
+        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
+          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2.5">
+            Revenue by source
+          </p>
+          <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mb-6">
+            {sources.map(({ type, total }) => {
+              const Icon = sourceMeta[type]?.icon ?? Gift
+              return (
+                <div
+                  key={type}
+                  className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-4"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <Icon className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
+                    <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark truncate">
+                      {fmtType(type)}
+                    </span>
+                  </div>
+                  <p className="font-quicksand text-xl sm:text-2xl font-black text-text-light dark:text-text-dark leading-none">
+                    {formatMoney(total)}
+                  </p>
                 </div>
-                <p className="font-quicksand text-xl sm:text-2xl font-black text-text-light dark:text-text-dark leading-none">
-                  {fmt(total)}
-                </p>
-              </div>
-            )
-          })}
-        </section>
+              )
+            })}
+          </section>
+        </motion.div>
 
         {/* Revenue trend */}
-        <section className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-6">
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={3}
+          className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-6"
+        >
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-light dark:text-text-dark mb-1">
             Revenue over time
           </p>
           <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mb-4">
             Last {chartData.length} months
           </p>
-
           <RevenueChart data={chartData} />
-        </section>
+        </motion.section>
 
         {/* Welcome Wieners */}
-        <section className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6">
+        <motion.section
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={4}
+          className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6"
+        >
           <div className="flex items-center justify-between mb-1">
             <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
               Welcome Wieners
             </p>
             <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
-              {fmt(wienerTotal)} raised
+              {formatMoney(wienerTotal)} raised
             </span>
           </div>
           <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mb-4">
@@ -289,7 +201,8 @@ export default function AdminDashboardClient({ stats }) {
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-mono text-xs text-text-light dark:text-text-dark truncate">{w.name}</span>
                       <span className="font-mono text-[10px] tracking-widest text-muted-light dark:text-muted-dark tabular-nums shrink-0 ml-2">
-                        {fmt(w.totalRaised)} &middot; {w.sponsorCount} {w.sponsorCount === 1 ? 'sponsor' : 'sponsors'}
+                        {formatMoney(w.totalRaised)} &middot; {w.sponsorCount}{' '}
+                        {w.sponsorCount === 1 ? 'sponsor' : 'sponsors'}
                       </span>
                     </div>
                     <div className="h-2 w-full bg-bg-light dark:bg-bg-dark overflow-hidden">
@@ -300,7 +213,7 @@ export default function AdminDashboardClient({ stats }) {
               })}
             </div>
           )}
-        </section>
+        </motion.section>
       </div>
     </div>
   )

@@ -68,6 +68,16 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
 
   const isShipped = order.shippingStatus === 'SHIPPED' || shippedLocally
 
+  const DONATION_TYPES = new Set(['ONE_TIME_DONATION', 'RECURRING_DONATION', 'ADOPTION_FEE', 'FEED_A_FOSTER'])
+
+  const typeLabel =
+    {
+      ONE_TIME_DONATION: 'One-time donation',
+      RECURRING_DONATION: 'Recurring donation',
+      ADOPTION_FEE: 'Adoption fee',
+      FEED_A_FOSTER: 'Feed a Foster'
+    }[order.type] ?? order.type.replaceAll('_', ' ')
+
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
       {/* ── Topbar ── */}
@@ -127,7 +137,7 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
               )}
             </div>
 
-            {order.items.length === 0 ? (
+            {DONATION_TYPES.has(order.type) ? (
               /* ── Pure donation — no item lines ── */
               <div className="px-4 py-5 space-y-4">
                 <div className="flex items-center gap-3">
@@ -135,9 +145,7 @@ export function AdminOrderDetailsClient({ order }: { order: SerializedOrder }) {
                     <Heart className="w-4 h-4 text-primary-light dark:text-primary-dark" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="text-sm font-nunito text-text-light dark:text-text-dark">
-                      {order.isRecurring ? 'Recurring donation' : 'One-time donation'}
-                    </p>
+                    <p className="text-sm font-nunito text-text-light dark:text-text-dark">{typeLabel}</p>
                     <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-0.5">
                       {order.type.replaceAll('_', ' ')}
                       {order.isRecurring && order.recurringFrequency && ` · ${order.recurringFrequency}`}

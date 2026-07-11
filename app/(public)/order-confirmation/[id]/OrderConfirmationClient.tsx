@@ -23,7 +23,7 @@ export default function OrderConfirmationClient({ order }) {
     dispatch(clearCart())
     dispatch(setShowConfetti())
     setTimeout(() => dispatch(setHideConfetti()), 2000)
-  }, [dispatch])
+  }, [dispatch, order.id])
 
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 

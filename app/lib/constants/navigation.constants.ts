@@ -44,7 +44,8 @@ export const HIDDEN_PATHS = [
   '/super',
   '/privacy-policy',
   '/terms',
-  '/donate'
+  '/donate',
+  '/adopt/application'
 ]
 
 export const mainNavigationLinks = (hasActiveFee: boolean): Section[] => {

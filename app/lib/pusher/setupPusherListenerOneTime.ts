@@ -3,9 +3,10 @@ import Pusher from 'pusher-js'
 import { setAdoptionFeeCookie } from '../actions/_infra/setAdoptionFeeCookie'
 
 export async function setupPusherListenerOneTime(channelId: string, router: AppRouterInstance): Promise<void> {
+  let processingStatus = 'processing'
+  let hasProcessed = false
+
   return new Promise((resolve, reject) => {
-    let processingStatus = 'processing'
-    let hasProcessed = false
     if (!channelId) return
 
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {

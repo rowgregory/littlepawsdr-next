@@ -26,7 +26,28 @@ export async function getUserById(id: string) {
         createdAt: true,
         lastGeoCity: true,
         lastGeoRegion: true,
-        lastGeoCountry: true
+        lastGeoCountry: true,
+        orders: {
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            type: true,
+            status: true,
+            totalAmount: true,
+            createdAt: true,
+            shippingStatus: true,
+            isRecurring: true,
+            items: {
+              select: {
+                itemName: true,
+                quantity: true,
+                price: true,
+                subtotal: true,
+                itemImage: true
+              }
+            }
+          }
+        }
       }
     })
 
@@ -41,7 +62,17 @@ export async function getUserById(id: string) {
         ...user,
         emailVerified: user.emailVerified?.toISOString() ?? null,
         lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
-        createdAt: user.createdAt.toISOString()
+        createdAt: user.createdAt.toISOString(),
+        orders: user.orders.map((o) => ({
+          ...o,
+          totalAmount: Number(o.totalAmount),
+          createdAt: o.createdAt.toISOString(),
+          items: o.items.map((i) => ({
+            ...i,
+            price: Number(i.price),
+            subtotal: Number(i.subtotal)
+          }))
+        }))
       }
     }
   } catch (error) {

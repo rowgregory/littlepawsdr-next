@@ -61,8 +61,6 @@ export async function createPaymentIntent({
     // ── 1. Validate items + compute amount from the DB (unchanged) ──────────
     let computedBase = 0 // dollars
 
-    console.log('ITEMS:: ', items)
-
     if (items?.length) {
       const ids = items.map((i) => i.id).filter((id): id is string => !!id)
       const wienerIds = items.map((i) => i.welcomeWienerId).filter(Boolean) as string[]
@@ -147,7 +145,8 @@ export async function createPaymentIntent({
                 q: i.quantity,
                 s: i.size ?? null,
                 w: i.welcomeWienerId ?? null,
-                wp: i.welcomeWienerProductId ?? null
+                wp: i.welcomeWienerProductId ?? null,
+                ip: i.isPhysicalProduct ?? false
               }))
             )
           : '',

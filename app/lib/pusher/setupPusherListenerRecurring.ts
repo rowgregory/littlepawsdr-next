@@ -5,9 +5,10 @@ export async function setupPusherListenerRecurring(
   subscriptionResult: { subscriptionId: string },
   router: AppRouterInstance
 ): Promise<void> {
+  let processingStatus = 'processing'
+  let hasProcessed = false
+
   return new Promise((resolve, reject) => {
-    let processingStatus = 'processing'
-    let hasProcessed = false
     const channelId = `payment-${subscriptionResult.subscriptionId}`
 
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {

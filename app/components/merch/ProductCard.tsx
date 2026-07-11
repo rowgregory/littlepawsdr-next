@@ -14,16 +14,13 @@ export function ProductCard({ product, index }: { product: IProduct; index: numb
   const [added, setAdded] = useState(false)
   const { items: cartItems } = useCartSelector()
 
-  // console.log(product)
-
   const outOfStock = product?.countInStock === 0
   const inCart = cartItems.find((i) => i.id === product.id)?.quantity ?? 0
-  console.log('inCart: ', inCart)
 
   const stockForSelection = product?.countInStock ?? 99
-  console.log('stockForSelection: ', stockForSelection)
+
   const remaining = Math.max(0, stockForSelection - inCart)
-  console.log('remaining: ', remaining)
+
   const atCartLimit = !outOfStock && remaining === 0
   const canAdd = !outOfStock && !atCartLimit
 

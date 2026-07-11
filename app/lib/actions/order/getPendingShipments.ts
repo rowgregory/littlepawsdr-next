@@ -62,7 +62,6 @@ export async function getPendingShipments(): Promise<{
 
     return { success: true, data }
   } catch (err) {
-    console.error('[getPendingShipments]', err)
     return { success: false, data: [], error: 'Failed to load pending shipments' }
   }
 }

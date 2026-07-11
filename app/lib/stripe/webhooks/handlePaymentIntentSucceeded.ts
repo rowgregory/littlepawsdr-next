@@ -26,7 +26,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
     const isRecurring = metadata?.isRecurring === 'true'
 
     const items = JSON.parse(metadata?.items || '[]')
-    const hasPhysical = items.some((i: any) => i.isPhysicalProduct)
+    const hasPhysical = items.some((i: any) => i.ip)
 
     const nbd = isRecurring && metadata?.nextBillingDate ? new Date(metadata.nextBillingDate) : null
 
@@ -39,7 +39,9 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             lastGeoCity: true,
             lastGeoRegion: true,
             lastGeoCountry: true,
-            address: true // add this
+            address: true, // add this
+            firstName: true,
+            lastName: true
           }
         })
       : null
@@ -93,6 +95,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
         s: string | null
         w: string | null
         wp: string | null
+        ip: boolean
       }>
 
       const ids = compact.map((c) => c.i)
@@ -324,7 +327,9 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             feeAmount: paymentIntent.amount / 100,
             status: 'ACTIVE',
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            email: metadata.email
+            email: metadata.email,
+            firstName: geoUser.firstName,
+            lastName: geoUser.lastName
           }
         })
       }
