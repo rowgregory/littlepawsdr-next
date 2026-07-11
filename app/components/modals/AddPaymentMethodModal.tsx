@@ -167,13 +167,13 @@ export default function AddPaymentMethodModal() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+              <span className="  text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
                 Payment Method
               </span>
             </div>
             <h2
               id="add-card-title"
-              className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
+              className="  text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
             >
               Add New Card
             </h2>
@@ -196,9 +196,7 @@ export default function AddPaymentMethodModal() {
               <div className="w-12 h-12 flex items-center justify-center bg-cyan-600/10 dark:bg-violet-400/10">
                 <CheckCircle className="w-6 h-6 text-cyan-600 dark:text-violet-400" aria-hidden="true" />
               </div>
-              <p className="font-changa text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">
-                Card Added
-              </p>
+              <p className="  text-sm uppercase tracking-wide text-zinc-950 dark:text-text-dark">Card Added</p>
               <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark">
                 Your card has been saved successfully.
               </p>
@@ -209,7 +207,7 @@ export default function AddPaymentMethodModal() {
               <div>
                 <label
                   htmlFor="cardholder-name"
-                  className="block font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
+                  className="block   text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
                 >
                   Cardholder Name
                 </label>
@@ -228,7 +226,7 @@ export default function AddPaymentMethodModal() {
               <div>
                 <label
                   id="card-details-label"
-                  className="block font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
+                  className="block   text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
                 >
                   Card Details
                 </label>
@@ -264,7 +262,7 @@ export default function AddPaymentMethodModal() {
               <div>
                 <label
                   id="options-label"
-                  className="block font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
+                  className="block   text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
                 >
                   Options
                 </label>
@@ -279,7 +277,7 @@ export default function AddPaymentMethodModal() {
                   <div className="flex items-center gap-3">
                     <CreditCard className="w-4 h-4 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
                     <div className="text-left">
-                      <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
+                      <p className="  text-sm uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
                         Set as default
                       </p>
                       <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">
@@ -331,7 +329,7 @@ export default function AddPaymentMethodModal() {
                 onClick={handleSubmit}
                 disabled={!cardComplete || isSubmitting}
                 aria-disabled={!cardComplete || isSubmitting}
-                className="group relative w-full overflow-hidden font-changa uppercase tracking-widest disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
+                className="group relative w-full overflow-hidden   uppercase tracking-widest disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
               >
                 <span
                   className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.4s_ease_infinite] pointer-events-none z-10"
@@ -356,7 +354,7 @@ export default function AddPaymentMethodModal() {
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full px-6 py-3 font-changa text-[10px] uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+                className="w-full px-6 py-3   text-[10px] uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
               >
                 Cancel
               </button>

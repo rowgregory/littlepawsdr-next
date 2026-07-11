@@ -474,7 +474,6 @@ model AuctionWinningBidder {
   shippingStatus                             ShippingStatus          @default(PENDING_PAYMENT_CONFIRMATION)
   shippingProvider                           String?
   trackingNumber                             String?
-  payPalId                                   String?
   paidOn                                     DateTime?
   createdAt                                  DateTime                @default(now())
   updatedAt                                  DateTime                @updatedAt

@@ -286,7 +286,7 @@ export default function PublicAuctionInstantBuyClient({
         <div className="flex items-center justify-between mb-8">
           <Link
             href={`/auctions/${auctionItem?.auction.customAuctionLink}/${auctionItem?.id}`}
-            className="inline-flex items-center gap-2 font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors"
+            className="inline-flex items-center gap-2   text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors"
             aria-label={`Back to ${auctionItem?.auction.title}`}
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -296,7 +296,7 @@ export default function PublicAuctionInstantBuyClient({
           </Link>
           <Link
             href="/member/portal"
-            className="inline-flex items-center gap-2 font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors"
+            className="inline-flex items-center gap-2   text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark transition-colors"
           >
             Member Portal
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -309,11 +309,11 @@ export default function PublicAuctionInstantBuyClient({
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-            <span className="font-changa text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
+            <span className="  text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
               Instant Buy
             </span>
           </div>
-          <h1 className="font-changa text-2xl sm:text-3xl uppercase tracking-widest text-text-light dark:text-text-dark">
+          <h1 className="  text-2xl sm:text-3xl uppercase tracking-widest text-text-light dark:text-text-dark">
             Complete Purchase
           </h1>
         </div>
@@ -337,7 +337,7 @@ export default function PublicAuctionInstantBuyClient({
                 </div>
               )}
               <div className="flex-1 min-w-0 space-y-2">
-                <h2 className="font-changa text-sm sm:text-base uppercase tracking-widest text-text-light dark:text-text-dark leading-snug">
+                <h2 className="  text-sm sm:text-base uppercase tracking-widest text-text-light dark:text-text-dark leading-snug">
                   {auctionItem?.name}
                 </h2>
                 {auctionItem?.description && (
@@ -371,12 +371,10 @@ export default function PublicAuctionInstantBuyClient({
               </div>
             </div>
             <div className="border-t border-border-light dark:border-border-dark px-4 py-3 flex items-center justify-between">
-              <span className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+              <span className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
                 Buy Now Price
               </span>
-              <span className="font-changa text-lg text-primary-light dark:text-primary-dark">
-                ${baseAmount.toFixed(2)}
-              </span>
+              <span className="  text-lg text-primary-light dark:text-primary-dark">${baseAmount.toFixed(2)}</span>
             </div>
           </section>
 
@@ -386,7 +384,7 @@ export default function PublicAuctionInstantBuyClient({
             className="border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-              <h2 className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+              <h2 className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
                 Order Summary
               </h2>
             </div>
@@ -412,12 +410,8 @@ export default function PublicAuctionInstantBuyClient({
                 </div>
               )}
               <div className="border-t border-border-light dark:border-border-dark pt-2 flex justify-between items-center">
-                <span className="font-changa text-sm uppercase tracking-widest text-text-light dark:text-text-dark">
-                  Total
-                </span>
-                <span className="font-changa text-lg text-primary-light dark:text-primary-dark">
-                  ${finalAmount.toFixed(2)}
-                </span>
+                <span className="  text-sm uppercase tracking-widest text-text-light dark:text-text-dark">Total</span>
+                <span className="  text-lg text-primary-light dark:text-primary-dark">${finalAmount.toFixed(2)}</span>
               </div>
             </div>
           </section>
@@ -430,13 +424,11 @@ export default function PublicAuctionInstantBuyClient({
             {hasName ? (
               <>
                 <div className="px-4 py-3 border-b border-border-light dark:border-border-dark flex items-center justify-between">
-                  <p className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
-                    Name
-                  </p>
+                  <p className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">Name</p>
                   <button
                     type="button"
                     onClick={() => setEditingName(true)}
-                    className="font-changa text-f10 uppercase tracking-[0.2em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none"
+                    className="  text-f10 uppercase tracking-[0.2em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none"
                   >
                     Edit
                   </button>
@@ -450,7 +442,7 @@ export default function PublicAuctionInstantBuyClient({
             ) : (
               <>
                 <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-                  <h2 className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+                  <h2 className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
                     Your Name
                   </h2>
                   <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-0.5">
@@ -462,7 +454,7 @@ export default function PublicAuctionInstantBuyClient({
                     <div>
                       <label
                         htmlFor="firstName"
-                        className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                        className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                       >
                         First Name
                       </label>
@@ -486,7 +478,7 @@ export default function PublicAuctionInstantBuyClient({
                     <div>
                       <label
                         htmlFor="lastName"
-                        className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                        className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                       >
                         Last Name
                       </label>
@@ -516,7 +508,7 @@ export default function PublicAuctionInstantBuyClient({
                           setEditingName(false)
                           setNameErrors({})
                         }}
-                        className="flex-1 py-2.5 px-4 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark font-changa text-f10 uppercase tracking-[0.25em] hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-none"
+                        className="flex-1 py-2.5 px-4 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark   text-f10 uppercase tracking-[0.25em] hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-none"
                       >
                         Cancel
                       </button>
@@ -525,7 +517,7 @@ export default function PublicAuctionInstantBuyClient({
                       type="button"
                       onClick={handleSaveName}
                       disabled={!inputs.firstName.trim() || !inputs.lastName.trim() || savingName}
-                      className="flex-1 py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-changa text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                      className="flex-1 py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white   text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                     >
                       {savingName ? (
                         <span className="flex items-center justify-center gap-2">
@@ -561,13 +553,13 @@ export default function PublicAuctionInstantBuyClient({
               {hasAddress ? (
                 <>
                   <div className="px-4 py-3 border-b border-border-light dark:border-border-dark flex items-center justify-between">
-                    <p className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+                    <p className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
                       Shipping Address
                     </p>
                     <button
                       type="button"
                       onClick={() => setEditingAddress(true)}
-                      className="font-changa text-f10 uppercase tracking-[0.2em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none"
+                      className="  text-f10 uppercase tracking-[0.2em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none"
                     >
                       Edit
                     </button>
@@ -585,7 +577,7 @@ export default function PublicAuctionInstantBuyClient({
               ) : (
                 <>
                   <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
-                    <h2 className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+                    <h2 className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
                       Shipping Address
                     </h2>
                     <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-0.5">
@@ -598,7 +590,7 @@ export default function PublicAuctionInstantBuyClient({
                       <div className="col-span-2">
                         <label
                           htmlFor="addressLine1"
-                          className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                          className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                         >
                           Address
                         </label>
@@ -623,7 +615,7 @@ export default function PublicAuctionInstantBuyClient({
                       <div className="col-span-2">
                         <label
                           htmlFor="addressLine2"
-                          className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                          className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                         >
                           Apt / Suite <span className="normal-case tracking-normal">(optional)</span>
                         </label>
@@ -642,7 +634,7 @@ export default function PublicAuctionInstantBuyClient({
                       <div className="col-span-2">
                         <label
                           htmlFor="city"
-                          className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                          className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                         >
                           City
                         </label>
@@ -667,7 +659,7 @@ export default function PublicAuctionInstantBuyClient({
                       <div>
                         <label
                           htmlFor="state"
-                          className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                          className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                         >
                           State
                         </label>
@@ -693,7 +685,7 @@ export default function PublicAuctionInstantBuyClient({
                       <div>
                         <label
                           htmlFor="zipPostalCode"
-                          className="block font-changa text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
+                          className="block   text-f10 uppercase tracking-[0.2em] text-muted-light dark:text-muted-dark mb-1.5"
                         >
                           ZIP
                         </label>
@@ -724,7 +716,7 @@ export default function PublicAuctionInstantBuyClient({
                             setEditingAddress(false)
                             setAddressErrors({})
                           }}
-                          className="flex-1 py-2.5 px-4 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark font-changa text-f10 uppercase tracking-[0.25em] hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-none"
+                          className="flex-1 py-2.5 px-4 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark   text-f10 uppercase tracking-[0.25em] hover:text-text-light dark:hover:text-text-dark transition-colors focus-visible:outline-none"
                         >
                           Cancel
                         </button>
@@ -739,7 +731,7 @@ export default function PublicAuctionInstantBuyClient({
                           !inputs.zipPostalCode.trim() ||
                           savingAddress
                         }
-                        className="flex-1 py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-changa text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                        className="flex-1 py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white   text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
                       >
                         {savingAddress ? (
                           <span className="flex items-center justify-center gap-2">

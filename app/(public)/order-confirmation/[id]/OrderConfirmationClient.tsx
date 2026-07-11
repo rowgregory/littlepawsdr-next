@@ -36,14 +36,14 @@ export default function OrderConfirmationClient({ order }) {
         <div className="px-4 430:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-            <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+            <span className="  text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
               Little Paws Dachshund Rescue
             </span>
           </div>
           {session?.data?.user ? (
             <Link
               href="/member/portal"
-              className="flex items-center gap-1.5 font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+              className="flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
             >
               <User className="w-3 h-3" aria-hidden="true" />
               Portal
@@ -51,7 +51,7 @@ export default function OrderConfirmationClient({ order }) {
           ) : (
             <Link
               href="/"
-              className="flex items-center gap-1.5 font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+              className="flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
             >
               <ChevronLeft className="w-3 h-3" aria-hidden="true" />
               Home
@@ -89,10 +89,10 @@ export default function OrderConfirmationClient({ order }) {
               />
             </motion.div>
             <div>
-              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400 mb-1">
+              <p className="  text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400 mb-1">
                 {config.label}
               </p>
-              <h1 className="font-changa text-3xl 430:text-4xl uppercase leading-none text-zinc-950 dark:text-text-dark mb-2">
+              <h1 className="  text-3xl 430:text-4xl uppercase leading-none text-zinc-950 dark:text-text-dark mb-2">
                 Thank you, {order?.customerName}!
               </h1>
               <p className="font-lato text-sm text-zinc-500 dark:text-muted-dark leading-relaxed max-w-lg">
@@ -114,11 +114,11 @@ export default function OrderConfirmationClient({ order }) {
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2">
             <div className="flex items-center gap-2">
               <Receipt className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50" aria-hidden="true" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
+              <span className="  text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
                 Receipt
               </span>
             </div>
-            <span className="font-changa text-[10px] uppercase tracking-[0.15em] text-zinc-400 dark:text-muted-dark/50 font-mono">
+            <span className="  text-[10px] uppercase tracking-[0.15em] text-zinc-400 dark:text-muted-dark/50 font-mono">
               #{order?.id.slice(-8).toUpperCase()}
             </span>
           </div>
@@ -143,7 +143,7 @@ export default function OrderConfirmationClient({ order }) {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark truncate">
+                    <p className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark truncate">
                       {item.itemName ?? 'Item'}
                     </p>
                     {item.quantity && item.quantity > 1 && (
@@ -157,7 +157,7 @@ export default function OrderConfirmationClient({ order }) {
                       </p>
                     )}
                   </div>
-                  <span className="shrink-0 font-changa text-sm tabular-nums text-zinc-950 dark:text-text-dark">
+                  <span className="shrink-0   text-sm tabular-nums text-zinc-950 dark:text-text-dark">
                     ${(item.totalPrice ?? item.price).toFixed(2)}
                   </span>
                 </div>
@@ -171,11 +171,11 @@ export default function OrderConfirmationClient({ order }) {
                 </span>
               </div>
               <div className="flex flex-col">
-                <p className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                <p className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
                   {order?.type === 'RECURRING_DONATION' ? 'Recurring Donation' : 'One-Time Donation'}
                 </p>
                 {order?.tierName && (
-                  <p className="font-changa text-xs uppercase tracking-wide text-zinc-400 dark:text-muted-dark/50">
+                  <p className="  text-xs uppercase tracking-wide text-zinc-400 dark:text-muted-dark/50">
                     {order.tierName}
                   </p>
                 )}
@@ -189,13 +189,13 @@ export default function OrderConfirmationClient({ order }) {
               <>
                 <div className="flex justify-between items-center">
                   <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Subtotal</span>
-                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                  <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark">
                     ${formatWithCommas(subtotal.toFixed(2))}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Processing fees covered</span>
-                  <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark">
+                  <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark">
                     +${Number(order?.feesCovered).toFixed(2)}
                   </span>
                 </div>
@@ -204,7 +204,7 @@ export default function OrderConfirmationClient({ order }) {
             {order?.isRecurring && order?.recurringFrequency && (
               <div className="flex justify-between items-center">
                 <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Frequency</span>
-                <span className="font-changa text-xs tabular-nums text-zinc-950 dark:text-text-dark capitalize">
+                <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark capitalize">
                   {order?.recurringFrequency.toLowerCase()}
                 </span>
               </div>
@@ -217,10 +217,8 @@ export default function OrderConfirmationClient({ order }) {
                   : ''
               }`}
             >
-              <span className="font-changa text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
-                Total
-              </span>
-              <span className="font-changa text-2xl tabular-nums text-cyan-600 dark:text-violet-400">
+              <span className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">Total</span>
+              <span className="  text-2xl tabular-nums text-cyan-600 dark:text-violet-400">
                 ${formatWithCommas(order?.totalAmount.toFixed(2))}
               </span>
             </div>
@@ -287,7 +285,7 @@ export default function OrderConfirmationClient({ order }) {
         >
           <Link
             href="/donate"
-            className="group relative flex-1 overflow-hidden flex items-center justify-between px-6 py-3.5 font-changa text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
+            className="group relative flex-1 overflow-hidden flex items-center justify-between px-6 py-3.5   text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
           >
             <span
               className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/15 to-transparent group-hover:animate-[shimmer_1.4s_ease_infinite] pointer-events-none"
@@ -298,7 +296,7 @@ export default function OrderConfirmationClient({ order }) {
           </Link>
           <Link
             href="/"
-            className="flex-1 flex items-center justify-center px-6 py-3.5 font-changa text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+            className="flex-1 flex items-center justify-center px-6 py-3.5   text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
           >
             Back to Home
           </Link>

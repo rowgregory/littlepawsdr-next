@@ -108,7 +108,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
             <div className="sticky top-0 z-10 bg-bg-light dark:bg-bg-dark border-b border-border-light dark:border-border-dark px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-                <span className="font-changa text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
+                <span className="  text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
                   Little Paws
                 </span>
               </div>
@@ -142,7 +142,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                       <Gavel className="w-4 h-4 text-white shrink-0 mt-0.5" aria-hidden="true" />
                     </motion.div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-changa text-xs uppercase tracking-wide text-white leading-snug">
+                      <p className="  text-xs uppercase tracking-wide text-white leading-snug">
                         {isAuctionActive ? `${auction?.title} — Live Now` : `${auction?.title} — Coming Soon`}
                       </p>
                       <p className="font-lato text-f10 text-white/70 mt-0.5">
@@ -174,7 +174,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                         className="flex items-center gap-3 px-4 py-3 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors"
                       >
                         <LayoutDashboard className="w-4 h-4 shrink-0" aria-hidden="true" />
-                        <span className="font-changa text-xs uppercase tracking-[0.15em]">Dashboard</span>
+                        <span className="  text-xs uppercase tracking-[0.15em]">Dashboard</span>
                       </Link>
                     )}
                     <Link
@@ -187,13 +187,13 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                       }`}
                     >
                       <User className="w-4 h-4 shrink-0" aria-hidden="true" />
-                      <span className="font-changa text-xs uppercase tracking-[0.15em]">Profile</span>
+                      <span className="  text-xs uppercase tracking-[0.15em]">Profile</span>
                     </Link>
                   </>
                 ) : (
                   <div className="px-4 py-4 space-y-3 border-l-2 border-primary-light dark:border-primary-dark">
                     <div>
-                      <p className="font-changa text-xs uppercase tracking-[0.25em] text-text-light dark:text-text-dark">
+                      <p className="  text-xs uppercase tracking-[0.25em] text-text-light dark:text-text-dark">
                         Sign In
                       </p>
                       <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-1 leading-relaxed">
@@ -207,7 +207,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                       className="w-full flex items-center gap-3 px-3.5 py-2.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark hover:bg-bg-light dark:hover:bg-bg-dark text-text-light dark:text-text-dark transition-colors focus-visible:outline-none"
                     >
                       <GoogleIcon />
-                      <span className="font-changa text-xs uppercase tracking-[0.15em]">Continue with Google</span>
+                      <span className="  text-xs uppercase tracking-[0.15em]">Continue with Google</span>
                     </button>
 
                     {/* Divider */}
@@ -232,7 +232,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                         <button
                           onClick={handleMagicLink}
                           disabled={!magicLinkEmail || loading}
-                          className="w-full py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-changa text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none"
+                          className="w-full py-2.5 px-4 bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white   text-f10 uppercase tracking-[0.25em] transition-colors focus-visible:outline-none"
                         >
                           {loading ? (
                             <span className="flex items-center justify-center gap-2">
@@ -256,7 +256,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                           aria-hidden="true"
                         />
                         <div>
-                          <p className="font-changa text-xs uppercase tracking-[0.15em] text-text-light dark:text-text-dark">
+                          <p className="  text-xs uppercase tracking-[0.15em] text-text-light dark:text-text-dark">
                             Check your inbox
                           </p>
                           <p className="font-lato text-xs text-muted-light dark:text-muted-dark mt-0.5 leading-relaxed">
@@ -281,14 +281,14 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                 }`}
               >
                 <ShoppingCart className="w-4 h-4 shrink-0" aria-hidden="true" />
-                <span className="font-changa text-xs uppercase tracking-[0.15em]">Cart</span>
+                <span className="  text-xs uppercase tracking-[0.15em]">Cart</span>
               </Link>
 
               <div className="mx-4 border-t border-border-light/50 dark:border-border-dark" />
 
               {/* ── Newsletter ── */}
               <div className="px-4 py-5">
-                <p className="font-changa text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-1">
+                <p className="  text-f10 uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-1">
                   Stay Updated
                 </p>
                 <p className="font-lato text-xs text-muted-light dark:text-muted-dark mb-4 leading-relaxed">
@@ -306,7 +306,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-2.5 px-4 disabled:opacity-50 disabled:cursor-not-allowed text-white font-changa text-f10 uppercase tracking-[0.25em] transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="w-full py-2.5 px-4 disabled:opacity-50 disabled:cursor-not-allowed text-white   text-f10 uppercase tracking-[0.25em] transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                     style={coreGradient}
                   >
                     {loading ? (
@@ -327,7 +327,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                 <Link
                   href="/newsletter-issues"
                   onClick={onClose}
-                  className="inline-flex items-center gap-2 mt-4 font-changa text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors"
+                  className="inline-flex items-center gap-2 mt-4   text-f10 uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors"
                 >
                   View Newsletters
                   <motion.div animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
@@ -353,7 +353,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                         }`}
                       >
                         <navLink.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                        <span className="font-changa text-xs uppercase tracking-[0.15em]">{navLink.title}</span>
+                        <span className="  text-xs uppercase tracking-[0.15em]">{navLink.title}</span>
                       </Link>
                     ) : (
                       <button
@@ -361,9 +361,7 @@ const NavigationDrawer = ({ auction, hasActiveFee }) => {
                         className="w-full flex items-center gap-3 px-4 py-3 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-surface-light dark:hover:bg-surface-dark transition-colors focus-visible:outline-none"
                       >
                         <navLink.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                        <span className="font-changa text-xs uppercase tracking-[0.15em] flex-1 text-left">
-                          {navLink.title}
-                        </span>
+                        <span className="  text-xs uppercase tracking-[0.15em] flex-1 text-left">{navLink.title}</span>
                         <motion.div
                           animate={{ rotate: expandedSections.includes(navLink.title) ? 180 : 0 }}
                           transition={{ duration: 0.2 }}

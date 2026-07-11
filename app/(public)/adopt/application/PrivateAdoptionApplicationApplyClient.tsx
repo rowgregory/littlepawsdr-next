@@ -68,7 +68,7 @@ export default function PrivateAdoptionApplicationApplyClient({
               Adoption
             </p>
           </div>
-          <h1 className="font-changa text-4xl sm:text-5xl uppercase leading-none text-text-light dark:text-text-dark mb-5">
+          <h1 className="  text-4xl sm:text-5xl uppercase leading-none text-text-light dark:text-text-dark mb-5">
             Adoption Application
           </h1>
           <p className="text-base text-muted-light dark:text-muted-dark leading-relaxed">
@@ -96,7 +96,7 @@ export default function PrivateAdoptionApplicationApplyClient({
                 </p>
               </div>
               <p
-                className={`font-changa text-sm uppercase tracking-wide tabular-nums ${
+                className={`  text-sm uppercase tracking-wide tabular-nums ${
                   timeLeft === 'Expired'
                     ? 'text-red-500 dark:text-red-400'
                     : 'text-primary-light dark:text-primary-dark'

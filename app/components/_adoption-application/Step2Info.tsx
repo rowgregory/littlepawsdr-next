@@ -92,10 +92,7 @@ export function Step2Info({
       </div>
 
       {/* ── Your info ── */}
-      <h2
-        id="step-info-heading"
-        className="font-changa text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6"
-      >
+      <h2 id="step-info-heading" className="  text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6">
         Your Information
       </h2>
 

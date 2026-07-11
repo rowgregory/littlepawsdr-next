@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { IAuction } from 'types/entities/auction'
 import { pusherClient } from 'app/lib/pusher/pusher-client'
 import { useRouter } from 'next/navigation'
-import { store } from 'app/lib/store/store'
-import { setOpenAuctionEndedModal, setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { AuctionEmptyState, AuctionHowItWorks, AuctionItemGrid, AuctionSoldGrid } from 'app/components/auction/public'
 import { AuctionCountdown } from 'app/components/auction/public/AuctionCountdown'
 import { useSession } from 'next-auth/react'
@@ -35,13 +33,10 @@ export default function PublicAuctionClient({ auction }: { auction: IAuction }) 
     if (!auction.id) return
 
     const channel = pusherClient.subscribe(`auction-${auction.id}`)
-    channel.bind('auction-ended', (data) => {
+    channel.bind('bid-placed', () => {
       routerRef.current.refresh()
-      store.dispatch(setShowConfetti())
-      store.dispatch(setOpenAuctionEndedModal(data))
+      setSlotTrigger((t) => t + 1)
     })
-    channel.bind('auction-updated', () => routerRef.current.refresh())
-    channel.bind('bid-placed', () => routerRef.current.refresh())
 
     return () => {
       channel.unbind_all()

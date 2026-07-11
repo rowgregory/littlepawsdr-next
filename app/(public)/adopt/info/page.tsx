@@ -5,7 +5,7 @@ import {
   ADOPTION_GUIDELINES_AND_REQUIREMENTS,
   FIVE_STEP_PROCESS,
   STATES_WE_RESCUE
-} from 'app/lib/constants/about.page.constants'
+} from 'app/lib/constants/adopt-info.page.constants'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
 import Link from 'next/link'

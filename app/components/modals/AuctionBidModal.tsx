@@ -185,13 +185,13 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
           <div>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-              <span className="font-changa text-f10 uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+              <span className="  text-f10 uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
                 {mode === 'success' ? 'Bid Placed' : 'Place a Bid'}
               </span>
             </div>
             <h2
               id="bid-modal-title"
-              className="font-changa text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
+              className="  text-xl 430:text-2xl uppercase leading-none text-zinc-950 dark:text-text-dark"
             >
               {itemName}
             </h2>
@@ -216,14 +216,11 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                 <span className="relative inline-flex  h-2 w-2 bg-cyan-600 dark:bg-violet-400" />
               </span>
             )}
-            <p
-              id="bid-modal-desc"
-              className="font-changa text-f10 uppercase tracking-[0.2em] text-zinc-500 dark:text-muted-dark"
-            >
+            <p id="bid-modal-desc" className="  text-f10 uppercase tracking-[0.2em] text-zinc-500 dark:text-muted-dark">
               {currentBid > 0 ? 'Live Bid' : 'Starting Bid'}
             </p>
           </div>
-          <p className="font-changa text-3xl tabular-nums tracking-tight text-zinc-950 dark:text-text-dark">
+          <p className="  text-3xl tabular-nums tracking-tight text-zinc-950 dark:text-text-dark">
             ${(currentBid || minimumBid).toLocaleString()}
           </p>
           {currentBid > 0 && (
@@ -250,7 +247,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                   setMode(tab)
                   setError(null)
                 }}
-                className={`font-changa text-f10 uppercase tracking-[0.2em] pb-3 pr-6 transition-colors focus-visible:outline-none
+                className={`  text-f10 uppercase tracking-[0.2em] pb-3 pr-6 transition-colors focus-visible:outline-none
                   ${
                     mode === tab
                       ? 'border-b-2 border-cyan-600 dark:border-violet-400 text-cyan-600 dark:text-violet-400'
@@ -268,7 +265,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
           {raceCondition ? (
             <div className="space-y-4">
               <div className="border-l-2 border-yellow-500 dark:border-yellow-400 pl-4">
-                <p className="font-changa text-f10 uppercase tracking-[0.2em] text-yellow-500 dark:text-yellow-400 mb-1">
+                <p className="  text-f10 uppercase tracking-[0.2em] text-yellow-500 dark:text-yellow-400 mb-1">
                   Someone beat you by a second
                 </p>
                 <p className="font-lato text-sm text-zinc-500 dark:text-muted-dark leading-relaxed">
@@ -296,7 +293,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                 <div className="flex items-center gap-3">
                   <Zap className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <div className="text-left">
-                    <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5">
+                    <p className="  text-sm uppercase tracking-wide leading-none mb-0.5">
                       Bid ${raceCondition.newMinimumBid.toLocaleString()}
                     </p>
                     <p className="font-lato text-xs text-cyan-600/60 dark:text-violet-400/60">New minimum bid</p>
@@ -306,7 +303,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
               <button
                 type="button"
                 onClick={() => setRaceCondition(null)}
-                className="w-full px-6 py-3 font-changa text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+                className="w-full px-6 py-3   text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
               >
                 Cancel
               </button>
@@ -335,7 +332,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                         aria-hidden="true"
                       />
                       <div className="text-left">
-                        <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5">Instant Bid</p>
+                        <p className="  text-sm uppercase tracking-wide leading-none mb-0.5">Instant Bid</p>
                         <p className="font-lato text-xs text-cyan-600/60 dark:text-violet-400/60">+$10 above minimum</p>
                       </div>
                     </div>
@@ -343,7 +340,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                       {isQuickBidding ? (
                         <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                       ) : (
-                        <span className="font-changa text-lg tabular-nums">${quickBidAmount.toLocaleString()}</span>
+                        <span className="  text-lg tabular-nums">${quickBidAmount.toLocaleString()}</span>
                       )}
                     </div>
                   </button>
@@ -357,7 +354,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-4 h-4 shrink-0" aria-hidden="true" />
                       <div className="text-left">
-                        <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
+                        <p className="  text-sm uppercase tracking-wide leading-none mb-0.5 text-zinc-950 dark:text-text-dark">
                           Custom Amount
                         </p>
                         <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50">
@@ -375,13 +372,13 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                 <div role="tabpanel" aria-label="Custom bid amount">
                   <label
                     htmlFor="bid-amount"
-                    className="block font-changa text-f10 uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
+                    className="block   text-f10 uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark mb-2"
                   >
                     Bid Amount
                   </label>
                   <div className="relative mb-1">
                     <span
-                      className="absolute left-4 top-1/2 -translate-y-1/2 font-changa text-sm text-zinc-500 dark:text-muted-dark"
+                      className="absolute left-4 top-1/2 -translate-y-1/2   text-sm text-zinc-500 dark:text-muted-dark"
                       aria-hidden="true"
                     >
                       $
@@ -401,7 +398,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                       placeholder={minimumBid.toString()}
                       aria-describedby={error ? 'bid-error' : 'bid-hint'}
                       aria-invalid={!!error}
-                      className="w-full pl-8 pr-4 py-4 border-l-2 border-t border-r border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-[#13131f] focus:shadow-[0_0_0_1px_rgba(8,145,178,0.3)] dark:focus:shadow-[0_0_0_1px_rgba(167,139,250,0.3)] text-zinc-950 dark:text-text-dark placeholder:text-zinc-400 dark:placeholder:text-muted-dark/40 font-changa text-lg tabular-nums outline-none transition-all"
+                      className="w-full pl-8 pr-4 py-4 border-l-2 border-t border-r border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-[#13131f] focus:shadow-[0_0_0_1px_rgba(8,145,178,0.3)] dark:focus:shadow-[0_0_0_1px_rgba(167,139,250,0.3)] text-zinc-950 dark:text-text-dark placeholder:text-zinc-400 dark:placeholder:text-muted-dark/40   text-lg tabular-nums outline-none transition-all"
                     />
                   </div>
                   <p id="bid-hint" className="font-lato text-xs text-zinc-500 dark:text-muted-dark mb-5">
@@ -412,7 +409,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                     type="button"
                     onClick={handleCustomBid}
                     disabled={isPlacingBid || isQuickBidding || !customAmount || Number(customAmount) < minimumBid}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 font-changa text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 disabled:bg-cyan-600/30 dark:disabled:bg-violet-500/30 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4   text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 disabled:bg-cyan-600/30 dark:disabled:bg-violet-500/30 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
                   >
                     {isPlacingBid ? (
                       <>
@@ -444,11 +441,11 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                         className="w-3.5 h-3.5 text-cyan-600 dark:text-violet-400 shrink-0"
                         aria-hidden="true"
                       />
-                      <p className="font-changa text-f10 uppercase tracking-[0.2em] text-cyan-600 dark:text-violet-400">
+                      <p className="  text-f10 uppercase tracking-[0.2em] text-cyan-600 dark:text-violet-400">
                         Bid Confirmed
                       </p>
                     </div>
-                    <p className="font-changa text-3xl tabular-nums tracking-tight text-zinc-950 dark:text-text-dark">
+                    <p className="  text-3xl tabular-nums tracking-tight text-zinc-950 dark:text-text-dark">
                       ${placedBidAmount?.toLocaleString()}
                     </p>
                     <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark mt-0.5">
@@ -458,10 +455,10 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
 
                   {/* Live minimum — updates via Pusher */}
                   <div className="px-4 py-3 mb-5 bg-zinc-50 dark:bg-white/3 border border-zinc-200 dark:border-border-dark">
-                    <p className="font-changa text-f10 uppercase tracking-[0.2em] text-zinc-500 dark:text-muted-dark mb-1">
+                    <p className="  text-f10 uppercase tracking-[0.2em] text-zinc-500 dark:text-muted-dark mb-1">
                       Next minimum bid
                     </p>
-                    <p className="font-changa text-xl tabular-nums text-zinc-950 dark:text-text-dark">
+                    <p className="  text-xl tabular-nums text-zinc-950 dark:text-text-dark">
                       ${Number(minimumBid).toLocaleString()}
                     </p>
                     <p className="font-lato text-xs text-zinc-400 dark:text-muted-dark/50 mt-0.5">
@@ -482,7 +479,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                     <div className="flex items-center gap-3">
                       <RefreshCw className="w-4 h-4 shrink-0" aria-hidden="true" />
                       <div className="text-left">
-                        <p className="font-changa text-sm uppercase tracking-wide leading-none mb-0.5">Bid Again</p>
+                        <p className="  text-sm uppercase tracking-wide leading-none mb-0.5">Bid Again</p>
                         <p className="font-lato text-xs text-cyan-600/60 dark:text-violet-400/60">Place a higher bid</p>
                       </div>
                     </div>
@@ -492,7 +489,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full px-6 py-3 font-changa text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+                    className="w-full px-6 py-3   text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
                   >
                     Done
                   </button>
@@ -516,7 +513,7 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
                 <button
                   type="button"
                   onClick={onClose}
-                  className="w-full mt-3 px-6 py-3 font-changa text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+                  className="w-full mt-3 px-6 py-3   text-f10 uppercase tracking-widest border border-zinc-200 hover:border-cyan-600/30 hover:bg-zinc-50 dark:border-border-dark dark:hover:border-violet-400/30 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
                 >
                   Cancel
                 </button>

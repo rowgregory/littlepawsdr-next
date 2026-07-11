@@ -12,7 +12,11 @@ import { ISize } from 'types/cart.types'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 14 },
-  show: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.4, delay: i * 0.08, easing: [0.22, 1, 0.36, 1] } })
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, delay: i * 0.08, easing: [0.22, 1, 0.36, 1] }
+  })
 }
 
 export default function PublicMerchItemDetailsClient({ product }: { product: any }) {
@@ -31,7 +35,8 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
 
   // normalize both sides — a cart line saved without a size field has size === undefined,
   // and undefined === null is false, which makes inCart read 0 forever
-  const inCart = cartItems.find((i) => i.id === product.id && (i.size ?? null) === (selectedSize ?? null))?.quantity ?? 0
+  const inCart =
+    cartItems.find((i) => i.id === product.id && (i.size ?? null) === (selectedSize ?? null))?.quantity ?? 0
 
   const stockForSelection = hasSizes ? (selectedSizeObj?.quantity ?? 0) : (product?.countInStock ?? 99)
   const remaining = Math.max(0, stockForSelection - inCart)
@@ -69,7 +74,7 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
           <Link
             href="/merch"
-            className="inline-flex items-center gap-1.5 font-changa text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark mb-8"
+            className="inline-flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark mb-8"
           >
             <ChevronLeft className="w-3 h-3" aria-hidden="true" />
             All Merch
@@ -89,7 +94,9 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">No photo</span>
+                  <span className="  text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark">
+                    No photo
+                  </span>
                 </div>
               )}
             </div>
@@ -117,7 +124,9 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
           <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
             <div className="flex items-center gap-3 mb-4">
               <span className="block w-8 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
-              <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">Merch</p>
+              <p className="  text-[10px] uppercase tracking-[0.25em] text-primary-light dark:text-primary-dark">
+                Merch
+              </p>
             </div>
 
             <h1 className="font-quicksand text-3xl sm:text-4xl font-black leading-tight mb-2">{product.name}</h1>
@@ -126,12 +135,16 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
               ${product.price.toFixed(2)}
             </p>
 
-            {product.description && <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed mb-8">{product.description}</p>}
+            {product.description && (
+              <p className="text-sm text-muted-light dark:text-on-dark leading-relaxed mb-8">{product.description}</p>
+            )}
 
             {/* ── Sizes ── */}
             {hasSizes && (
               <fieldset className="mb-6">
-                <legend className="font-changa text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-2">Size</legend>
+                <legend className="  text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-2">
+                  Size
+                </legend>
                 <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Select size">
                   {sizes.map((s) => {
                     const soldOut = s.quantity <= 0
@@ -167,10 +180,17 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
             {/* ── Quantity ── */}
             {!outOfStock && (
               <div className="mb-8">
-                <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-2" id="qty-label">
+                <p
+                  className="  text-[10px] uppercase tracking-[0.25em] text-muted-light dark:text-muted-dark mb-2"
+                  id="qty-label"
+                >
                   Quantity
                 </p>
-                <div className="inline-flex items-center border border-border-light dark:border-border-dark" role="group" aria-labelledby="qty-label">
+                <div
+                  className="inline-flex items-center border border-border-light dark:border-border-dark"
+                  role="group"
+                  aria-labelledby="qty-label"
+                >
                   <button
                     type="button"
                     onClick={() => setRawQuantity(Math.max(1, quantity - 1))}
@@ -194,7 +214,9 @@ export default function PublicMerchItemDetailsClient({ product }: { product: any
                   </button>
                 </div>
                 {hasSizes && selectedSizeObj && selectedSizeObj.quantity <= 5 && (
-                  <p className="mt-2 font-mono text-[10px] text-muted-light dark:text-muted-dark">Only {selectedSizeObj.quantity} left</p>
+                  <p className="mt-2 font-mono text-[10px] text-muted-light dark:text-muted-dark">
+                    Only {selectedSizeObj.quantity} left
+                  </p>
                 )}
               </div>
             )}

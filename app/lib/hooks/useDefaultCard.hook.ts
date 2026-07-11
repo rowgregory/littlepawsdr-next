@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { IPaymentMethod } from 'types/entities/payment-method.types'
 
-export function useDefaultCard(savedCards: any[], setSelectedCardId: (id: string) => void) {
-  const session = useSession()
+export function useDefaultCard(savedCards: IPaymentMethod[], setSelectedCardId: (id: string) => void) {
+  const { status } = useSession()
 
   useEffect(() => {
-    if (session?.status !== 'authenticated') return
-    const defaultCard = savedCards?.find((c) => c.isDefault)
+    if (status !== 'authenticated') return
+    const defaultCard = savedCards.find((c) => c.isDefault)
     if (defaultCard) setSelectedCardId(defaultCard.stripePaymentId)
-  }, [savedCards, session?.status, setSelectedCardId])
+    // setSelectedCardId is a useState setter — stable by guarantee, listed to satisfy exhaustive-deps
+  }, [savedCards, status, setSelectedCardId])
 }

@@ -40,3 +40,10 @@ export interface AuctionStartedData {
   endDate: string
   customAuctionLink?: string
 }
+export interface AuctionEndedData {
+  auctionTitle: string
+  totalRaised: number
+  itemCount: number
+  bidderCount: number
+  customAuctionLink: string
+}

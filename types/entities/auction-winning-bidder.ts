@@ -19,12 +19,11 @@ export interface IAuctionWinningBidder {
   shippingStatus: ShippingStatus
   shippingProvider?: string | null
   trackingNumber?: string | null
-  payPalId?: string | null
   paidOn?: Date | null
   createdAt: Date
   updatedAt: Date
 
   auctionItems?: IAuctionItem[]
-  user?: IUser
+  user: IUser
   auction?: IAuction
 }

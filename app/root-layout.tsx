@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, ReactNode, Suspense, useEffect, useRef, useState } from 'react'
+import { ReactNode, Suspense, useEffect, useRef, useState } from 'react'
 import { Provider } from 'react-redux'
 import { store } from './lib/store/store'
 import { Elements } from '@stripe/react-stripe-js'
@@ -21,15 +21,15 @@ import PublicContactModal from './components/modals/PublicContactModal'
 import { pusherClient } from './lib/pusher/pusher-client'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import { CartPersistence } from './components/cart/CartPersistence'
-import { AuctionStartedData } from 'types/entities/auction'
+import { AuctionEndedData, AuctionStartedData } from 'types/entities/auction'
 
-interface RootLayoutWrapperProps {
+interface Props {
   children: ReactNode
   auction: any
   hasActiveFee: boolean
 }
 
-export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auction, hasActiveFee }) => {
+export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
   const segments = useSelectedLayoutSegments()
   const isNotFound = segments[0] === '__DEFAULT__' || segments.includes('/_not-found')
   const pathname = usePathname()
@@ -41,6 +41,7 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
   const activeAuctionId = auction?.id ?? null
 
   const [auctionStartedData, setAuctionStartedData] = useState<AuctionStartedData | null>(null)
+  const [auctionEndedData, setAuctionEndedData] = useState<AuctionEndedData | null>(null)
 
   useEffect(() => {
     routerRef.current = router
@@ -55,7 +56,11 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
       routerRef.current.refresh()
       setAuctionStartedData(data)
     })
-    channel.bind('auction-ended', () => routerRef.current.refresh())
+    channel.bind('auction-ended', (data: any) => {
+      routerRef.current.refresh()
+      setAuctionEndedData(data)
+    })
+
     channel.bind('auction-updated', () => routerRef.current.refresh())
 
     return () => {
@@ -79,7 +84,7 @@ export const RootLayoutWrapper: FC<RootLayoutWrapperProps> = ({ children, auctio
         <Elements stripe={stripePromise}>
           <Toast />
           <Confetti3D burstTrigger={burstTrigger} />
-          <AuctionEndedModal />
+          <AuctionEndedModal data={auctionEndedData} onClose={() => setAuctionEndedData(null)} />
           <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
           <CartBar />
           <CartToast />
