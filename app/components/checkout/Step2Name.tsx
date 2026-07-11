@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { FormField } from 'app/components/ui/FormField'
+import { FormField } from 'app/components/_primitives/FormField'
 
 export function Step2Name({ inputs, errors, handleInput, onNext, isAuthed }: any) {
   const isValid = !!inputs?.firstName?.trim() && !!inputs?.lastName?.trim()

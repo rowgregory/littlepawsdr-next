@@ -7,20 +7,24 @@ import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../../../components/common/Picture'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
-import { store } from 'app/lib/store/store'
 import { clearCart } from 'app/lib/store/slices/cartSlice'
 import { ORDER_TYPE_CONFIG } from 'app/lib/constants/order.constants'
 import { formatWithCommas } from 'app/utils/currency.utils'
+import { useAppDispatch } from 'app/lib/store/store'
+import { setHideConfetti, setShowConfetti } from 'app/lib/store/slices/uiSlice'
 
 export default function OrderConfirmationClient({ order }) {
   const config = ORDER_TYPE_CONFIG[order?.type] ?? ORDER_TYPE_CONFIG['ONE_TIME_DONATION']
   const subtotal = Number(order?.totalAmount) - Number(order?.coverFees ? order?.feesCovered : 0)
   const session = useSession()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    store.dispatch(clearCart())
-  }, [])
-  console.log(order)
+    dispatch(clearCart())
+    dispatch(setShowConfetti())
+    setTimeout(() => dispatch(setHideConfetti()), 2000)
+  }, [dispatch])
+
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 
   return (

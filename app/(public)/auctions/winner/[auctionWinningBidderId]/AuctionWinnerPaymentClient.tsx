@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Trophy, User } from 'lucide-react'
@@ -18,6 +18,27 @@ import {
   PaymentState,
   WinnerPaymentForm
 } from 'app/components/auction/public/winner-payment/WinnerPaymentForm'
+import { calculateStripeFees } from 'app/lib/stripe/calculateStripeFees'
+
+type WinnerFormInputs = {
+  selectedCardId: string | null
+  useNewCard: boolean
+  cardComplete: boolean
+  loading: boolean
+  error: string | null
+  saveCard: boolean
+  coverFees: boolean
+}
+
+const EMPTY: WinnerFormInputs = {
+  selectedCardId: null,
+  useNewCard: false,
+  cardComplete: false,
+  loading: false,
+  error: null,
+  saveCard: false,
+  coverFees: true
+}
 
 interface Props {
   winningBidder: IAuctionWinningBidder
@@ -28,57 +49,58 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
   const stripe = useStripe()
   const elements = useElements()
   const session = useSession()
-  const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
+  const { setupPusherListenerOneTime } = usePaymentProcessor()
 
-  const [cardComplete, setCardComplete] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [saveCard, setSaveCard] = useState(false)
-  const [coverFees, setCoverFees] = useState(true)
-  const [useNewCard, setUseNewCard] = useState(savedCards?.length === 0)
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(savedCards?.[0]?.stripePaymentId ?? null)
+  const [inputs, setInputs] = useState<WinnerFormInputs>({
+    ...EMPTY,
+    selectedCardId: savedCards?.[0]?.stripePaymentId ?? null,
+    useNewCard: savedCards?.length === 0
+  })
+  const patch = (data: Partial<WinnerFormInputs>) => setInputs((prev) => ({ ...prev, ...data }))
 
   const alreadyPaid = winningBidder?.winningBidPaymentStatus === 'PAID'
-  const total = winningBidder?.auctionItems.reduce((sum, item) => sum + item.soldPrice, 0)
-  const shipping = winningBidder?.shipping ?? 0
-  const processingFee = Math.round(((total + 0.3) / (1 - 0.029) - total) * 100) / 100
-  const finalAmount = coverFees ? Math.round((total + shipping + processingFee) * 100) / 100 : total + shipping
-  const feesCovered = coverFees ? processingFee : 0
+  const total = winningBidder.auctionItems.reduce((sum, item) => sum + item.soldPrice, 0)
+  const shipping = winningBidder.shipping ?? 0
+  const processingFee = calculateStripeFees(total)
+  const feesCovered = inputs.coverFees ? processingFee : 0
+  const finalAmount = inputs.coverFees ? total + shipping + processingFee : total + shipping
+  const usingSavedCard = !!inputs.selectedCardId && !inputs.useNewCard && !!session.data?.user
+  const isValid = usingSavedCard ? true : inputs.cardComplete
 
   const name = `${winningBidder?.user.firstName} ${winningBidder?.user.lastName}`
   const email = session.data?.user?.email
   const userId = session.data?.user?.id
-  const usingSavedCard = !!selectedCardId && !useNewCard && session.data?.user
 
-  useDefaultCard(savedCards, setSelectedCardId)
+  const setDefaultCard = useCallback((value: string) => patch({ selectedCardId: value }), [])
+  useDefaultCard(savedCards, setDefaultCard)
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault()
     if (!stripe || !elements) return
-    setLoading(true)
-    setError(null)
+    patch({ loading: true, error: null })
 
     try {
+      const finalAmountInCents = Math.round(finalAmount * 100)
       const basePayload = {
-        amount: Math.round(finalAmount * 100),
+        amount: finalAmountInCents,
         name,
         email,
         orderType: 'AUCTION_PURCHASE' as const,
         userId,
-        coverFees,
+        coverFees: inputs.coverFees,
         feesCovered,
         winningBidderId: winningBidder.id
       }
 
       if (usingSavedCard) {
-        const result = await createPaymentIntent({ ...basePayload, savedCardId: selectedCardId })
+        const result = await createPaymentIntent({ ...basePayload, savedCardId: inputs.selectedCardId })
         if (!result.success) throw new Error(result.error)
-        setupPusherListenerOneTime(false, selectedCardId, setError, setLoading)
+        setupPusherListenerOneTime()
       } else {
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
 
-        const intentResult = await createPaymentIntent({ ...basePayload, saveCard })
+        const intentResult = await createPaymentIntent({ ...basePayload, saveCard: inputs.saveCard })
         if (!intentResult.success) throw new Error(intentResult.error)
 
         const result = await stripe.confirmCardPayment(intentResult.clientSecret!, {
@@ -86,51 +108,40 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
         })
 
         if (result.error) {
-          setError(result.error.message || 'Payment failed')
+          patch({ loading: false, error: result.error.message ?? 'Payment failed' })
         } else if (result.paymentIntent?.status === 'succeeded') {
-          setupPusherListenerOneTime(
-            saveCard,
-            getPaymentMethodId(result.paymentIntent.payment_method),
-            setError,
-            setLoading
-          )
+          setupPusherListenerOneTime()
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      patch({
+        loading: false,
+        error: err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      })
     }
   }
 
   if (alreadyPaid) return <AuctionReceipt winningBidder={winningBidder} />
 
   const state: PaymentState = {
-    selectedCardId,
-    useNewCard,
-    cardComplete,
-    loading,
-    error,
-    saveCard,
-    coverFees,
+    selectedCardId: inputs.selectedCardId,
+    useNewCard: inputs.useNewCard,
+    loading: inputs.loading,
+    error: inputs.error,
+    saveCard: inputs.saveCard,
+    coverFees: inputs.coverFees,
     processingFee,
-    finalAmount
+    finalAmount,
+    isValid
   }
 
   const handlers: PaymentHandlers = {
-    onSelectCard: setSelectedCardId,
-    onUseNewCard: () => {
-      setUseNewCard(true)
-      setSelectedCardId(null)
-    },
-    onUseSavedCard: () => {
-      setUseNewCard(false)
-      setSelectedCardId(savedCards[0]?.stripePaymentId ?? null)
-    },
-    onCardChange: ({ complete, error }) => {
-      setCardComplete(complete)
-      setError(error)
-    },
-    onSaveCardToggle: () => setSaveCard((prev) => !prev),
-    onCoverFeesChange: setCoverFees,
+    onSelectCard: (id) => patch({ selectedCardId: id }),
+    onUseNewCard: () => patch({ useNewCard: true, selectedCardId: null }),
+    onUseSavedCard: () => patch({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null }),
+    onCardChange: ({ complete, error }) => patch({ cardComplete: complete, error }),
+    onSaveCardToggle: () => patch({ saveCard: !inputs.saveCard }),
+    onCoverFeesChange: (coverFees) => patch({ coverFees }),
     onSubmit: handleSubmit
   }
 

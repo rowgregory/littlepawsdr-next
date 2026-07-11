@@ -36,7 +36,7 @@ type Props = {
 export function Step3PaymentForm({ savedCards, isAuthed, userId, firstName, lastName, email }: Props) {
   const stripe = useStripe()
   const elements = useElements()
-  const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
+  const { setupPusherListenerOneTime } = usePaymentProcessor()
 
   // ── Payment-only local state ──
   const [payment, setPayment] = useState<PaymentInputs>({
@@ -77,8 +77,6 @@ export function Step3PaymentForm({ savedCards, isAuthed, userId, firstName, last
       const trimmedEmail = email.trim()
       const amountInCents = Math.round(finalAmount * 100)
 
-      const pusherCallbacks = [(value: string) => patch({ error: value }), () => patch({ loading: false })] as const
-
       const basePayload = {
         userId,
         email: trimmedEmail,
@@ -97,11 +95,7 @@ export function Step3PaymentForm({ savedCards, isAuthed, userId, firstName, last
 
         if (!result.success) throw new Error(result.error)
 
-        setupPusherListenerOneTime(
-          false, // saved card — already saved
-          payment.selectedCardId,
-          ...pusherCallbacks
-        )
+        setupPusherListenerOneTime()
       } else {
         // ── New card — confirmed client-side ──
         const cardElement = elements.getElement(CardElement)
@@ -130,11 +124,7 @@ export function Step3PaymentForm({ savedCards, isAuthed, userId, firstName, last
         if (result.error) {
           patch({ error: result.error.message || 'Payment failed' })
         } else if (result.paymentIntent?.status === 'succeeded') {
-          setupPusherListenerOneTime(
-            payment.saveCard,
-            getPaymentMethodId(result.paymentIntent.payment_method),
-            ...pusherCallbacks
-          )
+          setupPusherListenerOneTime()
         }
       }
     } catch (err) {

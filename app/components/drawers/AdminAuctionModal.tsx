@@ -8,7 +8,7 @@ import { useAppDispatch, useUiSelector } from 'app/lib/store/store'
 import { setCloseAuctionDrawer } from 'app/lib/store/slices/uiSlice'
 import { createAuction } from 'app/lib/actions/auction/createAuction'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
-import { FormField } from 'app/components/ui/FormField'
+import { FormField } from 'app/components/_primitives/FormField'
 import { FormError } from 'app/components/_primitives/FormError'
 
 // ─── Types ────────────────────────────────────────────────────────────────────

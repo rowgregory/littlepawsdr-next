@@ -1,0 +1,52 @@
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import Pusher from 'pusher-js'
+import { setAdoptionFeeCookie } from '../actions/_infra/setAdoptionFeeCookie'
+
+export async function setupPusherListenerOneTime(channelId: string, router: AppRouterInstance): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let processingStatus = 'processing'
+    let hasProcessed = false
+    if (!channelId) return
+
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER
+    })
+    const channel = pusher.subscribe(`payment-${channelId}`)
+
+    const timeout = setTimeout(() => {
+      if (processingStatus === 'processing') {
+        processingStatus = 'failed'
+        reject(new Error('Order processing timeout. Please check your email for confirmation.'))
+      }
+    }, 10000)
+
+    channel.bind('order-created', (data: any) => {
+      if (hasProcessed) return
+      hasProcessed = true
+      clearTimeout(timeout)
+      processingStatus = 'success'
+
+      const finish = async () => {
+        if (data.type === 'ADOPTION_FEE') {
+          if (data.adoptionFeeId) await setAdoptionFeeCookie(data.adoptionFeeId)
+          router.push('/adopt/application')
+        } else {
+          router.push(`/order-confirmation/${data.orderId}`)
+        }
+        channel.unbind_all()
+        pusher.unsubscribe(`payment-${channelId}`)
+        resolve()
+      }
+
+      finish().catch(reject)
+    })
+
+    channel.bind('order-failed', (data: any) => {
+      clearTimeout(timeout)
+      processingStatus = 'failed'
+      channel.unbind_all()
+      pusher.unsubscribe(`payment-${channelId}`)
+      reject(new Error(data.error || 'Order processing failed'))
+    })
+  })
+}

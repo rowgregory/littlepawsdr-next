@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { FormField } from 'app/components/ui/FormField'
+import { FormField } from 'app/components/_primitives/FormField'
 
 interface IAddress {
   addressLine1: string | null

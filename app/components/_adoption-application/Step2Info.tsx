@@ -1,6 +1,29 @@
-import { slideVariants } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
-import { Input } from '../ui/Input'
+import { CheckCircle, Info, Loader2 } from 'lucide-react'
+import { FormField } from 'app/components/_primitives'
+import { slideVariants } from 'app/lib/constants/motion.constants'
+import { STEPS_TYPES } from 'types/_adoption-application.types'
+
+type Inputs = {
+  bypassCode: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
+type Props = {
+  inputs: Inputs
+  setInputs: React.Dispatch<React.SetStateAction<Inputs>>
+  verifyingCode: boolean
+  bypassError: string
+  bypassPayment: boolean
+  setBypassPayment: (v: boolean) => void
+  setBypassError: (v: string) => void
+  handleVerifyBypassCode: () => void
+  isProceeding: boolean
+  handleProceed: () => void
+  setStep: (step: STEPS_TYPES) => void
+}
 
 export function Step2Info({
   inputs,
@@ -14,8 +37,9 @@ export function Step2Info({
   isProceeding,
   handleProceed,
   setStep
-}) {
-  const patch = (data: Partial<typeof inputs>) => setInputs((prev) => ({ ...prev, ...data }))
+}: Props) {
+  const patch = (data: Partial<Inputs>) => setInputs((prev) => ({ ...prev, ...data }))
+
   return (
     <motion.section
       key="info"
@@ -79,46 +103,43 @@ export function Step2Info({
             className="mt-3 flex items-center gap-2 text-xs text-primary-light dark:text-primary-dark"
             role="status"
           >
-            <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <CheckCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
             Valid code — application fee waived. Fill in your details below to continue.
           </motion.p>
         )}
       </div>
 
       {/* ── Your info ── */}
-      <h2 id="step-info-heading" className="  text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6">
+      <h2 id="step-info-heading" className="text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6">
         Your Information
       </h2>
 
       <div className="space-y-5">
         <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
-          <Input
+          <FormField
             id="firstName"
+            name="firstName"
             label="First Name"
             value={inputs.firstName}
-            onChange={(value) => patch({ firstName: value })}
+            onChange={(e) => patch({ firstName: e.target.value })}
             required
           />
-          <Input
+          <FormField
             id="lastName"
+            name="lastName"
             label="Last Name"
             value={inputs.lastName}
-            onChange={(value) => patch({ lastName: value })}
+            onChange={(e) => patch({ lastName: e.target.value })}
             required
           />
         </div>
-        <Input
+        <FormField
           id="email"
+          name="email"
           label="Email Address"
           type="email"
           value={inputs.email}
-          onChange={(value) => patch({ email: value })}
+          onChange={(e) => patch({ email: e.target.value })}
           required
           disabled
         />
@@ -135,31 +156,12 @@ export function Step2Info({
         >
           <div className="flex gap-3">
             {bypassPayment ? (
-              <svg
+              <CheckCircle
                 className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
                 aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              />
             ) : (
-              <svg
-                className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Info className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5" aria-hidden="true" />
             )}
             <div className="text-sm">
               <div className="flex items-center gap-2 mb-1">
@@ -191,12 +193,7 @@ export function Step2Info({
         >
           {isProceeding ? (
             <>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="w-4 h-4 border-2 border-white/30 border-t-white "
-                aria-hidden="true"
-              />
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
               <span>Please wait…</span>
               <span className="sr-only">Processing, please wait</span>
             </>

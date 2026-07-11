@@ -1,7 +1,7 @@
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { EmptyState } from './EmptyState'
 import { motion } from 'framer-motion'
-import { StatusPill } from 'app/components/ui/StatusPill'
+import { StatusPill } from 'app/components/_primitives/StatusPill'
 import { formatMoney } from 'app/utils/currency.utils'
 import { formatDate } from 'app/utils/date.utils'
 import { Dog } from 'lucide-react'

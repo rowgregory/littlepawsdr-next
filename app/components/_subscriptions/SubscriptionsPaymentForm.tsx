@@ -6,7 +6,7 @@ import { useUiSelector } from 'app/lib/store/store'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
 import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 import { calculateStripeFees } from 'app/lib/stripe/calculateStripeFees'
-import { FormField } from '../ui/FormField'
+import { FormField } from '../_primitives/FormField'
 import { SavedCardSelector } from '../payment/SavedCardSelector'
 import { CardElementField } from '../_primitives/CardElementField'
 import { CoverFeesToggle } from '../payment/CoverFeesToggle'
@@ -113,8 +113,6 @@ export function SubscriptionPaymentForm({
       const email = inputs.email.trim()
       const amountInCents = Math.round(finalAmount * 100)
 
-      const pusherCallbacks = [(value: string) => patch({ error: value }), () => patch({ loading: false })] as const
-
       const basePayload = {
         userId,
         email,
@@ -132,7 +130,7 @@ export function SubscriptionPaymentForm({
           savedCardId: inputs.selectedCardId
         })
         if (!result.success) throw new Error(result.error ?? 'Failed to create subscription')
-        setupPusherListenerRecurring(result, ...pusherCallbacks)
+        setupPusherListenerRecurring({ subscriptionId: result.subscriptionId })
       } else {
         const setupResult = await createSetupIntentForSubscription(basePayload)
         if (!setupResult.success) throw new Error(setupResult.error ?? 'Failed to create setup intent')
@@ -140,7 +138,7 @@ export function SubscriptionPaymentForm({
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
 
-        const { error: stripeError, setupIntent } = await stripe.confirmCardSetup(setupResult.clientSecret!, {
+        const { error: stripeError } = await stripe.confirmCardSetup(setupResult.clientSecret!, {
           payment_method: { card: cardElement, billing_details: { email, name } }
         })
 
@@ -155,12 +153,7 @@ export function SubscriptionPaymentForm({
         })
         if (!subscriptionResult.success) throw new Error(subscriptionResult.error ?? 'Failed to create subscription')
 
-        setupPusherListenerRecurring(
-          subscriptionResult,
-          ...pusherCallbacks,
-          true, // card always saved for subscriptions
-          setupIntent?.payment_method
-        )
+        setupPusherListenerRecurring({ subscriptionId: subscriptionResult.subscriptionId })
       }
     } catch (err) {
       patch({

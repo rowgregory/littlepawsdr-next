@@ -14,13 +14,13 @@ import { AuctionWinnerAddressSection } from './AuctionWinnerAddressSection'
 export type PaymentState = {
   selectedCardId: string | null
   useNewCard: boolean
-  cardComplete: boolean
   loading: boolean
   error: string | null
   saveCard: boolean
   coverFees: boolean
   processingFee: number
   finalAmount: number
+  isValid: boolean
 }
 
 export type PaymentHandlers = {
@@ -42,8 +42,7 @@ type Props = {
 
 export function WinnerPaymentForm({ winningBidder, savedCards, state, handlers }: Props) {
   const session = useSession()
-  const { selectedCardId, useNewCard, cardComplete, loading, error, saveCard, coverFees, processingFee, finalAmount } =
-    state
+  const { selectedCardId, useNewCard, loading, error, saveCard, coverFees, processingFee, finalAmount, isValid } = state
   const { onSelectCard, onUseNewCard, onUseSavedCard, onCardChange, onSaveCardToggle, onCoverFeesChange, onSubmit } =
     handlers
 
@@ -119,7 +118,7 @@ export function WinnerPaymentForm({ winningBidder, savedCards, state, handlers }
       {/* ── Submit ── */}
       <SubmitButton
         loading={loading}
-        isValid={cardComplete || !!selectedCardId}
+        isValid={isValid}
         label="Complete Payment"
         price={`$${finalAmount.toFixed(2)}`}
         onClick={onSubmit}

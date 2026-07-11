@@ -10,7 +10,7 @@ import {
   PortalUser,
   Subscription
 } from 'types/member-portal.types'
-import { FormField } from 'app/components/ui/FormField'
+import { FormField } from 'app/components/_primitives/FormField'
 import { Toggle } from 'app/components/_primitives/Toggle'
 
 interface HeaderProps {

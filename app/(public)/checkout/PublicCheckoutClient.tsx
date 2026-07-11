@@ -89,7 +89,7 @@ export function PublicCheckoutClient({
 }: IPublicCheckoutClient) {
   const stripe = useStripe()
   const elements = useElements()
-  const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
+  const { setupPusherListenerOneTime } = usePaymentProcessor()
   const items = useAppSelector((state: RootState) => state.cart.items)
 
   // ── Local form state ──────────────────────────────────────────────────────
@@ -210,8 +210,6 @@ export function PublicCheckoutClient({
       const trimmedEmail = email.trim()
       const amountInCents = Math.round(finalAmount * 100)
 
-      const pusherCallbacks = [(value: string) => patch({ error: value }), () => patch({ loading: false })] as const
-
       const basePayload = {
         amount: amountInCents,
         name,
@@ -231,7 +229,7 @@ export function PublicCheckoutClient({
         })
         if (!result.success) throw new Error(result.error)
 
-        setupPusherListenerOneTime(inputs.saveCard, inputs.selectedCardId, ...pusherCallbacks)
+        setupPusherListenerOneTime()
       } else {
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) throw new Error('Card element not found')
@@ -252,11 +250,7 @@ export function PublicCheckoutClient({
         if (result.error) {
           patch({ loading: false, error: result.error.message ?? 'Payment failed' })
         } else if (result.paymentIntent?.status === 'succeeded') {
-          setupPusherListenerOneTime(
-            inputs.saveCard,
-            getPaymentMethodId(result.paymentIntent.payment_method),
-            ...pusherCallbacks
-          )
+          setupPusherListenerOneTime()
         }
       }
     } catch (err) {

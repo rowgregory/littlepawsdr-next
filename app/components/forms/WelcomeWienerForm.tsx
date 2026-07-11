@@ -18,7 +18,7 @@ import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcom
 import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
 import Link from 'next/link'
 import { SectionLabel } from '../_primitives'
-import { FormField } from '../ui/FormField'
+import { FormField } from '../_primitives/FormField'
 
 type FormState = {
   name: string

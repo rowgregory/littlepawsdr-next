@@ -5,7 +5,7 @@ import { EMAIL_REGEX } from 'app/lib/constants/regex.constants'
 import { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { FormField } from '../ui/FormField'
+import { FormField } from '../_primitives/FormField'
 import { SavedCardSelector } from '../payment/SavedCardSelector'
 import { CardElementField } from '../_primitives/CardElementField'
 import { CoverFeesToggle } from '../payment/CoverFeesToggle'
@@ -53,7 +53,7 @@ type Props = {
 export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Props) {
   const stripe = useStripe()
   const elements = useElements()
-  const { setupPusherListenerOneTime, getPaymentMethodId } = usePaymentProcessor()
+  const { setupPusherListenerOneTime } = usePaymentProcessor()
 
   // ── URL param: pre-fill amount (e.g. from StepSignIn redirect) ────────────
   // Resolved once on mount via useSearchParams — keeps seeding synchronous.
@@ -120,8 +120,6 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
       const trimmedEmail = inputs.email.trim()
       const amountInCents = Math.round(finalAmount * 100)
 
-      const pusherCallbacks = [(value: string) => patch({ error: value }), () => patch({ loading: false })] as const
-
       const basePayload = {
         userId,
         email: trimmedEmail,
@@ -140,11 +138,7 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
 
         if (!result.success) throw new Error(result.error)
 
-        setupPusherListenerOneTime(
-          false, // saved card — already saved
-          inputs?.selectedCardId,
-          ...pusherCallbacks
-        )
+        setupPusherListenerOneTime()
       } else {
         // ── New card — confirmed client-side ──
         const cardElement = elements.getElement(CardElement)
@@ -167,11 +161,7 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
         if (result.error) {
           patch({ loading: false, error: result.error.message ?? 'Payment failed' })
         } else if (result.paymentIntent?.status === 'succeeded') {
-          setupPusherListenerOneTime(
-            inputs.saveCard,
-            getPaymentMethodId(result.paymentIntent.payment_method),
-            ...pusherCallbacks
-          )
+          setupPusherListenerOneTime()
         }
       }
     } catch (err) {

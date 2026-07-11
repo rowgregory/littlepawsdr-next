@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { EmptyState } from './EmptyState'
 import { formatDate } from 'app/utils/date.utils'
 import { formatMoney } from 'app/utils/currency.utils'
-import { StatusPill } from 'app/components/ui/StatusPill'
+import { StatusPill } from 'app/components/_primitives/StatusPill'
 
 export function OneTimeDonations({ donations }) {
   return (

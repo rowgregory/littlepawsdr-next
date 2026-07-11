@@ -16,7 +16,7 @@ import { formatMoney } from 'app/utils/currency.utils'
 import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 
-import { FormField } from 'app/components/ui/FormField'
+import { FormField } from 'app/components/_primitives/FormField'
 import Picture from '../../common/Picture'
 
 import type { IAuctionItem, SellingFormat } from 'types/entities/auction-item'
