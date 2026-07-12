@@ -36,7 +36,8 @@ export const deletePaymentMethod = async (id: string) => {
     if (activeSubscription) {
       return {
         success: false,
-        error: 'This card is tied to an active subscription. Please update your subscription payment method before removing this card.'
+        error:
+          'This card is tied to an active subscription. Please update your subscription payment method before removing this card.'
       }
     }
 

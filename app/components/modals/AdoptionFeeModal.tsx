@@ -59,8 +59,8 @@ export function AdoptionFeeWelcomeModal({ isOpen, onClose }: { isOpen: boolean; 
                   </p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     Need to come back later? The application is always available in your{' '}
-                    <span className="font-semibold text-neutral-900 dark:text-white">Member Portal</span> — no need to
-                    pay again.
+                    <span className="font-semibold text-neutral-900 dark:text-white">Member</span> — no need to pay
+                    again.
                   </p>
                 </div>
 

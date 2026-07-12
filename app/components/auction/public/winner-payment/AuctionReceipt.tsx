@@ -125,7 +125,7 @@ export function AuctionReceipt({ winningBidder }: WinnerReceiptProps) {
         {/* Back to account */}
         <div className="mt-6 text-center">
           <Link
-            href="/member/portal"
+            href=" /my-pack"
             className="inline-flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors"
           >
             <ChevronLeft className="w-3 h-3" aria-hidden="true" />

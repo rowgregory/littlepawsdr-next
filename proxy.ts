@@ -14,14 +14,14 @@ export function proxy(request: NextRequest) {
   // Bounce logged-in users away from the login page
   if (pathname === '/auth/login' && isLoggedIn) {
     const redirect = request.cookies.get('lpdr_redirect')?.value
-    const response = NextResponse.redirect(new URL(redirect || '/member/portal', request.url))
+    const response = NextResponse.redirect(new URL(redirect || '/my-pack', request.url))
     response.cookies.delete('lpdr_redirect')
     return response
   }
 
   // Protected routes — cookie-existence check only.
   // Authenticated layouts do the real session validation + role checks on Node.
-  const isProtected = ['/member/', '/admin/'].some((r) => pathname.startsWith(r))
+  const isProtected = ['/my-pack/', '/admin/'].some((r) => pathname.startsWith(r))
   if (isProtected && !isLoggedIn) {
     return NextResponse.redirect(new URL('/auth/login', request.url))
   }
@@ -30,5 +30,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/member/:path*', '/admin/:path*', '/auth/login', '/adopt/application']
+  matcher: ['/my-pack/:path*', '/admin/:path*', '/auth/login', '/adopt/application']
 }

@@ -21,14 +21,17 @@ import { pusherClient } from './lib/pusher/pusher-client'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import { CartPersistence } from './components/cart/CartPersistence'
 import { AuctionEndedData, AuctionStartedData } from 'types/entities/auction'
+import { WelcomeGate } from './components/modals/WelcomeGate'
+import { Session } from 'next-auth'
 
 interface Props {
   children: ReactNode
   auction: any
   hasActiveFee: boolean
+  session: Session | null
 }
 
-export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
+export function RootLayoutWrapper({ children, auction, hasActiveFee, session }: Props) {
   const segments = useSelectedLayoutSegments()
   const isNotFound = segments[0] === '__DEFAULT__' || segments.includes('/_not-found')
   const pathname = usePathname()
@@ -38,9 +41,12 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
   const routerRef = useRef(router)
 
   const activeAuctionId = auction?.id ?? null
+  const userId = session?.user?.id ?? null
+  const userName = session?.user?.name ?? null
 
   const [auctionStartedData, setAuctionStartedData] = useState<AuctionStartedData | null>(null)
   const [auctionEndedData, setAuctionEndedData] = useState<AuctionEndedData | null>(null)
+  const [showWelcome, setShowWelcome] = useState(false)
 
   useEffect(() => {
     routerRef.current = router
@@ -68,6 +74,22 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
     }
   }, [activeAuctionId])
 
+  useEffect(() => {
+    if (!userId) return
+
+    const channel = pusherClient.subscribe(`user-${userId}`)
+
+    channel.bind('migration-complete', () => {
+      routerRef.current.refresh()
+      setShowWelcome(true)
+    })
+
+    return () => {
+      channel.unbind_all()
+      pusherClient.unsubscribe(`user-${userId}`)
+    }
+  }, [userId])
+
   const [burstTrigger, setBurstTrigger] = useState(0)
 
   // expose via context or prop — simplest is a window event
@@ -87,7 +109,7 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
           <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
           <CartBar />
           <CartToast />
-
+          <WelcomeGate show={showWelcome} userName={userName} onClose={() => setShowWelcome(false)} />
           <PublicContactModal />
           <Suspense fallback={null}>
             <NavigationDrawer auction={auction} hasActiveFee={hasActiveFee} />

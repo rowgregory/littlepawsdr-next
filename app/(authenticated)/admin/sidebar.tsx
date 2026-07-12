@@ -3,62 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
-import {
-  Home,
-  LayoutDashboard,
-  Gavel,
-  Receipt,
-  Package,
-  Dog,
-  DollarSign,
-  Users,
-  Mail,
-  User,
-  LogOut,
-  PawPrint
-} from 'lucide-react'
-
-type NavItem = {
-  label: string
-  icon: typeof Home
-  href: string
-}
-
-type NavGroup = {
-  heading: string
-  items: NavItem[]
-}
-
-const navGroups: NavGroup[] = [
-  {
-    heading: 'Overview',
-    items: [{ label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' }]
-  },
-  {
-    heading: 'Fundraising',
-    items: [
-      { label: 'Orders', icon: Receipt, href: '/admin/orders' },
-      { label: 'Auctions', icon: Gavel, href: '/admin/auctions' },
-      { label: 'Products', icon: Package, href: '/admin/products' },
-      { label: 'Welcome Wieners', icon: Dog, href: '/admin/welcome-wieners' }
-    ]
-  },
-  {
-    heading: 'Adoptions',
-    items: [
-      { label: 'Dachshunds', icon: PawPrint, href: '/admin/dachshunds' },
-      { label: 'Adoption Fees', icon: DollarSign, href: '/admin/adoption-fees' }
-    ]
-  },
-  {
-    heading: 'People',
-    items: [
-      { label: 'Users', icon: Users, href: '/admin/users' },
-      { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' },
-      { label: 'Profile', icon: User, href: '/member/portal' }
-    ]
-  }
-]
+import { LogOut } from 'lucide-react'
+import { ADMIN_NAV_GROUPS } from 'app/lib/constants/navigation.constants'
 
 export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
@@ -90,7 +36,7 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
 
       {/* Groups */}
       <div className="flex-1 overflow-y-auto flex flex-col gap-5 min-h-0">
-        {navGroups.map((group) => (
+        {ADMIN_NAV_GROUPS.map((group) => (
           <div key={group.heading} className="flex flex-col">
             <p className="px-4 mb-1.5 font-mono text-[9px] tracking-[0.25em] uppercase text-muted-light/70 dark:text-muted-dark/70">
               {group.heading}

@@ -2,21 +2,36 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { store } from 'app/lib/store/store'
+import { useAppDispatch } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { markWelcomeSeen } from 'app/lib/actions/user/markWelcomeSeen'
 import { TalkingDachshund } from '../unique/TalkingDachshund'
 
-export function WelcomeGate({ show, userName }: { show: boolean; userName: string | null }) {
-  const [open, setOpen] = useState(show)
+export function WelcomeGate({
+  show,
+  userName,
+  onClose
+}: {
+  show: boolean
+  userName: string | null
+  onClose: () => void
+}) {
+  const dispatch = useAppDispatch()
+  const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
-    if (!show) return
-    store.dispatch(setShowConfetti())
-    markWelcomeSeen()
-  }, [show])
+    if (show) {
+      dispatch(setShowConfetti())
+    }
+  }, [dispatch, show])
+
+  const open = show && !dismissed
 
   const firstName = userName?.split(' ')[0]
+
+  const handleClose = () => {
+    setDismissed(true)
+    onClose()
+  }
 
   return (
     <AnimatePresence>
@@ -26,7 +41,7 @@ export function WelcomeGate({ show, userName }: { show: boolean; userName: strin
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => setOpen(false)}
+          onClick={handleClose}
           role="dialog"
           aria-modal="true"
           aria-labelledby="welcome-heading"
@@ -42,7 +57,11 @@ export function WelcomeGate({ show, userName }: { show: boolean; userName: strin
             {/* Mascot — front and center, large */}
             <div className="mb-8">
               <TalkingDachshund
-                message={firstName ? `Hi ${firstName}! Welcome to the pack!` : 'Welcome to the pack!'}
+                message={
+                  firstName
+                    ? `Welcome to your pack, ${firstName}! Your history has been restored.`
+                    : 'Welcome to your pack! Your history has been restored.'
+                }
                 bubbleSide="top"
                 size={200}
                 typeSpeed={45}
@@ -55,16 +74,16 @@ export function WelcomeGate({ show, userName }: { show: boolean; userName: strin
               id="welcome-heading"
               className="text-sm text-muted-light dark:text-muted-dark leading-relaxed mb-8 max-w-xs"
             >
-              This is your <strong className="text-text-light dark:text-text-dark">Member Portal</strong> — your home
-              base for everything Little Paws.
+              Everything from the previous site is here — your orders, donations, and auction history are all waiting
+              for you.
             </h2>
 
             {/* Single close button */}
             <button
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               className="w-full bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono font-black tracking-[0.25em] uppercase py-3.5 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
-              Let&apos;s go
+              Let&apos;s explore
             </button>
           </motion.div>
         </motion.div>

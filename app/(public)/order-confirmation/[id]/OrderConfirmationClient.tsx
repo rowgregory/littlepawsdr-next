@@ -46,11 +46,11 @@ export default function OrderConfirmationClient({ order }) {
           </div>
           {session?.data?.user ? (
             <Link
-              href="/member/portal"
+              href=" /my-pack"
               className="flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
             >
               <User className="w-3 h-3" aria-hidden="true" />
-              Portal
+              My Pack
             </Link>
           ) : (
             <Link

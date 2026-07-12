@@ -10,6 +10,8 @@ import { handleMagicLinkCallback } from './callbacks/magic-link.callback'
 import { handleGoogleCallback } from './callbacks/google.callback'
 import { createLog } from './actions/log/createLog'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
+import { cache } from 'react'
+import { migrateMongoUser } from './actions/migrate/migrateMongoUser'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -62,6 +64,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   events: {
     async signIn({ user }) {
+      // Update lastLoginAt
       prisma.user
         .update({
           where: { id: user.id },
@@ -73,6 +76,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             userId: user.id
           })
         )
+
+      // Lazy Mongo migration — fires after user exists in DB
+      if (user.email) {
+        const mongoUser = await prisma.mongoUser.findUnique({
+          where: { email: user.email.toLowerCase().trim() }
+        })
+        if (mongoUser) {
+          migrateMongoUser(user.email, user.id).catch((err) =>
+            createLog('error', 'Mongo migration failed silently', {
+              email: user.email,
+              error: err instanceof Error ? err.message : 'Unknown error'
+            })
+          )
+        }
+      }
     },
 
     async createUser({ user }) {
@@ -102,3 +120,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }
   }
 })
+
+export const getSession = cache(auth)

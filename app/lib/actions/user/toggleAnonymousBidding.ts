@@ -21,7 +21,7 @@ export async function toggleAnonymousBidding() {
       data: { anonymousBidding: !user.anonymousBidding }
     })
 
-    revalidatePath('/member/portal')
+    revalidatePath(' /my-pack')
     return { success: true, anonymousBidding: !user.anonymousBidding }
   } catch (error) {
     return { success: false, error: 'Failed to update setting' }

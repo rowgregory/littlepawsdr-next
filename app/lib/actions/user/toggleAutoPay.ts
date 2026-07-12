@@ -21,7 +21,7 @@ export async function toggleAutoPay() {
       data: { autoPay: !user.autoPay }
     })
 
-    revalidatePath('/member/portal')
+    revalidatePath(' /my-pack')
     return { success: true, autoPay: !user.autoPay }
   } catch (error) {
     return { success: false, error: 'Failed to update setting' }

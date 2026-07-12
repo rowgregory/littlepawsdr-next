@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/auth', '/member', '/api', '/checkout', '/order-confirmation', '/(authenticated)']
+        disallow: ['/admin', '/auth', '/my-pack', '/api', '/checkout', '/order-confirmation', '/(authenticated)']
       }
     ],
     sitemap: 'https://littlepawsdachshundrescue.com/sitemap.xml'

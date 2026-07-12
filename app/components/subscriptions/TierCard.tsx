@@ -1,7 +1,7 @@
 import { useSounds } from '@hooks/useSounds.hook'
 import { T, TIERS } from 'app/lib/constants/subscriptions.constants'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BillingInterval } from 'types/member-portal.types'
+import { BillingInterval } from 'types/my-pack.types'
 
 export function TierCard({
   tier,

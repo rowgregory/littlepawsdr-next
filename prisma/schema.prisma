@@ -70,6 +70,7 @@ enum Role {
   SUPERUSER
   ADMIN
   SUPPORTER
+  PACK_MEMBER
 }
 
 enum OrderType {
@@ -77,6 +78,7 @@ enum OrderType {
   RECURRING_DONATION
   ADOPTION_FEE
   PRODUCT
+  ECARD
   WELCOME_WIENER
   AUCTION_PURCHASE
   MIXED
@@ -175,7 +177,7 @@ model User {
   email       String    @unique
   name        String?
   image       String?
-  role        Role      @default(SUPPORTER)
+  role        Role      @default(PACK_MEMBER)
   lastLoginAt DateTime?
 
   // Generic person info (optional)
@@ -184,8 +186,6 @@ model User {
   phone     String?
 
   emailVerified DateTime?
-
-  hasSeenWelcome Boolean @default(false)
 
   // Flexible user-specific data
   metadata Json? // ← Future-proof
@@ -247,6 +247,7 @@ model Order {
   status    OrderStatus @default(PENDING)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+  source    String      @default("SITE") // 'SITE' | 'MONGO_MIGRATION'
 
   // ── Payment ─────────────────────────────────────────────
   totalAmount     Decimal   @db.Decimal(10, 2)
@@ -345,6 +346,10 @@ model Auction {
   endDate             DateTime
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
+
+  source String @default("SITE") // 'SITE' | 'MONGO_MIGRATION'
+
+  mongoId String? @unique
 
   items          AuctionItem[]
   bidders        AuctionBidder[]
@@ -623,4 +628,163 @@ model AuctionAnomaly {
   updatedAt DateTime @updatedAt
 
   @@index([auctionId])
+}
+
+// ─── STAGING TABLES ───────────────────────────────────────────────────
+model MongoUser {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique // Mongo _id as string
+  email     String   @unique
+  data      Json // raw Mongo document
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model MongoDonation {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoOrder {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoOrderItem {
+  id           String   @id @default(cuid())
+  mongoId      String   @unique
+  mongoOrderId String // references MongoOrder.mongoId
+  data         Json
+  createdAt    DateTime @default(now())
+
+  @@index([mongoOrderId])
+}
+
+model MongoWelcomeWienerOrder {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoAdoptionFee {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoAuctionWinner {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String // denormalized from User lookup at seed time
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoInstantBuyer {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model MongoAuctionItem {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  data      Json
+  createdAt DateTime @default(now())
+}
+
+model MongoAuctionItemPhoto {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  data      Json
+  createdAt DateTime @default(now())
+}
+
+model MongoProductOrder {
+  id           String   @id @default(cuid())
+  mongoId      String   @unique
+  email        String
+  mongoOrderId String // references MongoOrder.mongoId
+  data         Json
+  migrated     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+  @@index([mongoOrderId])
+}
+
+model MongoAddress {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  data      Json
+  createdAt DateTime @default(now())
+}
+
+model MongoEcardOrder {
+  id           String   @id @default(cuid())
+  mongoId      String   @unique
+  email        String
+  mongoOrderId String
+  data         Json
+  migrated     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+  @@index([mongoOrderId])
+}
+
+model MongoAuction {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model MongoCampaign {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  data      Json
+  createdAt DateTime @default(now())
+}
+
+model MongoBid {
+  id        String   @id @default(cuid())
+  mongoId   String   @unique
+  email     String
+  data      Json
+  migrated  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
 }

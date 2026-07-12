@@ -158,11 +158,11 @@ export default function AuctionWinnerPaymentClient({ winningBidder, savedCards }
               </span>
             </div>
             <Link
-              href="/member/portal"
+              href=" /my-pack"
               className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors"
             >
               <User className="w-3 h-3" aria-hidden="true" />
-              Portal
+              My Pack
             </Link>
           </div>
           <div className="flex items-start gap-4">

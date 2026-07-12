@@ -28,10 +28,10 @@ export function StickyHeader({ auction, isActive, done, days, hours, minutes, se
                 Track your bids and manage your account
               </p>
               <Link
-                href="/member/portal"
+                href=" /my-pack"
                 className="shrink-0 text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors"
               >
-                Member Portal →
+                Member →
               </Link>
             </>
           ) : (

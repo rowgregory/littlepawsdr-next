@@ -1,0 +1,594 @@
+import {
+  BookOpen,
+  Package,
+  Gavel,
+  Dog,
+  Heart,
+  Users,
+  DollarSign,
+  ShoppingBag,
+  ClipboardList,
+  Settings,
+  ChevronRight,
+  Info,
+  AlertTriangle,
+  CheckCircle,
+  KeyRound,
+  Database
+} from 'lucide-react'
+import AdminPageHeader from 'app/components/common/AdminPageHeader'
+
+const sections = [
+  { id: 'getting-started', label: 'Getting Started', icon: BookOpen },
+  { id: 'signing-in', label: 'Signing In', icon: KeyRound },
+  { id: 'data-migration', label: 'Data Migration', icon: Database },
+  { id: 'orders', label: 'Orders', icon: Package },
+  { id: 'auctions', label: 'Auctions', icon: Gavel },
+  { id: 'dachshunds', label: 'Dachshunds', icon: Dog },
+  { id: 'welcome-wieners', label: 'Welcome Wieners', icon: Heart },
+  { id: 'pack-members', label: 'Pack Members', icon: Users },
+  { id: 'donations', label: 'Donations', icon: DollarSign },
+  { id: 'products', label: 'Products & Merch', icon: ShoppingBag },
+  { id: 'adoptions', label: 'Adoption Applications', icon: ClipboardList },
+  { id: 'settings', label: 'Settings', icon: Settings }
+]
+
+function SectionHeader({ id, icon: Icon, title }: { id: string; icon: React.ElementType; title: string }) {
+  return (
+    <div id={id} className="flex items-center gap-3 mb-6 pt-2">
+      <Icon className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0" aria-hidden="true" />
+      <h2 className="font-mono text-sm tracking-[0.2em] uppercase text-text-light dark:text-text-dark">{title}</h2>
+    </div>
+  )
+}
+
+function Note({ type = 'info', children }: { type?: 'info' | 'warning' | 'success'; children: React.ReactNode }) {
+  const styles = {
+    info: 'border-primary-light/30 dark:border-primary-dark/30 bg-primary-light/5 dark:bg-primary-dark/5 text-primary-light dark:text-primary-dark',
+    warning: 'border-amber-500/30 bg-amber-500/5 text-amber-600 dark:text-amber-400',
+    success: 'border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400'
+  }
+  const icons = { info: Info, warning: AlertTriangle, success: CheckCircle }
+  const Icon = icons[type]
+
+  return (
+    <div className={`flex items-start gap-3 border px-4 py-3 mb-4 ${styles[type]}`}>
+      <Icon className="w-3.5 h-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+      <p className="font-mono text-[11px] leading-relaxed">{children}</p>
+    </div>
+  )
+}
+
+function Step({ number, children }: { number: number; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-3 mb-3">
+      <span className="shrink-0 w-5 h-5 flex items-center justify-center border border-border-light dark:border-border-dark font-mono text-[9px] text-muted-light dark:text-muted-dark mt-0.5">
+        {number}
+      </span>
+      <p className="font-mono text-xs text-text-light dark:text-text-dark leading-relaxed">{children}</p>
+    </div>
+  )
+}
+
+function Q({ question, children }: { question: string; children: React.ReactNode }) {
+  return (
+    <div className="border-b border-border-light dark:border-border-dark pb-5 mb-5 last:border-b-0 last:mb-0 last:pb-0">
+      <p className="font-mono text-xs font-bold text-text-light dark:text-text-dark mb-2">{question}</p>
+      <div className="font-mono text-xs text-muted-light dark:text-muted-dark leading-relaxed space-y-2">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+export default function AdminGuideClient() {
+  return (
+    <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
+      <AdminPageHeader title="Guide" />
+
+      <div className="w-full px-4 sm:px-6 py-6">
+        <div className="grid grid-cols-1 xl:grid-cols-[220px_1fr] gap-8 items-start">
+          {/* Sticky sidebar nav */}
+          <nav
+            aria-label="Guide sections"
+            className="xl:sticky xl:top-6 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
+          >
+            <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
+              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                Sections
+              </p>
+            </div>
+            <ul>
+              {sections.map(({ id, label, icon: Icon }) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    className="flex items-center gap-2.5 px-4 py-2.5 border-b border-border-light dark:border-border-dark last:border-b-0 font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/5 transition-colors group"
+                  >
+                    <Icon
+                      className="w-3 h-3 shrink-0 group-hover:text-primary-light dark:group-hover:text-primary-dark"
+                      aria-hidden="true"
+                    />
+                    {label}
+                    <ChevronRight
+                      className="w-3 h-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Content */}
+          <div className="space-y-16 max-w-3xl">
+            {/* Getting Started */}
+            <section>
+              <SectionHeader id="getting-started" icon={BookOpen} title="Getting Started" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="What is the admin panel?">
+                  <p>
+                    The admin panel is the control center for everything on the Little Paws site — orders, auctions,
+                    dachshund profiles, pack members, donations, and more. Only users with the ADMIN can access it.
+                  </p>
+                </Q>
+                <Q question="How do I navigate?">
+                  <p>
+                    Use the left sidebar to navigate between sections. The breadcrumb at the top of each page shows
+                    where you are. Most pages have a header with a count and any relevant actions.
+                  </p>
+                </Q>
+                <Q question="Something looks wrong or broken — what do I do?">
+                  <p>
+                    Reach out to Greg at greg@sqysh.com. Include a screenshot and a description of what you were doing
+                    when it happened.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Signing In */}
+            <section>
+              <SectionHeader id="signing-in" icon={KeyRound} title="Signing In" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  This site does not use passwords. There is no account creation form. Pack members sign in using Google
+                  or a magic link sent to their email. This is by design — it is simpler and more secure.
+                </Note>
+                <Note type="success">
+                  When a pack member signs in for the first time, their full history from the previous Little Paws site
+                  is automatically restored — orders, donations, auction bids, and purchases. They will see a welcome
+                  message confirming their data is ready. No action is needed from you.
+                </Note>
+                <Q question="How does signing in work?">
+                  <p>There are two ways to sign in:</p>
+                  <p>
+                    <strong>Google</strong> — click Sign in with Google on the login page. If the member has a Google
+                    account (Gmail, Google Workspace, etc.), they click once and they are in. No password required.
+                  </p>
+                  <p>
+                    <strong>Magic Link</strong> — the member enters their email address and clicks Send Link. They
+                    receive an email with a button that signs them in automatically when clicked. The link expires after
+                    a short time for security.
+                  </p>
+                </Q>
+                <Q question="Why no passwords?">
+                  <p>
+                    Passwords are the most common cause of account problems — people forget them, reuse them, or get
+                    phished. Magic links and Google sign-in are both more secure and easier to use. There is nothing to
+                    remember and nothing to reset.
+                  </p>
+                </Q>
+                <Q question="A member says they cannot sign in — what do I tell them?">
+                  <p>First, confirm which method they are using. Then walk them through the relevant steps below.</p>
+                  <p>
+                    <strong>If using Google:</strong> Make sure they are clicking Sign in with Google and selecting the
+                    correct Google account. If they have multiple Google accounts, they may be choosing the wrong one.
+                  </p>
+                  <p>
+                    <strong>If using magic link:</strong> Ask them to check their spam or junk folder — the email
+                    sometimes lands there. The link expires quickly, so they may need to request a new one. Make sure
+                    they are opening the link on the same device and browser they requested it from.
+                  </p>
+                </Q>
+                <Q question="A member says they have two accounts — what happened?">
+                  <p>
+                    This can happen if someone signed in with Google once and with a magic link another time using a
+                    different email address. Use the Merge Account tool on their profile page to combine them. If they
+                    used the same email both times, the system will have linked them automatically.
+                  </p>
+                </Q>
+                <Q question="Can a member change their email address?">
+                  <p>Not from the site currently. If a member needs their email updated, contact Greg.</p>
+                </Q>
+                <Q question="A member says the magic link email never arrived — what do I tell them?">
+                  <p>Ask them to:</p>
+                  <Step number={1}>Check their spam, junk, and promotions folders.</Step>
+                  <Step number={2}>Make sure they typed their email address correctly on the login page.</Step>
+                  <Step number={3}>Wait one to two minutes and check again — delivery can be slightly delayed.</Step>
+                  <Step number={4}>Try requesting a new link.</Step>
+                  <p>
+                    If none of that works, they can try signing in with Google instead if they have a Google account on
+                    the same email address.
+                  </p>
+                </Q>
+                <Q question="Can I create an account for someone?">
+                  <p>
+                    No — accounts are created automatically the first time someone signs in. There is no manual account
+                    creation. Just tell the member to go to the sign in page and use Google or a magic link.
+                  </p>
+                </Q>
+                <Q question="Is the site safe to use on a phone?">
+                  <p>
+                    Yes — the site works on any device including phones and tablets. The sign in process is the same.
+                    For magic links, make sure the member opens the link on the same device they requested it from, or
+                    the sign in may not complete.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Data Migration */}
+            <section>
+              <SectionHeader id="data-migration" icon={Database} title="Data Migration" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  When a pack member signs in for the first time, their data from the previous site is automatically
+                  migrated into this one. This happens in the background and takes only a few seconds.
+                </Note>
+                <Q question="What data is migrated?">
+                  <p>The following is restored automatically on first login:</p>
+                  <p>
+                    <strong>Orders</strong> — product purchases, welcome wiener orders, and ecard orders.
+                  </p>
+                  <p>
+                    <strong>Donations</strong> — one-time donations made through the previous site.
+                  </p>
+                  <p>
+                    <strong>Adoption fees</strong> — application fees paid on the previous site.
+                  </p>
+                  <p>
+                    <strong>Auction history</strong> — bids placed, items won, and instant buy purchases across all past
+                    auctions.
+                  </p>
+                  <p>
+                    <strong>Shipping address</strong> — the address on file from the previous site.
+                  </p>
+                </Q>
+                <Q question="What is NOT migrated?">
+                  <p>
+                    <strong>Recurring donations</strong> — these were processed entirely through PayPal and were never
+                    stored on the Little Paws platform.
+                  </p>
+                  <p>
+                    <strong>Passwords</strong> — this site is passwordless. Members sign in with Google or a magic link.
+                  </p>
+                  <p>
+                    <strong>Account settings</strong> — preferences like anonymous bidding are reset to defaults.
+                  </p>
+                </Q>
+                <Q question="A pack member signed in but their history did not appear — what do I do?">
+                  <Step number={1}>
+                    Ask them to sign out and sign back in — the migration retries on each login until it succeeds.
+                  </Step>
+                  <Step number={2}>Confirm they are using the same email address they used on the previous site.</Step>
+                  <Step number={3}>
+                    If it still does not appear after a second login, contact Greg with their email address.
+                  </Step>
+                </Q>
+                <Q question="Will migration run more than once?">
+                  <p>
+                    No — once a pack member has been successfully migrated their staging data is deleted. The migration
+                    will not run again on future logins.
+                  </p>
+                </Q>
+                <Q question="Does migration affect the admin dashboard stats?">
+                  <p>
+                    No — migrated orders and donations are tagged as historical data and are excluded from the admin
+                    dashboard revenue totals and order counts. Only activity from this site is included in the stats.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Orders */}
+            <section>
+              <SectionHeader id="orders" icon={Package} title="Orders" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="warning">
+                  Orders highlighted in amber with a truck icon need to be physically shipped. These are your action
+                  items.
+                </Note>
+                <Q question="How do I mark an order as shipped?">
+                  <Step number={1}>Click the order in the orders list.</Step>
+                  <Step number={2}>On the order detail page, find the Shipping section.</Step>
+                  <Step number={3}>
+                    Click Mark as Shipped. The customer will automatically receive a shipping confirmation email.
+                  </Step>
+                </Q>
+                <Q question="What do the order statuses mean?">
+                  <p>
+                    <strong>PENDING</strong> — payment is being processed.
+                  </p>
+                  <p>
+                    <strong>CONFIRMED</strong> — payment succeeded and the order is active.
+                  </p>
+                  <p>
+                    <strong>FAILED</strong> — payment failed. The customer was not charged.
+                  </p>
+                </Q>
+                <Q question="What do the shipping statuses mean?">
+                  <p>
+                    <strong>Needs shipping</strong> — item needs to be packaged and sent.
+                  </p>
+                  <p>
+                    <strong>Shipped</strong> — you have marked it as shipped and the customer has been notified.
+                  </p>
+                  <p>
+                    A dash means the order does not require shipping (e.g. donations, auction wins handled separately).
+                  </p>
+                </Q>
+                <Q question="Where do I ship from?">
+                  <p>Items ship directly from your home. There is no warehouse or fulfillment center.</p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Auctions */}
+            <section>
+              <SectionHeader id="auctions" icon={Gavel} title="Auctions" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="warning">
+                  Only one auction can be active at a time. Make sure the previous auction is fully ended before
+                  starting a new one.
+                </Note>
+                <Q question="How do I create an auction?">
+                  <Step number={1}>Go to Auctions in the sidebar.</Step>
+                  <Step number={2}>Click New Auction and fill in the title, goal, and dates.</Step>
+                  <Step number={3}>
+                    Add items under the Items tab. Each item needs a name, starting price, and at least one photo.
+                  </Step>
+                  <Step number={4}>When ready, start the auction from the Settings tab.</Step>
+                </Q>
+                <Q question="How do I start an auction?">
+                  <p>
+                    Open the auction, go to the Settings tab, and click Start Auction. This makes it live and visible to
+                    the public. A notification will appear on the site for logged-in pack members.
+                  </p>
+                </Q>
+                <Q question="How do I end an auction?">
+                  <p>
+                    From the Settings tab, click End Auction. The system will automatically identify winners for each
+                    item and send them payment request emails. Winners with auto-pay enabled will be charged
+                    immediately.
+                  </p>
+                </Q>
+                <Q question="What is auto-pay?">
+                  <p>
+                    Pack Members can enable auto-pay in My Pack. When an auction ends, if they won an item and have a
+                    saved card, they are charged automatically. No action is needed from you.
+                  </p>
+                </Q>
+                <Q question="What if I need to revert an auction?">
+                  <p>
+                    From the Settings tab, click Revert Auction. This sets it back to DRAFT status. Use this only if
+                    something went wrong — it does not refund any payments that were already processed.
+                  </p>
+                </Q>
+                <Q question="What happens if a winner does not pay?">
+                  <p>
+                    They receive an automated payment request email with a link to the winner payment page. You can see
+                    unpaid winners from the auction Winners tab. Follow up directly with the pack member if needed.
+                  </p>
+                </Q>
+                <Q question="Can I edit an auction while it is live?">
+                  <p>
+                    Only the item name, description, and photos can be changed while the auction is active. Prices,
+                    quantities, and shipping settings are locked.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Dachshunds */}
+            <section>
+              <SectionHeader id="dachshunds" icon={Dog} title="Dachshunds" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="How do I add a new dachshund?">
+                  <Step number={1}>Go to Dachshunds in the sidebar.</Step>
+                  <Step number={2}>Click New Dachshund and fill in the profile details.</Step>
+                  <Step number={3}>Upload photos. The photo marked as primary will be the main display photo.</Step>
+                  <Step number={4}>Set the status — AVAILABLE, ADOPTED, FOSTER, or COURTESY.</Step>
+                </Q>
+                <Q question="How do I mark a dog as adopted?">
+                  <p>
+                    Open the dog profile and change the status to ADOPTED. The dog will move out of the available
+                    listings automatically.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Welcome Wieners */}
+            <section>
+              <SectionHeader id="welcome-wieners" icon={Heart} title="Welcome Wieners" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="What is a Welcome Wiener?">
+                  <p>
+                    Welcome Wieners are dogs that supporters can sponsor monthly. Each dog has a sponsorship page where
+                    pack members can set up recurring donations to support that specific dog.
+                  </p>
+                </Q>
+                <Q question="How do I add a Welcome Wiener?">
+                  <Step number={1}>Go to Welcome Wieners in the sidebar.</Step>
+                  <Step number={2}>Click New Welcome Wiener and fill in the details and story.</Step>
+                  <Step number={3}>Upload a photo and set the monthly sponsorship goal.</Step>
+                  <Step number={4}>Publish when ready.</Step>
+                </Q>
+                <Q question="How do I see who is sponsoring a dog?">
+                  <p>
+                    Open the Welcome Wiener profile and scroll to the Sponsors section. You can see each sponsor name,
+                    amount, and start date.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Pack Members */}
+            <section>
+              <SectionHeader id="pack-members" icon={Users} title="Pack Members" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="How do I find a pack member?">
+                  <p>
+                    Go to Users in the sidebar. Search by name or email. Click a user to see their full profile
+                    including order history and total spent.
+                  </p>
+                </Q>
+                <Q question="How do I change a pack member role?">
+                  <p>
+                    Open the user profile and use the role selector to switch between Pack Member and ADMIN. Click Save
+                    role to apply. Be careful — ADMIN gives full access to the admin panel.
+                  </p>
+                </Q>
+                <Q question="Can I delete a pack member?">
+                  <p>
+                    No — pack member deletion is not available in the admin panel. If a pack member needs to be removed,
+                    contact Greg.
+                  </p>
+                </Q>
+                <Q question="A pack member says their old orders or history are missing — what do I tell them?">
+                  <p>
+                    Their history should restore automatically the first time they sign in. If they signed in but still
+                    do not see their history, ask them to sign out and sign back in. If it still does not appear,
+                    contact Greg with their email address.
+                  </p>
+                </Q>
+                <Q question="A pack member says their recurring donation is missing — what do I tell them?">
+                  <p>
+                    Recurring donations on the previous site were handled entirely by PayPal. Members were redirected
+                    away from the site to set up their subscription, and that data was never stored on the Little Paws
+                    platform. There is nothing to migrate. Let them know they can set up a new recurring donation
+                    directly on this site and it will appear in their history going forward.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Donations */}
+            <section>
+              <SectionHeader id="donations" icon={DollarSign} title="Donations" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  Recurring donations from the previous site were processed entirely through PayPal. Members were taken
+                  off-site to PayPal to set up their subscription. Those subscriptions were never stored on the Little
+                  Paws site and cannot be migrated. If a pack member asks why their recurring donation is not showing,
+                  this is why. They are welcome to set up a new recurring donation directly on this site.
+                </Note>
+                <Q question="Where do I see donations?">
+                  <p>
+                    All donations appear in the Orders list filtered by type — One-time or Recurring. The Dashboard
+                    shows total revenue and a breakdown by source including donations.
+                  </p>
+                </Q>
+                <Q question="What is a bypass code?">
+                  <p>
+                    The bypass code lets someone skip the $15 adoption application fee. When a pack member enters a
+                    valid code on the application page, the fee is waived and they proceed directly to the form. The
+                    code rotates automatically on a schedule shown in the Dashboard.
+                  </p>
+                </Q>
+                <Q question="How do I share the bypass code?">
+                  <p>
+                    The current bypass code is shown at the top of the Dashboard. Click it to copy it to your clipboard,
+                    then share it directly with the person who needs it.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Products */}
+            <section>
+              <SectionHeader id="products" icon={ShoppingBag} title="Products & Merch" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="How do I add a new product?">
+                  <Step number={1}>Go to Products in the sidebar.</Step>
+                  <Step number={2}>
+                    Click New Product and fill in the details including name, description, and price.
+                  </Step>
+                  <Step number={3}>Upload photos and publish when ready.</Step>
+                </Q>
+                <Q question="How do I fulfill a product order?">
+                  <p>
+                    Product orders appear in the Orders list with a Needs shipping flag. Package the item and ship it
+                    directly to the customer, then mark it as shipped from the order detail page. The customer will
+                    receive a confirmation email automatically.
+                  </p>
+                </Q>
+                <Q question="Do I need to do anything for digital products?">
+                  <p>
+                    If the product does not require shipping, no action is needed after the order is placed. It will
+                    show no shipping status in the orders list.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Adoptions */}
+            <section>
+              <SectionHeader id="adoptions" icon={ClipboardList} title="Adoption Applications" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="How does the adoption application process work?">
+                  <Step number={1}>An applicant visits the Adopt page and agrees to the terms.</Step>
+                  <Step number={2}>They pay the $15 application fee (or use a bypass code to skip it).</Step>
+                  <Step number={3}>They fill out the RescueGroups application form embedded on the site.</Step>
+                  <Step number={4}>You review submissions in RescueGroups as normal.</Step>
+                </Q>
+                <Q question="Where do I review applications?">
+                  <p>
+                    Applications are submitted through RescueGroups and reviewed there. The LPDR site handles the fee
+                    collection and access gate — the actual application review happens in your RescueGroups dashboard.
+                  </p>
+                </Q>
+                <Q question="How do I see who paid the application fee?">
+                  <p>Go to Orders and filter by Adoption Fee. Each row represents one applicant who paid the fee.</p>
+                </Q>
+                <Q question="What is a CIT application?">
+                  <p>
+                    CIT (Coordinator in Training) applications are for volunteers who want to join the rescue team.
+                    These are reviewed directly in the admin panel under Adoption Fees. You can approve, reject, or
+                    request more information from applicants.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Settings */}
+            <section>
+              <SectionHeader id="settings" icon={Settings} title="Settings" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Q question="What can I configure in auction settings?">
+                  <p>
+                    From the auction Settings tab you can start, end, or revert the auction, set the end date, update
+                    the goal amount, and toggle visibility.
+                  </p>
+                </Q>
+                <Q question="Does anything run automatically?">
+                  <p>
+                    Yes — the bypass code rotates on a schedule, auction auto-pay runs when an auction ends, and outbid
+                    notification emails send automatically when a higher bid is placed. No action is needed for these.
+                  </p>
+                </Q>
+                <Q question="Who do I contact for technical issues?">
+                  <p>
+                    Greg at greg@sqysh.com. Include a screenshot and description of what happened and what you were
+                    trying to do.
+                  </p>
+                </Q>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  )
+}

@@ -1,7 +1,7 @@
 import {
+  BookOpen,
   Dog,
   DollarSign,
-  FileText,
   Gavel,
   Gift,
   Handshake,
@@ -12,10 +12,10 @@ import {
   LucideIcon,
   Mail,
   Newspaper,
+  Package,
+  PawPrint,
+  Receipt,
   Repeat,
-  Shield,
-  ShoppingBag,
-  Terminal,
   User,
   Users
 } from 'lucide-react'
@@ -33,10 +33,21 @@ export interface Section {
   priority: number
 }
 
+type NavItem = {
+  label: string
+  icon: typeof Home
+  href: string
+}
+
+type NavGroup = {
+  heading: string
+  items: NavItem[]
+}
+
 export const HIDDEN_PATHS = [
   '/auth',
   '/admin',
-  '/member',
+  '/my-pack',
   '/checkout',
   '/order-confirmation',
   '/auctions/',
@@ -185,38 +196,37 @@ export const mainNavigationLinks = (hasActiveFee: boolean): Section[] => {
   ]
 }
 
-export const ADMIN_NAV_ITEMS = [
+export const ADMIN_NAV_GROUPS: NavGroup[] = [
   {
-    label: 'Overview',
+    heading: 'Overview',
+    items: [{ label: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' }]
+  },
+  {
+    heading: 'Fundraising',
     items: [
-      { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/admin/users', label: 'Users', icon: Users },
-      { href: '/admin/orders', label: 'Orders', icon: FileText }
+      { label: 'Orders', icon: Receipt, href: '/admin/orders' },
+      { label: 'Auctions', icon: Gavel, href: '/admin/auctions' },
+      { label: 'Products', icon: Package, href: '/admin/products' },
+      { label: 'Welcome Wieners', icon: Dog, href: '/admin/welcome-wieners' }
     ]
   },
   {
-    label: 'Rescue',
-    items: [{ href: '/admin/dachshunds', label: 'Dachshunds', icon: Dog }]
-  },
-  {
-    label: 'Commerce',
+    heading: 'Adoptions',
     items: [
-      { href: '/admin/auctions', label: 'Auctions', icon: Gavel },
-      { href: '/admin/welcome-wieners', label: 'Welcome Wieners', icon: Heart },
-      { href: '/admin/merch', label: 'Merch', icon: ShoppingBag },
-      { href: '/admin/auction-live', label: 'Live Auction', icon: Shield }
+      { label: 'Dachshunds', icon: PawPrint, href: '/admin/dachshunds' },
+      { label: 'Adoption Fees', icon: DollarSign, href: '/admin/adoption-fees' }
     ]
   },
   {
-    label: 'Content',
-    items: [{ href: '/admin/newsletter', label: 'Newsletter', icon: Mail }]
+    heading: 'People',
+    items: [
+      { label: 'Users', icon: Users, href: '/admin/users' },
+      { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' },
+      { label: 'Profile', icon: User, href: ' /my-pack' }
+    ]
   },
   {
-    label: 'Portal',
-    items: [{ href: '/member/portal', label: 'Member Portal', icon: User }]
-  },
-  {
-    label: 'System',
-    items: [{ href: '/admin/logs', label: 'Logs', icon: Terminal }]
+    heading: 'System',
+    items: [{ label: 'Guide', icon: BookOpen, href: '/admin/guide' }]
   }
 ]

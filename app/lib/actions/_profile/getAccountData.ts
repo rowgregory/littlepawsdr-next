@@ -8,7 +8,7 @@ import {
   MerchAndWWOrder,
   ParticipationItem,
   Subscription
-} from 'types/member-portal.types'
+} from 'types/my-pack.types'
 
 export const getAccountData = async () => {
   try {
@@ -29,7 +29,6 @@ export const getAccountData = async () => {
           anonymousBidding: true,
           address: true,
           createdAt: true,
-          hasSeenWelcome: true,
           autoPay: true,
           autoPayCoverFees: true
         }

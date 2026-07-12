@@ -1,0 +1,4368 @@
+[{
+  "_id": {
+    "$oid": "64c3c9e87bb16c0002b2598a"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "JuliaKidd14@yahoo.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c3c9e87bb16c0002b25988",
+  "createdAt": {
+    "$date": "2023-07-28T14:00:08.287Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-28T14:00:08.287Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c3cca87bb16c0002b2598d"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41aea27040d0002d11cd2",
+  "productImage": "https://i.ibb.co/jTDM1Qk/Art-By-Frank-1.jpg",
+  "productName": "Art by Frank Notecard Pack of 10 ",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "mrsprimm@gmail.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c3cca87bb16c0002b2598b",
+  "createdAt": {
+    "$date": "2023-07-28T14:11:52.948Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-28T14:11:52.948Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c3d64a7bb16c0002b25990"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41aea27040d0002d11cd2",
+  "productImage": "https://i.ibb.co/jTDM1Qk/Art-By-Frank-1.jpg",
+  "productName": "Art by Frank Notecard Pack of 10 ",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "stephcocchiara@yahoo.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c3d64a7bb16c0002b2598e",
+  "createdAt": {
+    "$date": "2023-07-28T14:52:58.246Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-28T14:52:58.246Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c3eaf07bb16c0002b25993"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "Troutline24733@gmail.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c3eaf07bb16c0002b25991",
+  "createdAt": {
+    "$date": "2023-07-28T16:21:04.064Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-28T16:21:04.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c693da0587f80002212c25"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41aea27040d0002d11cd2",
+  "productImage": "https://i.ibb.co/jTDM1Qk/Art-By-Frank-1.jpg",
+  "productName": "Art by Frank Notecard Pack of 10 ",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "scampyhughes@aol.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c693da0587f80002212c21",
+  "createdAt": {
+    "$date": "2023-07-30T16:46:18.949Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-30T16:46:18.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c693da0587f80002212c24"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "scampyhughes@aol.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c693da0587f80002212c21",
+  "createdAt": {
+    "$date": "2023-07-30T16:46:18.949Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-30T16:46:18.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c94a03ebfca1000203a8ac"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "nadinedenise@att.net",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64c94a03ebfca1000203a8aa",
+  "createdAt": {
+    "$date": "2023-08-01T18:08:03.026Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-01T18:08:03.026Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64cbe5f28136fc0002816172"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41aea27040d0002d11cd2",
+  "productImage": "https://i.ibb.co/jTDM1Qk/Art-By-Frank-1.jpg",
+  "productName": "Art by Frank Notecard Pack of 10 ",
+  "quantity": 1,
+  "shippingPrice": 4,
+  "email": "toni13056@hotmail.com",
+  "subtotal": 22,
+  "totalPrice": 26,
+  "orderId": "64cbe5f28136fc0002816170",
+  "createdAt": {
+    "$date": "2023-08-03T17:37:54.973Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T17:37:54.973Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f747f18b8e4f0002a74aa4"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "tdtoner@cox.net",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f747f18b8e4f0002a74aa2",
+  "createdAt": {
+    "$date": "2023-09-05T15:23:29.235Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-05T15:23:29.235Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f7bca4e0b65e0002e8a9a2"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "dogmom1@fastmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f7bca4e0b65e0002e8a9a0",
+  "createdAt": {
+    "$date": "2023-09-05T23:41:24.852Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-05T23:41:24.852Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f809bfe0b65e0002e8a9a8"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "dana.erick@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f809bfe0b65e0002e8a9a6",
+  "createdAt": {
+    "$date": "2023-09-06T05:10:23.439Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-06T05:10:23.439Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f86592e0b65e0002e8a9ab"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "cathyn@littlepawsdr.org",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f86592e0b65e0002e8a9a9",
+  "createdAt": {
+    "$date": "2023-09-06T11:42:10.974Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-06T11:42:10.974Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f8c5462066a60002fb1327"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "pennyniven@icloud.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f8c5462066a60002fb1325",
+  "createdAt": {
+    "$date": "2023-09-06T18:30:30.800Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-06T18:30:30.800Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f8d3c72066a60002fb132b"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "sue.kleinfelter@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f8d3c72066a60002fb1329",
+  "createdAt": {
+    "$date": "2023-09-06T19:32:23.507Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-06T19:32:23.507Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f8e6602066a60002fb132f"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "Tsherrin@icloud.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f8e6602066a60002fb132d",
+  "createdAt": {
+    "$date": "2023-09-06T20:51:44.691Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-06T20:51:44.691Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64f925f52066a60002fb1337"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "maryhat@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64f925f52066a60002fb1335",
+  "createdAt": {
+    "$date": "2023-09-07T01:23:01.310Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-07T01:23:01.310Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fa69400d96e20002c5a336"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "Teresa.butler@mckesson.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64fa69400d96e20002c5a334",
+  "createdAt": {
+    "$date": "2023-09-08T00:22:24.150Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-08T00:22:24.150Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fc6ab7aa8597000257b740"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 5,
+  "shippingPrice": 0,
+  "email": "betztou@comcast.net",
+  "subtotal": 130,
+  "totalPrice": 130,
+  "orderId": "64fc6ab7aa8597000257b73e",
+  "createdAt": {
+    "$date": "2023-09-09T12:53:11.440Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-09T12:53:11.440Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fcef6bc19b3b0002686ed3"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "dkhtucker84@hotmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "64fcef6bc19b3b0002686ed1",
+  "createdAt": {
+    "$date": "2023-09-09T22:19:23.290Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-09T22:19:23.290Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6500c978f370cc0002ffffee"
+  },
+  "isPhysicalProduct": true,
+  "price": 22,
+  "productId": "64a41aea27040d0002d11cd2",
+  "productImage": "https://i.ibb.co/jTDM1Qk/Art-By-Frank-1.jpg",
+  "productName": "Art by Frank Notecard Pack of 10 ",
+  "quantity": 6,
+  "shippingPrice": 4,
+  "email": "lenoremorrow@yahoo.com",
+  "subtotal": 132,
+  "totalPrice": 156,
+  "orderId": "6500c978f370cc0002ffffec",
+  "createdAt": {
+    "$date": "2023-09-12T20:26:32.604Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-12T20:26:32.604Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508b72e28d0bb0002131e20"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "april_hansh@yahoo.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "6508b72e28d0bb0002131e1e",
+  "createdAt": {
+    "$date": "2023-09-18T20:46:38.626Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-18T20:46:38.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650b19d91d1c8600025b2b96"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 4,
+  "shippingPrice": 0,
+  "email": "ticcleme1@yahoo.com",
+  "subtotal": 104,
+  "totalPrice": 104,
+  "orderId": "650b19d81d1c8600025b2b94",
+  "createdAt": {
+    "$date": "2023-09-20T16:12:09.028Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-20T16:12:09.028Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650f08d97640d000023e14c3"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 2,
+  "shippingPrice": 0,
+  "email": "christinefucci@yahoo.com",
+  "subtotal": 52,
+  "totalPrice": 52,
+  "orderId": "650f08d97640d000023e14c1",
+  "createdAt": {
+    "$date": "2023-09-23T15:48:41.243Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-23T15:48:41.243Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6518cb39c254540002f7be84"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "fuzzeypawz@aol.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "6518cb39c254540002f7be82",
+  "createdAt": {
+    "$date": "2023-10-01T01:28:25.188Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-01T01:28:25.188Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651abd8ef3739a000272f429"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "maggieizzie@yahoo.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651abd8ef3739a000272f427",
+  "createdAt": {
+    "$date": "2023-10-02T12:54:38.816Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-02T12:54:38.816Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651ac0b8f3739a000272f42c"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "damikat1965@msn.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651ac0b8f3739a000272f42a",
+  "createdAt": {
+    "$date": "2023-10-02T13:08:08.439Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-02T13:08:08.439Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651ad3e3f3739a000272f430"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "Cblane3420@gmail.com ",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651ad3e3f3739a000272f42e",
+  "createdAt": {
+    "$date": "2023-10-02T14:29:55.804Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-02T14:29:55.804Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651ae28cf3739a000272f434"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "amy.rey.mangold@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651ae28cf3739a000272f432",
+  "createdAt": {
+    "$date": "2023-10-02T15:32:28.852Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-02T15:32:28.852Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651b4eaefb1aed000202e250"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "carrie@superiorinkprinting.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651b4eaefb1aed000202e24e",
+  "createdAt": {
+    "$date": "2023-10-02T23:13:50.429Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-02T23:13:50.429Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651b5dc9fb1aed000202e257"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "amy.rey.mangold@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651b5dc9fb1aed000202e255",
+  "createdAt": {
+    "$date": "2023-10-03T00:18:17.405Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-03T00:18:17.405Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651b93ba67c56f0002e40308"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "noswadp@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651b93ba67c56f0002e40306",
+  "createdAt": {
+    "$date": "2023-10-03T04:08:27.014Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-03T04:08:27.014Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651e1b5d7c5bfa0002bd5516"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "productId": "64f732c955efc400020110a5",
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "Kerrianne2@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "651e1b5d7c5bfa0002bd5514",
+  "createdAt": {
+    "$date": "2023-10-05T02:11:41.442Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-05T02:11:41.442Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652c60b64ae0d300026a0b8e"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "Bamapirate10@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "652c60b54ae0d300026a0b8c",
+  "createdAt": {
+    "$date": "2023-10-15T21:59:18.161Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-15T21:59:18.161Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "652efcc494bd380002144af7"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "wgeis@hotmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "652efcc494bd380002144af5",
+  "createdAt": {
+    "$date": "2023-10-17T21:29:40.973Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-17T21:29:40.973Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "652f11b294bd380002144afb"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "sirenia8888@yahoo.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "652f11b294bd380002144af9",
+  "createdAt": {
+    "$date": "2023-10-17T22:58:58.415Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-17T22:58:58.415Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "653025429c64ed00024f516d"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "cross1117.b@comcast.net",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "653025429c64ed00024f516b",
+  "createdAt": {
+    "$date": "2023-10-18T18:34:42.872Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-18T18:34:42.872Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "6544d1cb05acaf0002595cbc"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "MaryJo.vest@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "6544d1cb05acaf0002595cba",
+  "createdAt": {
+    "$date": "2023-11-03T10:56:11.815Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-03T10:56:11.815Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "654beecdb5dfe30002266679"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "anitalavenia@att.net",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "654beecdb5dfe30002266677",
+  "createdAt": {
+    "$date": "2023-11-08T20:25:49.880Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-08T20:25:49.880Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "655394e7d5575f000233bb89"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "Melissaparksyerkes@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "655394e6d5575f000233bb87",
+  "createdAt": {
+    "$date": "2023-11-14T15:40:23.195Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-14T15:40:23.195Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "655623f9a104800002ea10c0"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "danielled0231@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "655623f9a104800002ea10be",
+  "createdAt": {
+    "$date": "2023-11-16T14:15:21.648Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-16T14:15:21.648Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "65621a453b76790002ec014c"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "sbradley1279@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "65621a453b76790002ec014a",
+  "createdAt": {
+    "$date": "2023-11-25T16:01:09.828Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-25T16:01:09.828Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "656250273b76790002ec0152"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "nmc0726@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "656250273b76790002ec0150",
+  "createdAt": {
+    "$date": "2023-11-25T19:51:03.973Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-25T19:51:03.973Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "65634ecbdcc15e00022d6cf9"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "Bkonkol112@aol.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "65634ecadcc15e00022d6cf7",
+  "createdAt": {
+    "$date": "2023-11-26T13:57:31.004Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-26T13:57:31.004Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "6563502ddcc15e00022d6cfe"
+  },
+  "isPhysicalProduct": true,
+  "price": 3,
+  "email": "Isv227@nyu.edu",
+  "subtotal": 3,
+  "totalPrice": 3,
+  "orderId": "6563502ddcc15e00022d6cfa",
+  "createdAt": {
+    "$date": "2023-11-26T14:03:25.505Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-26T14:03:25.505Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/4p9JtGJ/IMG-4257.jpg",
+  "productName": "Rescue Sticker - 2.5\"",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "6563502ddcc15e00022d6cff"
+  },
+  "isPhysicalProduct": true,
+  "price": 5,
+  "email": "Isv227@nyu.edu",
+  "subtotal": 15,
+  "totalPrice": 15,
+  "orderId": "6563502ddcc15e00022d6cfa",
+  "createdAt": {
+    "$date": "2023-11-26T14:03:25.512Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-26T14:03:25.512Z"
+  },
+  "__v": 0,
+  "productName": "LPDR Magnet - 3\"",
+  "quantity": 3,
+  "shippingPrice": 0,
+  "productImage": "https://i.ibb.co/JKjTJHZ/IMG-4256-1.jpg"
+},
+{
+  "_id": {
+    "$oid": "6563502ddcc15e00022d6d00"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "Isv227@nyu.edu",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "6563502ddcc15e00022d6cfa",
+  "createdAt": {
+    "$date": "2023-11-26T14:03:25.519Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-26T14:03:25.519Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "656366cfdcc15e00022d6d04"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "jennybird72@yahoo.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "656366cfdcc15e00022d6d02",
+  "createdAt": {
+    "$date": "2023-11-26T15:39:59.860Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-26T15:39:59.860Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "656885f198e9cc0002bb70c2"
+  },
+  "isPhysicalProduct": true,
+  "price": 3,
+  "email": "Catrionamcpherson67@gmail.com",
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "656885f198e9cc0002bb70c0",
+  "createdAt": {
+    "$date": "2023-11-30T12:54:09.271Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-30T12:54:09.271Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/4p9JtGJ/IMG-4257.jpg",
+  "productName": "Rescue Sticker - 2.5\"",
+  "quantity": 6,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "656e95ba9d33ce0002168144"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "dwphill@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "656e95ba9d33ce0002168142",
+  "createdAt": {
+    "$date": "2023-12-05T03:15:06.558Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-05T03:15:06.558Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "657257ba4934c20002204ebd"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "faithpedroza3@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "657257ba4934c20002204ebb",
+  "createdAt": {
+    "$date": "2023-12-07T23:39:38.817Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-07T23:39:38.817Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "6573d075fac68c0002d52717"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "Telhmavc95@gmail.com",
+  "subtotal": 52,
+  "totalPrice": 52,
+  "orderId": "6573d075fac68c0002d52715",
+  "createdAt": {
+    "$date": "2023-12-09T02:27:01.403Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-09T02:27:01.403Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 2,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "6577976aa2f8d90002733e66"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "pcreeden@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "65779769a2f8d90002733e64",
+  "createdAt": {
+    "$date": "2023-12-11T23:12:42.205Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-11T23:12:42.205Z"
+  },
+  "__v": 0,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "657c884ddf39b600020f561f"
+  },
+  "isPhysicalProduct": true,
+  "price": 26,
+  "email": "melissa.iachan@gmail.com",
+  "subtotal": 26,
+  "totalPrice": 26,
+  "orderId": "657c884ddf39b600020f561d",
+  "createdAt": {
+    "$date": "2023-12-15T17:09:33.629Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-15T17:09:33.629Z"
+  },
+  "__v": 0,
+  "productName": "2024 Calendar ",
+  "quantity": 1,
+  "productImage": "https://i.ibb.co/94VMX5k/2024-Calendar-Cover.jpg",
+  "shippingPrice": 0
+},
+{
+  "_id": {
+    "$oid": "65ad7db5fb0b8fe8553542f1"
+  },
+  "price": 22,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 2,
+  "shippingPrice": 4,
+  "email": "juliakidd14@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 44,
+  "totalPrice": 52,
+  "orderId": "65ad7db5fb0b8fe8553542ed",
+  "createdAt": {
+    "$date": "2024-01-21T20:25:25.523Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-21T20:25:25.523Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec8db38ead10498bd09209"
+  },
+  "price": 20,
+  "productId": "65ec761c8ead10498bd0900e",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fundefined?alt=media&token=eaf9a772-84a2-4622-91c6-2be667d5d827",
+  "productName": "Easter Eggs (3)",
+  "quantity": 2,
+  "shippingPrice": 2,
+  "email": "Stephcocchiara@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 40,
+  "totalPrice": 44,
+  "orderId": "65ec8db38ead10498bd09205",
+  "createdAt": {
+    "$date": "2024-03-09T16:26:27.392Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T16:26:27.392Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f65cc81d53175070e8d4a2"
+  },
+  "price": 35,
+  "productId": "64a1a9efa151a3000256c642",
+  "productImage": "https://i.ibb.co/JnjQcN3/Rocky-CUP.jpg",
+  "productName": "20oz Black Tumbler",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "susan.zemko@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 35,
+  "totalPrice": 35,
+  "orderId": "65f65cc81d53175070e8d49e",
+  "createdAt": {
+    "$date": "2024-03-17T03:00:24.364Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-17T03:00:24.364Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f866d97d0444ad67cf2bfb"
+  },
+  "price": 20,
+  "productId": "65ec761c8ead10498bd0900e",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fundefined?alt=media&token=eaf9a772-84a2-4622-91c6-2be667d5d827",
+  "productName": "Easter Eggs (3)",
+  "quantity": 1,
+  "shippingPrice": 2,
+  "email": "Clzissette07@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 20,
+  "totalPrice": 22,
+  "orderId": "65f866d87d0444ad67cf2bf6",
+  "createdAt": {
+    "$date": "2024-03-18T16:07:53.104Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-18T16:07:53.104Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f866d97d0444ad67cf2bfd"
+  },
+  "price": 3,
+  "productId": "6512cc93603f6c0002e059bb",
+  "productImage": "https://i.ibb.co/4p9JtGJ/IMG-4257.jpg",
+  "productName": "Rescue Sticker - 2.5\"",
+  "quantity": 1,
+  "shippingPrice": 0,
+  "email": "Clzissette07@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "totalPrice": 3,
+  "orderId": "65f866d87d0444ad67cf2bf6",
+  "createdAt": {
+    "$date": "2024-03-18T16:07:53.117Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-18T16:07:53.117Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6603467f086ef1a6479952af"
+  },
+  "price": 20,
+  "productId": "65ec761c8ead10498bd0900e",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fundefined?alt=media&token=eaf9a772-84a2-4622-91c6-2be667d5d827",
+  "productName": "Easter Eggs (3)",
+  "quantity": 1,
+  "shippingPrice": 2,
+  "email": "diedraw@earthlink.net",
+  "isPhysicalProduct": true,
+  "subtotal": 20,
+  "totalPrice": 22,
+  "orderId": "6603467f086ef1a6479952ab",
+  "createdAt": {
+    "$date": "2024-03-26T22:04:47.863Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-26T22:04:47.863Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6653381a41f8035468fc6679"
+  },
+  "price": 5,
+  "productId": "6512ccd9603f6c0002e059bc",
+  "productImage": "https://i.ibb.co/JKjTJHZ/IMG-4256-1.jpg",
+  "productName": "LPDR Magnet - 3\"",
+  "quantity": 1,
+  "email": "nonijo@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 5,
+  "orderId": {
+    "$oid": "6653381a41f8035468fc6671"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-05-26T13:24:42.256Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-26T13:24:42.256Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665e80be3a0f60c516bbfed5"
+  },
+  "price": 3,
+  "productId": "6659077e2278031de4501df0",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Feasily%20distracted.png?alt=media&token=e758e313-fb1c-4b1c-a259-b2e1a25aac94",
+  "productName": "Easily Distracted Sticker",
+  "quantity": 1,
+  "email": "topeterson12@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "665e80be3a0f60c516bbfec9"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T02:49:34.151Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T02:49:34.151Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665e80be3a0f60c516bbfede"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "topeterson12@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "665e80be3a0f60c516bbfec9"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T02:49:34.173Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T02:49:34.173Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f2bc53a0f60c516bc05cc"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 7,
+  "email": "Smframpton84@hotmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 21,
+  "orderId": {
+    "$oid": "665f2bc53a0f60c516bc05c4"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T14:59:17.733Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T14:59:17.733Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665f335d3a0f60c516bc0690"
+  },
+  "price": 3,
+  "productId": "6659077e2278031de4501df0",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Feasily%20distracted.png?alt=media&token=e758e313-fb1c-4b1c-a259-b2e1a25aac94",
+  "productName": "Easily Distracted Sticker",
+  "quantity": 2,
+  "email": "heathermc6745@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 6,
+  "orderId": {
+    "$oid": "665f335d3a0f60c516bc0688"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T15:31:41.702Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T15:31:41.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665fa72fcef888872296dd18"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 3,
+  "email": "Christina.e.stringer@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 9,
+  "orderId": {
+    "$oid": "665fa72fcef888872296dd0f"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T23:45:51.769Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T23:45:51.769Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665fa72fcef888872296dd23"
+  },
+  "price": 3,
+  "productId": "6659074d2278031de4501dec",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Flong%20on%20love.png?alt=media&token=e4a45499-4bac-45a8-a843-62e5a20bd0f3",
+  "productName": "Long on Love Sticker",
+  "quantity": 3,
+  "email": "Christina.e.stringer@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 9,
+  "orderId": {
+    "$oid": "665fa72fcef888872296dd0f"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-04T23:45:51.782Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-04T23:45:51.782Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66609c22cef888872296e5d2"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 2,
+  "email": "rachel7986@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 6,
+  "orderId": {
+    "$oid": "66609c22cef888872296e5c7"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-05T17:10:58.560Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-05T17:10:58.560Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "667766c730c2722f98eb2bb6"
+  },
+  "price": 3,
+  "productId": "6659074d2278031de4501dec",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Flong%20on%20love.png?alt=media&token=e4a45499-4bac-45a8-a843-62e5a20bd0f3",
+  "productName": "Long on Love Sticker",
+  "quantity": 1,
+  "email": "s.jehle@hotmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "667766c730c2722f98eb2bae"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-06-23T00:05:27.039Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-23T00:05:27.039Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b2ebf51ac468a4d48d6f6"
+  },
+  "price": 5,
+  "productId": "6512ccd9603f6c0002e059bc",
+  "productImage": "https://i.ibb.co/JKjTJHZ/IMG-4256-1.jpg",
+  "productName": "LPDR Magnet - 3\"",
+  "quantity": 1,
+  "email": "Silviabarnwell14@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 5,
+  "orderId": {
+    "$oid": "668b2ebf51ac468a4d48d6ec"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T00:11:43.599Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T00:11:43.599Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b2ebf51ac468a4d48d706"
+  },
+  "price": 3,
+  "productId": "6659077e2278031de4501df0",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Feasily%20distracted.png?alt=media&token=e758e313-fb1c-4b1c-a259-b2e1a25aac94",
+  "productName": "Easily Distracted Sticker",
+  "quantity": 1,
+  "email": "Silviabarnwell14@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668b2ebf51ac468a4d48d6ec"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T00:11:43.624Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T00:11:43.624Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b2ebf51ac468a4d48d710"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "Silviabarnwell14@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668b2ebf51ac468a4d48d6ec"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T00:11:43.635Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T00:11:43.635Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b359751ac468a4d48d79b"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "estump74@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668b359751ac468a4d48d793"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T00:40:55.930Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T00:40:55.930Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b420151ac468a4d48d7fe"
+  },
+  "price": 3,
+  "productId": "6659077e2278031de4501df0",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Feasily%20distracted.png?alt=media&token=e758e313-fb1c-4b1c-a259-b2e1a25aac94",
+  "productName": "Easily Distracted Sticker",
+  "quantity": 1,
+  "email": "eileen.dimond@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668b420151ac468a4d48d7f6"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T01:33:53.366Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T01:33:53.366Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b614951ac468a4d48d857"
+  },
+  "price": 18,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 18,
+  "orderId": {
+    "$oid": "668b614851ac468a4d48d84e"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T03:47:21.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T03:47:21.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668b614951ac468a4d48d862"
+  },
+  "price": 5,
+  "productId": "6512ccd9603f6c0002e059bc",
+  "productImage": "https://i.ibb.co/JKjTJHZ/IMG-4256-1.jpg",
+  "productName": "LPDR Magnet - 3\"",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 5,
+  "orderId": {
+    "$oid": "668b614851ac468a4d48d84e"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T03:47:21.013Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T03:47:21.013Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668bf80851ac468a4d48e75e"
+  },
+  "price": 3,
+  "productId": "6659077e2278031de4501df0",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Feasily%20distracted.png?alt=media&token=e758e313-fb1c-4b1c-a259-b2e1a25aac94",
+  "productName": "Easily Distracted Sticker",
+  "quantity": 1,
+  "email": "logie331@icloud.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668bf80851ac468a4d48e755"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T14:30:32.743Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T14:30:32.743Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668bf80851ac468a4d48e769"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "logie331@icloud.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668bf80851ac468a4d48e755"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T14:30:32.760Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T14:30:32.760Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668bfcf851ac468a4d48e890"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 2,
+  "email": "cburns@jd25.law.harvard.edu",
+  "isPhysicalProduct": true,
+  "subtotal": 6,
+  "orderId": {
+    "$oid": "668bfcf851ac468a4d48e887"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T14:51:36.731Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T14:51:36.731Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668bfcf851ac468a4d48e8a0"
+  },
+  "price": 18,
+  "productId": "64a41cc127040d0002d11cd3",
+  "productImage": "https://i.ibb.co/HPvWPGZ/Art-by-KC-1.jpg",
+  "productName": "Art by King Charles Notecard Pack of 10",
+  "quantity": 1,
+  "email": "cburns@jd25.law.harvard.edu",
+  "isPhysicalProduct": true,
+  "subtotal": 18,
+  "orderId": {
+    "$oid": "668bfcf851ac468a4d48e887"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T14:51:36.744Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T14:51:36.744Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668c521351ac468a4d48eb54"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "damikat1965@msn.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668c521351ac468a4d48eb4e"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T20:54:43.135Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T20:54:43.135Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668c72248a8b7e66c173e075"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "stacypenven@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668c72248a8b7e66c173e06c"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T23:11:32.166Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T23:11:32.166Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668c72248a8b7e66c173e080"
+  },
+  "price": 3,
+  "productId": "6512cc93603f6c0002e059bb",
+  "productImage": "https://i.ibb.co/4p9JtGJ/IMG-4257.jpg",
+  "productName": "Rescue Sticker - 2.5\"",
+  "quantity": 1,
+  "email": "stacypenven@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "668c72248a8b7e66c173e06c"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-08T23:11:32.179Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-08T23:11:32.179Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "669033fdbe747cc9faa4f463"
+  },
+  "price": 3,
+  "productId": "6659074d2278031de4501dec",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Flong%20on%20love.png?alt=media&token=e4a45499-4bac-45a8-a843-62e5a20bd0f3",
+  "productName": "Long on Love Sticker",
+  "quantity": 1,
+  "email": "beck0912@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "669033fdbe747cc9faa4f45a"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-11T19:35:25.328Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-11T19:35:25.328Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "669033fdbe747cc9faa4f473"
+  },
+  "price": 3,
+  "productId": "6512cc93603f6c0002e059bb",
+  "productImage": "https://i.ibb.co/4p9JtGJ/IMG-4257.jpg",
+  "productName": "Rescue Sticker - 2.5\"",
+  "quantity": 1,
+  "email": "beck0912@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "669033fdbe747cc9faa4f45a"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-07-11T19:35:25.378Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-11T19:35:25.378Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66dc2c32dfce3dc47f889d31"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "sfjudge22@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66dc2c32dfce3dc47f889d29"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-07T10:34:26.811Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:20:11.480Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e08097713b379edffb0d91"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "fuzzeypawz@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66e08097713b379edffb0d8b"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-10T17:23:35.434Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:47:46.445Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e4896ea4179bf4ccad9fa9"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "jlyonslchb@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66e4896ea4179bf4ccad9f9e"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-13T18:50:22.854Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:47:32.298Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e48d3fa4179bf4ccad9fe6"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Chrisjm56@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66e48d3fa4179bf4ccad9fdb"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-13T19:06:39.777Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T00:03:45.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66e6fd4e87ad28b8eb451ee4"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "babslilbit@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66e6fd4e87ad28b8eb451edc"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-15T15:29:18.354Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:47:21.218Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f9f816e9864d4cba74ea09"
+  },
+  "price": 5,
+  "productId": "6512ccd9603f6c0002e059bc",
+  "productImage": "https://i.ibb.co/JKjTJHZ/IMG-4256-1.jpg",
+  "productName": "LPDR Magnet - 3\"",
+  "quantity": 2,
+  "email": "kerriannlusk@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 10,
+  "orderId": {
+    "$oid": "66f9f815e9864d4cba74ea00"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-09-30T01:00:06.015Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:47:09.646Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f9f816e9864d4cba74ea19"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "kerriannlusk@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "66f9f815e9864d4cba74ea00"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-09-30T01:00:06.038Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-30T01:00:06.038Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67002665604acea107b67b77"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "lauren.maggio01@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67002665604acea107b67b71"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-04T17:31:17.768Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:46:34.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67008d1d604acea107b67e65"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Mckenrickholly@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67008d1d604acea107b67e5d"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-05T00:49:33.382Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:46:14.946Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670194971be5b046e9a32bda"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "cross1117.b@comcast.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "670194971be5b046e9a32bd2"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-05T19:33:43.484Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:45:58.235Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670325b699d38b6638cf9a26"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "jfarmot@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "670325b599d38b6638cf9a1e"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-07T00:05:10.012Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:45:27.326Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670327eb99d38b6638cf9a70"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Da629@atlanticbb.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "670327eb99d38b6638cf9a68"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-07T00:14:35.683Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:45:10.444Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6703283899d38b6638cf9ab2"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Da629@atlanticbb.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6703283899d38b6638cf9aa7"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-07T00:15:52.721Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:44:58.222Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6703f13ae35e81aca67c979d"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 3,
+  "email": "annawilen4@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 81,
+  "orderId": {
+    "$oid": "6703f13ae35e81aca67c9795"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-07T14:33:30.338Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:59:27.922Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6704309ce35e81aca67c9950"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "rachel.webb18@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6704309ce35e81aca67c9948"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-07T19:03:56.700Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:44:44.807Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6705413e6da1dc3462c5018d"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "tiffanysteffensmeier@msn.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "6705413e6da1dc3462c50184"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-08T14:27:10.582Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:44:20.456Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6705413e6da1dc3462c50198"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "tiffanysteffensmeier@msn.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6705413e6da1dc3462c50184"
+  },
+  "status": "Pending Fulfillment",
+  "createdAt": {
+    "$date": "2024-10-08T14:27:10.603Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-08T14:27:10.603Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670800c301cbdd25f5b8f808"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "nick.barbato22@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "670800c301cbdd25f5b8f800"
+  },
+  "status": "Shipped",
+  "createdAt": {
+    "$date": "2024-10-10T16:28:51.459Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:43:47.983Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670d224706232add58afc24c"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "epidsadnick@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "670d224706232add58afc245"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-10-14T13:53:11.480Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:35:11.079Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "670d451206232add58afc3c0"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 3,
+  "email": "logie331@icloud.com",
+  "isPhysicalProduct": true,
+  "subtotal": 81,
+  "orderId": {
+    "$oid": "670d451206232add58afc3b9"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-10-14T16:21:38.136Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:53:25.304Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6718ec50210f6daac4aec014"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Brandi521@verizon.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6718ec50210f6daac4aec00d"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-10-23T12:30:08.802Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:50:15.270Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6724d1ae0bd6921f0a34e27d"
+  },
+  "price": 3,
+  "productId": "6659070d2278031de4501de2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FNo%20meanies.png?alt=media&token=31d06b01-6abb-46d8-b4eb-2148c7fc1e2c",
+  "productName": "No Meanies Sticker",
+  "quantity": 1,
+  "email": "pjpacileo@live.com",
+  "isPhysicalProduct": true,
+  "subtotal": 3,
+  "orderId": {
+    "$oid": "6724d1ae0bd6921f0a34e276"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-01T13:03:42.103Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T00:13:42.800Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6724d1ae0bd6921f0a34e286"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "pjpacileo@live.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6724d1ae0bd6921f0a34e276"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-01T13:03:42.120Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-01T13:03:42.120Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672c03fc5c67764f4a9fef8e"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Pennyniven@icloud.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "672c03fc5c67764f4a9fef87"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-07T00:04:12.174Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T00:09:51.141Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672e2453658e29721b318b98"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 5,
+  "email": "hhkohl11@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 135,
+  "orderId": {
+    "$oid": "672e2453658e29721b318b8e"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-08T14:46:43.079Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:13:36.509Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67327dc264b5eb2d76f15266"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "emd2385@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67327dc264b5eb2d76f1525f"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-11T21:57:22.999Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:12:12.788Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732823b64b5eb2d76f1532c"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Carlaloo87@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6732823b64b5eb2d76f15325"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-11T22:16:27.740Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:09:30.055Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673284c864b5eb2d76f153a9"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "cjgodoygg@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "673284c864b5eb2d76f1539f"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-11T22:27:20.849Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T23:06:47.581Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6732a29f64b5eb2d76f15c2b"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "nataliehilbert@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6732a29f64b5eb2d76f15c24"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-12T00:34:39.482Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T14:04:56.006Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733727264b5eb2d76f1622e"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "lyles65@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6733727264b5eb2d76f16224"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-12T15:21:22.537Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T19:17:54.111Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67337fa464b5eb2d76f16a74"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "joyce.l.hawkins@outlook.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67337fa464b5eb2d76f16a6d"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-12T16:17:40.114Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T19:19:41.351Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67339dc164b5eb2d76f18a1b"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "mydoxies@me.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67339dc164b5eb2d76f18a14"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-12T18:26:09.122Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T19:21:45.879Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733e0d1bd5999c888c9e822"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "rec1013@comcast.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6733e0d1bd5999c888c9e81b"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-12T23:12:17.437Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T19:23:13.088Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67342261bd5999c888ca0157"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "flajee13@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67342261bd5999c888ca0150"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-13T03:52:01.601Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T19:24:51.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6737cbefd2d16fcdcfbd376b"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "slinnie@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6737cbefd2d16fcdcfbd3761"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-15T22:32:15.037Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-16T13:51:37.579Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67390eb920d260e45903d6a1"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "ruthluna17@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67390eb920d260e45903d69a"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-16T21:29:29.256Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-18T18:57:15.076Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673bdb4e16eed7d86cd229e4"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "valeriesports72@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "673bdb4e16eed7d86cd229dd"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-19T00:26:54.837Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-19T14:49:59.872Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673e451a245081b1aa93838d"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "terrihunt10@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "673e451a245081b1aa938386"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-20T20:22:50.080Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-24T10:59:27.625Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67435e044fc4c9c853d51c5c"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Dezh22@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67435e034fc4c9c853d51c55"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-24T17:10:28.009Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-25T11:36:47.889Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6744a899dc9dd616a6809062"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "tlevitt57@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "6744a899dc9dd616a680905b"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-11-25T16:40:57.209Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-26T11:27:31.715Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674d0f6b6a135a35ad9b5674"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "danielled0231@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "674d0f6b6a135a35ad9b566d"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-02T01:37:47.066Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-03T10:53:33.924Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674e39e59a2474472e626966"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "Pattypandey19@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "674e39e59a2474472e62695f"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-02T22:51:17.082Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-03T10:53:42.565Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674ededa31b1fe81a741a8a5"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "adelesdogs@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "674ededa31b1fe81a741a89e"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-03T10:35:06.471Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-03T10:53:48.866Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674f08fb31b1fe81a741aa07"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "brmaxer2@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "674f08fb31b1fe81a741aa00"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-03T13:34:51.443Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-04T11:07:07.305Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674fbcaa31b1fe81a741b0f5"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "blessedinoregon2020@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "674fbcaa31b1fe81a741b0ee"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-04T02:21:30.278Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-04T11:08:27.020Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67503763dfb3d278e11b857c"
+  },
+  "price": 27,
+  "productId": "66d868bb0f2eaa1ccf856579",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_2490.jpeg?alt=media&token=dcb21d51-597f-45fa-bae4-b5e5c32059d3",
+  "productName": "2025 Little Paws Calendar ",
+  "quantity": 1,
+  "email": "cdneustadt@att.net",
+  "isPhysicalProduct": true,
+  "subtotal": 27,
+  "orderId": {
+    "$oid": "67503763dfb3d278e11b8575"
+  },
+  "status": "Shipped",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2024-12-04T11:05:07.873Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-04T11:08:33.090Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d6983c16c13b6e83533839"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "Mpitz09@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68d6983c16c13b6e83533832"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-09-26T13:42:20.475Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-26T13:42:20.475Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7170816c13b6e83533d87"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "schnitzle1952@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68d7170816c13b6e83533d80"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-09-26T22:43:20.741Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-26T22:43:20.741Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7e87516c13b6e835342df"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jenniferalivernini@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68d7e87516c13b6e835342d8"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-09-27T13:36:53.138Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-27T13:36:53.138Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d80d8d531e668a7b817fd4"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "dhalld11@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68d80d8d531e668a7b817fca"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-09-27T16:15:09.224Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-27T16:15:09.224Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d822cf531e668a7b8187f4"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "mrsjoans15@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68d822cf531e668a7b8187ea"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-09-27T17:45:51.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-27T17:45:51.449Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68dcefc7bc0f2b52f49b22f2"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "efstathiospapadopoulos@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68dcefc7bc0f2b52f49b22e8"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-01T09:09:27.640Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-01T09:09:27.640Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68dd53c36c0cb99d5b2140f5"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "thenanni@hotmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68dd53c36c0cb99d5b2140ee"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-01T16:16:03.972Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-01T16:16:03.972Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e0a5154ae87f1533796fda"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "brittneybailey07@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e0a5154ae87f1533796fd3"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-04T04:39:49.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-04T04:39:49.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e16b924ae87f1533798d4d"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 2,
+  "email": "Juliejohnson@littlepawsdr.org",
+  "isPhysicalProduct": true,
+  "subtotal": 60,
+  "orderId": {
+    "$oid": "68e16b924ae87f1533798d46"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-04T18:46:42.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-04T18:46:42.812Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e3b59780cba2e63c19f806"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "mpagonisdc@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e3b59780cba2e63c19f7fc"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-06T12:27:03.418Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-06T12:27:03.418Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4330780cba2e63c1a23d5"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "iceagejewelry@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e4330780cba2e63c1a23ce"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-06T21:22:15.487Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-06T21:22:15.487Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e48310dcad56f0cfbf708e"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "friedafort@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e48310dcad56f0cfbf7087"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-07T03:03:44.535Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-07T03:03:44.535Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e48a91dcad56f0cfbf7265"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "vbaldugo@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e48a91dcad56f0cfbf725b"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-07T03:35:45.029Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-07T03:35:45.029Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4b500dcad56f0cfbf784c"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "karend.deloi02@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e4b500dcad56f0cfbf7842"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-07T06:36:48.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-07T06:36:48.438Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e73842adadeb2c21374db1"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 2,
+  "email": "seantkulper@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 60,
+  "orderId": {
+    "$oid": "68e73842adadeb2c21374da7"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-09T04:21:22.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-09T04:21:22.493Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e7cfcdadadeb2c21375247"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jasonrusso@comcast.net",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68e7cfcdadadeb2c21375240"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-09T15:07:57.151Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-09T15:07:57.151Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef9a8a59049900cc0fc106"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "sarahashleyrogersinquiries@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68ef9a8a59049900cc0fc0ff"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-15T12:58:50.887Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-15T12:58:50.887Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f66536b6f52c1069b2c493"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "Cherh66@hotmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f66536b6f52c1069b2c48c"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-20T16:37:10.056Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-20T16:37:10.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f6688bb6f52c1069b2c504"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "solanoe92@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f6688bb6f52c1069b2c4fd"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-20T16:51:23.757Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-20T16:51:23.757Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f70347563e6ce48711b07b"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "mydoxies@me.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f70347563e6ce48711b071"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-21T03:51:35.530Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-21T03:51:35.530Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f70446563e6ce48711b0ce"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "dana.erick@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f70446563e6ce48711b0c7"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-21T03:55:50.085Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-21T03:55:50.085Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f78b3a563e6ce48711b296"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "dappledog70@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f78b3a563e6ce48711b28f"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-21T13:31:38.238Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-21T13:31:38.238Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f96628bd2f11823b6a44f7"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "Dmglowacki@charter.net",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f96628bd2f11823b6a44f0"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-22T23:18:00.979Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-22T23:18:00.979Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f97b99bd2f11823b6a45f3"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "sbradley1279@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68f97b99bd2f11823b6a45ec"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-23T00:49:29.160Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-23T00:49:29.160Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fb8342bdcb13f864b1fa8f"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "sfeze@comcast.net",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "68fb8342bdcb13f864b1fa88"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-24T13:46:42.667Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-24T13:46:42.667Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6902270669ea5cc8a71df5b9"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "Juliejohnson@littlepawsdr.org",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6902270669ea5cc8a71df5b2"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-29T14:39:02.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-29T14:39:02.735Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690251a269ea5cc8a71df7a1"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jecartwright623@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690251a269ea5cc8a71df79a"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-29T17:40:50.629Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-29T17:40:50.629Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6902681769ea5cc8a71df8c2"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "dwatson1214@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6902681769ea5cc8a71df8bb"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-29T19:16:39.209Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-29T19:16:39.209Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6902742569ea5cc8a71df9a6"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "tanya.emich@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6902742569ea5cc8a71df99f"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-10-29T20:08:05.992Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-29T20:08:05.992Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690780d01910c4bffce1112d"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "amberlowe7788@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690780d01910c4bffce11123"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-02T16:03:28.316Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-02T16:03:28.316Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6907860a1910c4bffce1122f"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "valeriesports72@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6907860a1910c4bffce11228"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-02T16:25:46.989Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-02T16:25:46.989Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69078ad41910c4bffce112c9"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 2,
+  "email": "Hjohnson0224@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 60,
+  "orderId": {
+    "$oid": "69078ad41910c4bffce112c2"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-02T16:46:12.709Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-02T16:46:12.709Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69079f231910c4bffce115d3"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "tdkbutler@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "69079f231910c4bffce115cc"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-02T18:12:51.611Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-02T18:12:51.611Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6907f9f2e6c08688b65aed5b"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "fuzzeypawz@aol.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6907f9f2e6c08688b65aed54"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-03T00:40:18.061Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-03T00:40:18.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69089477e6c08688b65aef54"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "caronmyers@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "69089477e6c08688b65aef4a"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-03T11:39:35.755Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-03T11:39:35.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690ac23aa28775bbc842ea6b"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jrpcdb@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690ac23aa28775bbc842ea61"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-05T03:19:22.213Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-05T03:19:22.213Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690b5ee1a28775bbc842eca7"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "telhmavc95@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690b5ee1a28775bbc842eca0"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-05T14:27:45.794Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-05T14:27:45.794Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690b8a3aa28775bbc842ee53"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "hazrak71@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690b8a3aa28775bbc842ee49"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-05T17:32:42.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-05T17:32:42.685Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e80f59e329792a8058239"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "nataliehilbert@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "690e80f59e329792a8058232"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-07T23:29:57.813Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T23:29:57.813Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6917ceaa98fd03abe67e4d2f"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "nmc0726@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6917ceaa98fd03abe67e4d25"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-15T00:51:54.075Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T00:51:54.075Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6929cce6f505de1a2cc3b5f0"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "teacha123456@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6929cce6f505de1a2cc3b5e9"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-28T16:25:10.950Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-28T16:25:10.950Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "692a6da093dedc13e9b71970"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 4,
+  "email": "sujatha.herne@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 120,
+  "orderId": {
+    "$oid": "692a6da093dedc13e9b71969"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-29T03:50:56.162Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T03:50:56.162Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "692b2c6893dedc13e9b71dc3"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jschreck@jhu.edu",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "692b2c6893dedc13e9b71db9"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-11-29T17:24:56.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T17:24:56.779Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "693395b41b7cc000ead9717c"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "chaltelt@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "693395b41b7cc000ead97175"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-06T02:32:20.768Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-06T02:32:20.768Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6934c51bb59f7f94bf2d79c5"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "vbucks45@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6934c51bb59f7f94bf2d79be"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-07T00:06:51.625Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-07T00:06:51.625Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69408262108a9439fc63d59a"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "raffaela.isabella@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "69408262108a9439fc63d593"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-15T21:49:22.273Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-15T21:49:22.273Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6940902d108a9439fc63d635"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "mkefogarty@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6940902d108a9439fc63d62e"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-15T22:48:13.186Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-15T22:48:13.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694179587110af0af517d5a2"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "keith.kurlan@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "694179587110af0af517d598"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-16T15:23:04.654Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-16T15:23:04.654Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6941b3917110af0af517d75a"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "daynacunningham@yahoo.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6941b3917110af0af517d755"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-16T19:31:29.533Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-16T19:31:29.533Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6941f75f87225e2a036f986b"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "jesseannlong@gmail.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6941f75f87225e2a036f9864"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-17T00:20:47.933Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-17T00:20:47.933Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6942e72887225e2a036f9de1"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "bobr@speedyprintingnh.com",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "6942e72887225e2a036f9dda"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-17T17:23:52.119Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-17T17:23:52.119Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694490c525adce66e424d96a"
+  },
+  "price": 30,
+  "productId": "68cee5efb5d86d9e39c698a1",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2F7264ccdc-d318-4850-9e0d-5ddc4b2d9104.jpg?alt=media&token=27ba968e-be56-4a92-b1e1-aa67ea737c6d",
+  "productName": "2026 Calendar",
+  "quantity": 1,
+  "email": "weesa@verizon.net",
+  "isPhysicalProduct": true,
+  "subtotal": 30,
+  "orderId": {
+    "$oid": "694490c525adce66e424d963"
+  },
+  "status": "Pending Fulfillment",
+  "type": "PRODUCT",
+  "createdAt": {
+    "$date": "2025-12-18T23:39:49.331Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-18T23:39:49.331Z"
+  },
+  "__v": 0
+}]

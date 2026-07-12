@@ -1,0 +1,718 @@
+[{
+  "_id": {
+    "$oid": "672fea781abc6fd710d59c79"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f13a1529b277427f7a7a6"
+  },
+  "user": {
+    "$oid": "672fe6911abc6fd710d599fb"
+  },
+  "name": "Brian Konkol",
+  "email": "bkonkol112@aol.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "createdAt": {
+    "$date": "2024-11-09T23:04:24.027Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-09T23:04:24.027Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733bf36bd5999c888c9df4a"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f133e529b277427f7a73c"
+  },
+  "user": {
+    "$oid": "66eeddfca7bce9370e57e8ab"
+  },
+  "name": "Stephanie Cocchiara",
+  "email": "stephcocchiara@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 5,
+  "createdAt": {
+    "$date": "2024-11-12T20:48:54.921Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T20:48:54.921Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733d4a3bd5999c888c9e30a"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f13a1529b277427f7a7a6"
+  },
+  "user": {
+    "$oid": "6733d3e4bd5999c888c9e2ac"
+  },
+  "name": "Susan Klausner",
+  "email": "sklausner510@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "createdAt": {
+    "$date": "2024-11-12T22:20:19.061Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T22:20:19.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6733d549bd5999c888c9e3e6"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f1309529b277427f7a708"
+  },
+  "user": {
+    "$oid": "6733d4cbbd5999c888c9e337"
+  },
+  "name": "Cynthia J Houston",
+  "email": "hous5761@msn.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 250,
+  "createdAt": {
+    "$date": "2024-11-12T22:23:05.661Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T22:23:05.661Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673426f0bd5999c888ca03b7"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f13a1529b277427f7a7a6"
+  },
+  "user": {
+    "$oid": "66ef509ba7bce9370e57ee07"
+  },
+  "name": "Joanne Pascale White",
+  "email": "joanne_white@ymail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "createdAt": {
+    "$date": "2024-11-13T04:11:28.372Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-13T04:11:28.372Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6738f4f3d2d16fcdcfbd4e43"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f1369529b277427f7a772"
+  },
+  "user": {
+    "$oid": "6738f3cbd2d16fcdcfbd4dc0"
+  },
+  "name": "Nancy Laing",
+  "email": "tristan14.l@verizon.net",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 150,
+  "createdAt": {
+    "$date": "2024-11-16T19:39:31.234Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-16T19:39:31.234Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673a12ccad49b9dfcd8daace"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f13a1529b277427f7a7a6"
+  },
+  "user": {
+    "$oid": "673a0ef2ad49b9dfcd8da7f9"
+  },
+  "name": "Anna Score",
+  "email": "annamarie2775@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "createdAt": {
+    "$date": "2024-11-17T15:59:08.297Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-17T15:59:08.297Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673a1310ad49b9dfcd8dab0b"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f133e529b277427f7a73c"
+  },
+  "user": {
+    "$oid": "673a0ef2ad49b9dfcd8da7f9"
+  },
+  "name": "Anna Score",
+  "email": "annamarie2775@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 5,
+  "createdAt": {
+    "$date": "2024-11-17T16:00:16.222Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-17T16:00:16.222Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673a1355ad49b9dfcd8daba7"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f12d1529b277427f7a6d6"
+  },
+  "user": {
+    "$oid": "673a0ef2ad49b9dfcd8da7f9"
+  },
+  "name": "Anna Score",
+  "email": "annamarie2775@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 30,
+  "createdAt": {
+    "$date": "2024-11-17T16:01:25.547Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-17T16:01:25.547Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673a1ca6ad49b9dfcd8daea0"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f12d1529b277427f7a6d6"
+  },
+  "user": {
+    "$oid": "673a1c15ad49b9dfcd8dae3c"
+  },
+  "name": "MJ Ward",
+  "email": "mj_ward@hotmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 30,
+  "createdAt": {
+    "$date": "2024-11-17T16:41:10.993Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-17T16:41:10.993Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "673a1d11ad49b9dfcd8dafb4"
+  },
+  "auction": {
+    "$oid": "670eae971958b3e995a6d5fb"
+  },
+  "auctionItem": {
+    "$oid": "670f13a1529b277427f7a7a6"
+  },
+  "user": {
+    "$oid": "673a1c15ad49b9dfcd8dae3c"
+  },
+  "name": "MJ Ward",
+  "email": "mj_ward@hotmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "createdAt": {
+    "$date": "2024-11-17T16:42:57.379Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-17T16:42:57.379Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e2b23fe46b54d5c101da0c"
+  },
+  "auction": {
+    "$oid": "67c0a00ef7cc3b53a04a22a8"
+  },
+  "auctionItem": {
+    "$oid": "67dcb0510a595da44ca62e3c"
+  },
+  "user": {
+    "$oid": "67e2b0cee46b54d5c101d7fb"
+  },
+  "name": "Craig Bialy",
+  "email": "cabialy2@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 10,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-03-25T13:40:15.269Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-25T13:40:15.269Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e3ca83b8152a9185134e35"
+  },
+  "auction": {
+    "$oid": "67c0a00ef7cc3b53a04a22a8"
+  },
+  "auctionItem": {
+    "$oid": "67dcaeab0a595da44ca62db8"
+  },
+  "user": {
+    "$oid": "67390d4ad2d16fcdcfbd51b8"
+  },
+  "name": "Catherine  Baier ",
+  "email": "sirenia8888@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 30,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-03-26T09:36:03.380Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-26T09:36:03.380Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e3cadcb8152a9185134e50"
+  },
+  "auction": {
+    "$oid": "67c0a00ef7cc3b53a04a22a8"
+  },
+  "auctionItem": {
+    "$oid": "67dcb0510a595da44ca62e3c"
+  },
+  "user": {
+    "$oid": "67390d4ad2d16fcdcfbd51b8"
+  },
+  "name": "Catherine  Baier ",
+  "email": "sirenia8888@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 10,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-03-26T09:37:32.302Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-26T09:37:32.302Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67e715a2ef36ec1d87ae04ba"
+  },
+  "auction": {
+    "$oid": "67c0a00ef7cc3b53a04a22a8"
+  },
+  "auctionItem": {
+    "$oid": "67dcaeab0a595da44ca62db8"
+  },
+  "user": {
+    "$oid": "65ea0283e7be3fe72e239109"
+  },
+  "name": "Josie Newhouse",
+  "email": "josienewhouse@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 30,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-03-28T21:33:22.985Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-28T21:33:22.985Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684dc7bd29ae75e27d0cc939"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684892321f5d9816b53dfe52"
+  },
+  "user": {
+    "$oid": "684dc5fc29ae75e27d0cc7bf"
+  },
+  "name": "Brian Konkol",
+  "email": "Bkonkol112@aol.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-14T19:04:29.396Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-14T19:04:29.396Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684ebbca51f52357d12c6c64"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684892621f5d9816b53dfe7b"
+  },
+  "user": {
+    "$oid": "66f4c242064373663b5046f4"
+  },
+  "name": "Giuliana Intriago",
+  "email": "yulydenisse@yahoo.es",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 10,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-15T12:25:46.766Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-15T12:25:46.766Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68529bd92bbc54246367e9d6"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684892621f5d9816b53dfe7b"
+  },
+  "user": {
+    "$oid": "673074361abc6fd710d5b5c0"
+  },
+  "name": "laura j santello",
+  "email": "ell.j.essa9@gmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 10,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-18T10:58:33.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-18T10:58:33.516Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68547475af4e19d4a9c066d0"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "68474ffb8bf235b5a7d6ef8a"
+  },
+  "user": {
+    "$oid": "685473a9af4e19d4a9c06552"
+  },
+  "name": "Pamela Pankow",
+  "email": "pam8634@aol.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 200,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-19T20:35:01.808Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-19T20:35:01.808Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6857239e1fe9d6e1ed2bd897"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684892621f5d9816b53dfe7b"
+  },
+  "user": {
+    "$oid": "6857210a1fe9d6e1ed2bd596"
+  },
+  "name": "John Cordier",
+  "email": "jhcordier@hotmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 10,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-21T21:26:54.430Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-21T21:26:54.430Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6858069e1fe9d6e1ed2c03c9"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684891e21f5d9816b53dfe29"
+  },
+  "user": {
+    "$oid": "67390d4ad2d16fcdcfbd51b8"
+  },
+  "name": "Catherine  Baier ",
+  "email": "sirenia8888@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 30,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-22T13:35:26.407Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-22T13:35:26.407Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "685807141fe9d6e1ed2c040c"
+  },
+  "auction": {
+    "$oid": "683779fc3d2638b5cd1f90fa"
+  },
+  "auctionItem": {
+    "$oid": "684892321f5d9816b53dfe52"
+  },
+  "user": {
+    "$oid": "67390d4ad2d16fcdcfbd51b8"
+  },
+  "name": "Catherine  Baier ",
+  "email": "sirenia8888@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 75,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-06-22T13:37:24.014Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-22T13:37:24.014Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69149ac8deb79b33931b4094"
+  },
+  "auction": {
+    "$oid": "68f021812f8aced063389586"
+  },
+  "auctionItem": {
+    "$oid": "68fd001391eae38282437e4f"
+  },
+  "user": {
+    "$oid": "63dbe14747eb9000041d9084"
+  },
+  "name": "Rachel Butler",
+  "email": "tdkbutler@aol.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Pending Fulfillment",
+  "totalPrice": 15,
+  "isDigital": false,
+  "createdAt": {
+    "$date": "2025-11-12T14:33:44.426Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T14:33:44.426Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69153adfe2fc64604694ed55"
+  },
+  "auction": {
+    "$oid": "68f021812f8aced063389586"
+  },
+  "auctionItem": {
+    "$oid": "68f91d3966fa79c215baadb0"
+  },
+  "user": {
+    "$oid": "6915040ea707fdb3561cea9b"
+  },
+  "name": "Christian Davis",
+  "email": "roq1310@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Digital",
+  "totalPrice": 30,
+  "isDigital": true,
+  "createdAt": {
+    "$date": "2025-11-13T01:56:47.054Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-13T01:56:47.054Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6918323416840e8aab306851"
+  },
+  "auction": {
+    "$oid": "68f021812f8aced063389586"
+  },
+  "auctionItem": {
+    "$oid": "68f8eaae66fa79c215baabe5"
+  },
+  "user": {
+    "$oid": "6918301916840e8aab306780"
+  },
+  "name": "Kathy Nelson",
+  "email": "kathy.wnelson@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Digital",
+  "totalPrice": 5,
+  "isDigital": true,
+  "createdAt": {
+    "$date": "2025-11-15T07:56:36.242Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:56:36.242Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6918325e16840e8aab306880"
+  },
+  "auction": {
+    "$oid": "68f021812f8aced063389586"
+  },
+  "auctionItem": {
+    "$oid": "68f8eaae66fa79c215baabe5"
+  },
+  "user": {
+    "$oid": "6918301916840e8aab306780"
+  },
+  "name": "Kathy Nelson",
+  "email": "kathy.wnelson@yahoo.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Digital",
+  "totalPrice": 5,
+  "isDigital": true,
+  "createdAt": {
+    "$date": "2025-11-15T07:57:18.631Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T07:57:18.631Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "691b0e6d2d1438edc0aebcc4"
+  },
+  "auction": {
+    "$oid": "68f021812f8aced063389586"
+  },
+  "auctionItem": {
+    "$oid": "68f8eaae66fa79c215baabe5"
+  },
+  "user": {
+    "$oid": "67e8295cef36ec1d87ae2709"
+  },
+  "name": "Erin Gaines",
+  "email": "erin.gaines@hotmail.com",
+  "paymentStatus": "Paid",
+  "shippingStatus": "Digital",
+  "totalPrice": 5,
+  "isDigital": true,
+  "createdAt": {
+    "$date": "2025-11-17T12:00:45.025Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-17T12:00:45.025Z"
+  },
+  "__v": 0
+}]

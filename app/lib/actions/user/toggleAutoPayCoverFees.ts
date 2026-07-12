@@ -21,7 +21,7 @@ export async function toggleAutoPayCoverFees() {
       data: { autoPayCoverFees: !user.autoPayCoverFees }
     })
 
-    revalidatePath('/member/portal')
+    revalidatePath(' /my-pack')
     return { success: true, autoPayCoverFees: !user.autoPayCoverFees }
   } catch (error) {
     return { success: false, error: 'Failed to update setting' }

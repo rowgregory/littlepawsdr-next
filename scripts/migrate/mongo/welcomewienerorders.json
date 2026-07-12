@@ -1,0 +1,2407 @@
+[{
+  "_id": {
+    "$oid": "64c1e0d3786efd0002694beb"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64776a3d30aaba00028627a9",
+  "dachshundImage": "https://i.ibb.co/vB01Rhz/frank-1.jpg",
+  "dachshundName": "Frank",
+  "price": 25,
+  "productId": "646fdffa55b7d500027c12bd",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Food and Treats",
+  "quantity": 1,
+  "email": "Silviavfdias@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64c1e0d2786efd0002694be9",
+  "createdAt": {
+    "$date": "2023-07-27T03:13:23.061Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T03:13:23.061Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64caba032b6e6200024b27af"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "spoffy.billing@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64caba032b6e6200024b27ad",
+  "createdAt": {
+    "$date": "2023-08-02T20:18:11.247Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-02T20:18:11.247Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64caeb0c2b6e6200024b27b3"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "dianecronn@comcast.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64caeb0c2b6e6200024b27b1",
+  "createdAt": {
+    "$date": "2023-08-02T23:47:24.078Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-02T23:47:24.078Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64cb16c42b6e6200024b27ba"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "tkp326@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64cb16c42b6e6200024b27b7",
+  "createdAt": {
+    "$date": "2023-08-03T02:53:56.317Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T02:53:56.317Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64cb16c42b6e6200024b27bb"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 100,
+  "productId": "64c825f061b06f0002a83022",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Specialty Vet ",
+  "quantity": 1,
+  "email": "tkp326@gmail.com",
+  "subtotal": 100,
+  "totalPrice": 100,
+  "orderId": "64cb16c42b6e6200024b27b7",
+  "createdAt": {
+    "$date": "2023-08-03T02:53:56.317Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-03T02:53:56.317Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64dd595c2d323a0002804e30"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Marieberry@bellsouth.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64dd595c2d323a0002804e28",
+  "createdAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64dd595c2d323a0002804e2f"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 25,
+  "productId": "64c824fc61b06f0002a83021",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "Marieberry@bellsouth.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64dd595c2d323a0002804e28",
+  "createdAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64dd595c2d323a0002804e2e"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Marieberry@bellsouth.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64dd595c2d323a0002804e28",
+  "createdAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T23:18:52.804Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64dd595c2d323a0002804e31"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 20,
+  "productId": "646fdffa55b7d500027c12bd",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "Marieberry@bellsouth.net",
+  "subtotal": 20,
+  "totalPrice": 20,
+  "orderId": "64dd595c2d323a0002804e28",
+  "createdAt": {
+    "$date": "2023-08-16T23:18:52.805Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T23:18:52.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64dd595c2d323a0002804e32"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 10,
+  "productId": "64dd2b0233894e000268b7cb",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Treats",
+  "quantity": 1,
+  "email": "Marieberry@bellsouth.net",
+  "subtotal": 10,
+  "totalPrice": 10,
+  "orderId": "64dd595c2d323a0002804e28",
+  "createdAt": {
+    "$date": "2023-08-16T23:18:52.805Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-16T23:18:52.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64deded63979aa0002b89401"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "noellebrower@earthlink.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64deded63979aa0002b893fe",
+  "createdAt": {
+    "$date": "2023-08-18T03:00:38.914Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-18T03:00:38.914Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64deded63979aa0002b89402"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 100,
+  "productId": "64c825f061b06f0002a83022",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Specialty Vet ",
+  "quantity": 1,
+  "email": "noellebrower@earthlink.net",
+  "subtotal": 100,
+  "totalPrice": 100,
+  "orderId": "64deded63979aa0002b893fe",
+  "createdAt": {
+    "$date": "2023-08-18T03:00:38.914Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-18T03:00:38.914Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e13023929fc900026eba0c"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64d65f85d47c390002877e51",
+  "dachshundImage": "https://i.ibb.co/B4YGz5k/Archie.jpg",
+  "dachshundName": "Archie",
+  "price": 10,
+  "productId": "64dd2b0233894e000268b7cb",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Treats",
+  "quantity": 1,
+  "email": "ecarver6@comcast.net",
+  "subtotal": 10,
+  "totalPrice": 10,
+  "orderId": "64e13023929fc900026eba07",
+  "createdAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e13023929fc900026eba0d"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 100,
+  "productId": "64c825f061b06f0002a83022",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Specialty Vet ",
+  "quantity": 1,
+  "email": "ecarver6@comcast.net",
+  "subtotal": 100,
+  "totalPrice": 100,
+  "orderId": "64e13023929fc900026eba07",
+  "createdAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64e13023929fc900026eba0b"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64cc13228136fc0002816178",
+  "dachshundImage": "https://i.ibb.co/W63V07H/Jamie-foster-dog.jpg",
+  "dachshundName": "Jamie",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "ecarver6@comcast.net",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64e13023929fc900026eba07",
+  "createdAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "updatedAt": {
+    "$date": "2023-08-19T21:12:03.600Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fe5fe4986d360002b20b52"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Ktowny@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64fe5fe4986d360002b20b4d",
+  "createdAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fe5fe4986d360002b20b51"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64dbc83ef8856d00022d52a5",
+  "dachshundImage": "https://i.ibb.co/3pzmGjb/max10.jpg",
+  "dachshundName": "Max10",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Ktowny@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64fe5fe4986d360002b20b4d",
+  "createdAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64fe5fe4986d360002b20b53"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64d65f85d47c390002877e51",
+  "dachshundImage": "https://i.ibb.co/B4YGz5k/Archie.jpg",
+  "dachshundName": "Archie",
+  "price": 25,
+  "productId": "64c8267961b06f0002a83023",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Ktowny@gmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "64fe5fe4986d360002b20b4d",
+  "createdAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-11T00:31:32.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "652a938c7c156600020f475f"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64c91132ebfca1000203a8a7",
+  "dachshundImage": "https://i.ibb.co/bB43Rxw/Patty-1.jpg",
+  "dachshundName": "Patti",
+  "price": 25,
+  "productId": "64c824fc61b06f0002a83021",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "kathying@hotmail.com",
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "652a938c7c156600020f475c",
+  "createdAt": {
+    "$date": "2023-10-14T13:11:40.712Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-14T13:11:40.712Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65427df585cade0002e072c5"
+  },
+  "isPhysicalProduct": false,
+  "dachshundId": "64dbc83ef8856d00022d52a5",
+  "dachshundImage": "https://i.ibb.co/3pzmGjb/max10.jpg",
+  "dachshundName": "Max10",
+  "price": 100,
+  "productId": "64c825f061b06f0002a83022",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Specialty Vet ",
+  "quantity": 1,
+  "email": "Npate33@gmail.com",
+  "subtotal": 100,
+  "totalPrice": 100,
+  "orderId": "65427df585cade0002e072c3",
+  "createdAt": {
+    "$date": "2023-11-01T16:33:57.865Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-01T16:33:57.865Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6584c44d0f93fb65b8a99330"
+  },
+  "dachshundId": "655770f598ffc70002dd85e3",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FWoody%20.jpg?alt=media&token=ad375b58-c89d-45ec-8531-9e9a4a27dfc6",
+  "dachshundName": "Woody ",
+  "price": 100,
+  "productId": "64c825f061b06f0002a83022",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Specialty Vet ",
+  "quantity": 1,
+  "email": "mchahanovich@yahoo.com",
+  "isPhysicalProduct": false,
+  "subtotal": 100,
+  "totalPrice": 100,
+  "orderId": "6584c44d0f93fb65b8a9932b",
+  "createdAt": {
+    "$date": "2023-12-21T23:03:41.686Z"
+  },
+  "updatedAt": {
+    "$date": "2023-12-21T23:03:41.686Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65a42825cf0ff62c86fd488e"
+  },
+  "dachshundId": "659d5a723a8557ac3bad3477",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBugsy%20legs.JPG?alt=media&token=1974e543-28cb-4b6c-bceb-7fcf4af9d46a",
+  "dachshundName": "Bugsy & Sugar ",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jennybird72@yahoo.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "65a42825cf0ff62c86fd488b",
+  "createdAt": {
+    "$date": "2024-01-14T18:29:57.258Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-14T18:29:57.258Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ac74e4fb0b8fe855352a10"
+  },
+  "dachshundId": "655e01f7a7baaf0002b4dbb8",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDennis%20on%20wheels.JPEG?alt=media&token=a5f018a5-2b3c-4351-9024-dab37dccf0db",
+  "dachshundName": "Dennis ",
+  "price": 25,
+  "productId": "655e0281a7baaf0002b4dbb9",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "renn.k.cannon@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "65ac74e4fb0b8fe855352a0d",
+  "createdAt": {
+    "$date": "2024-01-21T01:35:32.649Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-21T01:35:32.649Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b41b6fbebc9e5c428773b3"
+  },
+  "dachshundId": "6597160dbd21a1c4e6c28fc7",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fobie2.jpg?alt=media&token=8628426a-ab6a-46bd-9119-93fe2f67c786",
+  "dachshundName": "Obie",
+  "price": 25,
+  "productId": "64c824fc61b06f0002a83021",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "Npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "65b41b6fbebc9e5c428773ad",
+  "createdAt": {
+    "$date": "2024-01-26T20:51:59.785Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-26T20:51:59.785Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c679aec4ae65d9fabfffa6"
+  },
+  "dachshundId": "655e01f7a7baaf0002b4dbb8",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDennis%20on%20wheels.JPEG?alt=media&token=a5f018a5-2b3c-4351-9024-dab37dccf0db",
+  "dachshundName": "Dennis ",
+  "price": 25,
+  "productId": "655e0281a7baaf0002b4dbb9",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "Npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "65c679aec4ae65d9fabfffa3",
+  "createdAt": {
+    "$date": "2024-02-09T19:14:54.621Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-09T19:14:54.621Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dccab2c830b3f11ed6fd81"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Kvoyles@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65dccab2c830b3f11ed6fd7e",
+  "createdAt": {
+    "$date": "2024-02-26T17:30:26.056Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-26T17:30:26.056Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dcd1ddc830b3f11ed6fe7f"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 2,
+  "email": "Johnson2430@bellsouth.net",
+  "isPhysicalProduct": false,
+  "subtotal": 36,
+  "totalPrice": 36,
+  "orderId": "65dcd1ddc830b3f11ed6fe7c",
+  "createdAt": {
+    "$date": "2024-02-26T18:01:01.499Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-26T18:01:01.499Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dcd430c830b3f11ed6fecb"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "cmixon58@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65dcd430c830b3f11ed6fec8",
+  "createdAt": {
+    "$date": "2024-02-26T18:10:56.452Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-26T18:10:56.452Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dcdd4dc830b3f11ed7003d"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Nadinedenise@att.net",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65dcdd4dc830b3f11ed7003a",
+  "createdAt": {
+    "$date": "2024-02-26T18:49:49.997Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-26T18:49:49.997Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ddf75ae69a6fd6bd9f452a"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "msbakeragc@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65ddf75ae69a6fd6bd9f4527",
+  "createdAt": {
+    "$date": "2024-02-27T14:53:14.911Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-27T14:53:14.911Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dfcd7c7e572f25fac30284"
+  },
+  "dachshundId": "65de2272e69a6fd6bd9f48b1",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FIMG_3404.jpg?alt=media&token=f78c5237-3de8-491f-824b-4e4ddcdaff84",
+  "dachshundName": "Duchess & Oscar",
+  "price": 25,
+  "productId": "64c824fc61b06f0002a83021",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 2,
+  "email": "Npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 50,
+  "totalPrice": 50,
+  "orderId": "65dfcd7c7e572f25fac3027f",
+  "createdAt": {
+    "$date": "2024-02-29T00:19:08.641Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-29T00:19:08.641Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e22332b6c70c1b5e637ace"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Debra.quinn75@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65e22332b6c70c1b5e637acb",
+  "createdAt": {
+    "$date": "2024-03-01T18:49:22.841Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-01T18:49:22.841Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ef4af26b9479f9dc97394c"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Peg@sotos.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "65ef4af26b9479f9dc973949",
+  "createdAt": {
+    "$date": "2024-03-11T18:18:26.810Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-11T18:18:26.810Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65fc4391416144d8daac5890"
+  },
+  "dachshundId": "659d5a723a8557ac3bad3477",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBugsy%20legs.JPG?alt=media&token=1974e543-28cb-4b6c-bceb-7fcf4af9d46a",
+  "dachshundName": "Bugsy & Sugar ",
+  "price": 25,
+  "productId": "646fe44b55b7d500027c12c0",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "kathleenmjohnson92@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "65fc4391416144d8daac588c",
+  "createdAt": {
+    "$date": "2024-03-21T14:26:25.302Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-21T14:26:25.302Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66068cc1fe5b36328622f941"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 2,
+  "email": "camille.hamway@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 36,
+  "totalPrice": 36,
+  "orderId": "66068cc1fe5b36328622f93e",
+  "createdAt": {
+    "$date": "2024-03-29T09:41:21.065Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-29T09:41:21.065Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66081b76ef96682956cffb37"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Winnywear01@yahoo.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "66081b76ef96682956cffb34",
+  "createdAt": {
+    "$date": "2024-03-30T14:02:30.681Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-30T14:02:30.681Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6608a2a9511c29d191df5dee"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "nonnahsyhprum@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "6608a2a9511c29d191df5deb",
+  "createdAt": {
+    "$date": "2024-03-30T23:39:21.995Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-30T23:39:21.995Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66117e4b8e31f25f72662220"
+  },
+  "dachshundId": "65f044d12bc32cf862434ffe",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FFullSizeRender.jpeg?alt=media&token=89443aa5-47d1-417e-84cd-d74ea6be399e",
+  "dachshundName": "Muppet",
+  "price": 25,
+  "productId": "64c824fc61b06f0002a83021",
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "Npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": "66117e4b8e31f25f7266221c",
+  "createdAt": {
+    "$date": "2024-04-06T16:54:35.571Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-06T16:54:35.571Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6611aebe8e31f25f72662842"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 3,
+  "email": "vmblakewest@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 54,
+  "totalPrice": 54,
+  "orderId": "6611aebe8e31f25f7266283f",
+  "createdAt": {
+    "$date": "2024-04-06T20:21:18.250Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-06T20:21:18.250Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6612b7d358562abd74217831"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 2,
+  "email": "nlh50tx@verizon.net",
+  "isPhysicalProduct": false,
+  "subtotal": 36,
+  "totalPrice": 36,
+  "orderId": "6612b7d358562abd7421782e",
+  "createdAt": {
+    "$date": "2024-04-07T15:12:19.610Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-07T15:12:19.610Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6615a482d3a147fc267724e1"
+  },
+  "dachshundId": "65dc97e4c830b3f11ed6f63e",
+  "dachshundImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKrispy%20Kreme.png?alt=media&token=e1f3dbe2-5399-4e61-94f9-8e436356afa0",
+  "dachshundName": "Krispy Kreme \"Digital Dozen\"",
+  "price": 18,
+  "productId": "65dc9735c830b3f11ed6f5b3",
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Krisy Kreme \"Digital Dozen\"",
+  "quantity": 1,
+  "email": "Johnson2430@bellsouth.net",
+  "isPhysicalProduct": false,
+  "subtotal": 18,
+  "totalPrice": 18,
+  "orderId": "6615a482d3a147fc267724de",
+  "createdAt": {
+    "$date": "2024-04-09T20:26:42.681Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-09T20:26:42.681Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668eafe31188724c3f40b68"
+  },
+  "dachshundId": "66686f5531188724c3f40296",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBella2.jpg?alt=media&token=c3dfa9d9-ffed-40f3-a615-908b47d44bdc",
+  "dachshundName": "Bella10",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jmayson125@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "6668eafe31188724c3f40b5e"
+  },
+  "createdAt": {
+    "$date": "2024-06-12T00:25:34.501Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-12T00:25:34.501Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "666a2953086ef3e2657be31a"
+  },
+  "dachshundId": "66686cd631188724c3f40291",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDaisy12.jpg?alt=media&token=13a63478-395b-49f8-abc6-75f35ac7751c",
+  "dachshundName": "Daisy12",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "666a2953086ef3e2657be310"
+  },
+  "createdAt": {
+    "$date": "2024-06-12T23:03:47.808Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-12T23:03:47.808Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "666dd1ff267650b200abc367"
+  },
+  "dachshundId": "66686f5531188724c3f40296",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBella2.jpg?alt=media&token=c3dfa9d9-ffed-40f3-a615-908b47d44bdc",
+  "dachshundName": "Bella10",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "bobbieannepitman@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "666dd1ff267650b200abc35f"
+  },
+  "createdAt": {
+    "$date": "2024-06-15T17:40:15.202Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-15T17:40:15.202Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "667227f05006d84b1c3a439b"
+  },
+  "dachshundId": "66686cd631188724c3f40291",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDaisy12.jpg?alt=media&token=13a63478-395b-49f8-abc6-75f35ac7751c",
+  "dachshundName": "Daisy12",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "msbakeragc@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "667227f05006d84b1c3a4393"
+  },
+  "createdAt": {
+    "$date": "2024-06-19T00:36:00.796Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-19T00:36:00.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "667229045006d84b1c3a43bc"
+  },
+  "dachshundId": "66686f5531188724c3f40296",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBella2.jpg?alt=media&token=c3dfa9d9-ffed-40f3-a615-908b47d44bdc",
+  "dachshundName": "Bella10",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "msbakeragc@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "667229045006d84b1c3a43b4"
+  },
+  "createdAt": {
+    "$date": "2024-06-19T00:40:36.624Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-19T00:40:36.624Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66bb853c0b9ea123d220ecff"
+  },
+  "dachshundId": "66813e631a3cd35af8b42761",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FMoses.jpg?alt=media&token=97d14a0f-48be-4474-9c7a-204cbcc6d7de",
+  "dachshundName": "Moses",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66bb853c0b9ea123d220ecf0"
+  },
+  "createdAt": {
+    "$date": "2024-08-13T16:09:32.252Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-13T16:09:32.252Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f58e7cc77f86cd928bf3a6"
+  },
+  "dachshundId": "66f2d276b46dc2baabd6bc7b",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FOliver.jpg?alt=media&token=005ce248-2e18-4cca-a826-eeca0ba5bc06",
+  "dachshundName": "Oliver",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Kkuser1@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f58e7cc77f86cd928bf39b"
+  },
+  "createdAt": {
+    "$date": "2024-09-26T16:40:28.588Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-26T16:40:28.588Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f59965c77f86cd928bf598"
+  },
+  "dachshundId": "66686cd631188724c3f40291",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDaisy12.jpg?alt=media&token=13a63478-395b-49f8-abc6-75f35ac7751c",
+  "dachshundName": "Daisy12",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "kbabichepmn@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f59965c77f86cd928bf588"
+  },
+  "createdAt": {
+    "$date": "2024-09-26T17:27:01.023Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-26T17:27:01.023Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f59fdcc77f86cd928bf6a2"
+  },
+  "dachshundId": "66f2cf29b46dc2baabd6bc67",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FColt.jpg?alt=media&token=72be60b5-5e6d-464b-ac8b-4b8a40aeb89e",
+  "dachshundName": "Colt",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Sariatchue@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f59fdcc77f86cd928bf69a"
+  },
+  "createdAt": {
+    "$date": "2024-09-26T17:54:36.724Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-26T17:54:36.724Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f5a5bdc77f86cd928bf82b"
+  },
+  "dachshundId": "6669847d086ef3e2657bc924",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Falex.jpg?alt=media&token=d4251a12-4d60-46a9-a525-c52741a26f66",
+  "dachshundName": "Alex",
+  "price": 25,
+  "productId": {
+    "$oid": "655e0281a7baaf0002b4dbb9"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f5a5bdc77f86cd928bf81f"
+  },
+  "createdAt": {
+    "$date": "2024-09-26T18:19:41.334Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-26T18:19:41.334Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f5acf7c77f86cd928bf90a"
+  },
+  "dachshundId": "6669847d086ef3e2657bc924",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Falex.jpg?alt=media&token=d4251a12-4d60-46a9-a525-c52741a26f66",
+  "dachshundName": "Alex",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "bonnie.bickerstaff@hotmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f5acf7c77f86cd928bf900"
+  },
+  "createdAt": {
+    "$date": "2024-09-26T18:50:31.760Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-26T18:50:31.760Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6daad3f4f3bc0b6807031"
+  },
+  "dachshundId": "66f2e6837adeece5fe7c1046",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fsimba.jpg?alt=media&token=7679165e-7a08-40d4-b708-b1c425802a3f",
+  "dachshundName": "Simba",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 2,
+  "email": "alicja39@yahoo.com",
+  "isPhysicalProduct": false,
+  "subtotal": 50,
+  "totalPrice": 50,
+  "orderId": {
+    "$oid": "66f6daac3f4f3bc0b6807026"
+  },
+  "createdAt": {
+    "$date": "2024-09-27T16:17:49.015Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-27T16:17:49.015Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f6dd923f4f3bc0b6807068"
+  },
+  "dachshundId": "66f2d276b46dc2baabd6bc7b",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FOliver.jpg?alt=media&token=005ce248-2e18-4cca-a826-eeca0ba5bc06",
+  "dachshundName": "Oliver",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "Robyng976@gmail.com ",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f6dd923f4f3bc0b680705f"
+  },
+  "createdAt": {
+    "$date": "2024-09-27T16:30:10.102Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-27T16:30:10.102Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f7e68b64ac54f1a5e629a1"
+  },
+  "dachshundId": "66f2e6837adeece5fe7c1046",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fsimba.jpg?alt=media&token=7679165e-7a08-40d4-b708-b1c425802a3f",
+  "dachshundName": "Simba",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "amberlowe7788@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f7e68b64ac54f1a5e62995"
+  },
+  "createdAt": {
+    "$date": "2024-09-28T11:20:43.195Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-28T11:20:43.195Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66f87bdf64ac54f1a5e63313"
+  },
+  "dachshundId": "66686cd631188724c3f40291",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FDaisy12.jpg?alt=media&token=13a63478-395b-49f8-abc6-75f35ac7751c",
+  "dachshundName": "Daisy12",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Sandybsn@msn.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "orderId": {
+    "$oid": "66f87bdf64ac54f1a5e63308"
+  },
+  "createdAt": {
+    "$date": "2024-09-28T21:57:51.791Z"
+  },
+  "updatedAt": {
+    "$date": "2024-09-28T21:57:51.791Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66fdca6d6dc1623bc7921475"
+  },
+  "dachshundId": "66f2e6837adeece5fe7c1046",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Fsimba.jpg?alt=media&token=7679165e-7a08-40d4-b708-b1c425802a3f",
+  "dachshundName": "Simba",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "amyk7232@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 20,
+  "totalPrice": 20,
+  "orderId": {
+    "$oid": "66fdca6d6dc1623bc7921467"
+  },
+  "createdAt": {
+    "$date": "2024-10-02T22:34:21.218Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-02T22:34:21.218Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672175d2dca7f96cdf9c4749"
+  },
+  "dachshundId": "671e32430540863a4aa51339",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FKirby.jpg?alt=media&token=ab681780-8ef3-48c0-be61-916d1ce049d7",
+  "dachshundName": "Kirby",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "lintzpj@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2024-10-29T23:54:58.987Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-29T23:54:58.987Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674c8a636a135a35ad9b5185"
+  },
+  "dachshundId": "6669847d086ef3e2657bc924",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Falex.jpg?alt=media&token=d4251a12-4d60-46a9-a525-c52741a26f66",
+  "dachshundName": "Alex",
+  "price": 25,
+  "productId": {
+    "$oid": "655e0281a7baaf0002b4dbb9"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2024-12-01T16:10:11.480Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-01T16:10:11.480Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674c8a636a135a35ad9b5195"
+  },
+  "dachshundId": "6669847d086ef3e2657bc924",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Falex.jpg?alt=media&token=d4251a12-4d60-46a9-a525-c52741a26f66",
+  "dachshundName": "Alex",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 20,
+  "totalPrice": 20,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2024-12-01T16:10:11.491Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-01T16:10:11.491Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674c8a636a135a35ad9b5199"
+  },
+  "dachshundId": "671e30790540863a4aa51333",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPixie.jpg?alt=media&token=f226f046-a300-4e96-9dd0-9385d65625b8",
+  "dachshundName": "Pixie",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 20,
+  "totalPrice": 20,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2024-12-01T16:10:11.499Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-01T16:10:11.499Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "674c8a636a135a35ad9b51aa"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 50,
+  "productId": {
+    "$oid": "646fd215bb9a4100027709e6"
+  },
+  "productIcon": "fa-regular fa-hospital",
+  "productName": "ER Visit",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 50,
+  "totalPrice": 50,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2024-12-01T16:10:11.509Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-01T16:10:11.509Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677892daf288d86fc63cc589"
+  },
+  "dachshundId": "677691f21194f60c9f32d2d2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGus.jpg?alt=media&token=24f97ac0-3679-4570-b246-297497513f1f",
+  "dachshundName": "Gus",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "price_cynthia@hotmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-04T01:46:02.236Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-04T01:46:02.236Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677db4b61af967df1108b373"
+  },
+  "dachshundId": "67768bce1194f60c9f32d248",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FBurney.png?alt=media&token=2f3a5201-6030-433e-aeb8-ef321365a131",
+  "dachshundName": "Burney",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-07T23:11:50.045Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-07T23:11:50.045Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677db4b61af967df1108b37e"
+  },
+  "dachshundId": "677691f21194f60c9f32d2d2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGus.jpg?alt=media&token=24f97ac0-3679-4570-b246-297497513f1f",
+  "dachshundName": "Gus",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-07T23:11:50.053Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-07T23:11:50.053Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677db4b61af967df1108b387"
+  },
+  "dachshundId": "671e33d30540863a4aa5134e",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FMarley.jpg?alt=media&token=5ba559b4-6f9c-4168-9f77-074a09125bd5",
+  "dachshundName": "Marley",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-07T23:11:50.059Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-07T23:11:50.059Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677db4b61af967df1108b391"
+  },
+  "dachshundId": "67768ebc1194f60c9f32d26b",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FJay%20and%20Tina.jpg?alt=media&token=d6ea7a05-347a-4120-b186-ae4df7750385",
+  "dachshundName": "Little Jay & Tiny",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 20,
+  "totalPrice": 20,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-07T23:11:50.065Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-07T23:11:50.065Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677e627cd3d35c33104f6b96"
+  },
+  "dachshundId": "677691f21194f60c9f32d2d2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGus.jpg?alt=media&token=24f97ac0-3679-4570-b246-297497513f1f",
+  "dachshundName": "Gus",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Telhmavc95@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-08T11:33:16.889Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-08T11:33:16.889Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "677e627cd3d35c33104f6ba1"
+  },
+  "dachshundId": "67768ebc1194f60c9f32d26b",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FJay%20and%20Tina.jpg?alt=media&token=d6ea7a05-347a-4120-b186-ae4df7750385",
+  "dachshundName": "Little Jay & Tiny",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Telhmavc95@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-01-08T11:33:16.904Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-08T11:33:16.904Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c09441f7cc3b53a04a2147"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 25,
+  "productId": {
+    "$oid": "655e0281a7baaf0002b4dbb9"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "erin.ritchie83@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-02-27T16:35:13.258Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T16:35:13.258Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c09441f7cc3b53a04a2152"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 10,
+  "productId": {
+    "$oid": "646fe05255b7d500027c12be"
+  },
+  "productIcon": "fa-solid fa-volleyball",
+  "productName": "Squeaky Plush Dachshund Toy",
+  "quantity": 1,
+  "email": "erin.ritchie83@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 10,
+  "totalPrice": 10,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-02-27T16:35:13.268Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T16:35:13.268Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c09441f7cc3b53a04a215b"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 10,
+  "productId": {
+    "$oid": "64dd2b0233894e000268b7cb"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Treats",
+  "quantity": 1,
+  "email": "erin.ritchie83@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 10,
+  "totalPrice": 10,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-02-27T16:35:13.274Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-27T16:35:13.274Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680ad1dbdb46cfe2d9c6b64e"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "Debykidney@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-04-25T00:05:47.370Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-25T00:05:47.370Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6852039e4945cc2d2eb5d546"
+  },
+  "dachshundId": "677691f21194f60c9f32d2d2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPXL_20250413_155436411.PORTRAIT.jpg?alt=media&token=023df184-b020-4cef-b075-45ba76352789",
+  "dachshundName": "Dr. Frank-N-Furter",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-06-18T00:09:02.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-18T00:09:02.554Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6852039e4945cc2d2eb5d551"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 25,
+  "productId": {
+    "$oid": "655e0281a7baaf0002b4dbb9"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-06-18T00:09:02.574Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-18T00:09:02.574Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6852039e4945cc2d2eb5d55a"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "jmwomack76@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-06-18T00:09:02.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-18T00:09:02.580Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "689d5cb2d7bd59af123d8cab"
+  },
+  "dachshundId": "677691f21194f60c9f32d2d2",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPXL_20250413_155436411.PORTRAIT.jpg?alt=media&token=023df184-b020-4cef-b075-45ba76352789",
+  "dachshundName": "Dr. Frank-N-Furter",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "Straindje@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-14T03:49:06.678Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-14T03:49:06.678Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68af9b0c99e76215f59d1ed9"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 1,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 20,
+  "totalPrice": 20,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-27T23:55:56.965Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-27T23:55:56.965Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68af9b0c99e76215f59d1ee4"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-27T23:55:56.979Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-27T23:55:56.979Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68af9b0c99e76215f59d1eed"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 2,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 50,
+  "totalPrice": 50,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-27T23:55:56.987Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-27T23:55:56.987Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68af9b0c99e76215f59d1ef7"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-27T23:55:56.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-27T23:55:56.994Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68af9b0d99e76215f59d1f02"
+  },
+  "dachshundId": "68079230b48f795361f956cc",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FGeorgia.jpg?alt=media&token=1a89efa5-4ed4-4437-9e61-5bb54bc24645",
+  "dachshundName": "Georgia",
+  "price": 10,
+  "productId": {
+    "$oid": "64dd2b0233894e000268b7cb"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Treats",
+  "quantity": 1,
+  "email": "pam8634@aol.com",
+  "isPhysicalProduct": false,
+  "subtotal": 10,
+  "totalPrice": 10,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-08-27T23:55:57.001Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-27T23:55:57.001Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e022be3790893f36864663"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 50,
+  "productId": {
+    "$oid": "646fd215bb9a4100027709e6"
+  },
+  "productIcon": "fa-regular fa-hospital",
+  "productName": "ER Visit",
+  "quantity": 1,
+  "email": "npate33@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 50,
+  "totalPrice": 50,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-10-03T19:23:42.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-03T19:23:42.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6906a73d1910c4bffce10da6"
+  },
+  "dachshundId": "66f2e8317adeece5fe7c1056",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FPrinz.jpg?alt=media&token=46a0027e-7505-47e0-82b4-cc19a44b4ba8",
+  "dachshundName": "Prinz",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "gmanriqueg@yahoo.es",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-11-02T00:35:09.408Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-02T00:35:09.408Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcf9a"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 20,
+  "productId": {
+    "$oid": "646fdffa55b7d500027c12bd"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Food",
+  "quantity": 2,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 40,
+  "totalPrice": 40,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.411Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.411Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfaa"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 25,
+  "productId": {
+    "$oid": "646fe44b55b7d500027c12c0"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Dental care ",
+  "quantity": 1,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.421Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.421Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfb4"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 25,
+  "productId": {
+    "$oid": "64c824fc61b06f0002a83021"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Routine Vet Care ",
+  "quantity": 1,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.427Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.427Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfbf"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 25,
+  "productId": {
+    "$oid": "64c8267961b06f0002a83023"
+  },
+  "productIcon": "fa-solid fa-bed",
+  "productName": "Welcome Bed & Blanket ",
+  "quantity": 1,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.434Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.434Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfc3"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 25,
+  "productId": {
+    "$oid": "655e0281a7baaf0002b4dbb9"
+  },
+  "productIcon": "fa-solid fa-staff-snake",
+  "productName": "Diapers / Belly Bands / Wee Wee Pads",
+  "quantity": 1,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 25,
+  "totalPrice": 25,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.440Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.440Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfcf"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 10,
+  "productId": {
+    "$oid": "64dd2b0233894e000268b7cb"
+  },
+  "productIcon": "fa-solid fa-bowl-food",
+  "productName": "Dog Treats",
+  "quantity": 3,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 30,
+  "totalPrice": 30,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.444Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.444Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "694c1fd35fe91cb8b9cbcfdc"
+  },
+  "dachshundId": "68b82f4ee930f5c8910b327c",
+  "productImage": "https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2FLena1.jpg?alt=media&token=2c8118eb-faa6-4a65-a9fc-b3cb91352c85",
+  "dachshundName": "Lena",
+  "price": 10,
+  "productId": {
+    "$oid": "646fe05255b7d500027c12be"
+  },
+  "productIcon": "fa-solid fa-volleyball",
+  "productName": "Squeaky Plush Dachshund Toy",
+  "quantity": 3,
+  "email": "galo.g.andrew@gmail.com",
+  "isPhysicalProduct": false,
+  "subtotal": 30,
+  "totalPrice": 30,
+  "type": "WELCOME_WIENER",
+  "createdAt": {
+    "$date": "2025-12-24T17:16:03.450Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-24T17:16:03.450Z"
+  },
+  "__v": 0
+}]

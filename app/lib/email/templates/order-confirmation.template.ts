@@ -25,6 +25,10 @@ const ORDER_COPY: Record<OrderType, { heading: string; body: string }> = {
     heading: "You're sponsoring a dachshund!",
     body: 'Thank you for your Welcome Wiener sponsorship. Your support makes a direct difference in the life of a dog in our care.'
   },
+  ECARD: {
+    heading: 'Your ecard is on its way!',
+    body: 'Thank you for your ecard purchase. Your recipient will receive it at the scheduled time.'
+  },
   AUCTION_PURCHASE: {
     heading: 'Your auction payment is confirmed!',
     body: 'Thank you for your purchase. Your payment has been received and your item will be on its way soon.'
@@ -49,6 +53,7 @@ export function getOrderEmailSubject(order: OrderWithItems): string {
     ADOPTION_FEE: 'Your Adoption Fee Payment is Received',
     PRODUCT: 'Your Little Paws Order is Confirmed',
     WELCOME_WIENER: "You're Sponsoring a Dachshund — Thank You!",
+    ECARD: 'Your Little Paws Ecard is Confirmed',
     AUCTION_PURCHASE: 'Your Auction Payment is Confirmed — Thank You!',
     MIXED: 'Your Little Paws Order is Confirmed',
     FEED_A_FOSTER: 'Thank You for Feeding a Foster!'

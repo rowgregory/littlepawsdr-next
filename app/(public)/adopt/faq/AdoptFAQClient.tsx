@@ -140,7 +140,7 @@ export const faq: FAQItem[] = [
       ' before you begin. Within your 7-day window you can always get back to your application by clicking ',
       { highlight: 'Adopt' },
       ' in the navigation — it automatically detects your active application and takes you straight to it. You can also access it anytime from your ',
-      { highlight: 'Member Portal' },
+      { highlight: 'Member' },
       ' or by clicking ',
       { highlight: 'Launch App' },
       ' in the header.'

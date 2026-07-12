@@ -23,6 +23,7 @@ import { formatDate } from 'app/utils/date.utils'
 import { formatRole } from 'app/utils/user.utils'
 import AdminPageHeader from 'app/components/common/AdminPageHeader'
 import { StatusPill } from 'app/components/_primitives'
+import { MergeUserSection } from 'app/components/user/MergeUserSection'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 
@@ -185,6 +186,8 @@ export default function AdminUserDetailsClient({ user }: { user: UserDetail }) {
                 </p>
               )}
             </section>
+
+            <MergeUserSection userId={user.id} userEmail={user.email} />
           </div>
 
           {/* ── Right column — orders ── */}
