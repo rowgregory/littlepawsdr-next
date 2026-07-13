@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag, ArrowRight, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { store, useCartSelector } from 'app/lib/store/store'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 import { clearCart, removeFromCart } from 'app/lib/store/slices/cartSlice'
 import { usePathname } from 'next/navigation'
 

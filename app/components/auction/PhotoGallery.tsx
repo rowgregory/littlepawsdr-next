@@ -1,4 +1,4 @@
-import Picture from 'app/components/common/Picture'
+import Picture from 'app/components/_common/Picture'
 import { Package, Star } from 'lucide-react'
 import { useState } from 'react'
 import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
@@ -31,7 +31,9 @@ export function PhotoGallery({ photos }: { photos: IAuctionItemPhoto[] }) {
         {activePhoto?.isPrimary && (
           <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur-sm px-2 py-1 border border-border-light dark:border-border-dark">
             <Star size={9} className="text-amber-500" aria-hidden="true" />
-            <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">Primary</span>
+            <span className="text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+              Primary
+            </span>
           </div>
         )}
       </div>

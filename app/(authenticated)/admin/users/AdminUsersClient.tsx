@@ -2,13 +2,13 @@
 
 import { useState, useMemo } from 'react'
 import { ArrowRight, Search } from 'lucide-react'
-import { formatDate } from 'app/utils/date.utils'
+import { formatDate } from 'app/utils/_date.utils'
 import { IUser, RoleFilter } from 'types/entities/user'
 import { formatRole } from 'app/utils/user.utils'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
-import AdminFilterTabs from 'app/components/common/AdminFilterTabs'
-import AdminTable, { type Column } from 'app/components/common/AdminTable'
-import { Pagination } from 'app/components/common/Pagination'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminFilterTabs from 'app/components/_common/AdminFilterTabs'
+import AdminTable, { type Column } from 'app/components/_common/AdminTable'
+import { Pagination } from 'app/components/_common/Pagination'
 import { PAGE_SIZE, ROLE_FILTER_LABELS, ROLE_FILTERS } from 'app/lib/constants/user.constants'
 import Link from 'next/link'
 

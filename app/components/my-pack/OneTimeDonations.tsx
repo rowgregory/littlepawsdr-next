@@ -3,8 +3,8 @@ import { motion } from 'framer-motion'
 import { Gift } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
-import { formatDate } from 'app/utils/date.utils'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatDate } from 'app/utils/_date.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
 
 export function OneTimeDonations({ donations }) {

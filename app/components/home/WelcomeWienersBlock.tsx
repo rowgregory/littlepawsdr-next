@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { IWelcomeWiener } from 'types/entities/welcome-wiener'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 
 export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {
   const [atStart, setAtStart] = useState(true)

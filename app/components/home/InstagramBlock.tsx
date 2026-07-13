@@ -1,6 +1,6 @@
 'use client'
 
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 
 const INSTA_PHOTOS = [
   {

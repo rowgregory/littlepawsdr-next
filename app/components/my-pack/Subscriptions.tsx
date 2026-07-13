@@ -4,8 +4,8 @@ import { Repeat } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
-import { formatMoney } from 'app/utils/currency.utils'
-import { formatDate } from 'app/utils/date.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
+import { formatDate } from 'app/utils/_date.utils'
 
 export function Subscriptions({ subscriptions }) {
   return (

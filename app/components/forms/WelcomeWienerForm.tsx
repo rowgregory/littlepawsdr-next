@@ -2,7 +2,7 @@
 
 import { Check, Dog, ImagePlus, LayoutDashboard, Loader2, Minus, Plus, X } from 'lucide-react'
 import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 import {
   WELCOME_WIENER_CATALOG,
   WELCOME_WIENER_CATEGORIES,

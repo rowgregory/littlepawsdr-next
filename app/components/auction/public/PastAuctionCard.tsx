@@ -3,8 +3,8 @@ import { useRef } from 'react'
 import { IAuction } from 'types/entities/auction'
 import { motion } from 'framer-motion'
 import { Gavel, Package, TrendingUp, Users } from 'lucide-react'
-import { formatMoney } from 'app/utils/currency.utils'
-import Picture from 'app/components/common/Picture'
+import { formatMoney } from 'app/utils/_currency.utils'
+import Picture from 'app/components/_common/Picture'
 
 export function PastAuctionCard({ auction, index }: { auction: IAuction; index: number }) {
   const ref = useRef(null)

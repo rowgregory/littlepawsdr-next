@@ -1,4 +1,4 @@
-import Picture from 'app/components/common/Picture'
+import Picture from 'app/components/_common/Picture'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'

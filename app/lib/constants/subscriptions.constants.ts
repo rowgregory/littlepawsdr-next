@@ -1,4 +1,4 @@
-import { TierKey } from 'types/subscriptions.types'
+import { TierKey } from 'types/_subscriptions.types'
 
 export const TIERS = [
   { id: 't1', name: 'Tail Wagger', price: { MONTHLY: 10, YEARLY: 100 }, badge: null, tier: 'bronze' as const },
@@ -75,7 +75,8 @@ export const T: Record<
     darkActive: 'linear-gradient(135deg,rgba(60,26,6,.90) 0%,rgba(35,14,3,.95) 100%)',
     lightIdle: 'linear-gradient(135deg,rgba(255,228,195,.70) 0%,rgba(255,210,170,.55) 100%)',
     lightActive: 'linear-gradient(135deg,rgba(255,232,205,.85) 0%,rgba(255,218,182,.70) 100%)',
-    darkGlow: '0 0 30px 7px rgba(224,123,48,.55),0 0 90px 20px rgba(224,123,48,.22),inset 0 1px 0 rgba(255,200,100,.14)',
+    darkGlow:
+      '0 0 30px 7px rgba(224,123,48,.55),0 0 90px 20px rgba(224,123,48,.22),inset 0 1px 0 rgba(255,200,100,.14)',
     lightGlow: '0 0 28px 6px rgba(200,90,20,.32),0 0 70px 14px rgba(200,90,20,.13),inset 0 1px 0 rgba(255,255,255,.95)',
     darkRank: 'text-[rgba(180,80,20,.5)]',
     lightRank: 'text-[rgba(160,70,10,.45)]',
@@ -151,8 +152,10 @@ export const T: Record<
     darkActive: 'linear-gradient(135deg,rgba(24,10,52,.90) 0%,rgba(14,6,36,.95) 100%)',
     lightIdle: 'linear-gradient(135deg,rgba(228,212,255,.70) 0%,rgba(212,192,255,.55) 100%)',
     lightActive: 'linear-gradient(135deg,rgba(236,222,255,.85) 0%,rgba(222,204,255,.70) 100%)',
-    darkGlow: '0 0 30px 7px rgba(139,92,246,.60),0 0 90px 20px rgba(139,92,246,.24),inset 0 1px 0 rgba(200,170,255,.14)',
-    lightGlow: '0 0 28px 6px rgba(120,60,220,.32),0 0 70px 14px rgba(120,60,220,.13),inset 0 1px 0 rgba(255,255,255,.95)',
+    darkGlow:
+      '0 0 30px 7px rgba(139,92,246,.60),0 0 90px 20px rgba(139,92,246,.24),inset 0 1px 0 rgba(200,170,255,.14)',
+    lightGlow:
+      '0 0 28px 6px rgba(120,60,220,.32),0 0 70px 14px rgba(120,60,220,.13),inset 0 1px 0 rgba(255,255,255,.95)',
     darkRank: 'text-[rgba(100,40,180,.50)]',
     lightRank: 'text-[rgba(100,40,180,.38)]',
     darkPrice: 'text-[#a78bfa]',

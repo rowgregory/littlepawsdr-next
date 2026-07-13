@@ -4,7 +4,7 @@ import { IAuction } from 'types/entities/auction'
 import { motion } from 'framer-motion'
 import { ChevronRight, Clock, Package, TrendingUp, Users } from 'lucide-react'
 import { Countdown } from './Countdown'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { ItemStrip } from './ItemStrip'
 import Link from 'next/link'
 

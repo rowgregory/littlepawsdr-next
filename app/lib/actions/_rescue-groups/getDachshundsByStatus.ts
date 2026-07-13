@@ -1,5 +1,5 @@
 import { createLog } from '../log/createLog'
-import { getPicturesAndVideos } from '../../../utils/rescue-group.utils'
+import { getPicturesAndVideos } from '../../../utils/_rescue-group.utils'
 
 export async function getDachshundsByStatus({
   status,

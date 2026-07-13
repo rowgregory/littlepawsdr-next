@@ -1,6 +1,6 @@
 'use client'
 
-import { ApplicationExpiryTimer } from 'app/components/_adoption-application'
+import { ApplicationExpiryTimer } from 'app/components/adoption-application'
 import { AdoptionFeeWelcomeModal } from 'app/components/modals/AdoptionFeeModal'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'

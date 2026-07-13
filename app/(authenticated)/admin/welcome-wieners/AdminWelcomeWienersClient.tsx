@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { getWelcomeWieners } from 'app/lib/actions/welcome-wiener/getWelcomeWieners'
-import Picture from 'app/components/common/Picture'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
-import AdminHeaderButton from 'app/components/common/AdminHeaderButton'
-import AdminTable, { type Column } from 'app/components/common/AdminTable'
+import Picture from 'app/components/_common/Picture'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminHeaderButton from 'app/components/_common/AdminHeaderButton'
+import AdminTable, { type Column } from 'app/components/_common/AdminTable'
 
 type WelcomeWienerRow = NonNullable<Awaited<ReturnType<typeof getWelcomeWieners>>['data']>[number]
 
@@ -39,7 +39,9 @@ const columns: Column<WelcomeWienerRow>[] = [
           <p className="text-xs font-nunito text-text-light dark:text-text-dark truncate">
             {w.name ?? <span className="text-muted-light dark:text-muted-dark italic">Unnamed</span>}
           </p>
-          {w.bio && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-45">{w.bio}</p>}
+          {w.bio && (
+            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-45">{w.bio}</p>
+          )}
         </div>
       </div>
     )
@@ -64,9 +66,15 @@ const columns: Column<WelcomeWienerRow>[] = [
         : w.isLive
           ? 'text-emerald-600 dark:text-emerald-400'
           : 'text-amber-600 dark:text-amber-400'
-      const dotColor = w.archivedAt ? 'bg-border-light dark:bg-border-dark' : w.isLive ? 'bg-emerald-500' : 'bg-amber-500'
+      const dotColor = w.archivedAt
+        ? 'bg-border-light dark:bg-border-dark'
+        : w.isLive
+          ? 'bg-emerald-500'
+          : 'bg-amber-500'
       return (
-        <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase ${textColor}`}>
+        <span
+          className={`inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase ${textColor}`}
+        >
           <span className={`w-1.5 h-1.5 shrink-0 ${dotColor}`} aria-hidden="true" />
           {status}
         </span>

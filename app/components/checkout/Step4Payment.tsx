@@ -2,16 +2,40 @@
 
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-
 import { fadeUp } from 'app/lib/constants/motion.constants'
-
-import type { CheckoutFormInputs } from 'types/forms.types'
 import type { IPaymentMethod } from 'types/entities/payment-method.types'
 import { SavedCardSelector } from '../payment/SavedCardSelector'
 import { CardElementField } from '../_primitives/CardElementField'
 import { CoverFeesToggle } from '../payment/CoverFeesToggle'
 import { Toggle } from '../_primitives/Toggle'
 import { FormError } from '../_primitives/FormError'
+
+interface CheckoutFormInputs {
+  // identity
+  firstName?: string
+  lastName?: string
+  email?: string
+
+  // shipping
+  useSavedAddress?: boolean
+  addressLine1?: string
+  addressLine2?: string
+  city?: string
+  state?: string
+  zipPostalCode?: string
+
+  // payment
+  selectedCardId?: string | null
+  useNewCard?: boolean
+  saveCard?: boolean
+  coverFees?: boolean
+  cardComplete?: boolean
+
+  // submission lifecycle
+  loading?: boolean
+  error?: string | null
+  processingStatus?: string
+}
 
 interface Props {
   inputs: CheckoutFormInputs

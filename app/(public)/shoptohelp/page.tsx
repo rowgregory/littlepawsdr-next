@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import Picture from 'app/components/common/Picture'
+import Picture from 'app/components/_common/Picture'
 
 const shopToHelpData = [
   {

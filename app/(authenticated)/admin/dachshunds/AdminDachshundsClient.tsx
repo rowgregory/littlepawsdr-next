@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { Dog, ExternalLink } from 'lucide-react'
-import Picture from 'app/components/common/Picture'
-import { formatDate } from 'app/utils/date.utils'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
-import AdminFilterTabs from 'app/components/common/AdminFilterTabs'
-import AdminTable, { type Column } from 'app/components/common/AdminTable'
-import { IDachshund } from 'types/rescue-groups.types'
+import Picture from 'app/components/_common/Picture'
+import { formatDate } from 'app/utils/_date.utils'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminFilterTabs from 'app/components/_common/AdminFilterTabs'
+import AdminTable, { type Column } from 'app/components/_common/AdminTable'
+import { IDachshund } from 'types/_rescue-groups.types'
 
 type Tab = 'AVAILABLE' | 'HOLD'
 

@@ -5,8 +5,8 @@ import { T } from 'app/lib/constants/subscriptions.constants'
 import { StepIndicator } from '../payment/StepIndicator'
 import { SignedInRow } from '../payment/SignedInRow'
 import { StepSignIn } from '../payment/SignInStep'
-import { SubscriptionPaymentForm } from '../_subscriptions/SubscriptionsPaymentForm'
 import { PlanSummary } from './PlanSummary'
+import { SubscriptionPaymentForm } from './SubscriptionsPaymentForm'
 
 const paymentStepLabels = ['Choose Plan', 'Sign-In', 'Payment']
 

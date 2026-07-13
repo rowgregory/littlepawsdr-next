@@ -1,6 +1,6 @@
 'use server'
 
-import { formatLastRan, formatNextRun } from 'app/utils/time.utils'
+import { formatLastRan, formatNextRun } from 'app/utils/_time.utils'
 import prisma from 'prisma/client'
 
 export type CronStatus = 'success' | 'error' | 'skipped' | 'never'

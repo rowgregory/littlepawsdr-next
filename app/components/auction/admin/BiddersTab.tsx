@@ -1,4 +1,4 @@
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { Fragment, useState } from 'react'

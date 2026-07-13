@@ -5,7 +5,7 @@ import { Menu } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
-import AdminAuctionModal from 'app/components/drawers/AdminAuctionModal'
+import AdminAuctionModal from 'app/components/modals/AdminAuctionModal'
 import AdminSidebar from './sidebar'
 
 export function AdminLayoutClient({ children }: { children: ReactNode }) {

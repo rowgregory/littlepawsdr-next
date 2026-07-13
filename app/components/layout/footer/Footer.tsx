@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import Picture from '../common/Picture'
 import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
 import { SyntheticEvent, useState } from 'react'
 import { NAV_LINKS, SOCIAL_LINKS } from 'app/lib/constants/footer.constants'
+import Picture from 'app/components/_common/Picture'
 
 export default function Footer() {
   const [email, setEmail] = useState('')

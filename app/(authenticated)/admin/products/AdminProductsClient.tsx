@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
-import AdminHeaderButton from 'app/components/common/AdminHeaderButton'
-import AdminTable, { type Column } from 'app/components/common/AdminTable'
-import Picture from 'app/components/common/Picture'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminHeaderButton from 'app/components/_common/AdminHeaderButton'
+import AdminTable, { type Column } from 'app/components/_common/AdminTable'
+import Picture from 'app/components/_common/Picture'
 import { Product } from 'types/entities/product'
 
 const columns: Column<Product>[] = [
@@ -14,7 +14,12 @@ const columns: Column<Product>[] = [
     cell: (p) => (
       <div className="flex items-center gap-3">
         {p?.images?.[0] ? (
-          <Picture priority src={p?.images[0]} alt={p?.name ?? 'Product photo'} className="w-8 h-8 object-cover shrink-0" />
+          <Picture
+            priority
+            src={p?.images[0]}
+            alt={p?.name ?? 'Product photo'}
+            className="w-8 h-8 object-cover shrink-0"
+          />
         ) : (
           <div className="w-8 h-8 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark shrink-0 flex items-center justify-center">
             <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark">?</span>
@@ -24,7 +29,11 @@ const columns: Column<Product>[] = [
           <p className="text-xs font-mono text-text-light dark:text-text-dark">
             {p?.name ?? <span className="text-muted-light dark:text-muted-dark italic">Unnamed</span>}
           </p>
-          {p?.description && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-45">{p?.description}</p>}
+          {p?.description && (
+            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-45">
+              {p?.description}
+            </p>
+          )}
         </div>
       </div>
     )

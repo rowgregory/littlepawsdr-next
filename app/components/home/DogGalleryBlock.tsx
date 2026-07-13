@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 
 type GalleryImage = {
   id: number
@@ -16,7 +16,12 @@ const DOGS: GalleryImage[] = [
   { id: 2, image: '/images/gallery/gallery-9.jpg', span: 'featured', alt: 'Sammy' },
   { id: 3, image: '/images/gallery/gallery-2.jpg', span: 'normal', alt: 'Hoss & Little Joe' },
   { id: 4, image: '/images/gallery/gallery-8.jpg', span: 'normal', alt: 'Fred & Rudy' },
-  { id: 5, image: '/images/gallery/gallery-6.jpg', span: 'normal', alt: 'Dachshund cuddling with a colorful patchwork pillow' },
+  {
+    id: 5,
+    image: '/images/gallery/gallery-6.jpg',
+    span: 'normal',
+    alt: 'Dachshund cuddling with a colorful patchwork pillow'
+  },
   { id: 6, image: '/images/gallery/gallery-7.jpg', span: 'normal', alt: 'Daisy' },
   { id: 7, image: '/images/gallery/gallery-1.jpg', span: 'wide', alt: 'Hoss & Little Joe' }
 ]
@@ -44,7 +49,8 @@ const DogCard = ({ dog, index }: { dog: GalleryImage; index: number }) => (
       alt={dog.alt ?? 'Dachshund rescue dog'}
       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
       style={{
-        minHeight: dog.span === 'tall' || dog.span === 'featured' ? 'clamp(260px, 40vw, 520px)' : 'clamp(130px, 20vw, 260px)'
+        minHeight:
+          dog.span === 'tall' || dog.span === 'featured' ? 'clamp(260px, 40vw, 520px)' : 'clamp(130px, 20vw, 260px)'
       }}
     />
 
@@ -72,7 +78,9 @@ export const DogGalleryBlock = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-3" aria-hidden="true">
             <div className="w-8 h-px bg-primary-light dark:bg-primary-dark" />
-            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">Our Gallery</p>
+            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+              Our Gallery
+            </p>
           </div>
           <h2
             id="gallery-heading"

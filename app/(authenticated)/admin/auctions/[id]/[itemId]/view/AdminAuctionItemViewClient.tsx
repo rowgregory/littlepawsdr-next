@@ -1,7 +1,7 @@
 'use client'
 
 import { Gavel, ShoppingBag, TrendingUp, Clock, Edit2, LayoutDashboard, Lock, Tag, Truck } from 'lucide-react'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import Link from 'next/link'
 import { getItemStatusConfig } from 'app/utils/auction.utils'
 import { PhotoGallery } from 'app/components/auction/PhotoGallery'

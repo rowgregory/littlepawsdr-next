@@ -12,12 +12,12 @@ import { CardElementField } from '../_primitives/CardElementField'
 import { CoverFeesToggle } from '../payment/CoverFeesToggle'
 import { FormError } from '../_primitives/FormError'
 import { SubmitButton } from '../_primitives/SubmitButton'
-import { Tier } from 'types/subscriptions.types'
+import { Tier } from 'types/_subscriptions.types'
 import { createSubscriptionWithSavedCard } from 'app/lib/actions/_stripe/createSubscriptionWithSavedCard'
 import { createSetupIntentForSubscription } from 'app/lib/actions/_stripe/createSetupIntentForSubscription'
 import { createSubscriptionAfterSetup } from 'app/lib/actions/_stripe/createSubscriptionAfterSetup'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
-import { ordinal } from 'app/utils/date.utils'
+import { ordinal } from 'app/utils/_date.utils'
 
 type PaymentInputs = {
   firstName: string

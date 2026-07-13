@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 import { motion } from 'framer-motion'
 import { container, imageReveal, item } from 'app/lib/constants/motion.constants'
 

@@ -1,5 +1,5 @@
 import { SectionLabel } from 'app/components/_primitives'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
 
 export function ItemDetails({ headerInView, isFixed, item }) {

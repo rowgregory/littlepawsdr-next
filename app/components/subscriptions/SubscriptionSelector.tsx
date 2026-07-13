@@ -2,8 +2,8 @@ import { T, TIERS } from 'app/lib/constants/subscriptions.constants'
 import { motion } from 'framer-motion'
 import { TierCard } from './TierCard'
 import { MobileTierCard } from './MobileTierCard'
-import { TierKey } from 'types/subscriptions.types'
-import { SubscriptionSelectorProps } from 'types/my-pack.types'
+import { TierKey } from 'types/_subscriptions.types'
+import { SubscriptionSelectorProps } from 'types/_my-pack.types'
 
 export function SubscriptionSelector({ setBilling, billing, selected, setSelected }: SubscriptionSelectorProps) {
   return (

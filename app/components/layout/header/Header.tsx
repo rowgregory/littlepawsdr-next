@@ -3,11 +3,11 @@ import { Menu, ShoppingBasket } from 'lucide-react'
 import { store, useCartSelector, useUiSelector } from 'app/lib/store/store'
 import GoogleTranslate from './GoogleTranslate'
 import { setOpenContactModal, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
-import Picture from '../common/Picture'
 import { NavDropdown } from './NavDropdown'
 import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
-import AuctionAnnouncementStrip from '../unique/AuctionAnnouncementStrip'
+import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
 import { useScrollDirection } from '@hooks/useScrollDirection.hook'
+import Picture from 'app/components/_common/Picture'
 
 export default function Header({ auction, hasActiveFee }) {
   const { hidden } = useScrollDirection()

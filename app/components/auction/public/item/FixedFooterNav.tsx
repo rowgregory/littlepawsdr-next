@@ -1,6 +1,6 @@
 import { setOpenAuctionBidModal, setOpenAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
 import { store } from 'app/lib/store/store'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { ChevronLeft, ChevronRight, Gavel, Zap } from 'lucide-react'
 import Link from 'next/link'
 

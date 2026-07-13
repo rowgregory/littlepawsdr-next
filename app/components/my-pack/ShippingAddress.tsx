@@ -1,7 +1,7 @@
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { MapPin, Pencil } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { formatDate } from 'app/utils/date.utils'
+import { formatDate } from 'app/utils/_date.utils'
 import { EmptyState } from './EmptyState'
 import { UpdateAddressModal } from 'app/components/modals/UpdateAddressModal'
 

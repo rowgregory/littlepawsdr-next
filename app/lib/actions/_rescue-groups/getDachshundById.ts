@@ -1,6 +1,6 @@
 import { createLog } from '../log/createLog'
-import { getPicturesAndVideos } from '../../../utils/rescue-group.utils'
-import { Dog } from 'types/rescue-groups.types'
+import { getPicturesAndVideos } from '../../../utils/_rescue-group.utils'
+import { Dog } from 'types/_rescue-groups.types'
 import { RESCUE_GROUPS_BASE_URL } from 'app/lib/constants/paths.constants'
 
 export async function getDachshundById(

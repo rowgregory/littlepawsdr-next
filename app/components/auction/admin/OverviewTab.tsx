@@ -1,10 +1,10 @@
-import { formatDateTime, getDaysRemaining } from 'app/utils/date.utils'
+import { formatDateTime, getDaysRemaining } from 'app/utils/_date.utils'
 import { IAuction } from 'types/entities/auction'
 import { StatCard } from './StatCard'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { Clock, DollarSign, Gavel, Package, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
-import Picture from '../../common/Picture'
+import Picture from '../../_common/Picture'
 import { getDisplayRevenue } from 'app/utils/auction.utils'
 
 export function OverviewTab({ auction }: { auction: IAuction }) {

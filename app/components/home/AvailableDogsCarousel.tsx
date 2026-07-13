@@ -3,8 +3,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Picture from '../common/Picture'
-import { ArrowLink } from '../common/ArrowLink'
+import Picture from '../_common/Picture'
+import { ArrowLink } from '../_common/ArrowLink'
 import { motion } from 'framer-motion'
 import { card, cardContainer } from 'app/lib/constants/motion.constants'
 

@@ -14,10 +14,10 @@ import { SignedInRow } from 'app/components/payment/SignedInRow'
 import { calculateStripeFees } from 'app/lib/stripe/calculateStripeFees'
 import { StepIndicator } from 'app/components/payment/StepIndicator'
 import { createPaymentIntent } from 'app/lib/actions/_stripe/createPaymentIntent'
-import { OrderSummary, Step2Name, Step3Address, Step4Payment } from 'app/components/checkout'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { RootState, useAppSelector } from 'app/lib/store/store'
 import { IAddress } from 'types/entities/address'
+import { OrderSummary, Step2Name, Step3Address, Step4Payment } from 'app/components/checkout'
 
 interface CheckoutFormInputs {
   // identity

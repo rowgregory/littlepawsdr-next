@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
 import { motion, AnimatePresence } from 'framer-motion'
-import Picture from 'app/components/common/Picture'
+import Picture from 'app/components/_common/Picture'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 
 export function WelcomeWienerCard({

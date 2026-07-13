@@ -4,10 +4,10 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import { useAppDispatch } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import AdminTable, { Column } from '../common/AdminTable'
+import AdminTable, { Column } from '../_common/AdminTable'
 import { ExternalLink, FileText, Plus, Trash2 } from 'lucide-react'
 import { NewsletterIssueModal } from '../modals/NewsletterIssueModal'
-import AdminHeaderButton from '../common/AdminHeaderButton'
+import AdminHeaderButton from '../_common/AdminHeaderButton'
 
 export function IssuesPanel({ issues }: { issues: NewsletterIssue[] }) {
   const router = useRouter()

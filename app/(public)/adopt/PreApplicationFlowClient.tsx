@@ -6,18 +6,19 @@ import { useRouter } from 'next/navigation'
 import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
 import { store } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { IPaymentForm } from 'types/common.types'
 import { updateAdoptionFee } from 'app/lib/actions/adoption-fee/updateAdoptionFee'
 import { STEPS } from 'app/lib/constants/adoption-application.constants'
 import { STEPS_TYPES } from 'types/_adoption-application.types'
-import {
-  Header,
-  Progress,
-  Step0SignIn,
-  Step1Terms,
-  Step2Info,
-  Step3Payment
-} from 'app/components/_adoption-application'
+import { Header, Progress, Step0SignIn, Step1Terms, Step2Info, Step3Payment } from 'app/components/adoption-application'
+import { IPaymentMethod } from 'types/entities/payment-method.types'
+
+type Props = {
+  savedCards: IPaymentMethod[]
+  userName?: { firstName: string; lastName: string } | any
+  isAuthed: boolean
+  id?: string
+  email?: string
+}
 
 export const PreApplicationFlowClient = ({
   savedCards,
@@ -25,7 +26,7 @@ export const PreApplicationFlowClient = ({
   isAuthed,
   email,
   id
-}: IPaymentForm & { isAuthed: boolean; email: string | null }) => {
+}: Props & { isAuthed: boolean; email: string | null }) => {
   const router = useRouter()
 
   const [step, setStep] = useState<STEPS_TYPES>(isAuthed ? 'terms' : 'sign-in')

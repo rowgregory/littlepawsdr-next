@@ -1,10 +1,10 @@
 import { Newsletter } from '@prisma/client'
 import { PAGE_SIZE } from 'app/lib/constants/newsletter.constants'
 import { useMemo, useState } from 'react'
-import AdminTable, { Column } from '../common/AdminTable'
-import { formatDate } from 'app/utils/date.utils'
+import AdminTable, { Column } from '../_common/AdminTable'
+import { formatDate } from 'app/utils/_date.utils'
 import { Check, Copy, Search, X } from 'lucide-react'
-import { Pagination } from '../common/Pagination'
+import { Pagination } from '../_common/Pagination'
 
 export function SubscribersPanel({ newsletters }: { newsletters: Newsletter[] }) {
   const [page, setPage] = useState(1)

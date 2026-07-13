@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Gavel, Trophy, X, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { AuctionEndedData } from 'types/entities/auction'
 
 type Props = {

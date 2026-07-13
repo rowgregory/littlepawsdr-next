@@ -1,7 +1,7 @@
 import { TERMS_AND_CONDITIONS } from 'app/lib/constants/adoption-application.constants'
 import { slideVariants } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
-import { CustomSwitch } from '../common/CustomSwitch'
+import { Switch } from '../_primitives/Switch'
 
 export function Step1Terms({ agreedToTerms, handleContinueToInfo, setAgreedToTerms }) {
   return (
@@ -49,14 +49,13 @@ export function Step1Terms({ agreedToTerms, handleContinueToInfo, setAgreedToTer
 
       <div className="border-t border-border-light dark:border-border-dark pt-6 space-y-6">
         <label className="flex items-start gap-3 cursor-pointer">
-          <CustomSwitch id="agree-terms" checked={agreedToTerms} onChange={(checked) => setAgreedToTerms(checked)} />
+          <Switch checked={agreedToTerms} onChange={setAgreedToTerms} />
           <span className="text-sm font-mono text-muted-light dark:text-on-dark leading-relaxed">
             I have read and agree to the terms and conditions. I understand that the{' '}
             <strong className="text-text-light dark:text-text-dark">$15 application fee is non-refundable</strong> and
             that approval is not guaranteed.
           </span>
         </label>
-
         <button
           onClick={handleContinueToInfo}
           disabled={!agreedToTerms}

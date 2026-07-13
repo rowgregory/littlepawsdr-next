@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { formatDate } from 'app/utils/date.utils'
+import { formatDate } from 'app/utils/_date.utils'
 import { StatusPill } from '../../../components/_primitives/StatusPill'
-import { formatMoney } from 'app/utils/currency.utils'
-import Picture from '../../../components/common/Picture'
-import { MerchAndWWOrder } from 'types/my-pack.types'
+import { formatMoney } from 'app/utils/_currency.utils'
+import Picture from '../../../components/_common/Picture'
+import { MerchAndWWOrder } from 'types/_my-pack.types'
 
 function PurchaseRow({ order, index }: { order: MerchAndWWOrder; index: number }) {
   const [expanded, setExpanded] = useState(false)

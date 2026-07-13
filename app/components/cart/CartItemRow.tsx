@@ -1,10 +1,10 @@
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { CartItem, decrementQuantity, incrementQuantity, removeFromCart } from 'app/lib/store/slices/cartSlice'
 import { motion } from 'framer-motion'
-import Picture from '../common/Picture'
+import Picture from '../_common/Picture'
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react'
 import { useAppDispatch } from 'app/lib/store/store'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 
 export function CartItemRow({ item, index }: { item: CartItem; index: number }) {
   const dispatch = useAppDispatch()

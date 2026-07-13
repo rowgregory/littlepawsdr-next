@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Newsletter, NewsletterIssue } from '@prisma/client'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
 import { Tab } from 'types/entities/newsletter.types'
 import { TABS } from 'app/lib/constants/newsletter.constants'
 import { IssuesPanel } from 'app/components/newsletter/IssuesPanel'

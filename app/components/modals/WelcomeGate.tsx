@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppDispatch } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { TalkingDachshund } from '../unique/TalkingDachshund'
+import { TalkingDachshund } from '../_common/TalkingDachshund'
 
 export function WelcomeGate({
   show,

@@ -6,12 +6,12 @@ import { Plus, DollarSign, FileText, Radio, CheckCircle, Gavel } from 'lucide-re
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionDrawer } from 'app/lib/store/slices/uiSlice'
 import { AdminAuctionCard } from '../../../components/auction/admin/AdminAuctionCard'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
-import AdminHeaderButton from 'app/components/common/AdminHeaderButton'
-import { Stat } from 'app/components/common/Stat'
-import { fmtCurrency } from 'app/utils/currency.utils'
-import AdminEmptyState from 'app/components/common/AdminEmptyState'
-import AdminFilterTabs from 'app/components/common/AdminFilterTabs'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminHeaderButton from 'app/components/_common/AdminHeaderButton'
+import { Stat } from 'app/components/_common/Stat'
+import { fmtCurrency } from 'app/utils/_currency.utils'
+import AdminEmptyState from 'app/components/_common/AdminEmptyState'
+import AdminFilterTabs from 'app/components/_common/AdminFilterTabs'
 import { AUCTION_FILTERS } from 'app/lib/constants/auction.constants'
 
 export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {

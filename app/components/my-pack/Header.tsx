@@ -1,11 +1,11 @@
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 import { FormField } from 'app/components/_primitives/FormField'
 import { Toggle } from 'app/components/_primitives/Toggle'
-import { AuctionParticipation, AuctionPurchase, MerchAndWWOrder, PackMember, Subscription } from 'types/my-pack.types'
+import { AuctionParticipation, AuctionPurchase, MerchAndWWOrder, PackMember, Subscription } from 'types/_my-pack.types'
 import { formatRole } from 'app/utils/user.utils'
 import { EmailChangeSection } from './EmailChangeSection'
 

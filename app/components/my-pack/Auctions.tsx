@@ -4,10 +4,10 @@ import { CheckCircle, ChevronRight, CreditCard, Gavel, Receipt, Zap } from 'luci
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
-import { formatDate } from 'app/utils/date.utils'
-import Picture from 'app/components/common/Picture'
-import { formatMoney } from 'app/utils/currency.utils'
-import { AuctionParticipation, AuctionPurchase } from 'types/my-pack.types'
+import { formatDate } from 'app/utils/_date.utils'
+import Picture from 'app/components/_common/Picture'
+import { formatMoney } from 'app/utils/_currency.utils'
+import { AuctionParticipation, AuctionPurchase } from 'types/_my-pack.types'
 
 interface Props {
   auctionParticipation: AuctionParticipation[]

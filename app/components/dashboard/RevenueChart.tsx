@@ -1,4 +1,4 @@
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 
 export function RevenueChart({ data }: { data: { label: string; total: number }[] }) {
   if (data.length === 0) {

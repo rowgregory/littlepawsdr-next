@@ -1,6 +1,6 @@
 import { bidderDisplay } from 'app/utils/auction.utils'
-import { formatMoney } from 'app/utils/currency.utils'
-import { formatDateTime } from 'app/utils/date.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
+import { formatDateTime } from 'app/utils/_date.utils'
 import { useInView, motion } from 'framer-motion'
 import { Trophy } from 'lucide-react'
 import { useRef } from 'react'

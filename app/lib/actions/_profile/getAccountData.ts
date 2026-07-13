@@ -8,7 +8,7 @@ import {
   MerchAndWWOrder,
   ParticipationItem,
   Subscription
-} from 'types/my-pack.types'
+} from 'types/_my-pack.types'
 
 export const getAccountData = async () => {
   try {

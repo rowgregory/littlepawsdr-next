@@ -1,4 +1,4 @@
-import { formatMoney } from 'app/utils/currency.utils'
+import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
 import { Gavel, ShieldCheck, Tag, Truck } from 'lucide-react'
 

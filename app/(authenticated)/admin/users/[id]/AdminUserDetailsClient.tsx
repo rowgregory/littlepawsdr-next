@@ -19,9 +19,9 @@ import {
 import Link from 'next/link'
 import { getUserById } from 'app/lib/actions/user/getUserById'
 import { updateUserRole } from 'app/lib/actions/user/updateUserRole'
-import { formatDate } from 'app/utils/date.utils'
+import { formatDate } from 'app/utils/_date.utils'
 import { formatRole } from 'app/utils/user.utils'
-import AdminPageHeader from 'app/components/common/AdminPageHeader'
+import AdminPageHeader from 'app/components/_common/AdminPageHeader'
 import { StatusPill } from 'app/components/_primitives'
 import { MergeUserSection } from 'app/components/user/MergeUserSection'
 

@@ -5,7 +5,7 @@ import { fadeUp } from 'app/lib/constants/motion.constants'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { DonateForm } from 'app/components/_donate/DonateForm'
+import { DonateForm } from 'app/components/donate/DonateForm'
 import { getInitials } from 'app/utils/user.utils'
 
 type IPublicDonateClient = {

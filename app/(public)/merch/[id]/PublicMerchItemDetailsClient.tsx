@@ -4,11 +4,15 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ChevronLeft, Minus, Plus } from 'lucide-react'
-import Picture from 'app/components/common/Picture'
+import Picture from 'app/components/_common/Picture'
 import { store, useCartSelector } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
-import { ISize } from 'types/cart.types'
+
+export interface ISize {
+  size: string
+  quantity: number
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 14 },

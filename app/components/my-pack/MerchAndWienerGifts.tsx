@@ -1,11 +1,11 @@
-import { formatDate } from 'app/utils/date.utils'
+import { formatDate } from 'app/utils/_date.utils'
 import { Package } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { EmptyState } from './EmptyState'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
-import { formatMoney } from 'app/utils/currency.utils'
-import Picture from 'app/components/common/Picture'
+import { formatMoney } from 'app/utils/_currency.utils'
+import Picture from 'app/components/_common/Picture'
 import Link from 'next/link'
 
 export function MerchAndWienerGifts({ merchAndWWOrders }) {
