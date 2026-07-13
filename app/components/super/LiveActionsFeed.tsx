@@ -171,6 +171,12 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
     label: 'Outbid Email',
     color: 'text-amber-500',
     format: (d) => `${d.name} outbid on ${d.itemName} — their $${d.yourBid} → new bid $${d.newBid}`
+  },
+  'test-ping': {
+    icon: Activity,
+    label: 'Test Ping',
+    color: 'text-green-500',
+    format: (d) => `${d.message} — ${d._ts}`
   }
 }
 
