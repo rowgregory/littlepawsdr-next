@@ -3,7 +3,12 @@ import prisma from 'prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
 import { sendWinnerEmail } from 'app/utils/_end-auction.utils'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const start = Date.now()
   try {
     const unpaidWinners = await prisma.auctionWinningBidder.findMany({

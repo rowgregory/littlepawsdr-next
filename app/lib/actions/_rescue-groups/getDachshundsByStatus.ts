@@ -39,7 +39,7 @@ export async function getDachshundsByStatus({
     const data = await response.json()
 
     if (data?.data) {
-      data.data = getPicturesAndVideos(data)?.reverse() ?? []
+      data.data = (await getPicturesAndVideos(data))?.reverse() ?? []
     }
 
     return { success: true, data }

@@ -171,7 +171,11 @@ export async function placeBid(auctionItemId: string, bidAmount: number) {
         topBidder: updatedItem?.topBidder ?? null
       })
     } catch (error) {
-      console.error('Pusher trigger failed:', error)
+      await createLog('warn', 'Pusher trigger failed after bid placed', {
+        auctionItemId,
+        bidAmount: Number(result.bidAmount),
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
 
     const BASE = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.littlepawsdr.org'

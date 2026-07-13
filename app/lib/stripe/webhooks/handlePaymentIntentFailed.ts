@@ -83,6 +83,6 @@ export async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentInt
     await createLog('error', 'Error handling payment failure', {
       error: error instanceof Error ? error.message : 'Unknown error',
       paymentIntentId: id
-    }).catch(console.error)
+    })
   }
 }

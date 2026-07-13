@@ -103,7 +103,7 @@ export async function createSubscriptionAfterSetup({
       error: error instanceof Error ? error.message : 'Unknown error',
       name,
       email
-    }).catch(console.error)
+    })
 
     return {
       success: false,

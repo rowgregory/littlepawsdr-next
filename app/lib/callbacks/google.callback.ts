@@ -3,6 +3,7 @@ import { Account } from 'next-auth'
 import { User } from '@prisma/client'
 import prisma from 'prisma/client'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
+import { createLog } from '../actions/log/createLog'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
@@ -47,8 +48,13 @@ export async function handleGoogleCallback(
     email: existingUser.email,
     name: existingUser.firstName,
     userId: existingUser.id
-  }).catch(console.error)
-
+  }).catch((error) =>
+    createLog('warn', 'Pusher superuser trigger failed', {
+      event: 'user-signed-in',
+      userId: existingUser.id,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    })
+  )
   return true
 }
 

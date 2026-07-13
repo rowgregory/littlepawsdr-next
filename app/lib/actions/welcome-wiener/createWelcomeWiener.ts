@@ -64,7 +64,7 @@ export const createWelcomeWiener = async (input: WelcomeWienerInputs) => {
       error: error instanceof Error ? error.message : 'Unknown error',
       input: { name },
       ...context
-    }).catch(console.error)
+    })
 
     return {
       success: false,

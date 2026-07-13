@@ -62,7 +62,7 @@ export default async function createNewsletterIssue(input: CreateNewsletterIssue
       input: { month, year, pdfUrl, isLive },
       userId: gate.userId,
       ...context
-    }).catch(console.error)
+    })
 
     return {
       success: false,

@@ -53,7 +53,7 @@ export const updateWelcomeWiener = async (id: string, input: Partial<WelcomeWien
       error: error instanceof Error ? error.message : 'Unknown error',
       id,
       ...context
-    }).catch(console.error)
+    })
 
     return {
       success: false,

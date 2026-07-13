@@ -30,6 +30,6 @@ export const magicLinkProvider: EmailConfig = {
       location: ['magicLinkProvider.ts'],
       email,
       messageId: data?.id
-    }).catch(console.error)
+    })
   }
 }

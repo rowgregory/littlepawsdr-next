@@ -118,7 +118,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       await pusherSuperuser('user-registered', {
         email: user.email,
         userId: user.id
-      }).catch(console.error)
+      }).catch((error) =>
+        createLog('error', 'Pusher superuser trigger failed', {
+          event: 'user-registered',
+          userId: user.id,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        })
+      )
     }
   }
 })

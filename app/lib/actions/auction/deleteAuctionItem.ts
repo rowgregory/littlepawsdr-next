@@ -43,7 +43,7 @@ export const deleteAuctionItem = async (id: string, auctionId: string) => {
       auctionId,
       error: error instanceof Error ? error.message : 'Unknown error',
       ...context
-    }).catch(console.error)
+    })
 
     return { success: false, error: 'Failed to delete auction item', data: null }
   }

@@ -179,7 +179,7 @@ export async function createPaymentIntent({
       email,
       userId,
       savedCardId
-    }).catch(console.error)
+    })
 
     return {
       success: false,

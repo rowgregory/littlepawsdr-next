@@ -2,7 +2,12 @@ import { createLog } from 'app/lib/actions/log/createLog'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 
-export const GET = async () => {
+export const GET = async (request: Request) => {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const start = Date.now()
   try {
     const expired = await prisma.adoptionFee.updateMany({

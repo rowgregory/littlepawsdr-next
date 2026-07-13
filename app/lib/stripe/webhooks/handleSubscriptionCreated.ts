@@ -27,10 +27,9 @@ export async function handleSubscriptionCreated(subscription: Stripe.Subscriptio
       stripeSubscriptionId: subscription.id
     })
   } catch (error) {
-    console.error('Error handling subscription created:', error)
     await createLog('error', 'Failed to log subscription creation', {
       subscriptionId: subscription.id,
       error: error instanceof Error ? error.message : 'Unknown error'
-    }).catch(console.error)
+    })
   }
 }

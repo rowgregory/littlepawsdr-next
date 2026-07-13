@@ -34,7 +34,7 @@ export default async function deleteNewsletterIssue(id: string) {
       month: issue.month,
       year: issue.year,
       ...context
-    }).catch(console.error)
+    })
 
     revalidatePath('/newsletters')
     revalidatePath('/admin/newsletter')
@@ -48,7 +48,7 @@ export default async function deleteNewsletterIssue(id: string) {
       error: error instanceof Error ? error.message : 'Unknown error',
       newsletterIssueId: id,
       ...context
-    }).catch(console.error)
+    })
 
     return {
       success: false,

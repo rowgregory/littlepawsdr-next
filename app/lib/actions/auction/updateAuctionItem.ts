@@ -94,7 +94,7 @@ export const updateAuctionItem = async (id: string, data: UpdateAuctionItemInput
       auctionId: data.auctionId,
       error: error instanceof Error ? error.message : 'Unknown error',
       ...context
-    }).catch(console.error)
+    })
 
     return { success: false, error: 'Failed to update auction item', data: null }
   }

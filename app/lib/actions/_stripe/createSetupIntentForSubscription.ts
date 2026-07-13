@@ -60,7 +60,7 @@ export async function createSetupIntentForSubscription({
       error: error instanceof Error ? error.message : 'Unknown error',
       email,
       name
-    }).catch(console.error)
+    })
 
     return {
       success: false,

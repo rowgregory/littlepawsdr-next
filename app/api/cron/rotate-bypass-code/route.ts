@@ -6,12 +6,18 @@ export const runtime = 'nodejs'
 
 function generateBypassCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+'
-  const random = (len: number) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  const random = (len: number) =>
+    Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
 
   return `DOXIE-${random(2).toUpperCase()}${Math.floor(Math.random() * 10)}${random(5)}`
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const start = Date.now()
   try {
     const bypassCode = generateBypassCode()
@@ -38,6 +44,9 @@ export async function GET() {
       durationMs: Date.now() - start,
       detail: error instanceof Error ? error.message : 'Unknown error'
     })
-    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 })
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    )
   }
 }

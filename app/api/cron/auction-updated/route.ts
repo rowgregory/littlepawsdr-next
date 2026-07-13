@@ -3,7 +3,12 @@ import { pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import { NextResponse } from 'next/server'
 import prisma from 'prisma/client'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const start = Date.now()
   try {
     const auction = await prisma.auction.findFirst({

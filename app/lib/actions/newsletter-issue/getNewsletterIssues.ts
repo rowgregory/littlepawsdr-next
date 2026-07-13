@@ -13,7 +13,7 @@ export default async function getNewsletterIssues() {
   } catch (error) {
     await createLog('error', 'Failed to fetch newsletter issues', {
       error: error instanceof Error ? error.message : 'Unknown error'
-    }).catch(console.error)
+    })
 
     return {
       success: false,

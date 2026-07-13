@@ -1,6 +1,5 @@
 import type { NextConfig } from 'next'
 
-/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['10.0.0.89'],
   images: {
@@ -13,6 +12,44 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com'
+      }
+    ]
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://maps.googleapis.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https://firebasestorage.googleapis.com https://cdn.rescuegroups.org https://lh3.googleusercontent.com https://platform-lookaside.fbsbx.com",
+              "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+              "connect-src 'self' https://api.stripe.com https://firebasestorage.googleapis.com wss://ws-us3.pusher.com https://sockjs-us3.pusher.com https://www.google-analytics.com",
+              "media-src 'self' https://firebasestorage.googleapis.com"
+            ].join('; ')
+          }
+        ]
       }
     ]
   },
