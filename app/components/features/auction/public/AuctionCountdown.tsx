@@ -3,7 +3,7 @@
 import { useCountdown } from '@hooks/useCountdown.hook'
 import { StickyHeader } from './StickyHeader'
 import { HeaderBand } from './HeaderBand'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 
 export function AuctionCountdown({
   auction,

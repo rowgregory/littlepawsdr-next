@@ -2,22 +2,19 @@ import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 
-export const getMerchAndWWOrders = async () => {
+export const getMultiItemOrders = async () => {
   try {
     const session = await auth()
 
     if (!session?.user?.id) {
-      return {
-        success: false,
-        error: 'Unauthorized',
-        data: null
-      }
+      return { success: false, error: 'Unauthorized', data: null }
     }
 
     const orders = await prisma.order.findMany({
       where: {
         userId: session.user.id,
-        type: { in: ['PRODUCT', 'WELCOME_WIENER', 'MIXED'] }
+        status: 'CONFIRMED',
+        type: { in: ['PRODUCT', 'WELCOME_WIENER', 'FEED_A_FOSTER', 'MIXED'] }
       },
       include: {
         items: true,
@@ -33,11 +30,10 @@ export const getMerchAndWWOrders = async () => {
         id: o.id,
         type: o.type,
         totalAmount: Number(o.totalAmount),
-        createdAt: o.createdAt,
+        createdAt: o.createdAt.toISOString(),
         status: o.status,
         shippingStatus: o.shippingStatus ?? null,
-        firstName: o.user?.firstName ?? null,
-        lastName: o.user?.lastName ?? null,
+        customerName: [o.user?.firstName, o.user?.lastName].filter(Boolean).join(' ') || null,
         items: o.items.map((item) => ({
           id: item.id,
           name: item.itemName ?? 'Item',
@@ -58,13 +54,13 @@ export const getMerchAndWWOrders = async () => {
       }))
     }
   } catch (error) {
-    await createLog('error', 'Failed to get purchases', {
+    await createLog('error', 'Failed to get multi-item orders', {
       error: error instanceof Error ? error.message : 'Unknown error'
     })
 
     return {
       success: false,
-      error: 'Failed to get purchases. Please try again.',
+      error: 'Failed to load your orders. Please try again.',
       data: null
     }
   }

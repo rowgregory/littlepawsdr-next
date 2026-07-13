@@ -28,6 +28,12 @@ function mongoEmail(doc) {
   return email ? email.toLowerCase().trim() : null;
 }
 
+function parseMongoDate(val) {
+  if (!val) return null;
+  if (val.$date) return new Date(val.$date);
+  return new Date(val);
+}
+
 async function seedUsers() {
   const docs = read("users.json");
   await prisma.mongoUser.deleteMany();
@@ -332,7 +338,24 @@ async function seedHistoricalAuctions() {
   const auctions = read("auctions.json");
   const campaigns = read("campaigns.json");
 
-  await prisma.auction.deleteMany({ where: { source: "MONGO_MIGRATION" } });
+  await prisma.$transaction([
+    prisma.auctionWinningBidder.deleteMany({
+      where: { auction: { source: "MONGO_MIGRATION" } },
+    }),
+    prisma.auctionItemInstantBuyer.deleteMany({
+      where: { auction: { source: "MONGO_MIGRATION" } },
+    }),
+    prisma.auctionBid.deleteMany({
+      where: { auction: { source: "MONGO_MIGRATION" } },
+    }),
+    prisma.auctionItemPhoto.deleteMany({
+      where: { item: { auction: { source: "MONGO_MIGRATION" } } },
+    }),
+    prisma.auctionItem.deleteMany({
+      where: { auction: { source: "MONGO_MIGRATION" } },
+    }),
+    prisma.auction.deleteMany({ where: { source: "MONGO_MIGRATION" } }),
+  ]);
 
   // Index campaigns by auction mongoId
   const campaignByAuctionId = new Map();
@@ -353,21 +376,27 @@ async function seedHistoricalAuctions() {
     });
     if (existing) continue;
 
+    console.log("DOC SETTINGS:: ", doc.settings);
+    console.log("DOC START DATE:: ", doc.startDate);
+
     await prisma.auction.create({
       data: {
         mongoId: id,
         title: campaign?.title ?? doc.title ?? "Past Auction",
         goal: campaign?.goal ?? doc.goal ?? 0,
-        totalAuctionRevenue: doc.totalAuctionRevenue ?? 0,
+        totalAuctionRevenue:
+          campaign?.totalCampaignRevenue ?? doc.totalAuctionRevenue ?? 0,
         customAuctionLink: doc.customAuctionLink ?? null,
-        startDate: doc.startDate
-          ? new Date(doc.startDate.$date ?? doc.startDate)
-          : new Date(),
-        endDate: doc.endDate
-          ? new Date(doc.endDate.$date ?? doc.endDate)
-          : new Date(),
+        startDate:
+          parseMongoDate(doc.settings?.startDate ?? doc.startDate) ??
+          new Date(),
+        endDate:
+          parseMongoDate(doc.settings?.endDate ?? doc.endDate) ?? new Date(),
         status: "ENDED",
         source: "MONGO_MIGRATION",
+        historicalItemCount: doc.items?.length ?? 0,
+        historicalBidderCount: doc.bidders?.length ?? 0,
+        historicalBidCount: doc.winningBids?.length ?? 0,
       },
     });
     count++;

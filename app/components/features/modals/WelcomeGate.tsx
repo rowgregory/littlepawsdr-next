@@ -1,41 +1,26 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useAppDispatch } from 'app/lib/store/store'
-import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
+import { useSession } from 'next-auth/react'
 import { TalkingDachshund } from 'app/components/_common/TalkingDachshund'
+import { markWelcomeSeen } from 'app/lib/actions/user/markWelcomeSeen'
 
-export function WelcomeGate({
-  show,
-  userName,
-  onClose
-}: {
-  show: boolean
-  userName: string | null
-  onClose: () => void
-}) {
-  const dispatch = useAppDispatch()
+export function WelcomeGate() {
+  const { data: session } = useSession()
   const [dismissed, setDismissed] = useState(false)
 
-  useEffect(() => {
-    if (show) {
-      dispatch(setShowConfetti())
-    }
-  }, [dispatch, show])
+  const show = session?.user && !session.user.hasSeenWelcome && !dismissed
+  const firstName = session?.user?.name?.split(' ')[0] ?? null
 
-  const open = show && !dismissed
-
-  const firstName = userName?.split(' ')[0]
-
-  const handleClose = () => {
+  const handleClose = async () => {
     setDismissed(true)
-    onClose()
+    await markWelcomeSeen()
   }
 
   return (
     <AnimatePresence>
-      {open && (
+      {show && (
         <motion.div
           className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           initial={{ opacity: 0 }}
@@ -54,14 +39,9 @@ export function WelcomeGate({
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Mascot — front and center, large */}
             <div className="mb-8">
               <TalkingDachshund
-                message={
-                  firstName
-                    ? `Welcome to your pack, ${firstName}! Your history has been restored.`
-                    : 'Welcome to your pack! Your history has been restored.'
-                }
+                message={firstName ? `Welcome to your pack, ${firstName}!` : 'Welcome to your pack!'}
                 bubbleSide="top"
                 size={200}
                 typeSpeed={45}
@@ -69,16 +49,14 @@ export function WelcomeGate({
               />
             </div>
 
-            {/* One-line explainer */}
             <h2
               id="welcome-heading"
               className="text-sm text-muted-light dark:text-muted-dark leading-relaxed mb-8 max-w-xs"
             >
-              Everything from the previous site is here — your orders, donations, and auction history are all waiting
-              for you.
+              Your account is all set. Explore your pack, manage your donations, and keep track of everything in one
+              place.
             </h2>
 
-            {/* Single close button */}
             <button
               onClick={handleClose}
               className="w-full bg-primary-light dark:bg-primary-dark hover:bg-secondary-light dark:hover:bg-secondary-dark text-white text-[10px] font-mono font-black tracking-[0.25em] uppercase py-3.5 px-6 transition-colors duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"

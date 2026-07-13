@@ -1,5 +1,5 @@
 import { Package } from 'lucide-react'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 
 export function AuctionEmptyState({ auction }: { auction: IAuction }) {
   if (auction.items.length > 0) return

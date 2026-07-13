@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import { IWelcomeWiener, WelcomeWienerProduct } from 'types/_welcome-wiener'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useAppDispatch } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'

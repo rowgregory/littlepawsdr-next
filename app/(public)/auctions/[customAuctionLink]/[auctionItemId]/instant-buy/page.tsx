@@ -1,7 +1,7 @@
 import { getAuctionItemById } from 'app/lib/actions/auction/getAuctionItemById'
 import { getUserAddress } from 'app/lib/actions/user/getUserAddress'
 import { getUserName } from 'app/lib/actions/user/getUserName'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuctionItem } from 'types/_auction-item'
 import PublicAuctionInstantBuyClient from './PublicAuctionInstantBuyClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { auth } from 'app/lib/auth'

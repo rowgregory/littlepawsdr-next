@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { IWelcomeWiener } from 'types/entities/welcome-wiener'
+import { IWelcomeWiener } from 'types/_welcome-wiener'
 import Picture from 'app/components/_common/Picture'
 
 export const WelcomeWienersBlock = ({ data }: { data: IWelcomeWiener[] }) => {

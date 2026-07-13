@@ -2,8 +2,8 @@ import { formatMoney } from 'app/utils/_currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { Fragment, useState } from 'react'
-import { IAuction } from 'types/entities/auction'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuction } from 'types/_auction'
+import { IAuctionItem } from 'types/_auction-item'
 
 export function BiddersTab({ auction }: { auction: IAuction }) {
   const [expanded, setExpanded] = useState<string | null>(null)

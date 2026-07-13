@@ -1,6 +1,6 @@
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { motion } from 'framer-motion'
 import { Gavel, Package, TrendingUp, Users } from 'lucide-react'
 import { formatMoney } from 'app/utils/_currency.utils'

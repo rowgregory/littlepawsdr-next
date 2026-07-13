@@ -1,6 +1,3 @@
-import { fadeUp } from 'app/lib/constants/motion.constants'
-import { motion } from 'framer-motion'
-import { Repeat } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
@@ -9,28 +6,7 @@ import { formatDate } from 'app/utils/_date.utils'
 
 export function Subscriptions({ subscriptions }) {
   return (
-    <motion.section
-      variants={fadeUp}
-      initial="hidden"
-      animate="show"
-      custom={4}
-      aria-labelledby="subscriptions-heading"
-    >
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-            Subscriptions
-          </h2>
-        </div>
-        <Link
-          href="/subscriptions"
-          className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-        >
-          <Repeat className="w-3 h-3 shrink-0" aria-hidden="true" />
-          Subscribe
-        </Link>
-      </div>
+    <section aria-labelledby="subscriptions-heading">
       {subscriptions?.length === 0 ? (
         <EmptyState message="No active subscriptions." />
       ) : (
@@ -91,6 +67,6 @@ export function Subscriptions({ subscriptions }) {
           })}
         </ul>
       )}
-    </motion.section>
+    </section>
   )
 }

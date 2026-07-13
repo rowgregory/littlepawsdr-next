@@ -55,6 +55,7 @@ export interface IOrder {
 }
 
 export type OrderRow = {
+  stripeSubscriptionId: string
   id: string
   type: string
   status: string
@@ -65,6 +66,8 @@ export type OrderRow = {
   isRecurring: boolean
   itemCount: number
   createdAt: string
+  recurringFrequency: string
+  tierName: string
 }
 
 export type Filter = (typeof FILTERS)[number]
@@ -108,7 +111,27 @@ export type SerializedOrder = {
   geoRegion: string | null
   geoCountry: string | null
   createdAt: string
+  updatedAt: string
   paidAt: string | null
   items: SerializedOrderItem[]
   user: { id: string; email: string | null; firstName: string | null; lastName: string | null } | null
+  failureReason: string | null
+  failureCode: string
+  failureEmailSentAt: string | null
+}
+
+export type FlatRow = { kind: 'flat'; order: OrderRow }
+export type GroupRow = { kind: 'group'; subscriptionId: string; orders: OrderRow[] }
+export type DisplayRow = FlatRow | GroupRow
+
+export type SerializedSubscriptionOrder = {
+  id: string
+  status: string
+  totalAmount: number
+  createdAt: string
+  paymentIntentId: string | null
+  failureCode: string | null
+  failureReason: string | null
+  nextBillingDate: Date | null
+  isFirstPayment: boolean
 }

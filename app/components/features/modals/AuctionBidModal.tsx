@@ -9,7 +9,7 @@ import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { useRouter } from 'next/navigation'
 import { pusherClient } from 'app/lib/pusher/pusher-client'
 import { useSelector } from 'react-redux'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuctionItem } from 'types/_auction-item'
 import { useSounds } from '@hooks/useSounds.hook'
 
 const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auctionItem: IAuctionItem }) {

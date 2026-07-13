@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { formatDate } from 'app/utils/_date.utils'
 import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 import { Pagination } from 'app/components/_common/Pagination'
-import { Log } from 'types/entities/log.types'
+import { Log } from 'types/_log.types'
 import { LEVELS, levelStyles, PAGE_SIZE } from 'app/lib/constants/log.constants'
 
 function LogRow({ log, index }: { log: Log; index: number }) {

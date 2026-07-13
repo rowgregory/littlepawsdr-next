@@ -13,8 +13,8 @@ import { SubmitButton } from 'app/components/_primitives/SubmitButton'
 import { Toggle } from 'app/components/_primitives/Toggle'
 import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
-import type { IAuctionItem } from 'types/entities/auction-item'
-import type { IPaymentMethod } from 'types/entities/payment-method.types'
+import type { IAuctionItem } from 'types/_auction-item'
+import type { IPaymentMethod } from 'types/_payment-method.types'
 import {
   InstantBuyAddressSection,
   InstantBuyBreadcrumb,

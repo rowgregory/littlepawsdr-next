@@ -25,10 +25,7 @@ export default function CartClient() {
   const isFeedAFosterMonth = new Date().getMonth() === 6 // 0-indexed: 6 = July
 
   return (
-    <main
-      id="main-content"
-      className="min-h-200 h-[calc(100svh-536px)] bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
-    >
+    <main id="main-content" className="min-h-200 bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
         {/* ── Header ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10 sm:mb-12">

@@ -1,8 +1,8 @@
-import { IAuction } from './auction'
-import { IAuctionBid } from './auction-bid'
-import { IAuctionItemInstantBuyer } from './auction-instant-buyer'
-import { IAuctionItemPhoto } from './auction-item-photo'
-import { IAuctionWinningBidder } from './auction-winning-bidder'
+import { IAuction } from './_auction'
+import { IAuctionBid } from './_auction-bid'
+import { IAuctionItemInstantBuyer } from './_auction-instant-buyer'
+import { IAuctionItemPhoto } from './_auction-item-photo'
+import { IAuctionWinningBidder } from './_auction-winning-bidder'
 
 export type AuctionItemStatus = 'UNSOLD' | 'SOLD' | 'ACTIVE'
 export type SellingFormat = 'AUCTION' | 'FIXED'

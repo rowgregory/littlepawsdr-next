@@ -4,8 +4,8 @@ import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { auth } from 'app/lib/auth'
 import { getActor } from '../user/getActor'
-import { getRequestContext } from 'app/utils/log.server.utils'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { getRequestContext } from 'app/utils/_log.server.utils'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 export const getAdoptionFees = async () => {
   try {

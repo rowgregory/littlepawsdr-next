@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Gift, TrendingUp, TrendingDown, Copy, Check, Truck } from 'lucide-react'
-import { sourceMeta } from 'app/lib/constants/dashboard.constants'
+import { HISTORICAL_TOTAL, sourceMeta } from 'app/lib/constants/dashboard.constants'
 import { RevenueChart } from 'app/components/features/dashboard/RevenueChart'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
@@ -12,7 +12,7 @@ import Link from 'next/link'
 const fmtType = (type: string) =>
   sourceMeta[type]?.label ?? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ')
 
-export default function AdminDashboardClient({ stats, pendingShipments }) {
+export default function AdminDashboardClient({ stats }) {
   const [copied, setCopied] = useState(false)
 
   const monthlyUp = stats.monthlyChange >= 0
@@ -39,64 +39,61 @@ export default function AdminDashboardClient({ stats, pendingShipments }) {
         initial="hidden"
         animate="show"
         custom={0}
-        className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
+        className="border-b border-border-light dark:border-border-dark px-4 sm:px-6 py-3 flex items-center justify-between gap-4"
       >
         <div>
           <h1 className="font-mono text-sm tracking-[0.2em] uppercase text-text-light dark:text-text-dark">
             Dashboard
           </h1>
-          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mt-1">
-            Here&rsquo;s how Little Paws is doing
+          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+            Little Paws · all time
           </p>
         </div>
 
-        <div className="lg:max-w-md w-full">
-          {stats.bypassCode ? (
+        {stats.bypassCode && (
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={copyCode}
               aria-label={`Copy adoption fee bypass code ${stats.bypassCode}`}
-              className="w-full flex items-center justify-between gap-3 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/40 dark:border-primary-dark/40 px-4 py-3 text-left transition-colors hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+              className="flex items-center gap-3 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/40 dark:border-primary-dark/40 px-3 py-2 transition-colors hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
             >
               <span className="flex flex-col min-w-0">
-                <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-muted-light dark:text-muted-dark mb-0.5">
-                  Adoption fee bypass code
+                <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-muted-light dark:text-muted-dark">
+                  Bypass code
                 </span>
-                <span className="font-mono text-lg font-bold tracking-[0.08em] text-primary-light dark:text-primary-dark truncate">
+                <span className="font-mono text-base font-bold tracking-[0.08em] text-primary-light dark:text-primary-dark">
                   {stats.bypassCode}
                 </span>
               </span>
-              <span className="inline-flex items-center gap-1.5 text-sm text-primary-light dark:text-primary-dark shrink-0">
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono text-primary-light dark:text-primary-dark shrink-0">
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4" aria-hidden="true" /> Copied!
+                    <Check className="w-3.5 h-3.5" aria-hidden="true" /> Copied
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4" aria-hidden="true" /> Copy
+                    <Copy className="w-3.5 h-3.5" aria-hidden="true" /> Copy
                   </>
                 )}
               </span>
             </button>
-          ) : (
-            <p className="font-mono text-sm text-muted-light dark:text-muted-dark">No active bypass code.</p>
-          )}
-          {stats.bypassCodeRotatesAt && (
-            <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mt-1.5">
-              Rotates{' '}
-              {new Date(stats.bypassCodeRotatesAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                timeZone: 'America/New_York'
-              })}
-            </p>
-          )}
-        </div>
+            {stats.bypassCodeRotatesAt && (
+              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark hidden sm:block">
+                Rotates{' '}
+                {new Date(stats.bypassCodeRotatesAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'America/New_York'
+                })}
+              </p>
+            )}
+          </div>
+        )}
       </motion.header>
 
       {/* Pending shipments */}
-      {pendingShipments.length > 0 && (
+      {stats.pendingShipments.length > 0 && (
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -108,7 +105,8 @@ export default function AdminDashboardClient({ stats, pendingShipments }) {
             <div className="flex items-center gap-2">
               <Truck className="w-3.5 h-3.5 text-amber-500 shrink-0" aria-hidden="true" />
               <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-amber-500">
-                Needs Shipping · {pendingShipments.length} {pendingShipments.length === 1 ? 'order' : 'orders'}
+                Needs Shipping · {stats.pendingShipments.length}{' '}
+                {stats.pendingShipments.length === 1 ? 'order' : 'orders'}
               </p>
             </div>
             <Link
@@ -119,7 +117,7 @@ export default function AdminDashboardClient({ stats, pendingShipments }) {
             </Link>
           </div>
           <div className="divide-y divide-border-light dark:divide-border-dark">
-            {pendingShipments.map((shipment) => (
+            {stats.pendingShipments.map((shipment) => (
               <div key={shipment.id} className="flex items-start justify-between gap-4 px-5 py-3.5">
                 <div className="min-w-0">
                   <p className="font-mono text-xs text-text-light dark:text-text-dark truncate">{shipment.name}</p>
@@ -159,9 +157,19 @@ export default function AdminDashboardClient({ stats, pendingShipments }) {
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
             Total revenue · all time
           </p>
-          <p className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-none">
-            {formatMoney(stats.totalRevenue)}
-          </p>
+          <div className="flex items-end justify-between gap-4">
+            <p className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-none">
+              {formatMoney(stats.liveRevenue)}
+            </p>
+            <div className="text-right shrink-0 mb-1">
+              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
+                + historical
+              </p>
+              <p className="font-mono text-sm font-bold text-muted-light dark:text-muted-dark tabular-nums">
+                {formatMoney(HISTORICAL_TOTAL)}
+              </p>
+            </div>
+          </div>
           <div className="inline-flex items-center gap-1.5 mt-3">
             {monthlyUp ? (
               <TrendingUp className="w-3.5 h-3.5 text-green-600 dark:text-green-400" aria-hidden="true" />
@@ -177,32 +185,34 @@ export default function AdminDashboardClient({ stats, pendingShipments }) {
         </motion.section>
 
         {/* Revenue by source */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
-          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2.5">
-            Revenue by source
-          </p>
-          <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mb-6">
-            {sources.map(({ type, total }) => {
-              const Icon = sourceMeta[type]?.icon ?? Gift
-              return (
-                <div
-                  key={type}
-                  className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-4"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <Icon className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
-                    <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark truncate">
-                      {fmtType(type)}
-                    </span>
+        {sources.length > 0 && (
+          <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
+            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2.5">
+              Revenue by source
+            </p>
+            <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mb-6">
+              {sources.map(({ type, total }) => {
+                const Icon = sourceMeta[type]?.icon ?? Gift
+                return (
+                  <div
+                    key={type}
+                    className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-4"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon className="w-3.5 h-3.5 text-muted-light dark:text-muted-dark shrink-0" aria-hidden="true" />
+                      <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark truncate">
+                        {fmtType(type)}
+                      </span>
+                    </div>
+                    <p className="font-quicksand text-xl sm:text-2xl font-black text-text-light dark:text-text-dark leading-none">
+                      {formatMoney(total)}
+                    </p>
                   </div>
-                  <p className="font-quicksand text-xl sm:text-2xl font-black text-text-light dark:text-text-dark leading-none">
-                    {formatMoney(total)}
-                  </p>
-                </div>
-              )
-            })}
-          </section>
-        </motion.div>
+                )
+              })}
+            </section>
+          </motion.div>
+        )}
 
         {/* Revenue trend */}
         <motion.section

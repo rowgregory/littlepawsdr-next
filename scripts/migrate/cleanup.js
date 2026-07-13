@@ -2,7 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import ora from "ora";
 
 const prisma = new PrismaClient();
-const EMAIL = "it.little.paws@gmail.com";
+const EMAIL = "rowgregory@gmail.com";
+// const EMAIL = "greg@sqysh.com";
+// const EMAIL = "it.little.paws@gmail.com";
 
 async function main() {
   const spinner = ora(`Cleaning up migration data for ${EMAIL}...`).start();

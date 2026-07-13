@@ -1,11 +1,9 @@
 'use server'
 
-import Stripe from 'stripe'
 import { auth } from '../../auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+import { stripeClient } from 'app/lib/stripe/stripe-client'
 
 export const deletePaymentMethod = async (id: string) => {
   try {
@@ -42,7 +40,7 @@ export const deletePaymentMethod = async (id: string) => {
     }
 
     // Detach from Stripe
-    await stripe.paymentMethods.detach(paymentMethod.stripePaymentId)
+    await stripeClient.paymentMethods.detach(paymentMethod.stripePaymentId)
 
     // Delete from DB
     await prisma.paymentMethod.delete({ where: { id } })

@@ -4,9 +4,9 @@ import sendConfirmationEmail from 'app/lib/email/sendConfirmatioinEmail'
 import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
-import { IAdoptionFee } from 'types/entities/adoption-fee'
-import { ProductSizeEntry } from 'types/entities/product'
-import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import { IAdoptionFee } from 'types/_adoption-fee'
+import { ProductSizeEntry } from 'types/_product'
+import { WelcomeWienerProduct } from 'types/_welcome-wiener'
 
 export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   const { id, amount, metadata } = paymentIntent

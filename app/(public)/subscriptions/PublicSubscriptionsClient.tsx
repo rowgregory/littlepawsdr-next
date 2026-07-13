@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TIERS } from 'app/lib/constants/subscriptions.constants'
-import { IPaymentMethod } from 'types/entities/payment-method.types'
+import { IPaymentMethod } from 'types/_payment-method.types'
 import { useSearchParams } from 'next/navigation'
 import Picture from '../../components/_common/Picture'
 import { StickyHeader } from 'app/components/features/subscriptions/StickyHeader'

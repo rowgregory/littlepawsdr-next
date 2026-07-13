@@ -11,6 +11,7 @@ export interface CartItem {
   shippingPrice?: number
   size?: string | null
   maxQuantity?: number
+  iconKey?: string
 }
 
 interface CartState {

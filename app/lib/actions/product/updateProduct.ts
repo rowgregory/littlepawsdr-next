@@ -1,12 +1,12 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { ProductUpdateInputs } from 'types/entities/product'
+import { ProductUpdateInputs } from 'types/_product'
 import { createLog } from '../log/createLog'
 import { auth } from '../../auth'
 import { getActor } from '../user/getActor'
-import { getRequestContext } from 'app/utils/log.server.utils'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { getRequestContext } from 'app/utils/_log.server.utils'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 export const updateProduct = async (input: ProductUpdateInputs) => {
   try {

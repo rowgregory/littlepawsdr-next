@@ -6,8 +6,8 @@ import { formatDate } from 'app/utils/_date.utils'
 import { Clock, TrendingUp, Users, Package, ArrowLeft } from 'lucide-react'
 import { motion, useInView } from 'framer-motion'
 import { CountUnit } from 'app/components/_primitives'
-import { IAuction } from 'types/entities/auction'
-import { getDisplayRevenue } from 'app/utils/auction.utils'
+import { IAuction } from 'types/_auction'
+import { getDisplayRevenue } from 'app/utils/_auction.utils'
 import { SlotValue } from './SlotValue'
 
 type Props = {

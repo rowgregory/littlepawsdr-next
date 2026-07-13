@@ -27,7 +27,9 @@ export function Card({
       price: item.amount,
       quantity: 1,
       isPhysicalProduct: false,
-      type: 'FEED_A_FOSTER' as const
+      type: 'FEED_A_FOSTER' as const,
+      iconKey: item.id,
+      feedAFosterId: item.id
     }
 
     dispatch(addToCart(cartItem))

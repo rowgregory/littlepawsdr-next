@@ -9,9 +9,9 @@ import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import type { IAuctionItem, SellingFormat } from 'types/entities/auction-item'
-import type { AuctionStatus } from 'types/entities/auction'
-import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
+import type { IAuctionItem, SellingFormat } from 'types/_auction-item'
+import type { AuctionStatus } from 'types/_auction'
+import { IAuctionItemPhoto } from 'types/_auction-item-photo'
 import {
   AuctionItemDangerZone,
   AuctionItemFields,

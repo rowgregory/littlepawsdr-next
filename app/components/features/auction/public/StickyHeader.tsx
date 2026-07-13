@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { setOpenAuctionSignInModal } from 'app/lib/store/slices/uiSlice'
 import { useAppDispatch } from 'app/lib/store/store'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 
 type Props = {
   auction: IAuction

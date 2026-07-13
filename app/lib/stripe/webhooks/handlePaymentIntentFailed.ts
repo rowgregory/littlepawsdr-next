@@ -1,5 +1,7 @@
 import { OrderType } from '@prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
+import { resend } from 'app/lib/email/resend'
+import { paymentFailedTemplate } from 'app/lib/email/templates/payment-failed-template'
 import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
@@ -10,30 +12,50 @@ export async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentInt
   try {
     const orderType = (metadata?.orderType as OrderType) || 'ONE_TIME_DONATION'
     const userId = metadata?.userId || null
+    const customerEmail = metadata?.email || null
+    const customerName = metadata?.name || null
+    const failureReason = last_payment_error?.message || 'Payment failed'
+    const failureCode = last_payment_error?.code || null
 
     const order = await prisma.order.upsert({
       where: { paymentIntentId: id },
       update: {
         status: 'FAILED',
-        failureReason: last_payment_error?.message || 'Payment failed',
-        failureCode: last_payment_error?.code || null
+        failureReason,
+        failureCode,
+        failureEmailSentAt: customerEmail ? new Date() : null
       },
       create: {
         type: orderType,
         status: 'FAILED',
         totalAmount: paymentIntent.amount / 100,
         paymentIntentId: id,
-        customerEmail: metadata?.email || '',
-        customerName: metadata?.name || '',
+        customerEmail: customerEmail ?? '',
+        customerName: customerName ?? '',
         userId,
-        failureReason: last_payment_error?.message || 'Payment failed',
-        failureCode: last_payment_error?.code || null
+        failureReason,
+        failureCode,
+        failureEmailSentAt: customerEmail ? new Date() : null
       }
     })
 
+    if (customerEmail) {
+      await resend.emails.send({
+        from: 'Little Paws <payments@littlepawsdr.org>',
+        to: customerEmail,
+        subject: "Your payment didn't go through",
+        html: paymentFailedTemplate({
+          name: customerName,
+          amount: paymentIntent.amount / 100,
+          failureReason,
+          myPackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/my-pack`
+        })
+      })
+    }
+
     await pusherTrigger(`payment-${userId}`, 'order-failed', {
       orderId: order.id,
-      error: last_payment_error?.message || 'Payment failed',
+      error: failureReason,
       type: orderType
     })
 
@@ -45,8 +67,8 @@ export async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentInt
       type: orderType,
       orderId: order.id,
       paymentIntentId: id,
-      failureReason: last_payment_error?.message ?? null,
-      failureCode: last_payment_error?.code ?? null
+      failureReason,
+      failureCode
     })
 
     await createLog('warn', 'Payment failed from Stripe webhook', {
@@ -54,8 +76,8 @@ export async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentInt
       userId,
       type: orderType,
       paymentIntentId: id,
-      failureReason: last_payment_error?.message,
-      failureCode: last_payment_error?.code
+      failureReason,
+      failureCode
     })
   } catch (error) {
     await createLog('error', 'Error handling payment failure', {

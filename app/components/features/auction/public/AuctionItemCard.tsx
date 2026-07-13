@@ -7,8 +7,8 @@ import { Check, ChevronRight, Gavel, Loader2, Tag, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
-import { AuctionStatus } from 'types/entities/auction'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { AuctionStatus } from 'types/_auction'
+import { IAuctionItem } from 'types/_auction-item'
 
 type Props = {
   item: IAuctionItem

@@ -1,10 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { IAuction, Tab } from 'types/entities/auction'
+import { IAuction, Tab } from 'types/_auction'
 import { formatDate } from 'app/utils/_date.utils'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { getAuctionStatusConfig } from 'app/utils/auction.utils'
+import { getAuctionStatusConfig } from 'app/utils/_auction.utils'
 import {
   ItemsTab,
   OverviewTab,

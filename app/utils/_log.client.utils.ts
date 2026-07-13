@@ -1,4 +1,4 @@
-import { RequestContext } from './log.server.utils'
+import { RequestContext } from './_log.server.utils'
 
 export function buildLogMessage(action: string, actor: string, context: RequestContext) {
   const time = new Date().toLocaleString('en-US', {

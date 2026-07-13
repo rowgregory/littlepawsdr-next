@@ -4,11 +4,11 @@ import { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import prisma from 'prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
-import { WelcomeWienerInputs } from 'types/entities/welcome-wiener'
+import { WelcomeWienerInputs } from 'types/_welcome-wiener'
 import { requireAdmin } from '../user/requireAdmin'
 import { getActor } from '../user/getActor'
-import { getRequestContext, RequestContext } from 'app/utils/log.server.utils'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { getRequestContext, RequestContext } from 'app/utils/_log.server.utils'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 const MAX_NAME = 100
 

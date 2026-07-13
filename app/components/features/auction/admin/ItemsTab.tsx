@@ -1,11 +1,11 @@
 import { Eye, Package, Pencil, Plus } from 'lucide-react'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { motion } from 'framer-motion'
 import Picture from '../../../_common/Picture'
 import { formatMoney } from 'app/utils/_currency.utils'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { getItemStatusConfig } from 'app/utils/auction.utils'
+import { getItemStatusConfig } from 'app/utils/_auction.utils'
 
 export function ItemsTab({ auction }: { auction: IAuction }) {
   const router = useRouter()

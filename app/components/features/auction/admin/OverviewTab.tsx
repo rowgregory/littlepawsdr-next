@@ -1,11 +1,11 @@
 import { formatDateTime, getDaysRemaining } from 'app/utils/_date.utils'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { StatCard } from './StatCard'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { Clock, DollarSign, Gavel, Package, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Picture from '../../../_common/Picture'
-import { getDisplayRevenue } from 'app/utils/auction.utils'
+import { getDisplayRevenue } from 'app/utils/_auction.utils'
 
 export function OverviewTab({ auction }: { auction: IAuction }) {
   const isEnded = auction.status === 'ENDED'

@@ -1,4 +1,4 @@
-import { RoleFilter } from 'types/entities/user'
+import { RoleFilter } from 'types/_user'
 
 export const PAGE_SIZE = 25
 

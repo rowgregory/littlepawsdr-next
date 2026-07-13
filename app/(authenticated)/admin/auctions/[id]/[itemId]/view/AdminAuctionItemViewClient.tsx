@@ -3,12 +3,12 @@
 import { Gavel, ShoppingBag, TrendingUp, Clock, Edit2, LayoutDashboard, Lock, Tag, Truck } from 'lucide-react'
 import { formatMoney } from 'app/utils/_currency.utils'
 import Link from 'next/link'
-import { getItemStatusConfig } from 'app/utils/auction.utils'
+import { getItemStatusConfig } from 'app/utils/_auction.utils'
 import { PhotoGallery } from 'app/components/features/auction/PhotoGallery'
 import { BidsTable } from 'app/components/features/auction/admin/BidsTable'
 import { AuctionItemStatus, AuctionStatus } from '@prisma/client'
-import { IAuctionBid } from 'types/entities/auction-bid'
-import { IAuctionItemPhoto } from 'types/entities/auction-item-photo'
+import { IAuctionBid } from 'types/_auction-bid'
+import { IAuctionItemPhoto } from 'types/_auction-item-photo'
 import { StatCard } from 'app/components/features/auction/admin/StatCard'
 
 export default function AdminAuctionItemViewClient({

@@ -14,6 +14,7 @@ declare module 'next-auth' {
       id: string
       email: string
       role: 'ADMIN' | 'SUPERUSER' | 'SUPPORTER' | 'PACK_MEMBER'
+      hasSeenWelcome: boolean
     } & DefaultSession['user']
   }
 

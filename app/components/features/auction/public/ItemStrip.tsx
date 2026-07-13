@@ -1,6 +1,6 @@
 import Picture from 'app/components/_common/Picture'
 import { Package } from 'lucide-react'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuctionItem } from 'types/_auction-item'
 
 export function ItemStrip({ items }: { items: IAuctionItem[] }) {
   const shown = items.slice(0, 4)

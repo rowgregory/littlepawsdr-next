@@ -6,7 +6,7 @@ import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 import AdminHeaderButton from 'app/components/admin/AdminHeaderButton'
 import AdminTable, { type Column } from 'app/components/admin/AdminTable'
 import Picture from 'app/components/_common/Picture'
-import { Product } from 'types/entities/product'
+import { Product } from 'types/_product'
 
 const columns: Column<Product>[] = [
   {

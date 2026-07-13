@@ -1,15 +1,18 @@
 import { TABS } from 'app/lib/constants/auction.constants'
-import { IAuctionAnomaly } from './auction-anomaly'
-import { IAuctionBid } from './auction-bid'
-import { IAuctionBidder } from './auction-bidder'
-import { IAuctionItemInstantBuyer } from './auction-instant-buyer'
-import { IAuctionItem } from './auction-item'
-import { IAuctionWinningBidder } from './auction-winning-bidder'
-import { IUser } from './user'
+import { IAuctionAnomaly } from './_auction-anomaly'
+import { IAuctionBid } from './_auction-bid'
+import { IAuctionBidder } from './_auction-bidder'
+import { IAuctionItemInstantBuyer } from './_auction-instant-buyer'
+import { IAuctionItem } from './_auction-item'
+import { IAuctionWinningBidder } from './_auction-winning-bidder'
+import { IUser } from './_user'
 
 export type AuctionStatus = 'DRAFT' | 'ACTIVE' | 'ENDED'
 
 export interface IAuction {
+  historicalBidderCount: number
+  historicalBidCount: number
+  historicalItemCount: number
   bids?: IAuctionBid[]
   items?: IAuctionItem[]
   bidders?: IAuctionBidder[]

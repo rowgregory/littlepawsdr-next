@@ -1,17 +1,15 @@
-'use client'
-
 import { useState } from 'react'
+import { MultiItemOrder } from 'types/_my-pack.types'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import Link from 'next/link'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatDate } from 'app/utils/_date.utils'
-import { StatusPill } from '../../../components/_primitives/StatusPill'
+import { StatusPill } from 'app/components/admin/orders/StatusPill'
 import { formatMoney } from 'app/utils/_currency.utils'
-import Picture from '../../../components/_common/Picture'
-import { MerchAndWWOrder } from 'types/_my-pack.types'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import Picture from 'app/components/_common/Picture'
+import Link from 'next/link'
 
-function PurchaseRow({ order, index }: { order: MerchAndWWOrder; index: number }) {
+export function PurchaseRow({ order, index }: { order: MultiItemOrder; index: number }) {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -168,76 +166,5 @@ function PurchaseRow({ order, index }: { order: MerchAndWWOrder; index: number }
         )}
       </AnimatePresence>
     </motion.div>
-  )
-}
-
-export default function MyPackMerchAndWWOrdersClient({ orders }: { orders: MerchAndWWOrder[] }) {
-  return (
-    <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
-        {/* ── Header ── */}
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-            <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-              Member
-            </p>
-          </div>
-          <div className="flex items-start justify-between gap-4">
-            <h1 className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-tight">
-              My <span className="font-light text-muted-light dark:text-muted-dark">Purchases</span>
-            </h1>
-            <Link
-              href=" /my-pack"
-              className="shrink-0 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline mt-2"
-            >
-              ← My Pack
-            </Link>
-          </div>
-          <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mt-3">
-            {orders.length} order{orders.length !== 1 ? 's' : ''}
-          </p>
-        </motion.div>
-
-        {/* ── List ── */}
-        {orders.length === 0 ? (
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={1}
-            className="py-16 text-center"
-            role="status"
-            aria-live="polite"
-          >
-            <p className="text-sm font-mono text-muted-light dark:text-muted-dark">
-              You haven&apos;t made any orders yet.
-            </p>
-            <Link
-              href="/merch"
-              className="inline-block mt-4 text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus:outline-none focus-visible:underline"
-            >
-              Browse the store →
-            </Link>
-          </motion.div>
-        ) : (
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={1}
-            className="border border-border-light dark:border-border-dark"
-            role="list"
-            aria-label="Purchase history"
-          >
-            {orders.map((order, i) => (
-              <div key={order.id} role="listitem">
-                <PurchaseRow order={order} index={i} />
-              </div>
-            ))}
-          </motion.div>
-        )}
-      </div>
-    </main>
   )
 }

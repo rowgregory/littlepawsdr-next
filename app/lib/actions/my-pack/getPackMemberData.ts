@@ -5,12 +5,12 @@ import {
   AuctionParticipation,
   AuctionPurchase,
   Donation,
-  MerchAndWWOrder,
+  MultiItemOrder,
   ParticipationItem,
   Subscription
 } from 'types/_my-pack.types'
 
-export const getAccountData = async () => {
+export const getPackMemberData = async () => {
   try {
     const session = await auth()
     if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
@@ -112,8 +112,8 @@ export const getAccountData = async () => {
         nextBillingDate: o.nextBillingDate
       }))
 
-    const merchAndWWOrders: MerchAndWWOrder[] = orders
-      .filter((o) => ['PRODUCT', 'WELCOME_WIENER', 'MIXED'].includes(o.type))
+    const multiItemOrders: MultiItemOrder[] = orders
+      .filter((o) => ['PRODUCT', 'WELCOME_WIENER', 'MIXED', 'FEED_A_FOSTER'].includes(o.type))
       .map((o) => ({
         id: o.id,
         type: o.type,
@@ -242,7 +242,7 @@ export const getAccountData = async () => {
         user,
         donations,
         subscriptions,
-        merchAndWWOrders,
+        multiItemOrders,
         auctionPurchases,
         auctionParticipation,
         paymentMethods,

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AddressSectionProps } from 'types/entities/address'
+import { AddressSectionProps } from 'types/_address.types'
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { MapPin, Pencil } from 'lucide-react'

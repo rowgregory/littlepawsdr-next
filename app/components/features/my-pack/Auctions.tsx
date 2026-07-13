@@ -1,5 +1,3 @@
-import { fadeUp } from 'app/lib/constants/motion.constants'
-import { motion } from 'framer-motion'
 import { CheckCircle, ChevronRight, CreditCard, Gavel, Receipt, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
@@ -38,23 +36,7 @@ export function Auctions({ auctionParticipation, auctionPurchases }: Props) {
   const orphanPurchases = (auctionPurchases ?? []).filter((p) => !participationMap.has(p.auctionId))
 
   return (
-    <motion.section variants={fadeUp} initial="hidden" animate="show" custom={7} aria-labelledby="auctions-heading">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-            Auctions
-          </h2>
-        </div>
-        <Link
-          href="/auctions"
-          className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-        >
-          <Gavel className="w-3 h-3 shrink-0" aria-hidden="true" />
-          Bid
-        </Link>
-      </div>
-
+    <section aria-labelledby="auctions-heading">
       {!hasAny ? (
         <EmptyState message="You haven't participated in any auctions yet." />
       ) : (
@@ -272,6 +254,6 @@ export function Auctions({ auctionParticipation, auctionPurchases }: Props) {
           )}
         </div>
       )}
-    </motion.section>
+    </section>
   )
 }

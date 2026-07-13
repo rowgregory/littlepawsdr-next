@@ -1,7 +1,7 @@
 import { store } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { toDatetimeLocal } from 'app/utils/_date.utils'
 import { Flag, Loader2, RotateCcw, Trash2, Zap } from 'lucide-react'

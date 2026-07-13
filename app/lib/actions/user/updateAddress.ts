@@ -1,6 +1,6 @@
 'use server'
 
-import { UpdateAddressInput } from 'types/entities/address'
+import { UpdateAddressInput } from 'types/_address.types'
 import prisma from 'prisma/client'
 import { auth } from 'app/lib/auth'
 import { createLog } from '../log/createLog'

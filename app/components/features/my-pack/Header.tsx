@@ -1,12 +1,10 @@
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { formatMoney } from 'app/utils/_currency.utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 import { FormField } from 'app/components/_primitives/FormField'
-import { Toggle } from 'app/components/_primitives/Toggle'
-import { AuctionParticipation, AuctionPurchase, MerchAndWWOrder, PackMember, Subscription } from 'types/_my-pack.types'
-import { formatRole } from 'app/utils/user.utils'
+import { PackMember } from 'types/_my-pack.types'
+import { formatRole } from 'app/utils/_user.utils'
 import { EmailChangeSection } from './EmailChangeSection'
 
 interface HeaderProps {
@@ -19,17 +17,6 @@ interface HeaderProps {
   lastNameInput: string
   setLastNameInput: Dispatch<SetStateAction<string>>
   nameLoading: boolean
-  totalGiven: number
-  subscriptions: Subscription[]
-  merchAndWWOrders: MerchAndWWOrder[]
-  auctionParticipation: AuctionParticipation[]
-  auctionPurchases: AuctionPurchase[]
-  anonymousBidding: boolean
-  onToggleAnonymousBidding: () => void
-  autoPay: boolean
-  onToggleAutoPay: () => void
-  autoPayCoverFees: boolean
-  onToggleAutoPayCoverFees: () => void
 }
 
 export function Header({
@@ -41,29 +28,13 @@ export function Header({
   lastNameInput,
   setLastNameInput,
   nameLoading,
-  setEditingName,
-  totalGiven,
-  subscriptions,
-  merchAndWWOrders,
-  auctionParticipation,
-  auctionPurchases,
-  anonymousBidding,
-  onToggleAnonymousBidding,
-  autoPay,
-  onToggleAutoPay,
-  autoPayCoverFees,
-  onToggleAutoPayCoverFees
+  setEditingName
 }: HeaderProps) {
   const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || 'Member'
   const initials = [user?.firstName?.[0], user?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
 
-  const totalAuctions = new Set([
-    ...(auctionParticipation ?? []).map((a) => a.auctionId),
-    ...(auctionPurchases ?? []).map((p) => p.auctionId).filter(Boolean)
-  ]).size
-
   return (
-    <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-12 sm:mb-16">
+    <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0}>
       <div className="flex items-start gap-4 sm:gap-5">
         {/* Avatar */}
         <div
@@ -175,56 +146,6 @@ export function Header({
 
           <EmailChangeSection currentEmail={user.email} />
         </div>
-      </div>
-
-      {/* Bidding preferences */}
-      <div className="mt-6 px-4 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark space-y-4">
-        <Toggle
-          id="anonymous-bidding"
-          label="Anonymous bidding"
-          description="Your name won't be shown to other bidders when you place a bid."
-          checked={anonymousBidding}
-          onToggle={onToggleAnonymousBidding}
-        />
-        <div className="border-t border-border-light dark:border-border-dark pt-4">
-          <Toggle
-            id="auto-pay"
-            label="Auto-pay when I win"
-            description="Automatically charge your saved card when the auction ends and you're a top bidder — no action needed."
-            checked={autoPay}
-            onToggle={onToggleAutoPay}
-          />
-        </div>
-        {autoPay && (
-          <div className="border-t border-border-light dark:border-border-dark pt-4">
-            <Toggle
-              id="auto-pay-cover-fees"
-              label="Cover processing fees when auto-paying"
-              description="Add the Stripe processing fee to your charge so 100% of your bid goes to the rescue."
-              checked={autoPayCoverFees}
-              onToggle={onToggleAutoPayCoverFees}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Stats strip */}
-      <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark">
-        {[
-          { label: 'Total Given', value: formatMoney(Number(totalGiven)) },
-          { label: 'Subscriptions', value: String(subscriptions.filter((s) => s.status === 'CONFIRMED').length) },
-          { label: 'Merch & WW Orders', value: String(merchAndWWOrders.length) },
-          { label: 'Auctions', value: String(totalAuctions) }
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-bg-light dark:bg-bg-dark px-4 py-4 sm:py-5">
-            <p className="text-[9px] font-mono tracking-[0.18em] uppercase text-muted-light dark:text-muted-dark mb-1">
-              {label}
-            </p>
-            <p className="font-quicksand font-black text-xl sm:text-2xl text-text-light dark:text-text-dark tabular-nums">
-              {value}
-            </p>
-          </div>
-        ))}
       </div>
     </motion.div>
   )

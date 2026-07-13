@@ -17,7 +17,7 @@ import {
   Step2Info,
   Step3Payment
 } from 'app/components/features/adoption-application'
-import { IPaymentMethod } from 'types/entities/payment-method.types'
+import { IPaymentMethod } from 'types/_payment-method.types'
 
 type Props = {
   savedCards: IPaymentMethod[]

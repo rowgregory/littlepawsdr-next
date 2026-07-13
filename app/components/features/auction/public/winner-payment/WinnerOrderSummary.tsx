@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Package, Truck } from 'lucide-react'
 import Image from 'next/image'
-import { IAuctionWinningBidder } from 'types/entities/auction-winning-bidder'
+import { IAuctionWinningBidder } from 'types/_auction-winning-bidder'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 
 type Props = {
@@ -57,9 +57,7 @@ export function WinnerOrderSummary({ winningBidder, total, shipping, processingF
                     <div className="flex items-center gap-1 mt-0.5">
                       <Truck className="w-3 h-3 text-zinc-400 dark:text-muted-dark/50 shrink-0" aria-hidden="true" />
                       <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
-                        {item.shippingCosts
-                          ? `+$${item.shippingCosts.toLocaleString()} shipping`
-                          : 'Ships separately'}
+                        {item.shippingCosts ? `+$${item.shippingCosts.toLocaleString()} shipping` : 'Ships separately'}
                       </span>
                     </div>
                   )}
@@ -76,9 +74,7 @@ export function WinnerOrderSummary({ winningBidder, total, shipping, processingF
         <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark space-y-2.5">
           <div className="flex justify-between items-center">
             <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Items</span>
-            <span className="text-xs tabular-nums text-zinc-950 dark:text-text-dark">
-              ${total.toLocaleString()}
-            </span>
+            <span className="text-xs tabular-nums text-zinc-950 dark:text-text-dark">${total.toLocaleString()}</span>
           </div>
           {shipping > 0 && (
             <div className="flex justify-between items-center">

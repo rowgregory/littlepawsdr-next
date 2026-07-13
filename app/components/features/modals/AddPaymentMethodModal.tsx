@@ -9,7 +9,7 @@ import { setCloseAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { useRemoveScroll } from '@hooks/useRemoveScroll.hook'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { extractErrorMessage } from 'app/utils/log.client.utils'
+import { extractErrorMessage } from 'app/utils/_log.client.utils'
 import { getSetupIntentClientSecret } from 'app/lib/actions/_stripe/getSetupIntentClientSecret'
 import { createPaymentMethod } from 'app/lib/actions/_stripe/createPaymentMethod'
 
@@ -56,14 +56,13 @@ export default function AddPaymentMethodModal() {
     setIsSubmitting(true)
 
     try {
-      // 1️⃣ Get client secret using server action
       const setupRes = await getSetupIntentClientSecret()
 
       if (!setupRes.success || !setupRes.clientSecret) {
         throw new Error(setupRes.error || 'Failed to get client secret')
       }
 
-      // 2️⃣ Confirm card setup
+      // Confirm card setup
       const cardElement = elements.getElement(CardElement)
       if (!cardElement) throw new Error('Card element not found')
 
@@ -78,13 +77,11 @@ export default function AddPaymentMethodModal() {
 
       if (error) throw error
 
-      // 3️⃣ Get payment method ID
       const paymentMethodId =
         typeof setupIntent?.payment_method === 'string' ? setupIntent.payment_method : setupIntent?.payment_method?.id
 
       if (!paymentMethodId) throw new Error('No payment method ID returned')
 
-      // 4️⃣ Save payment method to database
       const result = await createPaymentMethod({
         stripePaymentMethodId: paymentMethodId,
         isDefault,
@@ -95,19 +92,14 @@ export default function AddPaymentMethodModal() {
         throw new Error(result.error || 'Failed to save payment method')
       }
 
-      // 5️⃣ Refresh router and close drawer
       router.refresh()
       setIsDefault(false)
       setCardholderName('')
-      onClose()
-
-      store.dispatch(
-        showToast({
-          type: 'success',
-          message: 'Payment Method Added!',
-          description: 'Your card has been successfully added.'
-        })
-      )
+      setSuccess(true)
+      setTimeout(() => {
+        setSuccess(false)
+        onClose()
+      }, 1200)
     } catch (error: unknown) {
       const errorMessage = extractErrorMessage(error)
 
@@ -131,7 +123,7 @@ export default function AddPaymentMethodModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="add-card-title"
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70"
+      className="fixed inset-0 z-100 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70"
       onClick={onClose}
     >
       <div

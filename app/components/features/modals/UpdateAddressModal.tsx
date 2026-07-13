@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, CheckCircle, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { IAddress } from 'types/entities/address'
+import { IAddress } from 'types/_address.types'
 
 export function UpdateAddressModal({
   open,
@@ -73,7 +73,6 @@ export function UpdateAddressModal({
           aria-modal="true"
           aria-labelledby="address-modal-title"
           className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70"
-          onClick={onClose}
         >
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.98 }}

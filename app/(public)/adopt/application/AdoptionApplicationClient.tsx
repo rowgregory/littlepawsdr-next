@@ -33,7 +33,7 @@ export default function AdoptionApplicationClient({ expiresAt }: { expiresAt: Da
                 className="inline-flex items-center gap-1.5 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
                 <ChevronLeft className="w-3 h-3" aria-hidden="true" />
-                Member
+                My Pack
               </Link>
             </div>
             <h1 className="  text-4xl sm:text-5xl uppercase leading-none text-text-light dark:text-text-dark mb-5">

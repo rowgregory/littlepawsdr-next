@@ -1,5 +1,5 @@
-import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
-import type { WelcomeWienerCategory } from 'types/entities/welcome-wiener'
+import { WelcomeWienerProduct } from 'types/_welcome-wiener'
+import type { WelcomeWienerCategory } from 'types/_welcome-wiener'
 
 export const WELCOME_WIENER_CATALOG: WelcomeWienerProduct[] = [
   // Gear

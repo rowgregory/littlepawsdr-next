@@ -4,7 +4,7 @@ import { RecurringFrequency } from '@prisma/client'
 import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/log.server.utils'
+import { getRequestGeo } from 'app/utils/_log.server.utils'
 
 interface CreateSubscriptionWithSavedCardParams {
   userId: string

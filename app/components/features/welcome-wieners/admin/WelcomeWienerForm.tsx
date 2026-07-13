@@ -1,7 +1,7 @@
 'use client'
 
 import { Check, Dog, ImagePlus, LayoutDashboard, Loader2, Minus, Plus, X } from 'lucide-react'
-import { IWelcomeWiener, WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import { IWelcomeWiener, WelcomeWienerProduct } from 'types/_welcome-wiener'
 import {
   WELCOME_WIENER_CATALOG,
   WELCOME_WIENER_CATEGORIES,

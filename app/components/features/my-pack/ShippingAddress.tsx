@@ -1,34 +1,11 @@
-import { fadeUp } from 'app/lib/constants/motion.constants'
-import { MapPin, Pencil } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { MapPin } from 'lucide-react'
 import { formatDate } from 'app/utils/_date.utils'
 import { EmptyState } from './EmptyState'
 import { UpdateAddressModal } from '../modals/UpdateAddressModal'
 
 export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen }) {
   return (
-    <motion.section variants={fadeUp} initial="hidden" animate="show" custom={1} aria-labelledby="address-heading">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2
-            id="address-heading"
-            className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark"
-          >
-            Shipping Address
-          </h2>
-        </div>
-        <button
-          type="button"
-          onClick={() => setAddressModalOpen(true)}
-          className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-          aria-label={user?.address ? 'Edit shipping address' : 'Add shipping address'}
-        >
-          <Pencil className="w-3 h-3 shrink-0" aria-hidden="true" />
-          {user?.address ? 'Edit' : 'Add'}
-        </button>
-      </div>
-
+    <section aria-labelledby="address-heading">
       {user?.address ? (
         <div className="border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark">
           <div className="flex items-start gap-3 p-5">
@@ -62,6 +39,6 @@ export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen })
         onClose={() => setAddressModalOpen(false)}
         address={user?.address ?? null}
       />
-    </motion.section>
+    </section>
   )
 }

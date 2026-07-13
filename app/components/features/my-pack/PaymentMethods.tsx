@@ -1,8 +1,4 @@
-import { fadeUp } from 'app/lib/constants/motion.constants'
-import { setOpenAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
-import { store } from 'app/lib/store/store'
-import { motion } from 'framer-motion'
-import { CheckCircle, CreditCard, Plus } from 'lucide-react'
+import { CheckCircle, CreditCard } from 'lucide-react'
 import { EmptyState } from './EmptyState'
 
 export function PaymentMethods({
@@ -13,29 +9,7 @@ export function PaymentMethods({
   deleteError
 }) {
   return (
-    <motion.section
-      variants={fadeUp}
-      initial="hidden"
-      animate="show"
-      custom={2}
-      aria-labelledby="payment-methods-heading"
-    >
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-            Saved Payment Methods
-          </h2>
-        </div>
-        <button
-          type="button"
-          onClick={() => store.dispatch(setOpenAddPaymentMethodModal())}
-          className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-        >
-          <Plus className="w-3 h-3 shrink-0" aria-hidden="true" />
-          Add Card
-        </button>
-      </div>
+    <section aria-labelledby="payment-methods-heading">
       {paymentMethods?.length === 0 ? (
         <EmptyState message="No saved payment methods." />
       ) : (
@@ -107,6 +81,6 @@ export function PaymentMethods({
           ))}
         </ul>
       )}
-    </motion.section>
+    </section>
   )
 }

@@ -1,5 +1,5 @@
 import { setOpenWinningBidderDrawer } from 'app/lib/store/slices/uiSlice'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { motion } from 'framer-motion'
 import { Copy } from 'lucide-react'
 import { store } from 'app/lib/store/store'

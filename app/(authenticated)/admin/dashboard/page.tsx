@@ -1,15 +1,13 @@
-import { getDashboardStats } from 'app/lib/actions/_dashboard/getDashboardStats'
+import { getDashboardData } from 'app/lib/actions/_dashboard/getDashboardData'
 import AdminDashboardClient from './AdminDashboardClient'
 import { Suspense } from 'react'
 import { AdminDashboardSkeleton } from 'app/components/features/dashboard/AdminDashboardSkeleton'
-import { getPendingShipments } from 'app/lib/actions/order/getPendingShipments'
 
 export default async function AdminDashboardPage() {
-  const [statsResult, pendingShipments] = await Promise.all([getDashboardStats(), getPendingShipments()])
-
+  const statsResult = await getDashboardData()
   return (
     <Suspense fallback={<AdminDashboardSkeleton />}>
-      <AdminDashboardClient stats={statsResult} pendingShipments={pendingShipments.data} />
+      <AdminDashboardClient stats={statsResult} />
     </Suspense>
   )
 }

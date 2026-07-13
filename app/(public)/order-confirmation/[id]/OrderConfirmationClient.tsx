@@ -11,19 +11,23 @@ import { clearCart } from 'app/lib/store/slices/cartSlice'
 import { ORDER_TYPE_CONFIG } from 'app/lib/constants/order.constants'
 import { formatWithCommas } from 'app/utils/_currency.utils'
 import { useAppDispatch } from 'app/lib/store/store'
-import { setHideConfetti, setShowConfetti } from 'app/lib/store/slices/uiSlice'
+import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
+import { useSearchParams } from 'next/navigation'
 
 export default function OrderConfirmationClient({ order }) {
   const config = ORDER_TYPE_CONFIG[order?.type] ?? ORDER_TYPE_CONFIG['ONE_TIME_DONATION']
   const subtotal = Number(order?.totalAmount) - Number(order?.coverFees ? order?.feesCovered : 0)
   const session = useSession()
   const dispatch = useAppDispatch()
+  const searchParams = useSearchParams()
+  const isAdminView = searchParams.get('ref') === 'admin'
 
   useEffect(() => {
     dispatch(clearCart())
-    dispatch(setShowConfetti())
-    setTimeout(() => dispatch(setHideConfetti()), 2000)
-  }, [dispatch, order.id])
+    if (!isAdminView) {
+      dispatch(setShowConfetti())
+    }
+  }, [dispatch, order.id, isAdminView])
 
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 
@@ -40,14 +44,22 @@ export default function OrderConfirmationClient({ order }) {
         <div className="px-4 430:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-4 h-px bg-cyan-600 dark:bg-violet-400" aria-hidden="true" />
-            <span className="  text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-cyan-600 dark:text-violet-400">
               Little Paws Dachshund Rescue
             </span>
           </div>
-          {session?.data?.user ? (
+          {isAdminView ? (
             <Link
-              href=" /my-pack"
-              className="flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+              href={`/admin/orders/${order.id}`}
+              className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+            >
+              <ChevronLeft className="w-3 h-3" aria-hidden="true" />
+              Back to Order
+            </Link>
+          ) : session?.data?.user ? (
+            <Link
+              href="/my-pack"
+              className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
             >
               <User className="w-3 h-3" aria-hidden="true" />
               My Pack
@@ -55,7 +67,7 @@ export default function OrderConfirmationClient({ order }) {
           ) : (
             <Link
               href="/"
-              className="flex items-center gap-1.5   text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+              className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] text-zinc-400 dark:text-muted-dark hover:text-cyan-600 dark:hover:text-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
             >
               <ChevronLeft className="w-3 h-3" aria-hidden="true" />
               Home
@@ -287,23 +299,35 @@ export default function OrderConfirmationClient({ order }) {
           custom={3}
           className="flex flex-col 430:flex-row gap-3"
         >
-          <Link
-            href="/donate"
-            className="group relative flex-1 overflow-hidden flex items-center justify-between px-6 py-3.5   text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
-          >
-            <span
-              className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/15 to-transparent group-hover:animate-[shimmer_1.4s_ease_infinite] pointer-events-none"
-              aria-hidden="true"
-            />
-            <span>Donate Again</span>
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </Link>
-          <Link
-            href="/"
-            className="flex-1 flex items-center justify-center px-6 py-3.5   text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
-          >
-            Back to Home
-          </Link>
+          {isAdminView ? (
+            <Link
+              href={`/admin/orders/${order.id}`}
+              className="flex-1 flex items-center justify-center px-6 py-3.5 text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" aria-hidden="true" />
+              Back to Order
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/donate"
+                className="group relative flex-1 overflow-hidden flex items-center justify-between px-6 py-3.5 text-sm uppercase tracking-widest text-white bg-cyan-600 hover:bg-cyan-500 dark:bg-violet-500 dark:hover:bg-violet-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-bg-dark"
+              >
+                <span
+                  className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/15 to-transparent group-hover:animate-[shimmer_1.4s_ease_infinite] pointer-events-none"
+                  aria-hidden="true"
+                />
+                <span>Donate Again</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/my-pack"
+                className="flex-1 flex items-center justify-center px-6 py-3.5 text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
+              >
+                My Pack
+              </Link>
+            </>
+          )}
         </motion.div>
       </div>
     </div>

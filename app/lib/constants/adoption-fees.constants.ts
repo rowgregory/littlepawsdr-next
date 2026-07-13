@@ -1,4 +1,4 @@
-import { AdoptionFeeStatus } from 'types/entities/adoption-fee'
+import { AdoptionFeeStatus } from 'types/_adoption-fee'
 
 export const statusStyles: Record<AdoptionFeeStatus, string> = {
   ACTIVE: 'border-primary-light/40 dark:border-primary-dark/40 text-primary-light dark:text-primary-dark',

@@ -10,7 +10,7 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { formatDate } from 'app/utils/_date.utils'
-import { getSubscriptionById } from 'app/lib/actions/order/getSubscriptionById'
+import { getSubscriptionById } from 'app/lib/actions/my-pack/getSubscriptionById'
 import { cancelSubscription } from 'app/lib/actions/_stripe/cancelSubscription'
 import { UpdateCardForm } from 'app/components/features/my-pack/UpdateCardForm'
 import { CancelSubscriptionModal } from 'app/components/features/modals/CancelSubscriptionModal'
@@ -59,7 +59,7 @@ export default function MyPackSubscriptionClient({ subscription }: { subscriptio
             className="inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline mb-8"
           >
             <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-            Overciew
+            My Pack
           </Link>
 
           <div className="flex items-center gap-3 mb-3">

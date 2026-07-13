@@ -1,6 +1,6 @@
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { motion } from 'framer-motion'
 import { ChevronRight, Clock, Package, TrendingUp, Users } from 'lucide-react'
 import { Countdown } from './Countdown'

@@ -1,16 +1,14 @@
 'use client'
 
-import { AnimatePresence } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import { useAppDispatch } from 'app/lib/store/store'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MemberClientProps } from 'types/_my-pack.types'
+import { MemberClientProps, MyPackTab } from 'types/_my-pack.types'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { updateUserName } from 'app/lib/actions/user/updateUserName'
 import { pusherClient } from 'app/lib/pusher/pusher-client'
 import { Header } from 'app/components/features/my-pack/Header'
-import { MerchAndWienerGifts } from 'app/components/features/my-pack/MerchAndWienerGifts'
 import { ShippingAddress } from 'app/components/features/my-pack/ShippingAddress'
 import { PaymentMethods } from 'app/components/features/my-pack/PaymentMethods'
 import { AdoptionFees } from 'app/components/features/my-pack/AdoptionFees'
@@ -24,6 +22,16 @@ import { toggleAnonymousBidding } from 'app/lib/actions/user/toggleAnonymousBidd
 import { toggleAutoPay } from 'app/lib/actions/user/toggleAutoPay'
 import { toggleAutoPayCoverFees } from 'app/lib/actions/user/toggleAutoPayCoverFees'
 import { TopBar } from 'app/components/features/my-pack/TopBar'
+import { MultiItemOrders } from 'app/components/features/my-pack/MultiItemOrders'
+import { MyPackNav } from 'app/components/features/my-pack/MyPackNav'
+import { Settings } from 'app/components/features/my-pack/Settings'
+import { StatsStrip } from 'app/components/features/my-pack/StatsStrip'
+import { SectionShell } from 'app/components/_primitives/SectionShell'
+import { Dog, Gavel, Gift, Package, Pencil, Plus, Repeat } from 'lucide-react'
+import { setOpenAddPaymentMethodModal } from 'app/lib/store/slices/uiSlice'
+import { addCardStyles } from 'app/lib/constants/my-pack.constants'
+import Link from 'next/link'
+import AddPaymentMethodModal from 'app/components/features/modals/AddPaymentMethodModal'
 
 export default function MyPackClient({
   user,
@@ -32,7 +40,7 @@ export default function MyPackClient({
   auctionParticipation,
   paymentMethods,
   adoptionFees,
-  merchAndWWOrders,
+  multiItemOrders,
   auctionPurchases
 }: MemberClientProps) {
   const router = useRouter()
@@ -50,8 +58,14 @@ export default function MyPackClient({
   const [anonymousBidding, setAnonymousBidding] = useState(user.anonymousBidding)
   const [autoPay, setAutoPay] = useState(user.autoPay)
   const [autoPayCoverFees, setAutoPayCoverFees] = useState(user.autoPayCoverFees)
+  const [autoPayError, setAutoPayError] = useState('')
+  const [highlightPaymentMethod, setHighlightPaymentMethod] = useState(false)
+  const [highlightAddress, setHighlightAddress] = useState(false)
 
   const isAuthed = session.status === 'authenticated'
+
+  const searchParams = useSearchParams()
+  const activeTab = (searchParams.get('tab') as MyPackTab) ?? 'account'
 
   const totalGiven = [
     ...(donations ?? []).map((d) => Number(d.amount) || 0),
@@ -60,7 +74,7 @@ export default function MyPackClient({
       a.items.filter((i) => i.isWinner).map((i) => Number(i.myHighestBid) || 0)
     ),
     ...(adoptionFees ?? []).map((a) => Number(a.feeAmount) || 0),
-    ...(merchAndWWOrders ?? []).map((o) => Number(o.totalAmount) || 0),
+    ...(multiItemOrders ?? []).map((o) => Number(o.totalAmount) || 0),
     ...(auctionPurchases ?? []).map((o) => Number(o.totalAmount) || 0)
   ].reduce((sum, n) => sum + n, 0)
 
@@ -118,6 +132,38 @@ export default function MyPackClient({
   }
 
   const handleToggleAutoPay = async () => {
+    if (!autoPay) {
+      if (!paymentMethods?.length) {
+        setAutoPayError('A saved payment method is required to enable auto-pay.')
+        setTimeout(() => {
+          router.push(`/my-pack?tab=account`, { scroll: false })
+          setTimeout(() => {
+            setHighlightPaymentMethod(true)
+          }, 750)
+          setTimeout(() => {
+            dispatch(setOpenAddPaymentMethodModal())
+            setHighlightPaymentMethod(false)
+          }, 1500)
+        }, 1750)
+        return
+      }
+      if (!user?.address?.addressLine1) {
+        setAutoPayError('A shipping address is required to enable auto-pay.')
+        setTimeout(() => {
+          router.push(`/my-pack?tab=account`, { scroll: false })
+          setTimeout(() => {
+            setHighlightAddress(true)
+          }, 750)
+          setTimeout(() => {
+            setAddressModalOpen(true)
+            setHighlightAddress(false)
+          }, 1500)
+        }, 1750)
+        return
+      }
+      setAutoPayError(null)
+    }
+
     const prev = autoPay
     setAutoPay(!prev)
     const result = await toggleAutoPay()
@@ -125,13 +171,13 @@ export default function MyPackClient({
       setAutoPay(prev)
       dispatch(
         showToast({
+          type: 'error',
           message: 'Failed to update setting',
           description: result.error ?? 'Something went wrong.'
         })
       )
     }
   }
-
   const handleToggleAutoPayCoverFees = async () => {
     const prev = autoPayCoverFees
     setAutoPayCoverFees(!prev)
@@ -165,77 +211,174 @@ export default function MyPackClient({
 
   return (
     <>
-      <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
-          {/* ── TopBar ──  */}
-          <TopBar />
+      {shippedOrderId && (
+        <ShippedCelebration key={shippedOrderId} orderId={shippedOrderId} onClose={() => setShippedOrderId(null)} />
+      )}
 
-          {/* ── Header ── */}
+      <AddPaymentMethodModal />
+
+      <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+        {/* ── TopBar ── */}
+        <TopBar />
+
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-8">
           <Header
-            auctionParticipation={auctionParticipation}
             editingName={editingName}
             firstNameInput={firstNameInput}
             handleUpdateName={handleUpdateName}
             lastNameInput={lastNameInput}
-            merchAndWWOrders={merchAndWWOrders}
             nameLoading={nameLoading}
             setEditingName={setEditingName}
             setFirstNameInput={setFirstNameInput}
             setLastNameInput={setLastNameInput}
-            subscriptions={subscriptions}
-            totalGiven={totalGiven}
             user={user}
-            auctionPurchases={auctionPurchases}
-            anonymousBidding={anonymousBidding}
-            onToggleAnonymousBidding={handleToggleAnonymousBidding}
-            autoPay={autoPay}
-            onToggleAutoPay={handleToggleAutoPay}
-            autoPayCoverFees={autoPayCoverFees}
-            onToggleAutoPayCoverFees={handleToggleAutoPayCoverFees}
           />
 
-          {/* ── Sections ── */}
-          <div className="flex flex-col gap-14 sm:gap-16">
-            {/* ── Payment Methods ── */}
-            <PaymentMethods
-              deleteError={deleteError}
-              handleDeletePaymentMethod={handleDeletePaymentMethod}
-              handleSetDefaultPaymentMethod={handleSetDefaultPaymentMethod}
-              paymentMethods={paymentMethods}
-              setDefaultSuccess={setDefaultSuccess}
+          <div className="mt-6">
+            <StatsStrip
+              totalGiven={totalGiven}
+              subscriptions={subscriptions}
+              multiItemOrders={multiItemOrders}
+              auctionParticipation={auctionParticipation}
+              auctionPurchases={auctionPurchases}
             />
+          </div>
 
-            {/* ── Shipping Address ── */}
-            <ShippingAddress
-              addressModalOpen={addressModalOpen}
-              setAddressModalOpen={setAddressModalOpen}
-              user={user}
-            />
+          <div className="mt-2">
+            <MyPackNav active={activeTab} />
+          </div>
 
-            {/* ── Merch & Wiener Gifts ── */}
-            <MerchAndWienerGifts merchAndWWOrders={merchAndWWOrders} />
+          <div className="mt-8 pb-32 lg:pb-16">
+            {activeTab === 'account' && (
+              <div className="flex flex-col gap-12">
+                <SectionShell
+                  heading="Saved Payment Methods"
+                  action={
+                    <button
+                      type="button"
+                      onClick={() => dispatch(setOpenAddPaymentMethodModal())}
+                      className={`${addCardStyles} ${highlightPaymentMethod ? 'border-primary-light dark:border-primary-dark' : ''}`}
+                    >
+                      <Plus className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      Add Card
+                    </button>
+                  }
+                >
+                  <PaymentMethods
+                    deleteError={deleteError}
+                    handleDeletePaymentMethod={handleDeletePaymentMethod}
+                    handleSetDefaultPaymentMethod={handleSetDefaultPaymentMethod}
+                    paymentMethods={paymentMethods}
+                    setDefaultSuccess={setDefaultSuccess}
+                  />
+                </SectionShell>
 
-            {/* ── Adoption Fees ── */}
-            <AdoptionFees adoptionFees={adoptionFees} />
+                <SectionShell
+                  heading="Shipping Address"
+                  action={
+                    <button
+                      type="button"
+                      onClick={() => setAddressModalOpen(true)}
+                      className={`${addCardStyles} ${highlightAddress ? 'border-primary-light dark:border-primary-dark' : ''}`}
+                      aria-label={user?.address ? 'Edit shipping address' : 'Add shipping address'}
+                    >
+                      <Pencil className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      {user?.address ? 'Edit' : 'Add'}
+                    </button>
+                  }
+                >
+                  <ShippingAddress
+                    addressModalOpen={addressModalOpen}
+                    setAddressModalOpen={setAddressModalOpen}
+                    user={user}
+                  />
+                </SectionShell>
+              </div>
+            )}
 
-            {/* ── Subscriptions ── */}
-            <Subscriptions subscriptions={subscriptions} />
+            {activeTab === 'orders' && (
+              <div className="flex flex-col gap-12">
+                <SectionShell
+                  heading="Merch, Wieners & Foster"
+                  action={
+                    <Link href="/merch" className={addCardStyles} aria-label="Shop merch or sponsor a dog">
+                      <Package className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      Shop
+                    </Link>
+                  }
+                >
+                  <MultiItemOrders multiItemOrders={multiItemOrders} />
+                </SectionShell>
 
-            {/* ── One-time donations ── */}
-            <OneTimeDonations donations={donations} />
+                <SectionShell
+                  heading="Adoption Fees"
+                  action={
+                    <Link href="/adopt" className={addCardStyles}>
+                      <Dog className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      Adopt
+                    </Link>
+                  }
+                >
+                  <AdoptionFees adoptionFees={adoptionFees} />
+                </SectionShell>
+              </div>
+            )}
 
-            {/* ── Auctions ── */}
-            <Auctions auctionParticipation={auctionParticipation} auctionPurchases={auctionPurchases} />
+            {activeTab === 'giving' && (
+              <div className="flex flex-col gap-12">
+                <SectionShell
+                  heading="Subscriptions"
+                  action={
+                    <Link href="/subscriptions" className={addCardStyles}>
+                      <Repeat className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      Subscribe
+                    </Link>
+                  }
+                >
+                  <Subscriptions subscriptions={subscriptions} />
+                </SectionShell>
 
-            <AnimatePresence>
-              {shippedOrderId && (
-                <ShippedCelebration
-                  key={shippedOrderId}
-                  orderId={shippedOrderId}
-                  onClose={() => setShippedOrderId(null)}
+                <SectionShell
+                  heading="One-time Donations"
+                  action={
+                    <Link href="/donate" className={addCardStyles}>
+                      <Gift className="w-3 h-3 shrink-0" aria-hidden="true" />
+                      Donate
+                    </Link>
+                  }
+                >
+                  <OneTimeDonations donations={donations} />
+                </SectionShell>
+              </div>
+            )}
+
+            {activeTab === 'auctions' && (
+              <SectionShell
+                heading="Auctions"
+                action={
+                  <Link href="/auctions" className={addCardStyles}>
+                    <Gavel className="w-3 h-3 shrink-0" aria-hidden="true" />
+                    Bid
+                  </Link>
+                }
+              >
+                <Auctions auctionParticipation={auctionParticipation} auctionPurchases={auctionPurchases} />
+              </SectionShell>
+            )}
+
+            {activeTab === 'settings' && (
+              <SectionShell heading="Settings">
+                <Settings
+                  anonymousBidding={anonymousBidding}
+                  onToggleAnonymousBidding={handleToggleAnonymousBidding}
+                  autoPay={autoPay}
+                  onToggleAutoPay={handleToggleAutoPay}
+                  autoPayCoverFees={autoPayCoverFees}
+                  onToggleAutoPayCoverFees={handleToggleAutoPayCoverFees}
+                  autoPayError={autoPayError}
                 />
-              )}
-            </AnimatePresence>
+              </SectionShell>
+            )}
           </div>
         </div>
       </main>

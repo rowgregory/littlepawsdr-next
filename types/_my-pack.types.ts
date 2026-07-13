@@ -1,7 +1,7 @@
 import type { Address, OrderStatus, OrderType, PaymentStatus, ShippingStatus } from '@prisma/client'
-import { IAdoptionFee } from './entities/adoption-fee'
-import { IPaymentMethod } from './entities/payment-method.types'
-import { IUser } from './entities/user'
+import { IAdoptionFee } from './_adoption-fee'
+import { IPaymentMethod } from './_payment-method.types'
+import { IUser } from './_user'
 import { TIERS } from 'app/lib/constants/subscriptions.constants'
 import { Dispatch, SetStateAction } from 'react'
 
@@ -23,7 +23,7 @@ export interface Subscription {
   nextBillingDate: Date | null
 }
 
-export interface MerchAndWWOrderItem {
+export interface MultiItemOrderItem {
   id: string
   name: string
   image: string | null
@@ -32,7 +32,7 @@ export interface MerchAndWWOrderItem {
   isPhysical: boolean
 }
 
-export interface MerchAndWWOrder {
+export interface MultiItemOrder {
   id: string
   type: OrderType
   totalAmount: number
@@ -40,7 +40,7 @@ export interface MerchAndWWOrder {
   status: OrderStatus
   shippingStatus: ShippingStatus | null
   customerName: string | null
-  items: MerchAndWWOrderItem[]
+  items: MultiItemOrderItem[]
   shippingAddress: {
     addressLine1: string
     addressLine2: string | null
@@ -98,7 +98,7 @@ export interface MemberClientProps {
   auctionParticipation: AuctionParticipation[]
   paymentMethods: IPaymentMethod[]
   adoptionFees: IAdoptionFee[]
-  merchAndWWOrders: MerchAndWWOrder[]
+  multiItemOrders: MultiItemOrder[]
   auctionPurchases: AuctionPurchase[]
 }
 
@@ -124,3 +124,5 @@ export interface AuctionPurchase {
     image: string | null
   }[]
 }
+
+export type MyPackTab = 'account' | 'orders' | 'giving' | 'auctions' | 'settings'

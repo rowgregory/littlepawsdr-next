@@ -53,3 +53,22 @@ export function ordinal(n: number) {
   const v = n % 100
   return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`
 }
+
+export function monthRange(year: number, month: number) {
+  return {
+    start: new Date(year, month, 1),
+    end: new Date(year, month + 1, 0, 23, 59, 59)
+  }
+}
+
+export function lastNMonths(n: number) {
+  const now = new Date()
+  return Array.from({ length: n }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (n - 1 - i), 1)
+    const range = monthRange(d.getFullYear(), d.getMonth())
+    return {
+      label: d.toLocaleDateString('en-US', { month: 'short' }),
+      ...range
+    }
+  })
+}

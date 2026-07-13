@@ -9,7 +9,7 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import { MONTHS, YEARS, CURRENT_YEAR } from 'app/lib/constants/date.constants'
 import createNewsletterIssue from 'app/lib/actions/newsletter-issue/createNewsletterIssue'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
-import { FormState } from 'types/entities/newsletter-issue.types'
+import { FormState } from 'types/_newsletter-issue.types'
 import { Toggle } from 'app/components/_primitives'
 
 const initialState = (): FormState => ({

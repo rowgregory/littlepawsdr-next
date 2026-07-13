@@ -1,6 +1,6 @@
 import createAuctionAnomaly from 'app/lib/actions/super-user/createAuctionAnomaly'
 import { Anomaly, LiveBidEvent } from 'app/lib/mock/live-auction.mock'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuctionItem } from 'types/_auction-item'
 
 export async function detectAuctionAnomalies({
   event,

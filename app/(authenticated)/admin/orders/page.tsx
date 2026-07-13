@@ -20,6 +20,9 @@ export default async function AdminOrdersPage() {
     customerName: o.customerName,
     customerEmail: o.customerEmail,
     isRecurring: o.isRecurring,
+    recurringFrequency: o.recurringFrequency ?? null,
+    tierName: o.tierName ?? null,
+    stripeSubscriptionId: o.stripeSubscriptionId ?? null,
     itemCount: o.items.reduce((sum, item) => sum + (item.quantity ?? 1), 0),
     createdAt: o.createdAt.toISOString()
   }))

@@ -3,10 +3,10 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { getActor } from '../user/getActor'
-import { getRequestContext, RequestContext } from 'app/utils/log.server.utils'
+import { getRequestContext, RequestContext } from 'app/utils/_log.server.utils'
 import { auth } from 'app/lib/auth'
-import { UpdateAuctionItemInput } from 'types/entities/auction-item'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { UpdateAuctionItemInput } from 'types/_auction-item'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 export const updateAuctionItem = async (id: string, data: UpdateAuctionItemInput) => {
   const [actor, context] = await Promise.all([

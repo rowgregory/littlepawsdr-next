@@ -2,12 +2,12 @@
 
 import prisma from 'prisma/client'
 import { Prisma } from '@prisma/client'
-import { WelcomeWienerInputs } from 'types/entities/welcome-wiener'
+import { WelcomeWienerInputs } from 'types/_welcome-wiener'
 import { createLog } from '../log/createLog'
 import { getActor } from '../user/getActor'
-import { getRequestContext, RequestContext } from 'app/utils/log.server.utils'
+import { getRequestContext, RequestContext } from 'app/utils/_log.server.utils'
 import { auth } from 'app/lib/auth'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 export const updateWelcomeWiener = async (id: string, input: Partial<WelcomeWienerInputs>) => {
   const [actor, context] = await Promise.all([

@@ -5,10 +5,10 @@ import { createLog } from '../log/createLog'
 import { stripeClient } from '../../stripe/stripe-client'
 import { OrderType } from '@prisma/client'
 import prisma from 'prisma/client'
-import { ProductSizeEntry } from 'types/entities/product'
-import { WelcomeWienerProduct } from 'types/entities/welcome-wiener'
+import { ProductSizeEntry } from 'types/_product'
+import { WelcomeWienerProduct } from 'types/_welcome-wiener'
 import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/log.server.utils'
+import { getRequestGeo } from 'app/utils/_log.server.utils'
 import { validateSavedCard } from './validateSavedCard'
 import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
 
@@ -22,6 +22,7 @@ type PaymentItem = {
   size?: string | null
   welcomeWienerId?: string | null
   welcomeWienerProductId?: string | null
+  feedAFosterId?: string | null
 }
 
 export type CreatePaymentIntentParams = {
@@ -71,6 +72,11 @@ export async function createPaymentIntent({
       ])
 
       for (const item of items) {
+        if (item.feedAFosterId) {
+          computedBase += item.price * item.quantity
+          continue
+        }
+
         const product = products.find((p) => p.id === item.id)
 
         if (product) {
@@ -138,18 +144,15 @@ export async function createPaymentIntent({
         saveCard: saveCard ? 'true' : 'false',
         coverFees: coverFees ? 'true' : 'false',
         feesCovered: feesCovered.toString(),
-        items: items?.length
-          ? JSON.stringify(
-              items.map((i) => ({
-                i: i.id,
-                q: i.quantity,
-                s: i.size ?? null,
-                w: i.welcomeWienerId ?? null,
-                wp: i.welcomeWienerProductId ?? null,
-                ip: i.isPhysicalProduct ?? false
-              }))
-            )
-          : '',
+        ...(items?.length && {
+          items: JSON.stringify(
+            items.map((i) => ({
+              i: i.id,
+              q: i.quantity,
+              ...(i.size && { s: i.size })
+            }))
+          )
+        }),
         winningBidderId: winningBidderId ?? '',
         auctionItemId: auctionItemId ?? ''
       }

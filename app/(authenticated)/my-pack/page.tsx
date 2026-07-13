@@ -1,4 +1,4 @@
-import { getAccountData } from 'app/lib/actions/_profile/getAccountData'
+import { getPackMemberData } from 'app/lib/actions/my-pack/getPackMemberData'
 import MyPackClient from './MyPackClient'
 import { Suspense } from 'react'
 import { MyPackSkeleton } from 'app/components/features/my-pack/MyPack'
@@ -6,7 +6,7 @@ import { MyPackSkeleton } from 'app/components/features/my-pack/MyPack'
 export const dynamic = 'force-dynamic'
 
 export default async function MyPackPage() {
-  const result = await getAccountData()
+  const result = await getPackMemberData()
 
   return (
     <Suspense fallback={<MyPackSkeleton />}>
@@ -17,7 +17,7 @@ export default async function MyPackPage() {
         auctionParticipation={result?.data?.auctionParticipation}
         paymentMethods={result?.data?.paymentMethods}
         adoptionFees={result?.data?.adoptionFees}
-        merchAndWWOrders={result?.data?.merchAndWWOrders}
+        multiItemOrders={result?.data?.multiItemOrders}
         auctionPurchases={result.data.auctionPurchases}
       />
     </Suspense>

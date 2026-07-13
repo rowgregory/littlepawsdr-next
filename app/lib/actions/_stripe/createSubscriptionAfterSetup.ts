@@ -4,7 +4,7 @@ import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 import { RecurringFrequency } from '@prisma/client'
 import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/log.server.utils'
+import { getRequestGeo } from 'app/utils/_log.server.utils'
 
 interface CreateSubscriptionParams {
   setupIntentId: string

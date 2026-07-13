@@ -1,4 +1,4 @@
-import { serializeProduct } from 'app/utils/product.utils'
+import { serializeProduct } from 'app/utils/_product.utils'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 

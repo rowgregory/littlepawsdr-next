@@ -1,6 +1,6 @@
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 
 export const getAuctionByCustomAuctionLink = async (link: string) => {
   try {

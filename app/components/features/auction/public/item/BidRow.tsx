@@ -1,10 +1,10 @@
-import { bidderDisplay } from 'app/utils/auction.utils'
+import { bidderDisplay } from 'app/utils/_auction.utils'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { formatDateTime } from 'app/utils/_date.utils'
 import { useInView, motion } from 'framer-motion'
 import { Trophy } from 'lucide-react'
 import { useRef } from 'react'
-import { IAuctionBid } from 'types/entities/auction-bid'
+import { IAuctionBid } from 'types/_auction-bid'
 
 export function BidRow({ bid, rank, delay }: { bid: IAuctionBid; rank: number; delay: number }) {
   const ref = useRef(null)

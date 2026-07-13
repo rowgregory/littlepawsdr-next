@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { IAuction } from 'types/entities/auction'
+import { IAuction } from 'types/_auction'
 import { pusherClient } from 'app/lib/pusher/pusher-client'
 import { useRouter } from 'next/navigation'
 import {

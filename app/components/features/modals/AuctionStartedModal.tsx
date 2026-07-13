@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Gavel, Zap, X, ChevronRight } from 'lucide-react'
 import { useCountdown } from '@hooks/useCountdown.hook'
 import Link from 'next/link'
-import { AuctionStartedData } from 'types/entities/auction'
+import { AuctionStartedData } from 'types/_auction'
 import { CountUnit } from 'app/components/_primitives'
 
 export function AuctionStartedModal({ data, onClose }: { data: AuctionStartedData | null; onClose: () => void }) {

@@ -15,7 +15,8 @@ import {
   CheckCircle,
   KeyRound,
   Database,
-  RefreshCw
+  RefreshCw,
+  AlertCircle
 } from 'lucide-react'
 import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 
@@ -44,13 +45,20 @@ function SectionHeader({ id, icon: Icon, title }: { id: string; icon: React.Elem
   )
 }
 
-function Note({ type = 'info', children }: { type?: 'info' | 'warning' | 'success'; children: React.ReactNode }) {
+function Note({
+  type = 'info',
+  children
+}: {
+  type?: 'info' | 'warning' | 'success' | 'error'
+  children: React.ReactNode
+}) {
   const styles = {
     info: 'border-primary-light/30 dark:border-primary-dark/30 bg-primary-light/5 dark:bg-primary-dark/5 text-primary-light dark:text-primary-dark',
     warning: 'border-amber-500/30 bg-amber-500/5 text-amber-600 dark:text-amber-400',
-    success: 'border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400'
+    success: 'border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400',
+    error: 'border-red-500/30 bg-red-500/5 text-red-600 dark:text-red-400'
   }
-  const icons = { info: Info, warning: AlertTriangle, success: CheckCircle }
+  const icons = { info: Info, warning: AlertTriangle, success: CheckCircle, error: AlertCircle }
   const Icon = icons[type]
 
   return (
@@ -302,12 +310,15 @@ export default function AdminGuideClient() {
               <SectionHeader id="orders" icon={Package} title="Orders" />
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Note type="warning">
-                  Orders highlighted in amber with a truck icon need to be physically shipped. These are your action
-                  items.
+                  Orders highlighted in amber need to be physically shipped. These are your action items.
+                </Note>
+                <Note type="error">
+                  Orders highlighted in red are failed payments. The customer has automatically been sent a failure
+                  email with instructions to update their payment method.
                 </Note>
                 <Q question="How do I mark an order as shipped?">
                   <Step number={1}>Click the order in the orders list.</Step>
-                  <Step number={2}>On the order detail page, find the Shipping section.</Step>
+                  <Step number={2}>On the order detail page, find the Fulfillment section.</Step>
                   <Step number={3}>
                     Click Mark as Shipped. The customer will automatically receive a shipping confirmation email.
                   </Step>
@@ -320,7 +331,15 @@ export default function AdminGuideClient() {
                     <strong>CONFIRMED</strong> — payment succeeded and the order is active.
                   </p>
                   <p>
-                    <strong>FAILED</strong> — payment failed. The customer was not charged.
+                    <strong>FAILED</strong> — payment failed. The customer was not charged and has been notified
+                    automatically by email.
+                  </p>
+                </Q>
+                <Q question="What should I do when I see a failed order?">
+                  <p>
+                    Nothing is required — the customer has already received an automated email directing them to update
+                    their payment method in My Pack. You can verify the failure reason and when the email was sent in
+                    the Payment section of the order detail page.
                   </p>
                 </Q>
                 <Q question="What do the shipping statuses mean?">

@@ -1,36 +1,12 @@
-import { fadeUp } from 'app/lib/constants/motion.constants'
-import { motion } from 'framer-motion'
 import { StatusPill } from 'app/components/_primitives/StatusPill'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { formatDate } from 'app/utils/_date.utils'
-import { Dog } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState } from './EmptyState'
 
 export function AdoptionFees({ adoptionFees }) {
   return (
-    <motion.section
-      variants={fadeUp}
-      initial="hidden"
-      animate="show"
-      custom={3}
-      aria-labelledby="adoption-fees-heading"
-    >
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
-          <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-            Adoption Fees
-          </h2>
-        </div>
-        <Link
-          href="/adopt"
-          className="flex items-center gap-1.5 text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 border border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-        >
-          <Dog className="w-3 h-3 shrink-0" aria-hidden="true" />
-          Adopt
-        </Link>
-      </div>
+    <section aria-labelledby="adoption-fees-heading">
       {adoptionFees?.length > 0 ? (
         <ul
           className="grid grid-cols-1 xs:grid-cols-2 gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark"
@@ -89,6 +65,6 @@ export function AdoptionFees({ adoptionFees }) {
       ) : (
         <EmptyState message="No adoption fees on file." />
       )}
-    </motion.section>
+    </section>
   )
 }

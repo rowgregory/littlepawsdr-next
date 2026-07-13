@@ -2,10 +2,10 @@
 
 import prisma from 'prisma/client'
 import { getActor } from '../user/getActor'
-import { getRequestContext } from 'app/utils/log.server.utils'
+import { getRequestContext } from 'app/utils/_log.server.utils'
 import { auth } from 'app/lib/auth'
 import { createLog } from '../log/createLog'
-import { buildLogMessage } from 'app/utils/log.client.utils'
+import { buildLogMessage } from 'app/utils/_log.client.utils'
 
 export const deleteAuctionItem = async (id: string, auctionId: string) => {
   const [actor, context] = await Promise.all([getActor().catch(() => 'Unknown actor'), getRequestContext()])

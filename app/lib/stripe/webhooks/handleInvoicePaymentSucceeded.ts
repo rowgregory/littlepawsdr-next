@@ -107,7 +107,8 @@ export async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         geoCity: geoUser?.lastGeoCity ?? null,
         geoRegion: geoUser?.lastGeoRegion ?? null,
         geoCountry: geoUser?.lastGeoCountry ?? null,
-        geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
+        geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null,
+        isFirstPayment
       },
       include: { items: true }
     })

@@ -1,8 +1,8 @@
 import { SectionLabel } from 'app/components/_primitives'
 import { Zap } from 'lucide-react'
 import { AuctionItemCard } from './AuctionItemCard'
-import { IAuctionItem } from 'types/entities/auction-item'
-import { IAuction } from 'types/entities/auction'
+import { IAuctionItem } from 'types/_auction-item'
+import { IAuction } from 'types/_auction'
 import { Dispatch, SetStateAction } from 'react'
 
 type Props = {

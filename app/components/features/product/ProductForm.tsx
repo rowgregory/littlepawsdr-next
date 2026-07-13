@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { createProduct } from 'app/lib/actions/product/createProduct'
 import Picture from 'app/components/_common/Picture'
 import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
-import { IProduct } from 'types/entities/product'
+import { IProduct } from 'types/_product'
 import { updateProduct } from 'app/lib/actions/product/updateProduct'
 
 type SizeEntry = { size: string; quantity: number }

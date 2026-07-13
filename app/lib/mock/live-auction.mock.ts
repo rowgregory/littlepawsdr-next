@@ -1,5 +1,5 @@
-import { IAuctionBid } from 'types/entities/auction-bid'
-import { IAuctionItem } from 'types/entities/auction-item'
+import { IAuctionBid } from 'types/_auction-bid'
+import { IAuctionItem } from 'types/_auction-item'
 
 export type Anomaly = {
   id: string

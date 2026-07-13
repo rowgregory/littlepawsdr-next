@@ -2,22 +2,69 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, DollarSign, FileText, Radio, CheckCircle, Gavel } from 'lucide-react'
+import { Plus, FileText, Radio, CheckCircle, Gavel } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionDrawer } from 'app/lib/store/slices/uiSlice'
 import { AdminAuctionCard } from '../../../components/features/auction/admin/AdminAuctionCard'
 import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 import AdminHeaderButton from 'app/components/admin/AdminHeaderButton'
 import { Stat } from 'app/components/admin/Stat'
-import { fmtCurrency } from 'app/utils/_currency.utils'
 import AdminEmptyState from 'app/components/admin/AdminEmptyState'
 import AdminFilterTabs from 'app/components/admin/AdminFilterTabs'
 import { AUCTION_FILTERS } from 'app/lib/constants/auction.constants'
+import { IAuction } from 'types/_auction'
 
-export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
+// ── Grouping helpers ───────────────────────────────────────────────────────
+
+function getQuarter(date: string | Date) {
+  const d = new Date(date)
+  return Math.floor(d.getMonth() / 3) + 1
+}
+
+function getYear(date: string | Date) {
+  return new Date(date).getFullYear()
+}
+
+type YearGroup = {
+  year: number
+  quarters: QuarterGroup[]
+}
+
+type QuarterGroup = {
+  quarter: number
+  auctions: IAuction[]
+}
+
+function groupByYearAndQuarter(auctions: IAuction[]): YearGroup[] {
+  const map = new Map<number, Map<number, IAuction[]>>()
+
+  for (const auction of auctions) {
+    const year = getYear(auction.startDate)
+    const quarter = getQuarter(auction.startDate)
+
+    if (!map.has(year)) map.set(year, new Map())
+    const yearMap = map.get(year)!
+    if (!yearMap.has(quarter)) yearMap.set(quarter, [])
+    yearMap.get(quarter)!.push(auction)
+  }
+
+  return [...map.entries()]
+    .sort(([a], [b]) => b - a) // newest year first
+    .map(([year, quarterMap]) => ({
+      year,
+      quarters: [...quarterMap.entries()]
+        .sort(([a], [b]) => b - a) // newest quarter first
+        .map(([quarter, auctions]) => ({ quarter, auctions }))
+    }))
+}
+
+// ── Main client ────────────────────────────────────────────────────────────
+
+export default function AdminAuctionsClient({ auctions }: { auctions: IAuction[] }) {
   const [filter, setFilter] = useState('ALL')
 
   const filtered = filter === 'ALL' ? auctions : auctions.filter((a) => a.status === filter)
+  const grouped = groupByYearAndQuarter(filtered)
 
   const counts = {
     ALL: auctions.length,
@@ -25,6 +72,8 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
     ACTIVE: auctions.filter((a) => a.status === 'ACTIVE').length,
     ENDED: auctions.filter((a) => a.status === 'ENDED').length
   }
+
+  let cardIndex = 0
 
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
@@ -42,15 +91,15 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
       />
 
       <div className="w-full px-4 sm:px-6 py-6 space-y-6">
-        {/* Stat cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Stat label="All" value={fmtCurrency(counts.ALL)} icon={DollarSign} />
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <Stat label="Total" value={String(counts.ALL)} icon={Gavel} />
           <Stat label="Draft" value={String(counts.DRAFT)} icon={FileText} />
-          <Stat label="Active" value={String(counts.ACTIVE)} icon={Radio} />
+          <Stat label="Active" value={String(counts.ACTIVE)} icon={Radio} accent />
           <Stat label="Ended" value={String(counts.ENDED)} icon={CheckCircle} />
         </div>
 
-        {/* ── Filter tabs ── */}
+        {/* Filter tabs */}
         <AdminFilterTabs
           options={AUCTION_FILTERS}
           value={filter}
@@ -59,7 +108,7 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
           label="Filter auctions by status"
         />
 
-        {/* ── Grid ── */}
+        {/* Grouped list */}
         <AnimatePresence mode="wait">
           {filtered.length > 0 ? (
             <motion.div
@@ -68,10 +117,42 @@ export default function AdminAuctionsClient({ auctions }: { auctions: any[] }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
+              className="space-y-8"
             >
-              {filtered.map((auction, i) => (
-                <AdminAuctionCard key={auction.id} auction={auction} index={i} />
+              {grouped.map(({ year, quarters }) => (
+                <div key={year}>
+                  {/* Year heading */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                      {year}
+                    </span>
+                    <span className="flex-1 h-px bg-border-light dark:bg-border-dark" />
+                  </div>
+
+                  <div className="space-y-6">
+                    {quarters.map(({ quarter, auctions }) => (
+                      <div key={quarter}>
+                        {/* Quarter heading */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light/60 dark:text-muted-dark/60">
+                            Q{quarter}
+                          </span>
+                          <span className="flex-1 h-px bg-border-light/50 dark:bg-border-dark/50" />
+                          <span className="text-[9px] font-mono text-muted-light/60 dark:text-muted-dark/60">
+                            {auctions.length} auction{auctions.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
+
+                        {/* Full-width cards */}
+                        <div className="space-y-3">
+                          {auctions.map((auction) => (
+                            <AdminAuctionCard key={auction.id} auction={auction} index={cardIndex++} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               ))}
             </motion.div>
           ) : (

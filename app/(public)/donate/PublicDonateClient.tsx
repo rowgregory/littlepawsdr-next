@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { IPaymentMethod } from 'types/entities/payment-method.types'
+import { IPaymentMethod } from 'types/_payment-method.types'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { getInitials } from 'app/utils/user.utils'
+import { getInitials } from 'app/utils/_user.utils'
 import { DonateForm } from 'app/components/features/donate'
 
 type IPublicDonateClient = {
