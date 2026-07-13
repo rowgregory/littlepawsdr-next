@@ -30,7 +30,8 @@ export const getAccountData = async () => {
           address: true,
           createdAt: true,
           autoPay: true,
-          autoPayCoverFees: true
+          autoPayCoverFees: true,
+          role: true
         }
       }),
       prisma.order.findMany({

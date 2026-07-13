@@ -14,7 +14,8 @@ import {
   AlertTriangle,
   CheckCircle,
   KeyRound,
-  Database
+  Database,
+  RefreshCw
 } from 'lucide-react'
 import AdminPageHeader from 'app/components/common/AdminPageHeader'
 
@@ -23,6 +24,7 @@ const sections = [
   { id: 'signing-in', label: 'Signing In', icon: KeyRound },
   { id: 'data-migration', label: 'Data Migration', icon: Database },
   { id: 'orders', label: 'Orders', icon: Package },
+  { id: 'subscriptions', label: 'Subscriptions', icon: RefreshCw },
   { id: 'auctions', label: 'Auctions', icon: Gavel },
   { id: 'dachshunds', label: 'Dachshunds', icon: Dog },
   { id: 'welcome-wieners', label: 'Welcome Wieners', icon: Heart },
@@ -198,10 +200,14 @@ export default function AdminGuideClient() {
                     used the same email both times, the system will have linked them automatically.
                   </p>
                 </Q>
-                <Q question="Can a member change their email address?">
-                  <p>Not from the site currently. If a member needs their email updated, contact Greg.</p>
+                <Q question="Can a pack member change their email address?">
+                  <p>
+                    Yes — pack members can change their email directly from My Pack. They click the edit icon next to
+                    their email address, enter the new one, and a verification link is sent to the new address. Once
+                    verified the change takes effect immediately.
+                  </p>
                 </Q>
-                <Q question="A member says the magic link email never arrived — what do I tell them?">
+                <Q question="A pack member says the magic link email never arrived — what do I tell them?">
                   <p>Ask them to:</p>
                   <Step number={1}>Check their spam, junk, and promotions folders.</Step>
                   <Step number={2}>Make sure they typed their email address correctly on the login page.</Step>
@@ -334,45 +340,92 @@ export default function AdminGuideClient() {
               </div>
             </section>
 
+            {/* Subscriptions */}
+            <section>
+              <SectionHeader id="subscriptions" icon={RefreshCw} title="Subscriptions" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  Subscriptions are recurring donations that pack members set up directly on the site. They are
+                  processed automatically by Stripe on a monthly or yearly basis — no action is needed from you.
+                </Note>
+                <Q question="Where do I see subscriptions?">
+                  <p>
+                    Go to Orders in the sidebar and filter by Recurring. Each row represents one active or past
+                    recurring donation. You can click into any order to see the full details including billing history
+                    and status.
+                  </p>
+                </Q>
+                <Q question="Can a pack member have more than one subscription?">
+                  <p>
+                    Yes — pack members can subscribe to multiple tiers at the same time, and can mix monthly and yearly
+                    billing. For example, they might be a Den Leader monthly and also a Tail Wagger yearly. Each
+                    subscription shows up as a separate row in the orders list. There are 16 tiers ranging from $10 to
+                    $500 per month.
+                  </p>
+                </Q>
+                <Q question="Can a pack member cancel their subscription?">
+                  <p>
+                    Yes — pack members can cancel any subscription at any time directly from My Pack. There are no
+                    penalties or fees. The cancellation takes effect immediately and they will not be charged again.
+                  </p>
+                </Q>
+                <Q question="What happens when a recurring payment fails?">
+                  <p>
+                    Stripe will automatically retry the payment over the following days. If it continues to fail, the
+                    subscription will be marked as past due. The pack member will receive an automated email from Stripe
+                    prompting them to update their payment method. You do not need to do anything unless they contact
+                    you directly.
+                  </p>
+                </Q>
+                <Q question="Can I cancel a subscription on behalf of a pack member?">
+                  <p>
+                    Not directly from the admin panel currently. If a pack member needs their subscription cancelled and
+                    cannot do it themselves, contact Greg.
+                  </p>
+                </Q>
+              </div>
+            </section>
+
             {/* Auctions */}
             <section>
               <SectionHeader id="auctions" icon={Gavel} title="Auctions" />
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  Auctions start and end automatically based on the dates you set. You do not need to manually start or
+                  stop anything — the system handles it for you.
+                </Note>
                 <Note type="warning">
-                  Only one auction can be active at a time. Make sure the previous auction is fully ended before
-                  starting a new one.
+                  Only one auction can be active at a time. Make sure the previous auction has fully ended before the
+                  next one is scheduled to begin.
                 </Note>
                 <Q question="How do I create an auction?">
                   <Step number={1}>Go to Auctions in the sidebar.</Step>
-                  <Step number={2}>Click New Auction and fill in the title, goal, and dates.</Step>
+                  <Step number={2}>Click New Auction and fill in the title, goal, start date, and end date.</Step>
                   <Step number={3}>
                     Add items under the Items tab. Each item needs a name, starting price, and at least one photo.
                   </Step>
-                  <Step number={4}>When ready, start the auction from the Settings tab.</Step>
+                  <Step number={4}>
+                    Double check everything before the start date — once the auction goes live, most settings are
+                    locked.
+                  </Step>
                 </Q>
-                <Q question="How do I start an auction?">
+                <Q question="How does the auction start?">
                   <p>
-                    Open the auction, go to the Settings tab, and click Start Auction. This makes it live and visible to
-                    the public. A notification will appear on the site for logged-in pack members.
+                    Automatically at the start date and time you set. A notification will appear on the site for
+                    logged-in pack members. You do not need to do anything.
                   </p>
                 </Q>
-                <Q question="How do I end an auction?">
+                <Q question="How does the auction end?">
                   <p>
-                    From the Settings tab, click End Auction. The system will automatically identify winners for each
-                    item and send them payment request emails. Winners with auto-pay enabled will be charged
-                    immediately.
+                    Automatically at the end date and time you set. The system identifies winners for each item and
+                    sends payment request emails. Winners with auto-pay enabled are charged immediately. You do not need
+                    to do anything.
                   </p>
                 </Q>
                 <Q question="What is auto-pay?">
                   <p>
-                    Pack Members can enable auto-pay in My Pack. When an auction ends, if they won an item and have a
-                    saved card, they are charged automatically. No action is needed from you.
-                  </p>
-                </Q>
-                <Q question="What if I need to revert an auction?">
-                  <p>
-                    From the Settings tab, click Revert Auction. This sets it back to DRAFT status. Use this only if
-                    something went wrong — it does not refund any payments that were already processed.
+                    Pack members can enable auto-pay in My Pack. When an auction ends, if they won an item and have a
+                    saved card and address, they are charged automatically. No action is needed from you.
                   </p>
                 </Q>
                 <Q question="What happens if a winner does not pay?">
@@ -384,8 +437,12 @@ export default function AdminGuideClient() {
                 <Q question="Can I edit an auction while it is live?">
                   <p>
                     Only the item name, description, and photos can be changed while the auction is active. Prices,
-                    quantities, and shipping settings are locked.
+                    quantities, and shipping settings are locked. Once an auction is live it cannot be stopped or
+                    reversed.
                   </p>
+                </Q>
+                <Q question="What if something goes wrong during the auction?">
+                  <p>Contact Greg immediately at greg@sqysh.com.</p>
                 </Q>
               </div>
             </section>

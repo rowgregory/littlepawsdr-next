@@ -21,9 +21,9 @@ export async function getPendingShipments(): Promise<{
   try {
     const orders = await prisma.order.findMany({
       where: {
-        isPhysical: true,
         status: 'CONFIRMED',
-        shippingStatus: null
+        source: 'SITE',
+        shippingStatus: 'PENDING_FULFILLMENT'
       },
       include: {
         items: {

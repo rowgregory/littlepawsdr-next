@@ -4,14 +4,14 @@ import prisma from 'prisma/client'
 import type { AdapterUser } from '@auth/core/adapters'
 import { Role } from '@prisma/client'
 import { authConfig } from './auth.config'
-import googleProvider from './auth/google.provider'
-import { magicLinkProvider } from './auth/magic-link.provider'
 import { handleMagicLinkCallback } from './callbacks/magic-link.callback'
 import { handleGoogleCallback } from './callbacks/google.callback'
 import { createLog } from './actions/log/createLog'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 import { cache } from 'react'
 import { migrateMongoUser } from './actions/migrate/migrateMongoUser'
+import { handleFacebookCallback } from './callbacks/facebook.callback'
+import { googleProvider, facebookProvider, magicLinkProvider } from './auth/index'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -22,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     updateAge: 24 * 60 * 60 // 24 hours
   },
   adapter: PrismaAdapter(prisma),
-  providers: [googleProvider, magicLinkProvider],
+  providers: [googleProvider, magicLinkProvider, facebookProvider],
   callbacks: {
     ...authConfig.callbacks,
 
@@ -33,6 +33,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return await handleMagicLinkCallback(user)
           case 'google':
             return await handleGoogleCallback(user, account, profile)
+          case 'facebook':
+            return await handleFacebookCallback(user, account, profile)
           default:
             return true
         }

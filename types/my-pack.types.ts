@@ -86,6 +86,7 @@ export type PackMember = Pick<
   | 'createdAt'
   | 'autoPay'
   | 'autoPayCoverFees'
+  | 'role'
 > & {
   address: Address | null
 }

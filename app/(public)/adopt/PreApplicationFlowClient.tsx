@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
 import { store } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
@@ -37,8 +36,6 @@ export const PreApplicationFlowClient = ({
   // Magic link state
   const [magicEmail, setMagicEmail] = useState('')
   const [magicLinkSent, setMagicLinkSent] = useState(false)
-  const [isSendingMagicLink, setIsSendingMagicLink] = useState(false)
-
   const [inputs, setInputs] = useState({
     firstName: userName?.firstName ?? '',
     lastName: userName?.lastName ?? '',
@@ -109,14 +106,6 @@ export const PreApplicationFlowClient = ({
     }
   }
 
-  const handleMagicLink = async () => {
-    if (!magicEmail) return
-    setIsSendingMagicLink(true)
-    await signIn('email', { email: magicEmail, redirectTo: '/adopt/application', redirect: false })
-    setMagicLinkSent(true)
-    setIsSendingMagicLink(false)
-  }
-
   const currentIndex = STEPS.indexOf(step)
 
   return (
@@ -133,8 +122,6 @@ export const PreApplicationFlowClient = ({
           {/* Step 0: Sign in */}
           {step === 'sign-in' && (
             <Step0SignIn
-              handleMagicLink={handleMagicLink}
-              isSendingMagicLink={isSendingMagicLink}
               magicEmail={magicEmail}
               magicLinkSent={magicLinkSent}
               setMagicEmail={setMagicEmail}

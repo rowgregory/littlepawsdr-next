@@ -52,17 +52,17 @@ export async function getDashboardStats() {
     adoptionFeeRecords
   ] = await Promise.all([
     prisma.order
-      .findMany({ where: { status: 'CONFIRMED' }, select: { totalAmount: true, createdAt: true } })
+      .findMany({ where: { status: 'CONFIRMED', source: 'SITE' }, select: { totalAmount: true, createdAt: true } })
       .catch(() => []),
     prisma.order
       .findMany({
-        where: { status: 'CONFIRMED', createdAt: { gte: startOfMonth } },
+        where: { status: 'CONFIRMED', createdAt: { gte: startOfMonth }, source: 'SITE' },
         select: { totalAmount: true }
       })
       .catch(() => []),
     prisma.order
       .findMany({
-        where: { status: 'CONFIRMED', createdAt: { gte: startOfLastMonth, lte: endOfLastMonth } },
+        where: { status: 'CONFIRMED', createdAt: { gte: startOfLastMonth, lte: endOfLastMonth }, source: 'SITE' },
         select: { totalAmount: true }
       })
       .catch(() => []),
@@ -74,7 +74,7 @@ export async function getDashboardStats() {
     prisma.user.count({ where: { role: 'SUPPORTER', createdAt: { gte: startOfMonth } } }).catch(() => 0),
     prisma.order
       .findMany({
-        where: { status: 'CONFIRMED' },
+        where: { status: 'CONFIRMED', source: 'SITE' },
         orderBy: { createdAt: 'desc' },
         take: 8,
         select: {

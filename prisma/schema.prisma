@@ -194,17 +194,18 @@ model User {
   autoPay          Boolean @default(false)
   autoPayCoverFees Boolean @default(false)
 
-  stripeCustomerId String?
-  paymentMethods   PaymentMethod[]
-  accounts         Account[]
-  sessions         Session[]
-  orders           Order[]
-  address          Address?
-  bidder           AuctionBidder[]
-  winningBids      AuctionWinningBidder[]
-  instantBuys      AuctionItemInstantBuyer[]
-  bids             AuctionBid[]
-  adoptionFees     AdoptionFee[]
+  stripeCustomerId  String?
+  paymentMethods    PaymentMethod[]
+  accounts          Account[]
+  sessions          Session[]
+  orders            Order[]
+  address           Address?
+  bidder            AuctionBidder[]
+  winningBids       AuctionWinningBidder[]
+  instantBuys       AuctionItemInstantBuyer[]
+  bids              AuctionBid[]
+  adoptionFees      AdoptionFee[]
+  emailChangeTokens EmailChangeToken[]
 
   status UserStatus @default(ACTIVE)
 
@@ -628,6 +629,18 @@ model AuctionAnomaly {
   updatedAt DateTime @updatedAt
 
   @@index([auctionId])
+}
+
+model EmailChangeToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  newEmail  String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 // ─── STAGING TABLES ───────────────────────────────────────────────────

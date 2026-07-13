@@ -2,7 +2,8 @@ export function formatRole(role: string): string {
   const ROLE_LABELS: Record<string, string> = {
     SUPERUSER: 'Super User',
     ADMIN: 'Admin',
-    SUPPORTER: 'Supporter'
+    SUPPORTER: 'Supporter',
+    PACK_MEMBER: 'Pack Member'
   }
   return ROLE_LABELS[role] ?? role
 }

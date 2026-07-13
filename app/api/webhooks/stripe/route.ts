@@ -3,6 +3,7 @@ import { stripeClient } from 'app/lib/stripe/stripe-client'
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import {
+  handleInvoicePaymentFailed,
   handleInvoicePaymentSucceeded,
   handlePaymentIntentFailed,
   handlePaymentIntentSucceeded,
@@ -69,6 +70,9 @@ export async function POST(req: NextRequest) {
       }
       case 'invoice.payment_succeeded':
         await handleInvoicePaymentSucceeded(event.data.object as Stripe.Invoice)
+        break
+      case 'invoice.payment_failed':
+        await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
         break
       default:
         await createLog('info', 'Unhandled webhook event', {

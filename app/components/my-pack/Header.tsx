@@ -6,6 +6,8 @@ import { Dispatch, SetStateAction } from 'react'
 import { FormField } from 'app/components/_primitives/FormField'
 import { Toggle } from 'app/components/_primitives/Toggle'
 import { AuctionParticipation, AuctionPurchase, MerchAndWWOrder, PackMember, Subscription } from 'types/my-pack.types'
+import { formatRole } from 'app/utils/user.utils'
+import { EmailChangeSection } from './EmailChangeSection'
 
 interface HeaderProps {
   user: PackMember
@@ -77,7 +79,7 @@ export function Header({
           <div className="flex items-center gap-3 mb-1">
             <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
             <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
-              Member
+              {formatRole(user.role)}
             </p>
           </div>
 
@@ -171,7 +173,7 @@ export function Header({
             )}
           </AnimatePresence>
 
-          <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-0.5 truncate">{user.email}</p>
+          <EmailChangeSection currentEmail={user.email} />
         </div>
       </div>
 
