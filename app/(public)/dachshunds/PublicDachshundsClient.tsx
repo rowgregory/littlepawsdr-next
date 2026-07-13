@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { DogCard } from '../../components/_common/DogCard'
 import { containerVariants } from 'app/lib/constants/motion.constants'
+import { DogCard } from 'app/components/features/dachshunds/DogCard'
 
 export default function PublicDachshundsClient({ data }) {
   return (

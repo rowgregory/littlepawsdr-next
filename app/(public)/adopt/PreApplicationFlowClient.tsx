@@ -9,7 +9,14 @@ import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { updateAdoptionFee } from 'app/lib/actions/adoption-fee/updateAdoptionFee'
 import { STEPS } from 'app/lib/constants/adoption-application.constants'
 import { STEPS_TYPES } from 'types/_adoption-application.types'
-import { Header, Progress, Step0SignIn, Step1Terms, Step2Info, Step3Payment } from 'app/components/adoption-application'
+import {
+  Header,
+  Progress,
+  Step0SignIn,
+  Step1Terms,
+  Step2Info,
+  Step3Payment
+} from 'app/components/features/adoption-application'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 
 type Props = {

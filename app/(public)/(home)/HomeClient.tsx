@@ -1,12 +1,12 @@
-import { Hero } from '../../components/home/hero/Hero'
-import { AboutBlock } from '../../components/home/AboutBlock'
-import { AvailableDogsBlock } from '../../components/home/AvailableDogsCarousel'
-import { LPDRLogo } from '../../components/home/LPDRLogo'
-import { DogGalleryBlock } from '../../components/home/DogGalleryBlock'
-import { WaysToHelpBlock } from '../../components/home/WaysToHelpBlock'
-import { WelcomeWienersBlock } from '../../components/home/WelcomeWienersBlock'
-import InstagramBlock from '../../components/home/InstagramBlock'
-import { ApplicationsBlock } from '../../components/home/ApplicationsBlock'
+import { AboutBlock } from 'app/components/features/home/AboutBlock'
+import { ApplicationsBlock } from 'app/components/features/home/ApplicationsBlock'
+import { AvailableDogsBlock } from 'app/components/features/home/AvailableDogsCarousel'
+import { DogGalleryBlock } from 'app/components/features/home/DogGalleryBlock'
+import { Hero } from 'app/components/features/home/hero/Hero'
+import InstagramBlock from 'app/components/features/home/InstagramBlock'
+import { LPDRLogo } from 'app/components/features/home/LPDRLogo'
+import { WaysToHelpBlock } from 'app/components/features/home/WaysToHelpBlock'
+import { WelcomeWienersBlock } from 'app/components/features/home/WelcomeWienersBlock'
 
 export const HomeClient = ({ dachshunds, welcomeWieners }) => {
   return (

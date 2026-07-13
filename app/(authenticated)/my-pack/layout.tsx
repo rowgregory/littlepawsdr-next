@@ -1,4 +1,4 @@
-import AddPaymentMethodModal from 'app/components/modals/AddPaymentMethodModal'
+import AddPaymentMethodModal from 'app/components/features/modals/AddPaymentMethodModal'
 
 export const dynamic = 'force-dynamic'
 

@@ -11,8 +11,6 @@ import { CardElementField } from 'app/components/_primitives/CardElementField'
 import { FormError } from 'app/components/_primitives/FormError'
 import { SubmitButton } from 'app/components/_primitives/SubmitButton'
 import { Toggle } from 'app/components/_primitives/Toggle'
-import { CoverFeesToggle } from 'app/components/payment/CoverFeesToggle'
-import { SavedCardSelector } from 'app/components/payment/SavedCardSelector'
 import { useDefaultCard } from '@hooks/useDefaultCard.hook'
 import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
 import type { IAuctionItem } from 'types/entities/auction-item'
@@ -23,7 +21,9 @@ import {
   InstantBuyItemCard,
   InstantBuyNameSection,
   InstantBuyOrderSummary
-} from 'app/components/auction/public/instant-buy'
+} from 'app/components/features/auction/public/instant-buy'
+import { CoverFeesToggle } from 'app/components/features/payment/CoverFeesToggle'
+import { SavedCardSelector } from 'app/components/features/payment/SavedCardSelector'
 
 interface FormInputs {
   // identity

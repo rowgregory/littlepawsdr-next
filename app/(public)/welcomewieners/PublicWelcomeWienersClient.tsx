@@ -8,7 +8,7 @@ import { useAppDispatch } from 'app/lib/store/store'
 import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
 import { FILTERS, FilterValue } from 'app/lib/constants/welcome-wiener.constants'
-import { WelcomeWienerCard } from 'app/components/welcome-wieners/public/WelcomeWienerCard'
+import { WelcomeWienerCard } from 'app/components/features/welcome-wieners/public/WelcomeWienerCard'
 
 export function PublicWelcomeWienersClient({ welcomeWieners }: { welcomeWieners: IWelcomeWiener[] }) {
   const dispatch = useAppDispatch()

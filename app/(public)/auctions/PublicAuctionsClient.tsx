@@ -4,9 +4,9 @@ import { motion, useInView } from 'framer-motion'
 import { Users, Package, Zap } from 'lucide-react'
 import { useRef } from 'react'
 import { formatMoney } from 'app/utils/_currency.utils'
-import { EmptyState } from 'app/components/auction/public/EmptyState'
-import { ActiveAuctionCard } from 'app/components/auction/public/ActiveAuctionCard'
-import { PastAuctionCard } from 'app/components/auction/public/PastAuctionCard'
+import { EmptyState } from 'app/components/features/auction/public/EmptyState'
+import { ActiveAuctionCard } from 'app/components/features/auction/public/ActiveAuctionCard'
+import { PastAuctionCard } from 'app/components/features/auction/public/PastAuctionCard'
 
 export default function PublicAuctionsClient({ auctions }) {
   const active = auctions.filter((a) => a.status === 'ACTIVE')

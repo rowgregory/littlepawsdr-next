@@ -6,10 +6,10 @@ import { TIERS } from 'app/lib/constants/subscriptions.constants'
 import { IPaymentMethod } from 'types/entities/payment-method.types'
 import { useSearchParams } from 'next/navigation'
 import Picture from '../../components/_common/Picture'
-import { StickyHeader } from 'app/components/subscriptions/StickyHeader'
-import { SubscriptionSelector } from 'app/components/subscriptions/SubscriptionSelector'
-import { SubscriptionPaymentView } from 'app/components/subscriptions/SubscriptionPaymentView'
-import { StickyBar } from 'app/components/subscriptions/StickyBar'
+import { StickyHeader } from 'app/components/features/subscriptions/StickyHeader'
+import { SubscriptionSelector } from 'app/components/features/subscriptions/SubscriptionSelector'
+import { SubscriptionPaymentView } from 'app/components/features/subscriptions/SubscriptionPaymentView'
+import { StickyBar } from 'app/components/features/subscriptions/StickyBar'
 
 type IPublicSubscriptionsClient = {
   savedPaymentMethods: IPaymentMethod[]

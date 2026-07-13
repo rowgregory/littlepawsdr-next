@@ -5,8 +5,8 @@ import { Menu } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
-import AdminAuctionModal from 'app/components/modals/AdminAuctionModal'
 import AdminSidebar from './sidebar'
+import AdminAuctionModal from 'app/components/features/modals/AdminAuctionModal'
 
 export function AdminLayoutClient({ children }: { children: ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)

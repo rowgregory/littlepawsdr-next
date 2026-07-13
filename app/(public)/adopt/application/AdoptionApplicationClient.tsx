@@ -1,7 +1,7 @@
 'use client'
 
-import { ApplicationExpiryTimer } from 'app/components/adoption-application'
-import { AdoptionFeeWelcomeModal } from 'app/components/modals/AdoptionFeeModal'
+import { ApplicationExpiryTimer } from 'app/components/features/adoption-application'
+import { AdoptionFeeWelcomeModal } from 'app/components/features/modals/AdoptionFeeModal'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { useUiSelector } from 'app/lib/store/store'
 import { motion } from 'framer-motion'
@@ -16,6 +16,7 @@ export default function AdoptionApplicationClient({ expiresAt }: { expiresAt: Da
   return (
     <>
       <AdoptionFeeWelcomeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+
       <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16">
           {/* ── Header ── */}

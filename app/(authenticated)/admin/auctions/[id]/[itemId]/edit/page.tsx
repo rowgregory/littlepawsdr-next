@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import prisma from 'prisma/client'
-import { AuctionItemForm } from 'app/components/auction/admin/auction-item-form/AuctionItemForm'
+import { AuctionItemForm } from 'app/components/features/auction/admin/auction-item-form/AuctionItemForm'
 
 export default async function AdminAuctionEditItemPage({
   params

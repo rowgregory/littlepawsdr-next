@@ -1,5 +1,5 @@
-import ProductFormClient from 'app/components/forms/ProductForm'
+import ProductForm from 'app/components/features/product/ProductForm'
 
 export default async function CreateProductPage() {
-  return <ProductFormClient />
+  return <ProductForm />
 }

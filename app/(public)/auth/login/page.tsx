@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { GoogleButton } from 'app/components/login/GoogleButton'
-import { MagicLink } from 'app/components/login/MagicLink'
-import { FacebookButton } from 'app/components/login/FacebookButton'
+import { GoogleButton } from 'app/components/features/login/GoogleButton'
+import { MagicLink } from 'app/components/features/login/MagicLink'
+import { FacebookButton } from 'app/components/features/login/FacebookButton'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')

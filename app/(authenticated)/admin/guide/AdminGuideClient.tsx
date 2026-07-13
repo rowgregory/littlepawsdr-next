@@ -17,7 +17,7 @@ import {
   Database,
   RefreshCw
 } from 'lucide-react'
-import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 
 const sections = [
   { id: 'getting-started', label: 'Getting Started', icon: BookOpen },

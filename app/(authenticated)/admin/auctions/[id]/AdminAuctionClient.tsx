@@ -13,7 +13,7 @@ import {
   WinningBiddersTab,
   Tabs,
   TopBar
-} from 'app/components/auction/admin'
+} from 'app/components/features/auction/admin'
 import { TABS } from 'app/lib/constants/auction.constants'
 import { Check, Copy, ExternalLink } from 'lucide-react'
 import { useState } from 'react'

@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import AdminPageHeader from 'app/components/_common/AdminPageHeader'
-import AdminHeaderButton from 'app/components/_common/AdminHeaderButton'
-import AdminTable, { type Column } from 'app/components/_common/AdminTable'
+import AdminPageHeader from 'app/components/admin/AdminPageHeader'
+import AdminHeaderButton from 'app/components/admin/AdminHeaderButton'
+import AdminTable, { type Column } from 'app/components/admin/AdminTable'
 import Picture from 'app/components/_common/Picture'
 import { Product } from 'types/entities/product'
 

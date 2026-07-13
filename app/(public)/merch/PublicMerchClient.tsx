@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { IProduct } from 'types/entities/product'
 import { fadeUp } from 'app/lib/constants/motion.constants'
-import { ProductCard } from 'app/components/merch/ProductCard'
+import { ProductCard } from 'app/components/features/merch/ProductCard'
 
 export default function PublicMerchClient({ products }: { products: IProduct[] }) {
   const inStock = products.filter((p) => p.countInStock > 0)

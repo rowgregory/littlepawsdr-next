@@ -14,7 +14,7 @@ import { Anomaly, ANOMALY_COLORS, ANOMALY_LABELS, LiveBidEvent } from 'app/lib/m
 import { IAuction } from 'types/entities/auction'
 import dismissAuctionAnomaly from 'app/lib/actions/super-user/dismissAuctionAnomoly'
 import { detectAuctionAnomalies } from 'app/lib/actions/super-user/detectAuctionAnomalies'
-import AdminPageHeader from 'app/components/_common/AdminPageHeader'
+import AdminPageHeader from 'app/components/admin/AdminPageHeader'
 
 export default function AdminAuctionLiveClient({ auction }: { auction: IAuction | null }) {
   const [items, setItems] = useState<IAuctionItem[]>((auction?.items as IAuctionItem[]) ?? [])
