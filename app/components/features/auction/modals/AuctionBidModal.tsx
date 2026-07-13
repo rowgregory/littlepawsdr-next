@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, memo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { X, Zap, DollarSign, Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react'
 import { store } from 'app/lib/store/store'
 import { setCloseAuctionBidModal, setShowConfetti } from 'app/lib/store/slices/uiSlice'
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 import { IAuctionItem } from 'types/_auction-item'
 import { useSounds } from '@hooks/useSounds.hook'
 
-const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auctionItem: IAuctionItem }) {
+export function AuctionBidModal({ auctionItem }: { auctionItem: IAuctionItem }) {
   const router = useRouter()
   const auctionBidModal = useSelector((state: any) => state.ui.auctionBidModal)
   const [placedBidAmount, setPlacedBidAmount] = useState<number | null>(null)
@@ -524,5 +524,4 @@ const AuctionBidModal = memo(function AuctionBidModal({ auctionItem }: { auction
       </div>
     </div>
   )
-})
-export default AuctionBidModal
+}

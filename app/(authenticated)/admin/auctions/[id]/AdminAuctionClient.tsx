@@ -5,18 +5,18 @@ import { IAuction, Tab } from 'types/_auction'
 import { formatDate } from 'app/utils/_date.utils'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { getAuctionStatusConfig } from 'app/utils/_auction.utils'
-import {
-  ItemsTab,
-  OverviewTab,
-  SettingsTab,
-  BiddersTab,
-  WinningBiddersTab,
-  Tabs,
-  TopBar
-} from 'app/components/features/auction/admin'
 import { TABS } from 'app/lib/constants/auction.constants'
 import { Check, Copy, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
+import {
+  BiddersTab,
+  ItemsTab,
+  OverviewTab,
+  SettingsTab,
+  Tabs,
+  TopBar,
+  WinningBiddersTab
+} from 'app/components/admin/auctions'
 
 const TAB_PANELS: Record<string, React.ComponentType<{ auction: IAuction }>> = {
   Overview: OverviewTab,

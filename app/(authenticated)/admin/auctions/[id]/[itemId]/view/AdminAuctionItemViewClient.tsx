@@ -4,12 +4,11 @@ import { Gavel, ShoppingBag, TrendingUp, Clock, Edit2, LayoutDashboard, Lock, Ta
 import { formatMoney } from 'app/utils/_currency.utils'
 import Link from 'next/link'
 import { getItemStatusConfig } from 'app/utils/_auction.utils'
-import { PhotoGallery } from 'app/components/features/auction/PhotoGallery'
-import { BidsTable } from 'app/components/features/auction/admin/BidsTable'
+import { PhotoGallery } from 'app/components/admin/auctions/PhotoGallery'
 import { AuctionItemStatus, AuctionStatus } from '@prisma/client'
 import { IAuctionBid } from 'types/_auction-bid'
 import { IAuctionItemPhoto } from 'types/_auction-item-photo'
-import { StatCard } from 'app/components/features/auction/admin/StatCard'
+import { StatCard, BidsTable } from 'app/components/admin/auctions'
 
 export default function AdminAuctionItemViewClient({
   auctionItem

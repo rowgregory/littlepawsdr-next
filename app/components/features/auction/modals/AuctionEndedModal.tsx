@@ -11,7 +11,7 @@ type Props = {
   onClose: () => void
 }
 
-export default function AuctionEndedModal({ data, onClose }: Props) {
+export function AuctionEndedModal({ data, onClose }: Props) {
   return (
     <AnimatePresence>
       {data && (

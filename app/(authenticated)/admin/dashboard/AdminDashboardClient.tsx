@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Gift, TrendingUp, TrendingDown, Copy, Check, Truck } from 'lucide-react'
 import { HISTORICAL_TOTAL, sourceMeta } from 'app/lib/constants/dashboard.constants'
-import { RevenueChart } from 'app/components/features/dashboard/RevenueChart'
+import { RevenueChart } from 'app/components/admin/dashboard/RevenueChart'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'

@@ -8,11 +8,11 @@ import {
   AuctionEmptyState,
   AuctionHowItWorks,
   AuctionItemGrid,
+  AuctionSignInModal,
   AuctionSoldGrid
-} from 'app/components/features/auction/public'
-import { AuctionCountdown } from 'app/components/features/auction/public/AuctionCountdown'
+} from 'app/components/features/auction'
 import { useSession } from 'next-auth/react'
-import AuctionSignInModal from 'app/components/features/modals/AuctionSignInModal'
+import { AuctionCountdown } from 'app/components/features/auction/page/AuctionCountdown'
 
 export default function PublicAuctionClient({ auction }: { auction: IAuction }) {
   const session = useSession()

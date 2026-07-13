@@ -1,7 +1,7 @@
 import { getPackMemberData } from 'app/lib/actions/my-pack/getPackMemberData'
 import MyPackClient from './MyPackClient'
 import { Suspense } from 'react'
-import { MyPackSkeleton } from 'app/components/features/my-pack/MyPack'
+import { MyPackSkeleton } from 'app/components/my-pack/MyPack'
 
 export const dynamic = 'force-dynamic'
 

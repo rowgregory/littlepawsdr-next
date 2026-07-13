@@ -3,9 +3,9 @@ import { useRef } from 'react'
 import { IAuction } from 'types/_auction'
 import { motion } from 'framer-motion'
 import { ChevronRight, Clock, Package, TrendingUp, Users } from 'lucide-react'
-import { Countdown } from './Countdown'
+import { Countdown } from '../page/Countdown'
 import { formatMoney } from 'app/utils/_currency.utils'
-import { ItemStrip } from './ItemStrip'
+import { ItemStrip } from '../page/ItemStrip'
 import Link from 'next/link'
 
 export function ActiveAuctionCard({ auction, index }: { auction: IAuction; index: number }) {

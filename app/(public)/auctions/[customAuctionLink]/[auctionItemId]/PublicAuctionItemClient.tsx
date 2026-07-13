@@ -2,21 +2,21 @@
 
 import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Gavel } from 'lucide-react'
+import { Clock, Gavel } from 'lucide-react'
 import { useCountdown } from '@hooks/useCountdown.hook'
 import { store } from 'app/lib/store/store'
 import { setOpenAuctionBidModal } from 'app/lib/store/slices/uiSlice'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { AuctionItemPhotoGallery } from 'app/components/features/auction/public/item/AuctionItemPhotoGallery'
-import { BidHistory } from 'app/components/features/auction/public/item/BidHistory'
-import { StickyBar } from 'app/components/features/auction/public/item/StickyBar'
-import { TitleBlock } from 'app/components/features/auction/public/item/TitleBlock'
-import { FixedFooterNav } from 'app/components/features/auction/public/item/FixedFooterNav'
-import { PriceBlock } from 'app/components/features/auction/public/item/PriceBlock'
-import { ItemDetails } from 'app/components/features/auction/public/item/ItemDetails'
-import { Countdown } from 'app/components/features/auction/public/item/Countdown'
-import AuctionBidModal from 'app/components/features/modals/AuctionBidModal'
+import { AuctionItemPhotoGallery } from 'app/components/features/auction/item/AuctionItemPhotoGallery'
+import { BidHistory } from 'app/components/features/auction/item/BidHistory'
+import { StickyBar } from 'app/components/features/auction/item/StickyBar'
+import { TitleBlock } from 'app/components/features/auction/item/TitleBlock'
+import { FixedFooterNav } from 'app/components/features/auction/item/FixedFooterNav'
+import { PriceBlock } from 'app/components/features/auction/item/PriceBlock'
+import { ItemDetails } from 'app/components/features/auction/item/ItemDetails'
+import { AuctionBidModal } from 'app/components/features/auction/modals/AuctionBidModal'
+import { CountUnit } from 'app/components/_primitives'
 
 export default function PublicAuctionItemClient({ item, auctionItems }) {
   const session = useSession()
@@ -101,7 +101,30 @@ export default function PublicAuctionItemClient({ item, auctionItems }) {
             />
             {/* Countdown */}
             {isActive && !done && (
-              <Countdown days={days} headerInView={headerInView} hours={hours} minutes={minutes} seconds={seconds} />
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={headerInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="border border-border-light dark:border-border-dark p-5"
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  <Clock size={11} className="text-muted-light dark:text-muted-dark" aria-hidden="true" />
+                  <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                    Auction Closes In
+                  </span>
+                </div>
+                <div
+                  className="flex items-end gap-5"
+                  aria-label={`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds remaining`}
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {days > 0 && <CountUnit value={days} label="days" size="lg" />}
+                  <CountUnit value={hours} label="hrs" size="lg" />
+                  <CountUnit value={minutes} label="min" size="lg" />
+                  <CountUnit value={seconds} label="sec" size="lg" />
+                </div>
+              </motion.div>
             )}
 
             {/* Item details */}

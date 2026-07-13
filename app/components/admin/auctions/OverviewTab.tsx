@@ -4,7 +4,7 @@ import { StatCard } from './StatCard'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { Clock, DollarSign, Gavel, Package, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
-import Picture from '../../../_common/Picture'
+import Picture from 'app/components/_common/Picture'
 import { getDisplayRevenue } from 'app/utils/_auction.utils'
 
 export function OverviewTab({ auction }: { auction: IAuction }) {

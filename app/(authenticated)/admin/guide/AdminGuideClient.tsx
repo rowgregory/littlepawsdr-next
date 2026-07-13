@@ -18,7 +18,7 @@ import {
   RefreshCw,
   AlertCircle
 } from 'lucide-react'
-import AdminPageHeader from 'app/components/admin/AdminPageHeader'
+import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 
 const sections = [
   { id: 'getting-started', label: 'Getting Started', icon: BookOpen },

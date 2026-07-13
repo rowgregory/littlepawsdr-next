@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import AdminSidebar from './sidebar'
-import AdminAuctionModal from 'app/components/features/modals/AdminAuctionModal'
+import AdminAuctionModal from 'app/components/admin/auctions/AdminAuctionModal'
 
 export function AdminLayoutClient({ children }: { children: ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)

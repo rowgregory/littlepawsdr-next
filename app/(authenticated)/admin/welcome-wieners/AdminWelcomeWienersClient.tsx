@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { getWelcomeWieners } from 'app/lib/actions/welcome-wiener/getWelcomeWieners'
 import Picture from 'app/components/_common/Picture'
-import AdminPageHeader from 'app/components/admin/AdminPageHeader'
-import AdminHeaderButton from 'app/components/admin/AdminHeaderButton'
-import AdminTable, { type Column } from 'app/components/admin/AdminTable'
+import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
+import AdminHeaderButton from 'app/components/admin/_shared/AdminHeaderButton'
+import AdminTable, { type Column } from 'app/components/admin/_shared/AdminTable'
 
 type WelcomeWienerRow = NonNullable<Awaited<ReturnType<typeof getWelcomeWieners>>['data']>[number]
 

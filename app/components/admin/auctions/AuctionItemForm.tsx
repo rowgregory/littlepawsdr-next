@@ -12,13 +12,11 @@ import { showToast } from 'app/lib/store/slices/toastSlice'
 import type { IAuctionItem, SellingFormat } from 'types/_auction-item'
 import type { AuctionStatus } from 'types/_auction'
 import { IAuctionItemPhoto } from 'types/_auction-item-photo'
-import {
-  AuctionItemDangerZone,
-  AuctionItemFields,
-  AuctionItemFormHeader,
-  AuctionItemFormTitleBand,
-  AuctionItemPhotoPanel
-} from '.'
+import { AuctionItemFormHeader } from './AuctionItemFormHeader'
+import { AuctionItemFormTitleBand } from './AuctionItemFormTitleBand'
+import { AuctionItemFields } from './AuctionItemFields'
+import { AuctionItemPhotoPanel } from './AuctionItemPhotoPanel'
+import { AuctionItemDangerZone } from './AuctionItemDangerZone'
 
 interface FormInputs {
   name: string

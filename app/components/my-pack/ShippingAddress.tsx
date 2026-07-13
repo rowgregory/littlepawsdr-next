@@ -1,7 +1,7 @@
 import { MapPin } from 'lucide-react'
 import { formatDate } from 'app/utils/_date.utils'
 import { EmptyState } from './EmptyState'
-import { UpdateAddressModal } from '../modals/UpdateAddressModal'
+import { UpdateAddressModal } from './UpdateAddressModal'
 
 export function ShippingAddress({ setAddressModalOpen, user, addressModalOpen }) {
   return (

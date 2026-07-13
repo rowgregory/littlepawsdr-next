@@ -15,13 +15,13 @@ import NavigationDrawer from './components/layout/NavigationDrawer'
 import { AuctionEndedData, AuctionStartedData } from 'types/_auction'
 import Header from './components/layout/header/Header'
 import Footer from './components/layout/footer/Footer'
-import AuctionEndedModal from './components/features/modals/AuctionEndedModal'
-import { AuctionStartedModal } from './components/features/modals/AuctionStartedModal'
+import { AuctionStartedModal } from './components/features/auction/modals/AuctionStartedModal'
 import { CartBar } from './components/features/cart/CartBar'
 import { CartToast } from './components/features/cart/CartToast'
-import { WelcomeGate } from './components/features/modals/WelcomeGate'
-import PublicContactModal from './components/features/modals/PublicContactModal'
+import { WelcomeGate } from './components/my-pack/WelcomeGate'
+import PublicContactModal from './components/features/home/PublicContactModal'
 import { CartPersistence } from './components/features/cart/CartPersistence'
+import { AuctionEndedModal } from './components/features/auction'
 
 interface Props {
   children: ReactNode

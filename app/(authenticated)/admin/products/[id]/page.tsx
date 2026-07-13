@@ -1,4 +1,4 @@
-import ProductForm from 'app/components/features/product/ProductForm'
+import ProductForm from 'app/components/admin/product/ProductForm'
 import { getProductById } from 'app/lib/actions/product/getProductById'
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {

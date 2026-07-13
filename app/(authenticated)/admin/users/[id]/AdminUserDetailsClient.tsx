@@ -21,9 +21,9 @@ import { getUserById } from 'app/lib/actions/user/getUserById'
 import { updateUserRole } from 'app/lib/actions/user/updateUserRole'
 import { formatDate } from 'app/utils/_date.utils'
 import { formatRole } from 'app/utils/_user.utils'
-import AdminPageHeader from 'app/components/admin/AdminPageHeader'
+import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 import { StatusPill } from 'app/components/_primitives'
-import { MergeUserSection } from 'app/components/user/MergeUserSection'
+import { MergeUserSection } from 'app/components/admin/user/MergeUserSection'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 

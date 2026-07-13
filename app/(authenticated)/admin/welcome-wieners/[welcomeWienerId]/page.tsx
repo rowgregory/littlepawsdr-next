@@ -1,4 +1,4 @@
-import { WelcomeWienerForm } from 'app/components/features/welcome-wieners/admin/WelcomeWienerForm'
+import { WelcomeWienerForm } from 'app/components/admin/welcome-wieners/WelcomeWienerForm'
 import { notFound } from 'next/navigation'
 import prisma from 'prisma/client'
 import { IWelcomeWiener } from 'types/_welcome-wiener'
