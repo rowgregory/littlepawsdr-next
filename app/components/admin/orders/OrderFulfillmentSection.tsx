@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { store } from 'app/lib/store/store'
 import { showToast } from 'app/lib/store/slices/toastSlice'
-import { updateOrderShippingStatus } from 'app/lib/actions/order/updateOrderShippingStatus'
+import { updateOrderShippingStatus } from 'app/lib/actions/admin/order/updateOrderShippingStatus'
 import { SerializedOrder } from 'types/_order.types'
 import { Label } from './OrderLabel'
 

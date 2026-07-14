@@ -5,11 +5,11 @@ import { IAuction } from 'types/_auction'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { toDatetimeLocal } from 'app/utils/_date.utils'
 import { Flag, Loader2, RotateCcw, Trash2, Zap } from 'lucide-react'
-import { deleteAuction } from 'app/lib/actions/auction/deleteAuction'
-import { updateAuction } from 'app/lib/actions/auction/updateAuction'
-import { startAuction } from 'app/lib/actions/auction/startAuction'
-import { revertAuctionToDraft } from 'app/lib/actions/auction/revertAuctionToDraft'
-import { endAuctionManually } from 'app/lib/actions/auction/endAuctionManually'
+import { deleteAuction } from 'app/lib/actions/admin/auction/deleteAuction'
+import { updateAuction } from 'app/lib/actions/admin/auction/updateAuction'
+import { startAuction } from 'app/lib/actions/super-user/startAuction'
+import { revertAuctionToDraft } from 'app/lib/actions/super-user/revertAuctionToDraft'
+import { endAuctionManually } from 'app/lib/actions/super-user/endAuctionManually'
 
 const inputStyles = `w-full px-3.5 py-3 text-xs font-mono border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark transition-colors scheme-light dark:scheme-dark`
 

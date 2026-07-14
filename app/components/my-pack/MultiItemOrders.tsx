@@ -4,15 +4,18 @@ import { StatusPill } from 'app/components/_primitives/StatusPill'
 import { formatMoney } from 'app/utils/_currency.utils'
 import Picture from 'app/components/_common/Picture'
 import Link from 'next/link'
+import { ITEM_ICONS } from 'app/lib/constants/feed-a-foster.constants'
+import { Utensils } from 'lucide-react'
 
 const TYPE_LABELS: Record<string, string> = {
   PRODUCT: 'Merch',
   WELCOME_WIENER: 'Welcome Wiener',
   FEED_A_FOSTER: 'Feed a Foster',
-  MIXED: 'Multi-item order'
+  PURCHASE: 'Multi-item order'
 }
 
 export function MultiItemOrders({ multiItemOrders }) {
+  console.log(multiItemOrders)
   return (
     <section aria-labelledby="multi-item-heading">
       {multiItemOrders?.length === 0 ? (
@@ -50,40 +53,52 @@ export function MultiItemOrders({ multiItemOrders }) {
 
               {/* Items */}
               <ul className="space-y-2" role="list" aria-label="Order items">
-                {order.items.map((item) => (
-                  <li key={item.id} className="flex items-center gap-3" role="listitem">
-                    <div
-                      className="shrink-0 w-8 h-8 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark overflow-hidden"
-                      aria-hidden="true"
-                    >
-                      {item.image ? (
-                        <Picture
-                          priority={false}
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">?</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">{item.name}</p>
-                      {item.quantity > 1 && (
-                        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">×{item.quantity}</p>
-                      )}
-                    </div>
-                    <span className="text-[11px] font-mono text-muted-light dark:text-muted-dark tabular-nums shrink-0">
-                      {formatMoney(item.price * item.quantity)}
-                    </span>
-                  </li>
-                ))}
+                {order.items.map((item) => {
+                  const Icon = item.iconKey ? (ITEM_ICONS[item.iconKey] ?? Utensils) : null
+                  return (
+                    <li key={item.id} className="flex items-center gap-3" role="listitem">
+                      <div
+                        className="shrink-0 w-8 h-8 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark overflow-hidden"
+                        aria-hidden="true"
+                      >
+                        {item.image ? (
+                          <Picture
+                            priority={false}
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : Icon ? (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Icon className="w-4 h-4 text-muted-light dark:text-muted-dark" />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">?</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">
+                          {`${order.type === 'FEED_A_FOSTER' && 'Feed a Foster - '}`}
+                          {item.name}
+                        </p>
+                        {item.quantity > 1 && (
+                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                            ×{item.quantity}
+                          </p>
+                        )}
+                      </div>
+                      <span className="text-[11px] font-mono text-muted-light dark:text-muted-dark tabular-nums shrink-0">
+                        {formatMoney(item.price * item.quantity)}
+                      </span>
+                    </li>
+                  )
+                })}
               </ul>
 
               {/* Shipping address */}
-              {order.shippingAddress && (
+              {order.shippingAddress && order.type === 'PRODUCT' && (
                 <div className="flex items-start gap-2 mt-3 pt-3 border-t border-border-light dark:border-border-dark">
                   <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark shrink-0">
                     Ships to

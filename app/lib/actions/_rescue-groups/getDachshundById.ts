@@ -2,6 +2,7 @@ import { createLog } from '../log/createLog'
 import { getPicturesAndVideos } from '../../../utils/_rescue-group.utils'
 import { Dog } from 'types/_rescue-groups.types'
 import { RESCUE_GROUPS_BASE_URL } from 'app/lib/constants/paths.constants'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function getDachshundById(
   id: string
@@ -23,12 +24,15 @@ export async function getDachshundById(
     const json = await response.json()
 
     if (json?.data) {
-      getPicturesAndVideos(json)
+      await getPicturesAndVideos(json)
     }
 
     return { success: true, data: json }
   } catch (error) {
-    createLog('error', 'getDachshundById', error)
+    await createLog('error', 'Failed to fetch dachshund by id', {
+      id,
+      error: getErrorMessage(error)
+    })
     return { success: false, error: 'Failed to fetch dachshund' }
   }
 }

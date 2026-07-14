@@ -3,12 +3,7 @@ import { CartItem } from 'app/lib/store/slices/cartSlice'
 import { OrderRow } from 'types/_order.types'
 
 export function getOrderType(items: CartItem[]): OrderType {
-  const hasWiener = items.some((i) => !i.isPhysicalProduct)
-  const hasProduct = items.some((i) => i.isPhysicalProduct)
-
-  if (hasWiener && hasProduct) return OrderType.MIXED
-  if (hasWiener) return OrderType.WELCOME_WIENER
-  return OrderType.PRODUCT
+  return items.length > 0 ? OrderType.PURCHASE : OrderType.ONE_TIME_DONATION
 }
 
 export function rowClass(o: OrderRow) {

@@ -1,4 +1,4 @@
-import getLogs from 'app/lib/actions/log/getLogs'
+import getLogs from 'app/lib/actions/admin/log/getLogs'
 import AdminLogsClient from './AdminLogsClient'
 
 export const dynamic = 'force-dynamic'

@@ -52,3 +52,7 @@ export const ITEM_ICONS: Record<string, LucideIcon> = {
   supplements: Pill,
   'senior-food': Croissant
 }
+
+export const FEED_A_FOSTER_ITEMS: Record<string, { name: string; price: number }> = Object.fromEntries(
+  FEED_A_FOSTER_CONTENT.map((item) => [item.id, { name: item.title, price: item.amount }])
+)

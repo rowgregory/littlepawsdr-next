@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import { TalkingDachshund } from 'app/components/_common/TalkingDachshund'
-import { markWelcomeSeen } from 'app/lib/actions/user/markWelcomeSeen'
+import { markWelcomeSeen } from 'app/lib/actions/my-pack/markWelcomeSeen'
 
 export function WelcomeGate() {
   const { data: session } = useSession()

@@ -1,4 +1,4 @@
-import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
+import createNewsletter from 'app/lib/actions/public/newsletter/createNewsletter'
 import { mainNavigationLinks } from 'app/lib/constants/navigation.constants'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { setCloseMobileNavigation, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'

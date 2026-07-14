@@ -1,20 +1,17 @@
 import prisma from 'prisma/client'
-import { auth } from '../../auth'
 import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
 
 export const getSubscriptionById = async (id: string) => {
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      return { success: false, error: 'Unauthorized', data: null }
-    }
+    const gate = await requireAuth()
+    if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
     const order = await prisma.order.findFirst({
       where: {
         id,
-        userId: session.user.id,
+        userId: gate.userId,
         isRecurring: true
       },
       include: {

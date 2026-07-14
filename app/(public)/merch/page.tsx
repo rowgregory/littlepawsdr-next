@@ -1,4 +1,4 @@
-import { getLiveProducts } from 'app/lib/actions/product/getLiveProducts'
+import { getLiveProducts } from 'app/lib/actions/public/product/getLiveProducts'
 import PublicMerchClient from './PublicMerchClient'
 
 export default async function MerchPage() {

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Check, Loader2, Pencil, X } from 'lucide-react'
 import { FormField } from 'app/components/_primitives'
-import { requestEmailChange } from 'app/lib/actions/user/requestEmailChange'
+import { requestEmailChange } from 'app/lib/actions/my-pack/email-change/requestEmailChange'
 
 type Props = {
   currentEmail: string

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import createNewsletter from 'app/lib/actions/newsletter/createNewsletter'
+import createNewsletter from 'app/lib/actions/public/newsletter/createNewsletter'
 import { SyntheticEvent, useState } from 'react'
 import { NAV_LINKS, SOCIAL_LINKS } from 'app/lib/constants/footer.constants'
 import Picture from 'app/components/_common/Picture'

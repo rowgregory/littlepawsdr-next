@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { CheckCircle, ArrowRight, Receipt, Package, Heart, ChevronLeft, User } from 'lucide-react'
+import { CheckCircle, ArrowRight, Receipt, Package, Heart, ChevronLeft, User, Utensils } from 'lucide-react'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../../../components/_common/Picture'
 import { useSession } from 'next-auth/react'
@@ -13,6 +13,7 @@ import { formatWithCommas } from 'app/utils/_currency.utils'
 import { useAppDispatch } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
 import { useSearchParams } from 'next/navigation'
+import { ITEM_ICONS } from 'app/lib/constants/feed-a-foster.constants'
 
 export default function OrderConfirmationClient({ order }) {
   const config = ORDER_TYPE_CONFIG[order?.type] ?? ORDER_TYPE_CONFIG['ONE_TIME_DONATION']
@@ -30,6 +31,8 @@ export default function OrderConfirmationClient({ order }) {
   }, [dispatch, order.id, isAdminView])
 
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
+
+  console.log('ORDER: ', order)
 
   return (
     <div className="min-h-dvh bg-white dark:bg-bg-dark">
@@ -142,42 +145,49 @@ export default function OrderConfirmationClient({ order }) {
           {/* Items */}
           {order?.items.length > 0 ? (
             <div className="divide-y divide-zinc-200 dark:divide-border-dark">
-              {order?.items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4 px-5 py-4">
-                  <div className="shrink-0 w-10 h-10 bg-zinc-100 dark:bg-white/5 overflow-hidden">
-                    {item.itemImage ? (
-                      <Picture
-                        priority={true}
-                        src={item.itemImage}
-                        alt={item.itemName ?? 'Item'}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Package className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark truncate">
-                      {item.itemName ?? 'Item'}
-                    </p>
-                    {item.quantity && item.quantity > 1 && (
-                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
-                        Qty: {item.quantity}
+              {order?.items.map((item) => {
+                const Icon = item.iconKey ? (ITEM_ICONS[item.iconKey] ?? Utensils) : null
+                return (
+                  <div key={item.id} className="flex items-center gap-4 px-5 py-4">
+                    <div className="shrink-0 w-10 h-10 bg-zinc-100 dark:bg-white/5 overflow-hidden">
+                      {item.itemImage ? (
+                        <Picture
+                          priority={true}
+                          src={item.itemImage}
+                          alt={item.itemName ?? 'Item'}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : Icon ? (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Icon className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
+                        </div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Package className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark truncate">
+                        {item.itemName ?? 'Item'}
                       </p>
-                    )}
-                    {item.isPhysical && (
-                      <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
-                        Shipping details to follow
-                      </p>
-                    )}
+                      {item.quantity && item.quantity > 1 && (
+                        <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
+                          Qty: {item.quantity}
+                        </p>
+                      )}
+                      {item.isPhysical && (
+                        <p className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50 mt-0.5">
+                          Shipping details to follow
+                        </p>
+                      )}
+                    </div>
+                    <span className="shrink-0 text-sm tabular-nums text-zinc-950 dark:text-text-dark">
+                      ${(item.totalPrice ?? item.price).toFixed(2)}
+                    </span>
                   </div>
-                  <span className="shrink-0   text-sm tabular-nums text-zinc-950 dark:text-text-dark">
-                    ${(item.totalPrice ?? item.price).toFixed(2)}
-                  </span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           ) : (
             <div className="flex items-center gap-4 px-5 py-4">

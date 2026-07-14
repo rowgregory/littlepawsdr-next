@@ -1,4 +1,4 @@
-import { getAuctionWinningBidderById } from 'app/lib/actions/auction/getAuctionWinningBidderById'
+import { getAuctionWinningBidderById } from 'app/lib/actions/user/auction/getAuctionWinningBidderById'
 import AuctionWinnerPaymentClient from './AuctionWinnerPaymentClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { auth } from 'app/lib/auth'

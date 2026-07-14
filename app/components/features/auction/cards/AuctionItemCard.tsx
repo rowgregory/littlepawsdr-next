@@ -1,6 +1,6 @@
 import { useSounds } from '@hooks/useSounds.hook'
 import Picture from 'app/components/_common/Picture'
-import { placeBid } from 'app/lib/actions/auction/placeBid'
+import { placeBid } from 'app/lib/actions/user/auction/placeBid'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { useInView, motion } from 'framer-motion'
 import { Check, ChevronRight, Gavel, Loader2, Tag, Zap } from 'lucide-react'

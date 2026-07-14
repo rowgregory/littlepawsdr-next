@@ -1,68 +1,33 @@
 'use server'
 
-import { auth } from 'app/lib/auth'
 import { stripeClient } from 'app/lib/stripe/stripe-client'
-import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function getSetupIntentClientSecret() {
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
+
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      throw new Error('Unauthorized')
-    }
-
-    // Get or create Stripe customer
-    let customerId: string
-
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { stripeCustomerId: true }
+    const customerId = await getOrCreateStripeCustomer({
+      userId: gate.userId,
+      email: gate.email!
     })
 
-    if (user?.stripeCustomerId) {
-      customerId = user.stripeCustomerId
-    } else {
-      const email = session.user.email
-
-      // Check Stripe for existing customer first
-      const existing = email ? await stripeClient.customers.list({ email, limit: 1 }) : { data: [] }
-
-      if (existing.data.length > 0) {
-        customerId = existing.data[0].id
-      } else {
-        const customer = await stripeClient.customers.create({
-          email: email || undefined,
-          metadata: { userId: session.user.id }
-        })
-        customerId = customer.id
-      }
-
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: { stripeCustomerId: customerId }
-      })
-    }
-
-    // Create setup intent
     const setupIntent = await stripeClient.setupIntents.create({
       customer: customerId,
       payment_method_types: ['card']
     })
 
-    return {
-      success: true,
-      clientSecret: setupIntent.client_secret
-    }
+    return { success: true, clientSecret: setupIntent.client_secret }
   } catch (error) {
     await createLog('error', 'Failed to create setup intent', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      userId: gate.userId,
+      error: getErrorMessage(error)
     })
 
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to get client secret'
-    }
+    return { success: false, error: getErrorMessage(error) }
   }
 }

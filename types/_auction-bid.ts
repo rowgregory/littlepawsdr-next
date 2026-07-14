@@ -1,3 +1,5 @@
+import { Decimal } from '@prisma/client/runtime/library'
+
 export type BidStatus = 'TOP_BID' | 'OUTBID'
 
 export interface IAuctionBid {
@@ -43,3 +45,12 @@ export interface IBidModalProps {
     email: string
   } | null
 }
+
+export type PreviousTopBid = {
+  userId: string
+  bidAmount: Decimal
+  user: {
+    email: string
+    firstName: string | null
+  }
+} | null

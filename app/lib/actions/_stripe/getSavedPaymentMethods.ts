@@ -1,18 +1,17 @@
 'use server'
 
-import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function getSavedPaymentMethods() {
-  try {
-    const session = await auth()
-    if (!session?.user?.id) {
-      throw new Error('Unauthorized')
-    }
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
+  try {
     const paymentMethods = await prisma.paymentMethod.findMany({
-      where: { userId: session.user.id },
+      where: { userId: gate.userId },
       orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
       select: {
         id: true,
@@ -29,19 +28,12 @@ export async function getSavedPaymentMethods() {
       }
     })
 
-    return {
-      success: true,
-      data: paymentMethods
-    }
+    return { success: true, data: paymentMethods }
   } catch (error) {
     await createLog('error', 'Failed to fetch saved payment methods', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      userId: gate.userId,
+      error: getErrorMessage(error)
     })
-
-    return {
-      success: false,
-      error: 'Failed to get saved payment methods.',
-      data: []
-    }
+    return { success: false, error: 'Failed to get saved payment methods.', data: null }
   }
 }

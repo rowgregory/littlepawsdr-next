@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { getUserById } from 'app/lib/actions/user/getUserById'
 import AdminUserDetailsClient from './AdminUserDetailsClient'
+import { getUserById } from 'app/lib/actions/admin/user/getUserById'
 
 export const dynamic = 'force-dynamic'
 

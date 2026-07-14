@@ -17,13 +17,13 @@ import {
   ChevronRight
 } from 'lucide-react'
 import Link from 'next/link'
-import { getUserById } from 'app/lib/actions/user/getUserById'
-import { updateUserRole } from 'app/lib/actions/user/updateUserRole'
 import { formatDate } from 'app/utils/_date.utils'
 import { formatRole } from 'app/utils/_user.utils'
 import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 import { StatusPill } from 'app/components/_primitives'
 import { MergeUserSection } from 'app/components/admin/user/MergeUserSection'
+import { updateUserRole } from 'app/lib/actions/admin/user/updateUserRole'
+import { getUserById } from 'app/lib/actions/admin/user/getUserById'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 

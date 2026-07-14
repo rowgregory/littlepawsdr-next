@@ -1,4 +1,4 @@
-import type { Address, OrderStatus, OrderType, PaymentStatus, ShippingStatus } from '@prisma/client'
+import type { Address, OrderItemType, OrderStatus, OrderType, PaymentStatus, ShippingStatus } from '@prisma/client'
 import { IAdoptionFee } from './_adoption-fee'
 import { IPaymentMethod } from './_payment-method.types'
 import { IUser } from './_user'
@@ -27,6 +27,8 @@ export interface MultiItemOrderItem {
   id: string
   name: string
   image: string | null
+  iconKey: string | null
+  itemType: OrderItemType | null
   price: number
   quantity: number
   isPhysical: boolean

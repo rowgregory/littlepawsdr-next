@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import { getWelcomeWieners } from 'app/lib/actions/welcome-wiener/getWelcomeWieners'
+import { getWelcomeWieners } from 'app/lib/actions/admin/welcome-wiener/getWelcomeWieners'
 import Picture from 'app/components/_common/Picture'
 import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 import AdminHeaderButton from 'app/components/admin/_shared/AdminHeaderButton'

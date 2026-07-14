@@ -6,10 +6,10 @@ import { X, Gavel, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useAppDispatch, useUiSelector } from 'app/lib/store/store'
 import { setCloseAuctionDrawer } from 'app/lib/store/slices/uiSlice'
-import { createAuction } from 'app/lib/actions/auction/createAuction'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { FormField } from 'app/components/_primitives/FormField'
 import { FormError } from 'app/components/_primitives/FormError'
+import { createAuction } from 'app/lib/actions/admin/auction/createAuction'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -80,8 +80,6 @@ export default function AdminAuctionModal() {
 
     const result = await createAuction({
       title: inputs.title.trim(),
-      status: 'DRAFT',
-      goal: 1000,
       startDate: new Date(inputs.startDate),
       endDate: new Date(inputs.endDate),
       customAuctionLink: inputs.customAuctionLink

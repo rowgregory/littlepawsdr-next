@@ -1,4 +1,4 @@
-import { getAuctionByCustomAuctionLink } from 'app/lib/actions/auction/getAuctionByCustomAuctionLink'
+import { getAuctionByCustomAuctionLink } from 'app/lib/actions/public/auction/getAuctionByCustomAuctionLink'
 import { notFound } from 'next/navigation'
 import PublicAuctionClient from './PublicAuctionClient'
 

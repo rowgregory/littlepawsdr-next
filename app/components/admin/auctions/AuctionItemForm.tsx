@@ -2,9 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createAuctionItem } from 'app/lib/actions/auction/createAuctionItem'
-import { updateAuctionItem } from 'app/lib/actions/auction/updateAuctionItem'
-import { deleteAuctionItem } from 'app/lib/actions/auction/deleteAuctionItem'
+import { updateAuctionItem } from 'app/lib/actions/admin/auction/updateAuctionItem'
+import { deleteAuctionItem } from 'app/lib/actions/admin/auction/deleteAuctionItem'
 import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { store } from 'app/lib/store/store'
@@ -17,6 +16,7 @@ import { AuctionItemFormTitleBand } from './AuctionItemFormTitleBand'
 import { AuctionItemFields } from './AuctionItemFields'
 import { AuctionItemPhotoPanel } from './AuctionItemPhotoPanel'
 import { AuctionItemDangerZone } from './AuctionItemDangerZone'
+import { createAuctionItem } from 'app/lib/actions/admin/auction/createAuctionItem'
 
 interface FormInputs {
   name: string

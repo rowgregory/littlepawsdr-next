@@ -1,17 +1,17 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { auth } from '../../auth'
 import { cookies } from 'next/headers'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
 
 export const setAdoptionFeeCookie = async (adoptionFeeId: string) => {
-  try {
-    const session = await auth()
-    if (!session?.user?.id) return { success: false, error: 'Unauthorized' }
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
+  try {
     const fee = await prisma.adoptionFee.findFirst({
-      where: { id: adoptionFeeId, userId: session.user.id },
+      where: { id: adoptionFeeId, userId: gate.userId },
       select: { expiresAt: true }
     })
 

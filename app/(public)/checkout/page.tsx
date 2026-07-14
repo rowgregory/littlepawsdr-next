@@ -1,5 +1,5 @@
-import { getUserAddress } from 'app/lib/actions/user/getUserAddress'
-import { getUserName } from 'app/lib/actions/user/getUserName'
+import { getUserAddress } from 'app/lib/actions/my-pack/getUserAddress'
+import { getUserName } from 'app/lib/actions/my-pack/getUserName'
 import { auth } from 'app/lib/auth'
 import { PublicCheckoutClient } from './PublicCheckoutClient'
 import { IPaymentMethod } from 'types/_payment-method.types'

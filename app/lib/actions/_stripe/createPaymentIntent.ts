@@ -7,10 +7,11 @@ import { OrderType } from '@prisma/client'
 import prisma from 'prisma/client'
 import { ProductSizeEntry } from 'types/_product'
 import { WelcomeWienerProduct } from 'types/_welcome-wiener'
-import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/_log.server.utils'
 import { validateSavedCard } from './validateSavedCard'
 import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
 
 type PaymentItem = {
   id: string
@@ -54,13 +55,15 @@ export async function createPaymentIntent({
   winningBidderId,
   auctionItemId
 }: CreatePaymentIntentParams) {
-  try {
-    if (orderType === 'ONE_TIME_DONATION' && amount < 500) {
-      throw new Error('Minimum donation is $5')
-    }
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
-    // ── 1. Validate items + compute amount from the DB (unchanged) ──────────
-    let computedBase = 0 // dollars
+  if (orderType === 'ONE_TIME_DONATION' && amount < 500) {
+    return { success: false, error: 'Minimum donation is $5' }
+  }
+
+  try {
+    let computedBase = 0
 
     if (items?.length) {
       const ids = items.map((i) => i.id).filter((id): id is string => !!id)
@@ -102,21 +105,17 @@ export async function createPaymentIntent({
       }
     }
 
-    let finalCents: number
+    const finalCents = items?.length
+      ? (() => {
+          const baseCents = Math.round(computedBase * 100)
+          return coverFees ? baseCents + Math.round(feesCovered * 100) : baseCents
+        })()
+      : amount
 
-    if (items?.length) {
-      // computedBase IS used here — it's the DB-validated total for items
-      const baseCents = Math.round(computedBase * 100)
-      finalCents = coverFees ? baseCents + Math.round(feesCovered * 100) : baseCents
-    } else {
-      // No items → computedBase is irrelevant, client sent the final total
-      finalCents = amount
-    }
-
-    const geo = await getRequestGeo()
-    await stampUserGeo(userId, geo)
-
-    const customerId = await getOrCreateStripeCustomer({ userId, email })
+    const [details, customerId] = await Promise.all([
+      stampUserGeoFromRequest(userId),
+      getOrCreateStripeCustomer({ userId, email })
+    ])
 
     const descriptions: Record<string, string> = {
       ONE_TIME_DONATION: `One-time donation from ${name}`,
@@ -125,10 +124,10 @@ export async function createPaymentIntent({
       PRODUCT: `Product purchase from ${name}`,
       ADOPTION_FEE: `Adoption fee from ${name}`,
       AUCTION_PURCHASE: `Auction payment from ${name}`,
-      MIXED: `Order from ${name}`
+      PURCHASE: `Order from ${name}`,
+      FEED_A_FOSTER: `Feed a Foster donation from ${name}`
     }
 
-    // ── 2. Create the intent — items as compact ids, DB is the source of truth ──
     const paymentIntentParams: Stripe.PaymentIntentCreateParams = {
       amount: finalCents,
       currency: 'usd',
@@ -162,10 +161,20 @@ export async function createPaymentIntent({
       const paymentMethodId = await validateSavedCard({ savedCardId, userId: userId!, customerId })
       paymentIntentParams.payment_method = paymentMethodId
       paymentIntentParams.off_session = true
-      paymentIntentParams.confirm = true // no pending order to wait for — confirm at creation
+      paymentIntentParams.confirm = true
     }
 
     const paymentIntent = await stripeClient.paymentIntents.create(paymentIntentParams)
+
+    await createLog('info', 'Payment intent created', {
+      orderType,
+      userId: userId ?? null,
+      amount: finalCents,
+      ip: details?.ip,
+      device: details?.device,
+      city: details?.geoCity,
+      country: details?.geoCountry
+    })
 
     return {
       success: true,
@@ -174,16 +183,16 @@ export async function createPaymentIntent({
     }
   } catch (error) {
     await createLog('error', 'Failed to create payment intent', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: getErrorMessage(error),
+      orderType,
+      userId: userId ?? null,
       name,
-      email,
-      userId,
-      savedCardId
+      email
     })
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Payment intent creation error. Please try again.'
+      error: getErrorMessage(error)
     }
   }
 }

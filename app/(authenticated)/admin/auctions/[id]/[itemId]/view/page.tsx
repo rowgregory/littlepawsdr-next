@@ -1,4 +1,4 @@
-import { getAuctionItemById } from 'app/lib/actions/auction/getAuctionItemById'
+import { getAuctionItemById } from 'app/lib/actions/admin/auction/getAuctionItemById'
 import AdminAuctionItemViewClient from './AdminAuctionItemViewClient'
 
 export default async function AdminAuctionItemViewPage({ params }: { params: Promise<{ itemId: string }> }) {

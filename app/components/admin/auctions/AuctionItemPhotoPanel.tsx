@@ -1,8 +1,8 @@
 'use client'
 
 import Picture from 'app/components/_common/Picture'
-import { deleteAuctionItemPhoto } from 'app/lib/actions/auction/deleteAuctionItemPhoto'
-import { setPrimaryAuctionItemPhoto } from 'app/lib/actions/auction/setPrimaryAuctionItemPhoto'
+import { deleteAuctionItemPhoto } from 'app/lib/actions/admin/auction/deleteAuctionItemPhoto'
+import { setPrimaryAuctionItemPhoto } from 'app/lib/actions/admin/auction/setPrimaryAuctionItemPhoto'
 import { convertIfHeic } from 'app/utils/_common.utils'
 import { ImagePlus, Star, Trash2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'

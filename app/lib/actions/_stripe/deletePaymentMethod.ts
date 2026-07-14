@@ -1,15 +1,17 @@
 'use server'
 
-import { auth } from '../../auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { stripeClient } from 'app/lib/stripe/stripe-client'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export const deletePaymentMethod = async (id: string) => {
-  try {
-    const session = await auth()
-    if (!session?.user?.id) return { success: false, error: 'Unauthorized' }
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
+  try {
     // Verify ownership
     const paymentMethod = await prisma.paymentMethod.findUnique({
       where: { id },
@@ -17,12 +19,12 @@ export const deletePaymentMethod = async (id: string) => {
     })
 
     if (!paymentMethod) return { success: false, error: 'Payment method not found' }
-    if (paymentMethod.userId !== session.user.id) return { success: false, error: 'Unauthorized' }
+    if (paymentMethod.userId !== gate.userId) return { success: false, error: 'Unauthorized' }
 
     // Check if card is tied to an active subscription
     const activeSubscription = await prisma.order.findFirst({
       where: {
-        userId: session.user.id,
+        userId: gate.userId,
         isRecurring: true,
         type: 'RECURRING_DONATION',
         status: 'CONFIRMED',
@@ -39,16 +41,15 @@ export const deletePaymentMethod = async (id: string) => {
       }
     }
 
-    // Detach from Stripe
-    await stripeClient.paymentMethods.detach(paymentMethod.stripePaymentId)
+    const [details] = await Promise.all([
+      stampUserGeoFromRequest(gate.userId),
+      stripeClient.paymentMethods.detach(paymentMethod.stripePaymentId),
+      prisma.paymentMethod.delete({ where: { id } })
+    ])
 
-    // Delete from DB
-    await prisma.paymentMethod.delete({ where: { id } })
-
-    // If it was the default, set the next most recent as default
     if (paymentMethod.isDefault) {
       const next = await prisma.paymentMethod.findFirst({
-        where: { userId: session.user.id },
+        where: { userId: gate.userId },
         orderBy: { createdAt: 'desc' },
         select: { id: true }
       })
@@ -60,11 +61,19 @@ export const deletePaymentMethod = async (id: string) => {
       }
     }
 
+    await createLog('info', 'Payment method deleted', {
+      userId: gate.userId,
+      ip: details?.ip,
+      device: details?.device,
+      city: details?.geoCity,
+      country: details?.geoCountry
+    })
+
     return { success: true }
   } catch (error) {
     await createLog('error', 'Failed to delete payment method', {
-      id,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      userId: gate.userId,
+      error: getErrorMessage(error)
     })
     return { success: false, error: 'Failed to delete payment method' }
   }

@@ -1,7 +1,7 @@
 import { PreApplicationFlowClient } from 'app/(public)/adopt/PreApplicationFlowClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
-import { hasActiveAdoptionFee } from 'app/lib/actions/adoption-fee/hasActiveAdoptionFee'
-import { getUserName } from 'app/lib/actions/user/getUserName'
+import { hasActiveAdoptionFee } from 'app/lib/actions/my-pack/adoption-fee/hasActiveAdoptionFee'
+import { getUserName } from 'app/lib/actions/my-pack/getUserName'
 import { auth } from 'app/lib/auth'
 import { redirect } from 'next/navigation'
 

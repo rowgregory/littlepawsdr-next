@@ -1,20 +1,20 @@
-import { auth } from 'app/lib/auth'
+'use server'
+
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export const getMultiItemOrders = async () => {
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
+
   try {
-    const session = await auth()
-
-    if (!session?.user?.id) {
-      return { success: false, error: 'Unauthorized', data: null }
-    }
-
     const orders = await prisma.order.findMany({
       where: {
-        userId: session.user.id,
+        userId: gate.userId,
         status: 'CONFIRMED',
-        type: { in: ['PRODUCT', 'WELCOME_WIENER', 'FEED_A_FOSTER', 'MIXED'] }
+        type: 'PURCHASE'
       },
       include: {
         items: true,
@@ -38,6 +38,8 @@ export const getMultiItemOrders = async () => {
           id: item.id,
           name: item.itemName ?? 'Item',
           image: item.itemImage ?? null,
+          iconKey: item.iconKey ?? null,
+          itemType: item.itemType ?? null,
           price: Number(item.price),
           quantity: item.quantity ?? 1,
           isPhysical: item.isPhysical
@@ -55,13 +57,10 @@ export const getMultiItemOrders = async () => {
     }
   } catch (error) {
     await createLog('error', 'Failed to get multi-item orders', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      userId: gate.userId,
+      error: getErrorMessage(error)
     })
 
-    return {
-      success: false,
-      error: 'Failed to load your orders. Please try again.',
-      data: null
-    }
+    return { success: false, error: 'Failed to load your orders. Please try again.', data: null }
   }
 }

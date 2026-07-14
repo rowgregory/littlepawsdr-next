@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { verifyBypassCode } from 'app/lib/actions/adoption-fee/verifyBypassCode'
+import { verifyBypassCode } from 'app/lib/actions/my-pack/adoption-fee/verifyBypassCode'
 import { store } from 'app/lib/store/store'
 import { setShowConfetti } from 'app/lib/store/slices/uiSlice'
-import { updateAdoptionFee } from 'app/lib/actions/adoption-fee/updateAdoptionFee'
+import { updateAdoptionFee } from 'app/lib/actions/my-pack/adoption-fee/updateAdoptionFee'
 import { STEPS } from 'app/lib/constants/adoption-application.constants'
 import { STEPS_TYPES } from 'types/_adoption-application.types'
 import {

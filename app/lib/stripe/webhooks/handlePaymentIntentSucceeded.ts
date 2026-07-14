@@ -1,5 +1,6 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
+import { FEED_A_FOSTER_ITEMS } from 'app/lib/constants/feed-a-foster.constants'
 import sendConfirmationEmail from 'app/lib/email/sendConfirmatioinEmail'
 import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
@@ -20,15 +21,47 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
     if (existingOrder) return
 
     const orderType = (metadata?.orderType as OrderType) || 'ONE_TIME_DONATION'
-
     const userId = metadata?.userId || null
-
     const isRecurring = metadata?.isRecurring === 'true'
-
-    const items = JSON.parse(metadata?.items || '[]')
-    const hasPhysical = items.some((i: any) => i.ip)
-
     const nbd = isRecurring && metadata?.nextBillingDate ? new Date(metadata.nextBillingDate) : null
+
+    // ── Resolve items + hasPhysical BEFORE creating the order ──
+    const compact =
+      orderType === 'PURCHASE' && metadata?.items
+        ? (JSON.parse(metadata.items) as Array<{ i: string; q: number; s: string | null }>)
+        : []
+
+    const FEED_A_FOSTER_IDS = Object.keys(FEED_A_FOSTER_ITEMS)
+    const wienerLines = compact.filter((c) => !FEED_A_FOSTER_IDS.includes(c.i) && c.i.includes('-'))
+    const wienerIds = [...new Set(wienerLines.map((c) => c.i.split('-')[0]))]
+    const ids = compact.map((c) => c.i)
+
+    const [products, wieners, winningBidder, instantBuyItem] = await Promise.all([
+      ids.length ? prisma.product.findMany({ where: { id: { in: ids } } }) : Promise.resolve([]),
+      wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([]),
+      orderType === 'AUCTION_PURCHASE' && metadata?.winningBidderId
+        ? prisma.auctionWinningBidder.findUnique({
+            where: { id: metadata.winningBidderId },
+            include: { auctionItems: { select: { requiresShipping: true } } }
+          })
+        : Promise.resolve(null),
+      orderType === 'AUCTION_PURCHASE' && metadata?.auctionItemId && !metadata?.winningBidderId
+        ? prisma.auctionItem.findUnique({
+            where: { id: metadata.auctionItemId },
+            select: { requiresShipping: true }
+          })
+        : Promise.resolve(null)
+    ])
+
+    const hasPhysical =
+      orderType === 'PURCHASE'
+        ? compact.some((line) => {
+            const product = products.find((p) => p.id === line.i)
+            return product?.isPhysicalProduct ?? false
+          })
+        : (winningBidder?.auctionItems?.some((item) => item.requiresShipping) ??
+          instantBuyItem?.requiresShipping ??
+          false)
 
     const geoUser = userId
       ? await prisma.user.findUnique({
@@ -39,7 +72,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             lastGeoCity: true,
             lastGeoRegion: true,
             lastGeoCountry: true,
-            address: true, // add this
+            address: true,
             firstName: true,
             lastName: true
           }
@@ -88,28 +121,30 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
       include: { items: true }
     })
 
-    if ((orderType === 'PRODUCT' || orderType === 'MIXED' || orderType === 'WELCOME_WIENER') && metadata?.items) {
-      const compact = JSON.parse(metadata.items || '[]') as Array<{
-        i: string
-        q: number
-        s: string | null
-        w: string | null
-        wp: string | null
-        ip: boolean
-      }>
-
-      const ids = compact.map((c) => c.i)
-      const wienerIds = compact.map((c) => c.w).filter(Boolean) as string[]
-
-      const [products, wieners] = await Promise.all([
-        prisma.product.findMany({ where: { id: { in: ids } } }),
-        wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([])
-      ])
-
+    // ── Now create order items using the already-fetched products/wieners ──
+    if (orderType === 'PURCHASE' && compact.length > 0) {
       for (const line of compact) {
+        if (line.i in FEED_A_FOSTER_ITEMS) {
+          const { name, price } = FEED_A_FOSTER_ITEMS[line.i]
+          await prisma.orderItem.create({
+            data: {
+              orderId: order.id,
+              itemType: 'FEED_A_FOSTER',
+              itemName: name,
+              itemImage: null,
+              iconKey: line.i,
+              price,
+              quantity: line.q,
+              subtotal: price * line.q,
+              totalPrice: price * line.q,
+              isPhysical: false
+            }
+          })
+          continue
+        }
+
         const product = products.find((p) => p.id === line.i)
 
-        // ── Product line ──
         if (product) {
           const price = Number(product.price)
           const shipping = Number(product.shippingPrice)
@@ -117,6 +152,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
           await prisma.orderItem.create({
             data: {
               orderId: order.id,
+              itemType: 'PRODUCT',
               productId: product.id,
               itemName: product.name ?? '',
               itemImage: product.images[0] ?? null,
@@ -130,7 +166,6 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             }
           })
 
-          // ── Decrement stock (fresh read per line — see note) ──
           const fresh = await prisma.product.findUnique({
             where: { id: product.id },
             select: { sizes: true, countInStock: true }
@@ -153,20 +188,22 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
           continue
         }
 
-        // ── Welcome Wiener line ──
-        const wiener = wieners.find((w) => w.id === line.w)
+        const [wienerId, ...productIdParts] = line.i.split('-')
+        const productId = productIdParts.join('-')
+        const wiener = wieners.find((w) => w.id === wienerId)
         if (!wiener) {
           await createLog('warn', 'Order item could not be resolved', { orderId: order.id, itemId: line.i })
           continue
         }
 
         const options = wiener.associatedProducts as unknown as WelcomeWienerProduct[]
-        const option = options.find((o) => o.id === (line.wp ?? line.i))
+        const option = options.find((o) => o.id === productId)
         const price = Number(option?.price ?? 0)
 
         await prisma.orderItem.create({
           data: {
             orderId: order.id,
+            itemType: 'WELCOME_WIENER',
             welcomeWienerId: wiener.id,
             itemName: option ? `${option.name} for ${wiener.name}` : (wiener.name ?? ''),
             itemImage: option?.image ?? wiener.images[0] ?? null,
@@ -195,7 +232,6 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
 
           if (!auctionItem) throw new Error(`AuctionItem not found: ${metadata.auctionItemId}`)
 
-          // Create instant buyer record
           await tx.auctionItemInstantBuyer.create({
             data: {
               auctionId: auctionItem.auctionId,
@@ -209,7 +245,6 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             }
           })
 
-          // Decrement quantity and conditionally mark as sold
           const newQuantity = (auctionItem.totalQuantity ?? 1) - 1
 
           await tx.auctionItem.update({
@@ -220,7 +255,6 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             }
           })
 
-          // Update auction revenue and supporter emails
           const auction = auctionItem.auction
           const updatedEmails =
             metadata.email && !auction.supporterEmails.includes(metadata.email)
@@ -236,10 +270,10 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             }
           })
 
-          // Create order item
           await tx.orderItem.create({
             data: {
               orderId: order.id,
+              itemType: 'AUCTION_INSTANT_BUY',
               itemName: auctionItem.name,
               itemImage: auctionItem.photos[0]?.url ?? null,
               price: Number(auctionItem.buyNowPrice ?? 0),
@@ -255,7 +289,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
       // ── Auction winner (bid) ─────────────────────────────────────
       else if (metadata?.winningBidderId) {
         await prisma.$transaction(async (tx) => {
-          const winningBidder = await tx.auctionWinningBidder.update({
+          const winningBidderRecord = await tx.auctionWinningBidder.update({
             where: { id: metadata.winningBidderId },
             data: {
               winningBidPaymentStatus: 'PAID',
@@ -271,8 +305,8 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             }
           })
 
-          const auction = winningBidder.auction
-          const userEmail = winningBidder.user?.email
+          const auction = winningBidderRecord.auction
+          const userEmail = winningBidderRecord.user?.email
           const updatedEmails =
             userEmail && !auction.supporterEmails.includes(userEmail)
               ? [...auction.supporterEmails, userEmail]
@@ -283,14 +317,15 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             data: {
               supporterEmails: updatedEmails,
               supporters: updatedEmails.length,
-              totalAuctionRevenue: { increment: winningBidder.totalPrice ?? 0 }
+              totalAuctionRevenue: { increment: winningBidderRecord.totalPrice ?? 0 }
             }
           })
 
-          if (winningBidder.auctionItems?.length > 0) {
+          if (winningBidderRecord.auctionItems?.length > 0) {
             await tx.orderItem.createMany({
-              data: winningBidder.auctionItems.map((item) => ({
+              data: winningBidderRecord.auctionItems.map((item) => ({
                 orderId: order.id,
+                itemType: 'AUCTION_WINNING_BID',
                 itemName: item.name,
                 itemImage: null,
                 price: Number(item.soldPrice ?? item.currentBid ?? item.buyNowPrice ?? 0),
@@ -337,7 +372,6 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
 
     await sendConfirmationEmail(order)
 
-    // Push to Pusher
     const channelId = userId
 
     await pusherTrigger(`payment-${channelId}`, 'order-created', {

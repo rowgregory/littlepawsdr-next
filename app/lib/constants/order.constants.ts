@@ -8,15 +8,7 @@ export const ORDER_TYPE_CONFIG: Record<string, { label: string; message: string 
     message:
       'Your ongoing support means our dogs get consistent care all year long. Thank you for being a monthly hero.'
   },
-  WELCOME_WIENER: {
-    label: 'Welcome Wieners Confirmed',
-    message: "You're now sponsoring a dachshund in our care. They're lucky to have you in their corner."
-  },
-  PRODUCT: {
-    label: 'Order Confirmed',
-    message: 'Your order is confirmed. Every purchase supports the dogs in our rescue program.'
-  },
-  MIXED: {
+  PURCHASE: {
     label: 'Order Confirmed',
     message: 'Your order is confirmed. Every purchase supports the dogs in our rescue program.'
   },
@@ -37,11 +29,8 @@ export const FILTERS = [
   'ONE_TIME_DONATION',
   'RECURRING_DONATION',
   'ADOPTION_FEE',
-  'PRODUCT',
-  'WELCOME_WIENER',
   'AUCTION_PURCHASE',
-  'MIXED',
-  'FEED_A_FOSTER'
+  'PURCHASE'
 ] as const
 
 export type Filter = (typeof FILTERS)[number]
@@ -51,11 +40,8 @@ export const FILTER_LABELS: Record<Filter, string> = {
   ONE_TIME_DONATION: 'One-time',
   RECURRING_DONATION: 'Recurring',
   ADOPTION_FEE: 'Adoption fee',
-  PRODUCT: 'Product',
-  WELCOME_WIENER: 'Welcome Wiener',
-  AUCTION_PURCHASE: 'Auction',
-  MIXED: 'Mixed',
-  FEED_A_FOSTER: 'Feed a Foster'
+  PURCHASE: 'Purchase',
+  AUCTION_PURCHASE: 'Auction'
 }
 
 // Order STATUS badge styles (CONFIRMED / FAILED / etc.) — separate from the type filter

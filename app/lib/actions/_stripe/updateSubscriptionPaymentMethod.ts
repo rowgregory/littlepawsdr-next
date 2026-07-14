@@ -1,9 +1,12 @@
 'use server'
 
-import { auth } from 'app/lib/auth'
 import { stripeClient } from 'app/lib/stripe/stripe-client'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
+
 export const updateSubscriptionPaymentMethod = async ({
   subscriptionId,
   paymentMethodId
@@ -11,52 +14,52 @@ export const updateSubscriptionPaymentMethod = async ({
   subscriptionId: string
   paymentMethodId: string
 }) => {
-  try {
-    const session = await auth()
-    if (!session?.user?.id) return { success: false, error: 'Unauthorized' }
+  const gate = await requireAuth()
+  if (gate.ok === false) return { success: false, error: (gate as AuthFailure).error, data: null }
 
-    // Attach payment method to customer
-    const subscription = await stripeClient.subscriptions.retrieve(subscriptionId)
+  try {
+    const [subscription, details] = await Promise.all([
+      stripeClient.subscriptions.retrieve(subscriptionId),
+      stampUserGeoFromRequest(gate.userId)
+    ])
+
     const customerId = subscription.customer as string
 
-    await stripeClient.paymentMethods.attach(paymentMethodId, {
-      customer: customerId
-    })
+    await Promise.all([stripeClient.paymentMethods.attach(paymentMethodId, { customer: customerId })])
 
-    // Set as default on subscription
-    await stripeClient.subscriptions.update(subscriptionId, {
-      default_payment_method: paymentMethodId
-    })
-
-    // Set as default on customer too
-    await stripeClient.customers.update(customerId, {
-      invoice_settings: { default_payment_method: paymentMethodId }
-    })
-
-    // Update the order record
-    await prisma.order.updateMany({
-      where: {
-        stripeSubscriptionId: subscriptionId,
-        userId: session.user.id
-      },
-      data: { paymentMethodId }
-    })
+    await Promise.all([
+      stripeClient.subscriptions.update(subscriptionId, {
+        default_payment_method: paymentMethodId
+      }),
+      stripeClient.customers.update(customerId, {
+        invoice_settings: { default_payment_method: paymentMethodId }
+      }),
+      prisma.order.updateMany({
+        where: { stripeSubscriptionId: subscriptionId, userId: gate.userId },
+        data: { paymentMethodId }
+      })
+    ])
 
     await createLog('info', 'Subscription payment method updated', {
       subscriptionId,
-      userId: session.user.id
+      userId: gate.userId,
+      ip: details?.ip,
+      device: details?.device,
+      city: details?.geoCity,
+      country: details?.geoCountry
     })
 
     return { success: true, error: null }
   } catch (error) {
     await createLog('error', 'Failed to update subscription payment method', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      subscriptionId
+      error: getErrorMessage(error),
+      subscriptionId,
+      userId: gate.userId
     })
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to update payment method. Please try again.'
+      error: getErrorMessage(error)
     }
   }
 }

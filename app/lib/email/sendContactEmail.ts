@@ -1,8 +1,9 @@
 'use server'
 
-import prisma from 'prisma/client'
 import { contactEmailTemplate } from './templates/contact-email.template'
 import { resend } from 'app/lib/email/resend'
+import { createLog } from 'app/lib/actions/log/createLog'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export default async function sendContactEmail({
   name,
@@ -18,41 +19,23 @@ export default async function sendContactEmail({
   try {
     await resend.emails.send({
       from: 'Little Paws DR <noreply@littlepawsdr.org>',
-      to: 'greg@sqysh.com',
-      // ToDo
-      // Swith back to the corret email
-      // to: 'lpdr@littlepawsdr.org',
+      to: 'lpdr@littlepawsdr.org',
       replyTo: email,
       subject: `[Contact] ${subject}`,
       html: contactEmailTemplate({ name, email, subject, message })
     })
 
-    await prisma.log.create({
-      data: {
-        level: 'info',
-        message: 'Contact email sent',
-        metadata: JSON.stringify({ name, email, subject })
-      }
-    })
+    await createLog('info', 'Contact email sent', { name, email, subject })
 
     return { success: true }
   } catch (error) {
-    await prisma.log.create({
-      data: {
-        level: 'error',
-        message: 'Failed to send contact email',
-        metadata: JSON.stringify({
-          error: error instanceof Error ? error.message : 'Unknown error',
-          name,
-          email,
-          subject
-        })
-      }
+    await createLog('error', 'Failed to send contact email', {
+      name,
+      email,
+      subject,
+      error: getErrorMessage(error)
     })
 
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }
+    return { success: false, error: getErrorMessage(error) }
   }
 }

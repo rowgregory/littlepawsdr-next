@@ -12,11 +12,11 @@ import { uploadFileToFirebase } from 'app/lib/firebase/firebase.utils'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { updateWelcomeWiener } from 'app/lib/actions/welcome-wiener/updateWelcomeWiener'
-import { createWelcomeWiener } from 'app/lib/actions/welcome-wiener/createWelcomeWiener'
+import { updateWelcomeWiener } from 'app/lib/actions/admin/welcome-wiener/updateWelcomeWiener'
 import Link from 'next/link'
 import { FormField, SectionLabel, Toggle } from 'app/components/_primitives'
 import Picture from 'app/components/_common/Picture'
+import { createWelcomeWiener } from 'app/lib/actions/admin/welcome-wiener/createWelcomeWiener'
 
 type FormState = {
   name: string

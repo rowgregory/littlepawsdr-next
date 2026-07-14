@@ -1,6 +1,6 @@
 import PublicSubscriptionsClient from 'app/(public)/subscriptions/PublicSubscriptionsClient'
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
-import { getUserName } from 'app/lib/actions/user/getUserName'
+import { getUserName } from 'app/lib/actions/my-pack/getUserName'
 import { auth } from 'app/lib/auth'
 
 export const dynamic = 'force-dynamic'

@@ -3,15 +3,16 @@
 import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
 import { RecurringFrequency } from '@prisma/client'
-import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/_log.server.utils'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
 
 interface CreateSubscriptionParams {
   setupIntentId: string
   name?: string
   email?: string
   frequency: RecurringFrequency
-  amount: number // in cents
+  amount: number
   coverFees?: boolean
   feesCovered?: number
   tierName: string
@@ -27,12 +28,14 @@ export async function createSubscriptionAfterSetup({
   feesCovered = 0,
   tierName
 }: CreateSubscriptionParams) {
+  const gate = await requireAuth()
+  if (gate.ok === false) return { success: false, error: (gate as AuthFailure).error, data: null }
+
   try {
-    // Get the confirmed setup intent
     const setupIntent = await stripeClient.setupIntents.retrieve(setupIntentId)
 
     if (setupIntent.status !== 'succeeded') {
-      throw new Error('Card confirmation failed. Please try again.')
+      return { success: false, error: 'Card confirmation failed. Please try again.', data: null }
     }
 
     const customerId = setupIntent.customer as string
@@ -40,14 +43,15 @@ export async function createSubscriptionAfterSetup({
     const userId = setupIntent.metadata?.userId
 
     if (!userId) {
-      // Unreachable in practice — createSetupIntentForSubscription rejects userless requests
-      throw new Error('Please sign in to start a subscription.')
+      await createLog('error', 'Subscription creation missing userId in setup intent metadata', {
+        setupIntentId,
+        customerId
+      })
+      return { success: false, error: 'Something went wrong. Please try again.', data: null }
     }
 
-    const geo = await getRequestGeo()
-    await stampUserGeo(userId, geo)
+    const details = await stampUserGeoFromRequest(userId)
 
-    // Create product + price for this recurring donation
     const product = await stripeClient.products.create({
       name: `${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`,
       description: `Recurring donation of $${(amount / 100).toFixed(2)}/${frequency === 'MONTHLY' ? 'month' : 'year'}`,
@@ -68,7 +72,6 @@ export async function createSubscriptionAfterSetup({
       metadata: { frequency }
     })
 
-    // Create subscription with the saved payment method
     const subscription = await stripeClient.subscriptions.create(
       {
         customer: customerId,
@@ -88,10 +91,19 @@ export async function createSubscriptionAfterSetup({
           tierName
         }
       },
-      {
-        idempotencyKey: `sub_${setupIntentId}`
-      }
+      { idempotencyKey: `sub_${setupIntentId}` }
     )
+
+    await createLog('info', 'Subscription created', {
+      userId,
+      subscriptionId: subscription.id,
+      frequency,
+      amount,
+      ip: details.ip,
+      device: details.device,
+      city: details.geoCity,
+      country: details.geoCountry
+    })
 
     return {
       success: true,
@@ -99,15 +111,16 @@ export async function createSubscriptionAfterSetup({
       status: subscription.status
     }
   } catch (error) {
-    await createLog('error', 'Subscription creation error', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    await createLog('error', 'Subscription creation failed', {
+      error: getErrorMessage(error),
       name,
-      email
+      email,
+      userId: gate.userId
     })
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to create subscription'
+      error: getErrorMessage(error)
     }
   }
 }

@@ -3,8 +3,9 @@
 import { RecurringFrequency } from '@prisma/client'
 import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
-import { stampUserGeo } from '../user/stampUserGeo'
-import { getRequestGeo } from 'app/utils/_log.server.utils'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
 
 interface CreateSubscriptionWithSavedCardParams {
   userId: string
@@ -29,30 +30,26 @@ export async function createSubscriptionWithSavedCard({
   savedCardId,
   tierName
 }: CreateSubscriptionWithSavedCardParams) {
+  const gate = await requireAuth()
+  if (gate.ok === false) return { success: false, error: (gate as AuthFailure).error, data: null }
+
   try {
-    // Get the payment method to find the customer
     const paymentMethod = await stripeClient.paymentMethods.retrieve(savedCardId)
 
     if (!paymentMethod.customer) {
-      throw new Error('Payment method is not attached to a customer')
+      return { success: false, error: 'Payment method is not attached to a customer', data: null }
     }
-
-    const geo = await getRequestGeo()
-    await stampUserGeo(userId, geo)
 
     const customerId = paymentMethod.customer as string
 
-    // Create product for this recurring donation
+    const details = await stampUserGeoFromRequest(userId)
+
     const product = await stripeClient.products.create({
       name: `${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`,
       description: `Recurring donation of $${(amount / 100).toFixed(2)}/${frequency === 'MONTHLY' ? 'month' : 'year'}`,
-      metadata: {
-        userId,
-        donorName: name || ''
-      }
+      metadata: { userId, donorName: name || '' }
     })
 
-    // Create price for the subscription
     const price = await stripeClient.prices.create({
       product: product.id,
       unit_amount: amount,
@@ -61,20 +58,15 @@ export async function createSubscriptionWithSavedCard({
         interval: frequency === 'MONTHLY' ? 'month' : 'year',
         usage_type: 'licensed'
       },
-      metadata: {
-        frequency
-      }
+      metadata: { frequency }
     })
 
-    // Create subscription with the saved payment method
     const subscription = await stripeClient.subscriptions.create(
       {
         customer: customerId,
         items: [{ price: price.id }],
         default_payment_method: savedCardId,
-        payment_settings: {
-          save_default_payment_method: 'on_subscription'
-        },
+        payment_settings: { save_default_payment_method: 'on_subscription' },
         metadata: {
           userId,
           email: email || '',
@@ -86,10 +78,19 @@ export async function createSubscriptionWithSavedCard({
           tierName
         }
       },
-      {
-        idempotencyKey: `sub_${customerId}_general_${Date.now()}`
-      }
+      { idempotencyKey: `sub_${customerId}_general_${Date.now()}` }
     )
+
+    await createLog('info', 'Subscription created with saved card', {
+      userId,
+      subscriptionId: subscription.id,
+      frequency,
+      amount,
+      ip: details.ip,
+      device: details.device,
+      city: details.geoCity,
+      country: details.geoCountry
+    })
 
     return {
       success: true,
@@ -97,14 +98,15 @@ export async function createSubscriptionWithSavedCard({
       status: subscription.status
     }
   } catch (error) {
-    await createLog('error', 'Subscription creation with saved card error', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    await createLog('error', 'Subscription creation with saved card failed', {
+      error: getErrorMessage(error),
+      userId,
       email
     })
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to create subscription with saved card'
+      error: getErrorMessage(error)
     }
   }
 }

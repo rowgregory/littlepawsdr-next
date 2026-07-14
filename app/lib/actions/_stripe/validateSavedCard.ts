@@ -10,16 +10,17 @@ export async function validateSavedCard({
   userId: string
   customerId: string
 }): Promise<string> {
-  const savedCard = await prisma.paymentMethod.findUnique({
-    where: { stripePaymentId: savedCardId },
-    select: { stripePaymentId: true, userId: true }
-  })
+  const [savedCard, paymentMethod] = await Promise.all([
+    prisma.paymentMethod.findUnique({
+      where: { stripePaymentId: savedCardId },
+      select: { stripePaymentId: true, userId: true }
+    }),
+    stripeClient.paymentMethods.retrieve(savedCardId)
+  ])
 
   if (!savedCard || savedCard.userId !== userId) {
     throw new Error('Saved card not found or unauthorized')
   }
-
-  const paymentMethod = await stripeClient.paymentMethods.retrieve(savedCard.stripePaymentId)
 
   if (paymentMethod.customer !== customerId) {
     throw new Error('Payment method does not belong to this customer')

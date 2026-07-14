@@ -1,5 +1,5 @@
 import { NewsletterIssue } from '@prisma/client'
-import deleteNewsletterIssue from 'app/lib/actions/newsletter-issue/deleteNewsletterIssue'
+import deleteNewsletterIssue from 'app/lib/actions/admin/newsletter-issue/deleteNewsletterIssue'
 import { showToast } from 'app/lib/store/slices/toastSlice'
 import { useAppDispatch } from 'app/lib/store/store'
 import { useRouter } from 'next/navigation'

@@ -7,7 +7,7 @@ export const magicLinkProvider: EmailConfig = {
   id: 'email',
   name: 'Email',
   type: 'email',
-  maxAge: 15 * 60, // 15 mins
+  maxAge: 15 * 60,
   from: process.env.RESEND_FROM_EMAIL!,
   sendVerificationRequest: async ({ identifier: email, url }) => {
     const { data, error } = await resend.emails.send({
@@ -19,15 +19,13 @@ export const magicLinkProvider: EmailConfig = {
 
     if (error) {
       await createLog('error', 'Failed to send magic link email', {
-        location: ['magicLinkProvider.ts'],
         email,
         error: error.message
       })
       throw new Error(`Failed to send verification email: ${error.message}`)
     }
 
-    createLog('info', 'Magic link sent successfully', {
-      location: ['magicLinkProvider.ts'],
+    await createLog('info', 'Magic link sent', {
       email,
       messageId: data?.id
     })

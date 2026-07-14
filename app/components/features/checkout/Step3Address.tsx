@@ -1,4 +1,4 @@
-import { updateAddress } from 'app/lib/actions/user/updateAddress'
+import { updateAddress } from 'app/lib/actions/my-pack/updateAddress'
 import { STATES } from 'app/lib/constants/location.constants'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Plus } from 'lucide-react'

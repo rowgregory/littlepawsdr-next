@@ -1,6 +1,8 @@
 import { Order, OrderItem } from '@prisma/client'
 import { orderConfirmationTemplate, getOrderEmailSubject } from 'app/lib/email/templates/order-confirmation.template'
 import { resend } from 'app/lib/email/resend'
+import { createLog } from 'app/lib/actions/log/createLog'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 type OrderWithItems = Order & { items: OrderItem[] }
 
@@ -12,7 +14,11 @@ export default async function sendConfirmationEmail(order: OrderWithItems) {
       subject: getOrderEmailSubject(order),
       html: orderConfirmationTemplate(order)
     })
-  } catch (err) {
-    console.error('Error sending confirmation email:', err)
+  } catch (error) {
+    await createLog('error', 'Failed to send order confirmation email', {
+      orderId: order.id,
+      email: order.customerEmail,
+      error: getErrorMessage(error)
+    })
   }
 }

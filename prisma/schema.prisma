@@ -77,12 +77,17 @@ enum OrderType {
   ONE_TIME_DONATION
   RECURRING_DONATION
   ADOPTION_FEE
-  PRODUCT
-  ECARD
-  WELCOME_WIENER
   AUCTION_PURCHASE
-  MIXED
+  PURCHASE
+  ECARD
+}
+
+enum OrderItemType {
+  PRODUCT
+  WELCOME_WIENER
   FEED_A_FOSTER
+  AUCTION_WINNING_BID
+  AUCTION_INSTANT_BUY
 }
 
 enum OrderStatus {
@@ -335,6 +340,9 @@ model OrderItem {
   size      String?
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  iconKey  String?
+  itemType OrderItemType?
 }
 
 // ─── Auction ─────────────────────────────────────────────────────────────────

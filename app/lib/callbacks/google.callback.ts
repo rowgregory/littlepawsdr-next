@@ -1,11 +1,11 @@
 import { User as NextAuthUser } from 'next-auth'
 import { Account } from 'next-auth'
-import { User } from '@prisma/client'
 import prisma from 'prisma/client'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 import { createLog } from '../actions/log/createLog'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { stampUserGeoFromRequest } from '../actions/auth/stampUserGeoFromRequest'
 
-// Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
   sub?: string | null
   name?: string | null
@@ -26,21 +26,36 @@ export async function handleGoogleCallback(
     where: { email: user.email! }
   })
 
-  // New user: let the adapter create the user + link the account.
-  // Don't create anything here — just allow sign-in.
-  if (!existingUser) {
-    return true
-  }
-
-  // Existing user: enforce status + record login + notify.
+  if (!existingUser) return true
   if (existingUser.status === 'SUSPENDED') return '/auth/suspended'
   if (existingUser.status === 'TERMINATED') return '/auth/terminated'
 
+  const details = await stampUserGeoFromRequest(existingUser.id)
+
   await Promise.all([
-    updateUserFromProfile(existingUser, profile),
     prisma.user.update({
       where: { id: existingUser.id },
-      data: { lastLoginAt: new Date() }
+      data: {
+        lastLoginAt: new Date(),
+        lastGeoLatitude: details.geoLatitude,
+        lastGeoLongitude: details.geoLongitude,
+        lastGeoCity: details.geoCity,
+        lastGeoRegion: details.geoRegion,
+        lastGeoCountry: details.geoCountry,
+        firstName: profile?.given_name || existingUser.firstName,
+        lastName: profile?.family_name || existingUser.lastName
+      }
+    }),
+    createLog('info', 'Google sign-in', {
+      userId: existingUser.id,
+      email: existingUser.email,
+      ip: details.ip,
+      device: details.device,
+      browser: details.browser,
+      os: details.os,
+      city: details.geoCity,
+      region: details.geoRegion,
+      country: details.geoCountry
     })
   ])
 
@@ -52,20 +67,9 @@ export async function handleGoogleCallback(
     createLog('warn', 'Pusher superuser trigger failed', {
       event: 'user-signed-in',
       userId: existingUser.id,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: getErrorMessage(error)
     })
   )
-  return true
-}
 
-async function updateUserFromProfile(user: User, profile?: GoogleProfile): Promise<void> {
-  if (!user.firstName || !user.lastName) {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        firstName: profile?.given_name || user.firstName,
-        lastName: profile?.family_name || user.lastName
-      }
-    })
-  }
+  return true
 }

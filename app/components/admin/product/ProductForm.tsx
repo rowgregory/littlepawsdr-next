@@ -5,8 +5,6 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Package, Save, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { createProduct } from 'app/lib/actions/product/createProduct'
-import { updateProduct } from 'app/lib/actions/product/updateProduct'
 import { IProduct } from 'types/_product'
 import { FormState } from './productForm.utils'
 import { ProductIdentitySection } from './ProductIdentitySection'
@@ -15,6 +13,8 @@ import { ProductSizesSection } from './ProductSizesSection'
 import { ProductImagesSection } from './ProductImagesSection'
 import { ProductSettingsSection } from './ProductSettingsSection'
 import { ProductSummarySection } from './ProductSummarySection'
+import { updateProduct } from 'app/lib/actions/admin/product/updateProduct'
+import { createProduct } from 'app/lib/actions/admin/product/createProduct'
 
 export default function ProductForm({ product }: { product?: IProduct }) {
   const router = useRouter()

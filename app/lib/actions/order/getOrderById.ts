@@ -2,8 +2,13 @@
 
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export const getOrderById = async (id: string) => {
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
+
   try {
     const order = await prisma.order.findUnique({
       where: { id },
@@ -28,6 +33,7 @@ export const getOrderById = async (id: string) => {
         state: true,
         zipPostalCode: true,
         tierName: true,
+        userId: true,
         items: {
           select: {
             id: true,
@@ -37,7 +43,8 @@ export const getOrderById = async (id: string) => {
             price: true,
             subtotal: true,
             totalPrice: true,
-            isPhysical: true
+            isPhysical: true,
+            iconKey: true
           }
         },
         user: {
@@ -50,10 +57,18 @@ export const getOrderById = async (id: string) => {
       }
     })
 
-    if (!order) return { success: false, data: null }
+    if (!order) return { success: false, error: 'Order not found', data: null }
+
+    // Only the order owner or an admin can view it
+    const isOwner = order.userId === gate.userId
+    const isAdmin = gate.role === 'ADMIN' || gate.role === 'SUPERUSER'
+    if (!isOwner && !isAdmin) {
+      return { success: false, error: 'Unauthorized', data: null }
+    }
 
     return {
       success: true,
+      error: null,
       data: {
         ...order,
         totalAmount: Number(order.totalAmount),
@@ -68,9 +83,9 @@ export const getOrderById = async (id: string) => {
     }
   } catch (error) {
     await createLog('error', 'Failed to fetch order', {
-      id,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      orderId: id,
+      error: getErrorMessage(error)
     })
-    return { success: false, data: null }
+    return { success: false, error: 'Failed to fetch order', data: null }
   }
 }

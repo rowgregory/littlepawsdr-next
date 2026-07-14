@@ -1,5 +1,4 @@
 import prisma from 'prisma/client'
-import { auth } from '../../auth'
 import { createLog } from '../log/createLog'
 import {
   AuctionParticipation,
@@ -9,13 +8,14 @@ import {
   ParticipationItem,
   Subscription
 } from 'types/_my-pack.types'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
 
 export const getPackMemberData = async () => {
   try {
-    const session = await auth()
-    if (!session?.user?.id) return { success: false, error: 'Unauthorized', data: null }
+    const gate = await requireAuth()
+    if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
-    const userId = session.user.id
+    const userId = gate.userId
 
     const [user, orders, auctionBids, paymentMethods, adoptionFees, instantBuyers] = await Promise.all([
       prisma.user.findUnique({
@@ -36,7 +36,23 @@ export const getPackMemberData = async () => {
       }),
       prisma.order.findMany({
         where: { userId },
-        include: { items: true },
+        include: {
+          items: {
+            select: {
+              id: true,
+              iconKey: true,
+              images: true,
+              isPhysical: true,
+              itemImage: true,
+              itemName: true,
+              price: true,
+              size: true,
+              totalPrice: true,
+              quantity: true,
+              itemType: true
+            }
+          }
+        },
         orderBy: { createdAt: 'desc' }
       }),
       prisma.auctionBid.findMany({
@@ -113,7 +129,7 @@ export const getPackMemberData = async () => {
       }))
 
     const multiItemOrders: MultiItemOrder[] = orders
-      .filter((o) => ['PRODUCT', 'WELCOME_WIENER', 'MIXED', 'FEED_A_FOSTER'].includes(o.type))
+      .filter((o) => o.type === 'PURCHASE')
       .map((o) => ({
         id: o.id,
         type: o.type,
@@ -128,7 +144,9 @@ export const getPackMemberData = async () => {
           image: item.itemImage ?? null,
           price: Number(item.price),
           quantity: item.quantity ?? 1,
-          isPhysical: item.isPhysical
+          isPhysical: item.isPhysical,
+          iconKey: item.iconKey ?? null,
+          itemType: item.itemType ?? null
         })),
         shippingAddress: o.addressLine1
           ? {

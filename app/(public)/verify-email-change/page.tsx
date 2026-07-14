@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { CheckCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
-import { verifyEmailChange } from 'app/lib/actions/user/VerifyEmailChange'
+import { verifyEmailChange } from 'app/lib/actions/my-pack/email-change/verifyEmailChange'
 
 export default async function VerifyEmailChangePage({ searchParams }: { searchParams: { token?: string } }) {
   if (!searchParams.token) redirect('/my-pack')

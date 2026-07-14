@@ -17,13 +17,9 @@ const ORDER_COPY: Record<OrderType, { heading: string; body: string }> = {
     heading: 'Your adoption fee is received!',
     body: "We've received your adoption fee payment. Our team will be in touch shortly with next steps."
   },
-  PRODUCT: {
+  PURCHASE: {
     heading: 'Your order is confirmed!',
     body: "Thank you for your purchase. You're helping support Little Paws with every order."
-  },
-  WELCOME_WIENER: {
-    heading: "You're sponsoring a dachshund!",
-    body: 'Thank you for your Welcome Wiener sponsorship. Your support makes a direct difference in the life of a dog in our care.'
   },
   ECARD: {
     heading: 'Your ecard is on its way!',
@@ -32,14 +28,6 @@ const ORDER_COPY: Record<OrderType, { heading: string; body: string }> = {
   AUCTION_PURCHASE: {
     heading: 'Your auction payment is confirmed!',
     body: 'Thank you for your purchase. Your payment has been received and your item will be on its way soon.'
-  },
-  MIXED: {
-    heading: 'Your order is confirmed!',
-    body: "Thank you for your purchase and support. You're helping make a difference for the dogs at Little Paws."
-  },
-  FEED_A_FOSTER: {
-    heading: 'Thank you for feeding a foster!',
-    body: "Your donation will go directly toward food for a dog currently in foster care. We can't do this without you."
   }
 }
 
@@ -51,12 +39,9 @@ export function getOrderEmailSubject(order: OrderWithItems): string {
     ONE_TIME_DONATION: 'Thank You for Supporting Little Paws!',
     RECURRING_DONATION: `Your ${freq} Gift to Little Paws is Active`,
     ADOPTION_FEE: 'Your Adoption Fee Payment is Received',
-    PRODUCT: 'Your Little Paws Order is Confirmed',
-    WELCOME_WIENER: "You're Sponsoring a Dachshund — Thank You!",
+    PURCHASE: 'Your Little Paws Order is Confirmed',
     ECARD: 'Your Little Paws Ecard is Confirmed',
-    AUCTION_PURCHASE: 'Your Auction Payment is Confirmed — Thank You!',
-    MIXED: 'Your Little Paws Order is Confirmed',
-    FEED_A_FOSTER: 'Thank You for Feeding a Foster!'
+    AUCTION_PURCHASE: 'Your Auction Payment is Confirmed — Thank You!'
   }
   return subjects[order.type]
 }
@@ -156,12 +141,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
     )
   }
 
-  if (
-    order.type === 'ADOPTION_FEE' ||
-    order.type === 'ONE_TIME_DONATION' ||
-    order.type === 'RECURRING_DONATION' ||
-    order.type === 'FEED_A_FOSTER'
-  ) {
+  if (order.type === 'ADOPTION_FEE' || order.type === 'ONE_TIME_DONATION' || order.type === 'RECURRING_DONATION') {
     notices.push(
       noticeBlock(
         'Tax information',

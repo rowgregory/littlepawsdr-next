@@ -1,5 +1,6 @@
 import { createLog } from '../log/createLog'
 import { getPicturesAndVideos } from '../../../utils/_rescue-group.utils'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function getDachshundsByStatus({
   status,
@@ -44,11 +45,11 @@ export async function getDachshundsByStatus({
 
     return { success: true, data }
   } catch (error) {
-    await createLog('error', 'Error fetching dachshunds by status', {
+    await createLog('error', 'Failed to fetch dachshunds by status', {
       status,
       pageLimit,
       currentPage,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: getErrorMessage(error)
     })
 
     return { success: false, error: 'Failed to fetch dachshunds' }

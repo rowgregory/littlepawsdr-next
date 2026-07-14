@@ -4,12 +4,14 @@ import { createLog } from '../log/createLog'
 import { stripeClient } from '../../stripe/stripe-client'
 import { RecurringFrequency } from '@prisma/client'
 import { getOrCreateStripeCustomer } from './getOrCreateCustomer'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 interface SetupIntentParams {
   userId?: string
   email: string
   name: string
-  amount: number // in cents
+  amount: number
   frequency: RecurringFrequency
   coverFees?: boolean
   feesCovered?: number
@@ -26,10 +28,13 @@ export async function createSetupIntentForSubscription({
   feesCovered = 0,
   tierName
 }: SetupIntentParams) {
-  try {
-    if (amount < 500) throw new Error('Minimum donation is $5')
-    if (!userId) throw new Error('Please sign in to start a subscription.')
+  const gate = await requireAuth()
+  if (!gate.ok) return { success: false, error: (gate as AuthFailure).error, data: null }
 
+  if (amount < 500) return { success: false, error: 'Minimum donation is $5', data: null }
+  if (!userId) return { success: false, error: 'Please sign in to start a subscription.', data: null }
+
+  try {
     const customerId = await getOrCreateStripeCustomer({ userId, email })
 
     const setupIntent = await stripeClient.setupIntents.create({
@@ -56,15 +61,15 @@ export async function createSetupIntentForSubscription({
       customerId
     }
   } catch (error) {
-    await createLog('error', 'SetupIntent creation error', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      email,
-      name
+    await createLog('error', 'SetupIntent creation failed', {
+      error: getErrorMessage(error),
+      userId,
+      email
     })
 
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to create setup intent'
+      error: getErrorMessage(error)
     }
   }
 }

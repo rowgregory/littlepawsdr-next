@@ -1,9 +1,11 @@
 'use server'
 
 import prisma from 'prisma/client'
-import { auth } from '../../auth'
 import { stripeClient } from '../../stripe/stripe-client'
 import { createLog } from '../log/createLog'
+import { AuthFailure, requireAuth } from '../auth/requireAuth'
+import { stampUserGeoFromRequest } from '../auth/stampUserGeoFromRequest'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function createPaymentMethod({
   stripePaymentMethodId,
@@ -14,101 +16,77 @@ export async function createPaymentMethod({
   isDefault: boolean
   cardholderName: string
 }) {
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    await createLog('warn', 'Unauthorized createPaymentMethod attempt', {
-      stripePaymentMethodId
-    })
-    throw new Error('Unauthorized')
-  }
+  const gate = await requireAuth()
+  if (gate.ok === false) return { success: false, error: (gate as AuthFailure).error, data: null }
 
   try {
-    // 1️⃣ Retrieve payment method from Stripe
-    const paymentMethod = await stripeClient.paymentMethods.retrieve(stripePaymentMethodId)
+    const [paymentMethod, details] = await Promise.all([
+      stripeClient.paymentMethods.retrieve(stripePaymentMethodId),
+      stampUserGeoFromRequest(gate.userId)
+    ])
 
     if (paymentMethod.type !== 'card' || !paymentMethod.card) {
       await createLog('error', 'Invalid Stripe payment method type', {
         stripePaymentMethodId,
-        type: paymentMethod.type
+        type: paymentMethod.type,
+        userId: gate.userId
       })
-      throw new Error('Invalid payment method')
+      return { success: false, error: 'Invalid payment method', data: null }
     }
 
-    // 2️⃣ Prevent duplicates
     const existing = await prisma.paymentMethod.findUnique({
       where: { stripePaymentId: paymentMethod.id }
     })
 
     if (existing) {
-      await createLog('info', 'Payment method already exists', {
-        paymentMethodId: existing.id,
-        userId: session.user.id
-      })
-
       return { success: true, id: existing.id }
     }
 
-    // 3️⃣ If setting as default, unset other defaults
     if (isDefault) {
       await prisma.paymentMethod.updateMany({
-        where: {
-          userId: session.user.id,
-          isDefault: true
-        },
+        where: { userId: gate.userId, isDefault: true },
         data: { isDefault: false }
       })
     } else {
-      // If not setting as default, check if user has a default
       const hasDefault = await prisma.paymentMethod.findFirst({
-        where: {
-          userId: session.user.id,
-          isDefault: true
-        }
+        where: { userId: gate.userId, isDefault: true }
       })
-
-      // Make this the default if user doesn't have one
-      if (!hasDefault) {
-        isDefault = true
-      }
+      if (!hasDefault) isDefault = true
     }
 
-    // 4️⃣ Save to DB
     const created = await prisma.paymentMethod.create({
       data: {
         stripePaymentId: paymentMethod.id,
-        cardholderName: cardholderName || null, // Add this
+        cardholderName: cardholderName || null,
         cardBrand: paymentMethod.card.brand,
         cardLast4: paymentMethod.card.last4,
         cardExpMonth: paymentMethod.card.exp_month,
         cardExpYear: paymentMethod.card.exp_year,
         isDefault,
-        userId: session.user.id
+        userId: gate.userId
       }
     })
 
-    // 7️⃣ Log success
-    await createLog('info', 'Payment method created', {
+    await createLog('info', 'Payment method saved', {
       paymentMethodId: created.id,
-      stripePaymentMethodId: paymentMethod.id,
-      userId: session.user.id,
+      userId: gate.userId,
       brand: created.cardBrand,
       last4: created.cardLast4,
-      cardholderName: cardholderName || 'Not provided',
-      isDefault
+      isDefault,
+      ip: details?.ip,
+      device: details?.device,
+      city: details?.geoCity,
+      country: details?.geoCountry
     })
 
     return { success: true, id: created.id }
   } catch (error) {
     await createLog('error', 'Failed to create payment method', {
       stripePaymentMethodId,
-      userId: session.user.id,
-      error: error instanceof Error ? error.message : error
+      userId: gate.userId,
+      error: getErrorMessage(error)
     })
 
-    return {
-      success: false,
-      error: 'Failed to save payment method. Please try again.'
-    }
+    return { success: false, error: 'Failed to save payment method. Please try again.' }
   }
 }
