@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Check, Loader2, Pencil, X } from 'lucide-react'
 import { FormField } from 'app/components/_primitives'
 import { requestEmailChange } from 'app/lib/actions/my-pack/email-change/requestEmailChange'
-
+import { motion } from 'framer-motion'
 type Props = {
   currentEmail: string
 }
@@ -65,7 +65,14 @@ export function EmailChangeSection({ currentEmail }: Props) {
           </button>
         </div>
       ) : (
-        <div className="mt-2 space-y-2 max-w-sm">
+        <motion.div
+          key="name-form"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.2 }}
+          className="mt-2 space-y-2 max-w-sm"
+        >
           <FormField
             id="new-email"
             name="new-email"
@@ -105,7 +112,7 @@ export function EmailChangeSection({ currentEmail }: Props) {
               Cancel
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   )

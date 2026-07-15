@@ -17,7 +17,8 @@ import {
   Receipt,
   Repeat,
   User,
-  Users
+  Users,
+  Workflow
 } from 'lucide-react'
 
 export interface Link {
@@ -222,11 +223,14 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Users', icon: Users, href: '/admin/users' },
       { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' },
-      { label: 'Profile', icon: User, href: ' /my-pack' }
+      { label: 'Profile', icon: User, href: '/my-pack' }
     ]
   },
   {
     heading: 'System',
-    items: [{ label: 'Guide', icon: BookOpen, href: '/admin/guide' }]
+    items: [
+      { label: 'Guide', icon: BookOpen, href: '/admin/guide' },
+      { label: 'Flows', icon: Workflow, href: '/admin/flows' }
+    ]
   }
 ]
