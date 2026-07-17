@@ -10,7 +10,7 @@ import { DonateForm } from 'app/components/features/donate'
 
 type IPublicDonateClient = {
   savedCards: IPaymentMethod[]
-  userName: { firstName: string; lastName: string }
+  userName: { firstName?: string; lastName?: string }
   isAuthed: boolean
   email?: string | null
   userId?: string | null

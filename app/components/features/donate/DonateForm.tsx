@@ -41,7 +41,7 @@ export interface PaymentInputs {
 
 type Props = {
   savedCards: IPaymentMethod[]
-  userName: { firstName: string; lastName: string }
+  userName: { firstName?: string; lastName?: string }
   isAuthed: boolean
   userId: string | null
   email: string
@@ -67,8 +67,8 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
     selectedCardId: savedCards[0]?.stripePaymentId ?? null,
     useNewCard: savedCards.length === 0,
     saveCard: false,
-    firstName: userName.firstName ?? '',
-    lastName: userName.lastName ?? '',
+    firstName: userName?.firstName ?? '',
+    lastName: userName?.lastName ?? '',
     email: email ?? '',
     loading: false,
     error: null
