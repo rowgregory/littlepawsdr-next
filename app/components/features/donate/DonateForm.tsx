@@ -252,6 +252,7 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
       </AnimatePresence>
 
       {!isAuthed && <StepSignIn redirectTo={`/donate?donationAmount=${inputs?.selectedAmount}`} />}
+
       <SignedInRow />
 
       {isAuthed && (

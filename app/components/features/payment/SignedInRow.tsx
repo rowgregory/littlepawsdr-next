@@ -2,10 +2,12 @@
 
 import { useUiSelector } from 'app/lib/store/store'
 import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export function SignedInRow({ isDark }: { isDark?: boolean }) {
   const session = useSession()
+  const router = useRouter()
   const [signingOut, setSigningOut] = useState(false)
   const { isDark: storeDark } = useUiSelector()
   const dark = isDark ?? storeDark
@@ -14,7 +16,8 @@ export function SignedInRow({ isDark }: { isDark?: boolean }) {
 
   const handleSignOut = async () => {
     setSigningOut(true)
-    await signOut({ redirect: false }) // session flips to unauthenticated; page reacts in place
+    await signOut({ redirect: false })
+    router.refresh()
     setSigningOut(false)
   }
 
@@ -31,7 +34,9 @@ export function SignedInRow({ isDark }: { isDark?: boolean }) {
   return (
     <div className="flex items-center gap-3 px-4 py-3">
       <div className={`shrink-0 w-6 h-6 flex items-center justify-center border ${c.avatarBox}`} aria-hidden="true">
-        <span className={`text-[9px] font-mono font-bold uppercase ${c.avatarText}`}>{session.data?.user?.email?.[0]}</span>
+        <span className={`text-[9px] font-mono font-bold uppercase ${c.avatarText}`}>
+          {session.data?.user?.email?.[0]}
+        </span>
       </div>
       <div className="min-w-0">
         <p className={`text-[10px] font-mono tracking-[0.15em] uppercase ${c.label}`}>Signed in as</p>
