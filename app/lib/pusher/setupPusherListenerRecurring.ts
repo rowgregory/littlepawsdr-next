@@ -37,7 +37,7 @@ export async function setupPusherListenerRecurring(
       clearTimeout(timeout)
       processingStatus = 'success'
 
-      router.push(`/order-confirmation/${data.orderId}`)
+      router.push(`/order-confirmation/${data.orderId}?ref=new`)
       channel.unbind_all()
       pusher.unsubscribe(channelId)
       resolve()

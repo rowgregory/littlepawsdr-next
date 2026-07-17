@@ -18,7 +18,6 @@ import Footer from './components/layout/footer/Footer'
 import { AuctionStartedModal } from './components/features/auction/modals/AuctionStartedModal'
 import { CartBar } from './components/features/cart/CartBar'
 import { CartToast } from './components/features/cart/CartToast'
-import { WelcomeGate } from './components/my-pack/WelcomeGate'
 import PublicContactModal from './components/features/home/PublicContactModal'
 import { CartPersistence } from './components/features/cart/CartPersistence'
 import { AuctionEndedModal } from './components/features/auction'
@@ -86,7 +85,6 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
           <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
           <CartBar />
           <CartToast />
-          <WelcomeGate />
           <PublicContactModal />
           <Suspense fallback={null}>
             <NavigationDrawer auction={auction} hasActiveFee={hasActiveFee} />

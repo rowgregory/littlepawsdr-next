@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import ora from "ora";
 
 const prisma = new PrismaClient();
-const EMAIL = "rowgregory@gmail.com";
+// const EMAIL = "rowgregory@gmail.com";
 // const EMAIL = "greg@sqysh.com";
-// const EMAIL = "it.little.paws@gmail.com";
+const EMAIL = "it.little.paws@gmail.com";
 
 async function main() {
   const spinner = ora(`Cleaning up migration data for ${EMAIL}...`).start();
@@ -49,6 +49,15 @@ async function main() {
 
   spinner.text = "Deleting address...";
   await prisma.address.deleteMany({ where: { userId } });
+
+  spinner.text = "Resetting migration status...";
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      hasMigrated: false,
+      migratedAt: null,
+    },
+  });
 
   spinner.succeed(`✓ Migration data cleared for ${EMAIL}`);
 }

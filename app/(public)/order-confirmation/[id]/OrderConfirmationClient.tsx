@@ -21,14 +21,15 @@ export default function OrderConfirmationClient({ order }) {
   const session = useSession()
   const dispatch = useAppDispatch()
   const searchParams = useSearchParams()
+  const isNewOrder = searchParams.get('ref') === 'new'
   const isAdminView = searchParams.get('ref') === 'admin'
 
   useEffect(() => {
     dispatch(clearCart())
-    if (!isAdminView) {
+    if (isNewOrder) {
       dispatch(setShowConfetti())
     }
-  }, [dispatch, order.id, isAdminView])
+  }, [dispatch, order.id, isNewOrder])
 
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 

@@ -1,7 +1,8 @@
 import AdminUsersClient from 'app/(authenticated)/admin/users/AdminUsersClient'
+import { getPendingAdminInvites } from 'app/lib/actions/admin/user/getPendingAdminInvites'
 import getUsers from 'app/lib/actions/admin/user/getUsers'
 
 export default async function AdminUsersPage() {
-  const result = await getUsers()
-  return <AdminUsersClient users={result.data} />
+  const [usersResult, pendingInvitesResult] = await Promise.all([getUsers(), getPendingAdminInvites()])
+  return <AdminUsersClient users={usersResult.data} pendingInvites={pendingInvitesResult.data} />
 }

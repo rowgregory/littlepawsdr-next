@@ -15,7 +15,8 @@ import {
   Check,
   Package,
   ChevronRight,
-  AlertCircle
+  AlertCircle,
+  Info
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDate } from 'app/utils/_date.utils'
@@ -25,20 +26,34 @@ import { StatusPill } from 'app/components/_primitives'
 import { MergeUserSection } from 'app/components/admin/user/MergeUserSection'
 import { updateUserRole } from 'app/lib/actions/admin/user/updateUserRole'
 import { getUserById } from 'app/lib/actions/admin/user/getUserById'
+import Picture from 'app/components/_common/Picture'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 
 const ASSIGNABLE_ROLES: Role[] = ['ADMIN', 'SUPPORTER']
 
-function Field({ icon: Icon, label, children }: { icon: React.ElementType; label: string; children: React.ReactNode }) {
+function Field({
+  icon: Icon,
+  label,
+  children
+}: {
+  icon: React.ElementType
+  label: string
+  children: React.ReactNode
+}) {
   return (
     <div className="flex items-start gap-3 py-3 border-b border-border-light dark:border-border-dark last:border-b-0">
-      <Icon className="w-4 h-4 text-muted-light dark:text-muted-dark shrink-0 mt-0.5" aria-hidden="true" />
+      <Icon
+        className="w-4 h-4 text-muted-light dark:text-muted-dark shrink-0 mt-0.5"
+        aria-hidden="true"
+      />
       <div className="min-w-0 flex-1">
         <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
           {label}
         </p>
-        <div className="text-sm text-text-light dark:text-text-dark wrap-break-word">{children}</div>
+        <div className="text-sm text-text-light dark:text-text-dark wrap-break-word">
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -47,9 +62,10 @@ function Field({ icon: Icon, label, children }: { icon: React.ElementType; label
 type Props = {
   user: UserDetail
   migrationStatus: { hasPendingMigration: boolean; pendingCount: number } | null
+  loggedInUser: { role: Role; id: string }
 }
 
-export default function AdminUserDetailsClient({ user, migrationStatus }: Props) {
+export default function AdminUserDetailsClient({ user, migrationStatus, loggedInUser }: Props) {
   const router = useRouter()
 
   const [role, setRole] = useState<Role>(user.role)
@@ -60,8 +76,8 @@ export default function AdminUserDetailsClient({ user, migrationStatus }: Props)
   const dirty = role !== user.role
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || 'Unnamed user'
   const totalSpent = user.orders
-    .filter((o) => o.status === 'CONFIRMED')
-    .reduce((sum, o) => sum + Number(o.totalAmount), 0)
+    .filter((o: { status: string }) => o.status === 'CONFIRMED')
+    .reduce((sum: number, o: { totalAmount: number }) => sum + Number(o.totalAmount), 0)
 
   async function handleSave() {
     if (!dirty || saving) return
@@ -79,6 +95,8 @@ export default function AdminUserDetailsClient({ user, migrationStatus }: Props)
     }
   }
 
+  const hasMigratedOrders = user.orders.some((o) => o.source === 'MONGO_MIGRATION')
+
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
       <AdminPageHeader
@@ -90,10 +108,10 @@ export default function AdminUserDetailsClient({ user, migrationStatus }: Props)
               <AlertCircle className="w-3 h-3" aria-hidden="true" />
               Migration pending ({migrationStatus.pendingCount})
             </span>
-          ) : migrationStatus ? (
+          ) : user.hasMigrated ? (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 text-[9px] font-mono tracking-[0.15em] uppercase">
               <CheckCircle className="w-3 h-3" aria-hidden="true" />
-              History migrated
+              Migrated
             </span>
           ) : null
         }
@@ -105,23 +123,54 @@ export default function AdminUserDetailsClient({ user, migrationStatus }: Props)
           <div className="space-y-6">
             {/* Identity */}
             <section>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 shrink-0 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 font-quicksand font-black text-lg text-primary-light dark:text-primary-dark">
-                  {(user.firstName?.[0] ?? user.email[0]).toUpperCase()}
+              <div className="flex items-center gap-4 mb-3">
+                <div className="w-14 h-14 shrink-0 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 overflow-hidden">
+                  {user.image ? (
+                    <Picture
+                      priority={true}
+                      src={user.image}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      unoptimized={false}
+                    />
+                  ) : (
+                    <span className="font-quicksand font-black text-lg text-primary-light dark:text-primary-dark">
+                      {(user.firstName?.[0] ?? user.email[0]).toUpperCase()}
+                    </span>
+                  )}
                 </div>
                 <div className="min-w-0">
-                  <h2 className="text-xl font-bold text-text-light dark:text-text-dark truncate">{fullName}</h2>
-                  <p className="text-sm text-muted-light dark:text-muted-dark truncate">{user.email}</p>
+                  <h2 className="text-xl font-bold text-text-light dark:text-text-dark truncate">
+                    {fullName}
+                  </h2>
+                  <p className="text-sm text-muted-light dark:text-muted-dark truncate">
+                    {user.email}
+                  </p>
                 </div>
               </div>
+
+              {user.hasMigrated && !hasMigratedOrders && (
+                <div className="flex items-start gap-2.5 px-3.5 py-3 mt-3 border border-primary-light/30 dark:border-primary-dark/30 bg-primary-light/5 dark:bg-primary-dark/5 mb-6">
+                  <Info
+                    className="w-3.5 h-3.5 text-primary-light dark:text-primary-dark shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <p className="text-[11px] font-mono text-text-light dark:text-text-dark leading-relaxed">
+                    Migration ran successfully. This user had no orders, donations, or other history
+                    on the previous site.
+                  </p>
+                </div>
+              )}
 
               <div className="border border-border-light dark:border-border-dark px-4">
                 <Field icon={Mail} label="Email">
                   {user.email}
                 </Field>
-                <Field icon={Phone} label="Phone">
-                  {user.phone || <span className="text-muted-light dark:text-muted-dark">—</span>}
-                </Field>
+                {user.phone && (
+                  <Field icon={Phone} label="Phone">
+                    {user.phone || <span className="text-muted-light dark:text-muted-dark">—</span>}
+                  </Field>
+                )}
                 <Field icon={Shield} label="Current role">
                   {formatRole(user.role)}
                 </Field>
@@ -149,65 +198,75 @@ export default function AdminUserDetailsClient({ user, migrationStatus }: Props)
                 </Field>
                 {(user.lastGeoCity || user.lastGeoRegion || user.lastGeoCountry) && (
                   <Field icon={MapPin} label="Last location">
-                    {[user.lastGeoCity, user.lastGeoRegion, user.lastGeoCountry].filter(Boolean).join(', ')}
+                    {[user.lastGeoCity, user.lastGeoRegion, user.lastGeoCountry]
+                      .filter(Boolean)
+                      .join(', ')}
                   </Field>
                 )}
               </div>
             </section>
 
             {/* Role editor */}
-            <section className="border border-border-light dark:border-border-dark p-5">
-              <p className="text-[15px] font-bold text-text-light dark:text-text-dark mb-1">Change role</p>
-              <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
-                Admins can manage the site. Supporters are regular members.
-              </p>
+            {(user.role !== 'SUPER_USER' || loggedInUser.role === 'SUPER_USER') &&
+              loggedInUser.id !== user.id && (
+                <section className="border border-border-light dark:border-border-dark p-5">
+                  <p className="text-[15px] font-bold text-text-light dark:text-text-dark mb-1">
+                    Change role
+                  </p>
+                  <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
+                    Admins can manage the site. Supporters are regular members.
+                  </p>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">
-                  {ASSIGNABLE_ROLES.map((r) => {
-                    const selected = role === r
-                    return (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => setRole(r)}
-                        aria-pressed={selected}
-                        className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                          selected
-                            ? 'bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark'
-                            : 'bg-bg-light dark:bg-bg-dark text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
-                        }`}
-                      >
-                        {formatRole(r)}
-                      </button>
-                    )
-                  })}
-                </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">
+                      {ASSIGNABLE_ROLES.map((r) => {
+                        const selected = role === r
+                        return (
+                          <button
+                            key={r}
+                            type="button"
+                            onClick={() => setRole(r)}
+                            aria-pressed={selected}
+                            className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                              selected
+                                ? 'bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark'
+                                : 'bg-bg-light dark:bg-bg-dark text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
+                            }`}
+                          >
+                            {formatRole(r)}
+                          </button>
+                        )
+                      })}
+                    </div>
 
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  disabled={!dirty || saving}
-                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-                >
-                  {saved ? (
-                    <>
-                      <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
-                    </>
-                  ) : saving ? (
-                    'Saving...'
-                  ) : (
-                    'Save role'
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={!dirty || saving}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                    >
+                      {saved ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
+                        </>
+                      ) : saving ? (
+                        'Saving...'
+                      ) : (
+                        'Save role'
+                      )}
+                    </button>
+                  </div>
+
+                  {error && (
+                    <p
+                      role="alert"
+                      className="mt-3 font-mono text-[11px] text-red-600 dark:text-red-400"
+                    >
+                      {error}
+                    </p>
                   )}
-                </button>
-              </div>
-
-              {error && (
-                <p role="alert" className="mt-3 font-mono text-[11px] text-red-600 dark:text-red-400">
-                  {error}
-                </p>
+                </section>
               )}
-            </section>
 
             <MergeUserSection userId={user.id} userEmail={user.email} />
           </div>

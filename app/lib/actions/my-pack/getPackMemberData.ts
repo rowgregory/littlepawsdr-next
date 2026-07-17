@@ -31,7 +31,8 @@ export const getPackMemberData = async () => {
           createdAt: true,
           autoPay: true,
           autoPayCoverFees: true,
-          role: true
+          role: true,
+          image: true
         }
       }),
       prisma.order.findMany({

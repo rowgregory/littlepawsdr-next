@@ -12,14 +12,15 @@ export async function checkMigrationStatus(email: string) {
   try {
     const normalizedEmail = email.toLowerCase().trim()
 
-    const [donations, orders, adoptionFees, auctionWinners, instantBuyers, bids] = await Promise.all([
-      prisma.mongoDonation.count({ where: { email: normalizedEmail } }),
-      prisma.mongoOrder.count({ where: { email: normalizedEmail } }),
-      prisma.mongoAdoptionFee.count({ where: { email: normalizedEmail } }),
-      prisma.mongoAuctionWinner.count({ where: { email: normalizedEmail } }),
-      prisma.mongoInstantBuyer.count({ where: { email: normalizedEmail } }),
-      prisma.mongoBid.count({ where: { email: normalizedEmail } })
-    ])
+    const [donations, orders, adoptionFees, auctionWinners, instantBuyers, bids] =
+      await Promise.all([
+        prisma.mongoDonation.count({ where: { email: normalizedEmail } }),
+        prisma.mongoOrder.count({ where: { email: normalizedEmail } }),
+        prisma.mongoAdoptionFee.count({ where: { email: normalizedEmail } }),
+        prisma.mongoAuctionWinner.count({ where: { email: normalizedEmail } }),
+        prisma.mongoInstantBuyer.count({ where: { email: normalizedEmail } }),
+        prisma.mongoBid.count({ where: { email: normalizedEmail } })
+      ])
 
     const pendingCount = donations + orders + adoptionFees + auctionWinners + instantBuyers + bids
 

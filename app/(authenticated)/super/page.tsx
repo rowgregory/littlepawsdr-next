@@ -22,7 +22,7 @@ export default async function SuperDashboardPage() {
       cronJobs={cronJobs}
       pulseStats={pulseStats}
       adminUsers={adminUsers}
-      auditLogs={auditLogs}
+      auditLogs={auditLogs.data}
       managedUsers={managedUsers}
     />
   )

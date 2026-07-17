@@ -15,7 +15,7 @@ export async function handleMagicLinkCallback(user: User): Promise<boolean | str
   if (existingUser.status === 'SUSPENDED') return '/auth/suspended'
   if (existingUser.status === 'TERMINATED') return '/auth/terminated'
 
-  const details = await stampUserGeoFromRequest(user.id)
+  const details = await stampUserGeoFromRequest(existingUser.id)
 
   await Promise.all([
     prisma.user.update({
@@ -26,7 +26,8 @@ export async function handleMagicLinkCallback(user: User): Promise<boolean | str
         lastGeoLongitude: details.geoLongitude,
         lastGeoCity: details.geoCity,
         lastGeoRegion: details.geoRegion,
-        lastGeoCountry: details.geoCountry
+        lastGeoCountry: details.geoCountry,
+        emailVerified: existingUser.emailVerified ?? new Date()
       }
     }),
     createLog('info', 'Magic link sign-in', {

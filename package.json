@@ -10,7 +10,8 @@
     "lint": "eslint",
     "generate": "prisma generate",
     "migrate:seed": "node scripts/migrate/seed.js",
-    "migrate:cleanup": "node scripts/migrate/cleanup.js"
+    "migrate:cleanup": "node scripts/migrate/cleanup.js",
+    "migrate:all": "npm run migrate:cleanup && npm run migrate:seed && npm run dev"
   },
   "dependencies": {
     "@auth/core": "^0.41.1",

@@ -18,6 +18,7 @@ export async function getUserById(id: string) {
         role: true,
         firstName: true,
         lastName: true,
+        image: true,
         phone: true,
         status: true,
         emailVerified: true,
@@ -26,6 +27,7 @@ export async function getUserById(id: string) {
         lastGeoCity: true,
         lastGeoRegion: true,
         lastGeoCountry: true,
+        hasMigrated: true,
         orders: {
           orderBy: { createdAt: 'desc' },
           select: {
@@ -36,6 +38,7 @@ export async function getUserById(id: string) {
             createdAt: true,
             shippingStatus: true,
             isRecurring: true,
+            source: true,
             items: {
               select: {
                 itemName: true,

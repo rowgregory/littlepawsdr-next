@@ -10,9 +10,9 @@ export function WelcomeGate() {
   const { data: session } = useSession()
   const [dismissed, setDismissed] = useState(false)
 
-  const show = session?.user && !session.user.hasSeenWelcome && !dismissed
+  let show = session?.user && !session.user.hasSeenWelcome && !dismissed
   const firstName = session?.user?.name?.split(' ')[0] ?? null
-
+  show = true
   const handleClose = async () => {
     setDismissed(true)
     await markWelcomeSeen()

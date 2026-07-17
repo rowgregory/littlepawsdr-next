@@ -5,7 +5,17 @@ import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
 import { stampUserGeoFromRequest } from '../actions/auth/stampUserGeoFromRequest'
 
-export async function handleFacebookCallback(user: User, account: Account, profile: Profile): Promise<boolean> {
+interface FacebookProfile extends Profile {
+  first_name?: string | null
+  last_name?: string | null
+  picture?: {
+    data?: {
+      url?: string | null
+    }
+  }
+}
+
+export async function handleFacebookCallback(user: User, account: Account, profile: FacebookProfile): Promise<boolean> {
   if (!user.email) {
     await createLog('warn', 'Facebook sign-in missing email', { profile })
     return false
@@ -23,7 +33,7 @@ export async function handleFacebookCallback(user: User, account: Account, profi
 
       const hasFacebookAccount = existingUser.accounts.some((a) => a.provider === 'facebook')
 
-      const details = await stampUserGeoFromRequest(user.id)
+      const details = await stampUserGeoFromRequest(existingUser.id)
 
       await Promise.all([
         !hasFacebookAccount
@@ -47,7 +57,10 @@ export async function handleFacebookCallback(user: User, account: Account, profi
             lastGeoLongitude: details.geoLongitude,
             lastGeoCity: details.geoCity,
             lastGeoRegion: details.geoRegion,
-            lastGeoCountry: details.geoCountry
+            lastGeoCountry: details.geoCountry,
+            firstName: profile?.first_name || existingUser.firstName,
+            lastName: profile?.last_name || existingUser.lastName,
+            image: profile?.picture?.data?.url || existingUser.image
           }
         }),
         createLog('info', 'Facebook sign-in', {

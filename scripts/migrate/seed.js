@@ -376,9 +376,6 @@ async function seedHistoricalAuctions() {
     });
     if (existing) continue;
 
-    console.log("DOC SETTINGS:: ", doc.settings);
-    console.log("DOC START DATE:: ", doc.startDate);
-
     await prisma.auction.create({
       data: {
         mongoId: id,

@@ -662,6 +662,14 @@ model EmailChangeToken {
   @@index([userId])
 }
 
+model PendingAdminInvite {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      Role
+  createdAt DateTime @default(now())
+  createdBy String
+}
+
 // ─── STAGING TABLES ───────────────────────────────────────────────────
 model MongoUser {
   id        String   @id @default(cuid())

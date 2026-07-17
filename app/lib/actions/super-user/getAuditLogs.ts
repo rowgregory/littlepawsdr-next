@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
 
 export interface LogEntry {
@@ -9,7 +10,12 @@ export interface LogEntry {
   message: string
 }
 
-export async function getAuditLogs(limit = 50): Promise<LogEntry[]> {
+export async function getAuditLogs(limit = 50): Promise<{ success: boolean; data: LogEntry[]; error?: string }> {
+  const session = await auth()
+  if (session?.user?.role !== 'SUPER_USER') {
+    return { success: false, error: 'Unauthorized', data: null }
+  }
+
   const logs = await prisma.log.findMany({
     where: {
       message: { startsWith: '[SUPER]' }
@@ -24,10 +30,13 @@ export async function getAuditLogs(limit = 50): Promise<LogEntry[]> {
     }
   })
 
-  return logs.map((log) => ({
-    id: log.id,
-    ts: log.createdAt.toISOString().replace('T', ' ').slice(0, 19),
-    level: log.level.toUpperCase() as LogEntry['level'],
-    message: log.message
-  }))
+  return {
+    success: true,
+    data: logs.map((log) => ({
+      id: log.id,
+      ts: log.createdAt.toISOString().replace('T', ' ').slice(0, 19),
+      level: log.level.toUpperCase() as LogEntry['level'],
+      message: log.message
+    }))
+  }
 }

@@ -13,6 +13,7 @@ interface PictureProps {
   role?: string
   decorative?: boolean
   style?: any
+  unoptimized?: boolean
 }
 
 const Picture: FC<PictureProps> = ({
@@ -26,11 +27,10 @@ const Picture: FC<PictureProps> = ({
   sizes = '100vw',
   role,
   decorative = false,
-  style
+  style,
+  unoptimized = true
 }) => {
-  // Decorative images must have empty alt and aria-hidden
-  // If decorative prop is passed, override whatever alt was given
-  const resolvedAlt = decorative ? '' : alt || 'Boys & Girls Club of Lynn'
+  const resolvedAlt = decorative ? '' : alt || 'Little Paws Dachshund Rescue'
   const ariaHidden = decorative ? true : undefined
 
   return (
@@ -44,7 +44,7 @@ const Picture: FC<PictureProps> = ({
       priority={priority}
       loading={priority ? 'eager' : 'lazy'}
       sizes={sizes}
-      unoptimized
+      unoptimized={unoptimized}
       role={role}
       aria-hidden={ariaHidden}
       style={style}

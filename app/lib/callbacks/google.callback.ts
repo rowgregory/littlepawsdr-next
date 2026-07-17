@@ -43,7 +43,9 @@ export async function handleGoogleCallback(
         lastGeoRegion: details.geoRegion,
         lastGeoCountry: details.geoCountry,
         firstName: profile?.given_name || existingUser.firstName,
-        lastName: profile?.family_name || existingUser.lastName
+        lastName: profile?.family_name || existingUser.lastName,
+        image: profile?.picture || existingUser.image,
+        emailVerified: existingUser.emailVerified ?? new Date()
       }
     }),
     createLog('info', 'Google sign-in', {

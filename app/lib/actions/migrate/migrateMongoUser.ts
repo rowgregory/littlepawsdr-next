@@ -185,21 +185,47 @@ async function migrateAdoptionFees(tx: any, normalizedEmail: string, userId: str
   const adoptionFees = await tx.mongoAdoptionFee.findMany({ where: { email: normalizedEmail } })
   for (const rec of adoptionFees) {
     const d = rec.data as any
-    if (!d.feeAmount) continue
-    await tx.order.create({
-      data: {
-        type: 'ADOPTION_FEE',
-        status: 'CONFIRMED',
-        totalAmount: d.feeAmount,
-        customerEmail: normalizedEmail,
-        customerName: joinName(d.firstName, d.lastName, normalizedEmail),
-        userId,
-        isPhysical: false,
-        source: 'MONGO_MIGRATION',
-        paidAt: parseDate(d.createdAt),
-        createdAt: parseDate(d.createdAt)
-      }
-    })
+
+    if (d.feeAmount != null) {
+      await tx.order.create({
+        data: {
+          type: 'ADOPTION_FEE',
+          status: 'CONFIRMED',
+          totalAmount: d.feeAmount,
+          customerEmail: normalizedEmail,
+          customerName: joinName(d.firstName, d.lastName, normalizedEmail),
+          userId,
+          isPhysical: false,
+          source: 'MONGO_MIGRATION',
+          paidAt: parseDate(d.createdAt),
+          createdAt: parseDate(d.createdAt)
+        }
+      })
+
+      const now = new Date()
+      const expiresAt = d.expiresAt ? parseDate(d.expiresAt) : null
+      const isExpired = expiresAt ? expiresAt < now : false
+
+      await tx.adoptionFee.create({
+        data: {
+          userId,
+          email: normalizedEmail,
+          firstName: d.firstName ?? null,
+          lastName: d.lastName ?? null,
+          feeAmount: d.feeAmount,
+          status: isExpired ? 'EXPIRED' : 'ACTIVE',
+          expiresAt,
+          bypassCode: d.bypassCode ?? null,
+          createdAt: parseDate(d.createdAt)
+        }
+      })
+    } else {
+      await createLog('warn', 'Adoption fee migration skipped — missing feeAmount', {
+        mongoId: rec.id,
+        email: normalizedEmail
+      })
+    }
+
     await tx.mongoAdoptionFee.delete({ where: { id: rec.id } })
   }
 }

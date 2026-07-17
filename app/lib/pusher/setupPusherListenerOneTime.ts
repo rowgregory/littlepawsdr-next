@@ -42,7 +42,7 @@ export async function setupPusherListenerOneTime(channelId: string, router: AppR
           if (data.adoptionFeeId) await setAdoptionFeeCookie(data.adoptionFeeId)
           router.push('/adopt/application')
         } else {
-          router.push(`/order-confirmation/${data.orderId}`)
+          router.push(`/order-confirmation/${data.orderId}?ref=new`)
         }
         channel.unbind_all()
         pusher.unsubscribe(`payment-${channelId}`)

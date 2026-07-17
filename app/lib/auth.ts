@@ -84,6 +84,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const mongoUser = await prisma.mongoUser.findUnique({
           where: { email: user.email.toLowerCase().trim() }
         })
+
         if (mongoUser) {
           migrateMongoUser(user.email, user.id).catch((err) =>
             createLog('error', 'Mongo migration failed silently', {
@@ -114,6 +115,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             userId: user.id
           })
         )
+
+      const invite = await prisma.pendingAdminInvite.findUnique({ where: { email: user.email! } })
+
+      if (invite) {
+        await prisma.user
+          .update({
+            where: { id: user.id },
+            data: { role: invite.role }
+          })
+          .then(() => prisma.pendingAdminInvite.delete({ where: { email: user.email! } }))
+          .catch((err) =>
+            createLog('error', 'Failed to consume pending admin invite', {
+              error: err instanceof Error ? err.message : 'Unknown error',
+              userId: user.id,
+              email: user.email
+            })
+          )
+
+        await createLog('info', 'Pending admin invite consumed on first sign-in', {
+          userId: user.id,
+          email: user.email,
+          role: invite.role
+        })
+      }
 
       await pusherSuperuser('user-registered', {
         email: user.email,

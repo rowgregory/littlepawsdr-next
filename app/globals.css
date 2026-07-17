@@ -202,3 +202,18 @@ input[type="number"]::-webkit-outer-spin-button {
     background-position: 0% 50%;
   }
 }
+
+@keyframes gridPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  40% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

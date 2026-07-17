@@ -32,6 +32,7 @@ import AddPaymentMethodModal from 'app/components/my-pack/AddPaymentMethodModal'
 import { toggleAnonymousBidding } from 'app/lib/actions/user/auction/toggleAnonymousBidding'
 import { toggleAutoPay } from 'app/lib/actions/user/auction/toggleAutoPay'
 import { toggleAutoPayCoverFees } from 'app/lib/actions/user/auction/toggleAutoPayCoverFees'
+import { MigrationBanner } from 'app/components/my-pack/MigrationBanner'
 
 export default function MyPackClient({
   user,
@@ -41,7 +42,8 @@ export default function MyPackClient({
   paymentMethods,
   adoptionFees,
   multiItemOrders,
-  auctionPurchases
+  auctionPurchases,
+  hasPendingMigration
 }: MemberClientProps) {
   const router = useRouter()
   const session = useSession()
@@ -220,6 +222,8 @@ export default function MyPackClient({
       <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
         {/* ── TopBar ── */}
         <TopBar />
+
+        <MigrationBanner initiallyPending={hasPendingMigration} />
 
         <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-8">
           <Header

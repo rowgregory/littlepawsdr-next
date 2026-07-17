@@ -5,6 +5,7 @@ import { FormField } from 'app/components/_primitives/FormField'
 import { PackMember } from 'types/_my-pack.types'
 import { formatRole } from 'app/utils/_user.utils'
 import { EmailChangeSection } from './EmailChangeSection'
+import Picture from '../_common/Picture'
 
 interface HeaderProps {
   user: PackMember
@@ -36,12 +37,16 @@ export function Header({
     <div className="flex items-start gap-4 sm:gap-5">
       {/* Avatar */}
       <div
-        className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center shrink-0"
+        className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center shrink-0 overflow-hidden"
         aria-hidden="true"
       >
-        <span className="font-quicksand font-black text-base text-primary-light dark:text-primary-dark">
-          {initials}
-        </span>
+        {user.image ? (
+          <Picture priority={true} src={user.image} alt="" className="w-full h-full object-cover" unoptimized={false} />
+        ) : (
+          <span className="font-quicksand font-black text-base text-primary-light dark:text-primary-dark">
+            {initials}
+          </span>
+        )}
       </div>
 
       <div className="min-w-0 flex-1">

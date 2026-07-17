@@ -2,23 +2,26 @@ import { getPackMemberData } from 'app/lib/actions/my-pack/getPackMemberData'
 import MyPackClient from './MyPackClient'
 import { Suspense } from 'react'
 import { MyPackSkeleton } from 'app/components/my-pack/MyPack'
+import { checkOwnMigrationStatus } from 'app/lib/actions/user/checkOwnMigrationStatus'
 
 export const dynamic = 'force-dynamic'
 
 export default async function MyPackPage() {
-  const result = await getPackMemberData()
+  const [packMemberResult, migrationResult] = await Promise.all([getPackMemberData(), checkOwnMigrationStatus()])
+  const hasPendingMigration = migrationResult.success ? (migrationResult.data?.pending ?? false) : false
 
   return (
     <Suspense fallback={<MyPackSkeleton />}>
       <MyPackClient
-        user={result?.data?.user}
-        donations={result?.data?.donations}
-        subscriptions={result?.data?.subscriptions}
-        auctionParticipation={result?.data?.auctionParticipation}
-        paymentMethods={result?.data?.paymentMethods}
-        adoptionFees={result?.data?.adoptionFees}
-        multiItemOrders={result?.data?.multiItemOrders}
-        auctionPurchases={result.data.auctionPurchases}
+        user={packMemberResult?.data?.user}
+        donations={packMemberResult?.data?.donations}
+        subscriptions={packMemberResult?.data?.subscriptions}
+        auctionParticipation={packMemberResult?.data?.auctionParticipation}
+        paymentMethods={packMemberResult?.data?.paymentMethods}
+        adoptionFees={packMemberResult?.data?.adoptionFees}
+        multiItemOrders={packMemberResult?.data?.multiItemOrders}
+        auctionPurchases={packMemberResult.data.auctionPurchases}
+        hasPendingMigration={hasPendingMigration}
       />
     </Suspense>
   )

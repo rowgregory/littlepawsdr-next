@@ -20,6 +20,7 @@ export interface IUser {
 
   // Identity
   email: string
+  image?: string
   role: UserRole
   status: UserStatus
   emailVerified: Date | null

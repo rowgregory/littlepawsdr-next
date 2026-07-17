@@ -89,6 +89,7 @@ export type PackMember = Pick<
   | 'autoPay'
   | 'autoPayCoverFees'
   | 'role'
+  | 'image'
 > & {
   address: Address | null
 }
@@ -102,6 +103,7 @@ export interface MemberClientProps {
   adoptionFees: IAdoptionFee[]
   multiItemOrders: MultiItemOrder[]
   auctionPurchases: AuctionPurchase[]
+  hasPendingMigration: boolean
 }
 
 export type Tier = (typeof TIERS)[number]

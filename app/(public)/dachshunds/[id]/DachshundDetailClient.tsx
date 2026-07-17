@@ -109,7 +109,6 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
     '/dachshunds': 'Dachshunds',
     '/dachshunds/hold': 'Incoming Dachshunds'
   }
-  console.log(data)
 
   type RequirementPill = { label: string; value: string }
 
