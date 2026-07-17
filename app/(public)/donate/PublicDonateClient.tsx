@@ -41,7 +41,7 @@ export default function PublicDonateClient({ savedCards, userName, isAuthed, ema
                 className="shrink-0 w-7 h-7 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center"
               >
                 <span className="text-[9px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">
-                  {getInitials(userName.firstName, userName.lastName)}
+                  {getInitials(userName?.firstName, userName?.lastName)}
                 </span>
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function PublicDonateClient({ savedCards, userName, isAuthed, ema
                 </ul>
               </div>
               {/* ── Logged-in indicator ── */}
-              {email && userName.firstName && (
+              {email && userName?.firstName && (
                 <motion.div variants={fadeUp} initial="hidden" animate="show" custom={1}>
                   <div className="h-px bg-border-light dark:bg-border-dark mb-8" aria-hidden="true" />
                   <div className="flex items-center gap-3">
@@ -155,8 +155,8 @@ export default function PublicDonateClient({ savedCards, userName, isAuthed, ema
                       className="shrink-0 w-8 h-8  bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center"
                     >
                       <span className="text-[10px] font-mono font-bold text-primary-light dark:text-primary-dark uppercase">
-                        {userName.firstName
-                          ? userName.firstName
+                        {userName?.firstName
+                          ? userName?.firstName
                               .split(' ')
                               .map((n: string) => n[0])
                               .slice(0, 2)
