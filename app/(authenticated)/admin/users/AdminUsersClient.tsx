@@ -112,8 +112,6 @@ export default function AdminUsersClient({ users }: { users: IUser[] }) {
     setPage(1)
   }
 
-  console.log(users)
-
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
       <AdminPageHeader title="Users" count={{ value: filtered.length, noun: 'user' }} />

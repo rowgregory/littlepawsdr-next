@@ -15,7 +15,6 @@ const TYPE_LABELS: Record<string, string> = {
 }
 
 export function MultiItemOrders({ multiItemOrders }) {
-  console.log(multiItemOrders)
   return (
     <section aria-labelledby="multi-item-heading">
       {multiItemOrders?.length === 0 ? (

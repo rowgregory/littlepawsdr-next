@@ -32,8 +32,6 @@ export default function OrderConfirmationClient({ order }) {
 
   const typeCode = order?.type === 'RECURRING_DONATION' ? 'RD' : 'DN'
 
-  console.log('ORDER: ', order)
-
   return (
     <div className="min-h-dvh bg-white dark:bg-bg-dark">
       {/* ── Fixed full-bleed header bar ── */}

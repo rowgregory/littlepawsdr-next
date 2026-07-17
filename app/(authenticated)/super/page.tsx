@@ -1,5 +1,4 @@
 import SuperDashboardClient from 'app/(authenticated)/super/SuperDashboardClient'
-import getActiveAuctionForSuperuser from 'app/lib/actions/super-user/getActiveAuctionForSuperUser'
 import { getAdminUsers } from 'app/lib/actions/super-user/getAdminUsers'
 import { getAuditLogs } from 'app/lib/actions/super-user/getAuditLogs'
 import { getCronJobs } from 'app/lib/actions/super-user/getCronJobs'
@@ -8,14 +7,13 @@ import { getPulseStats } from 'app/lib/actions/super-user/getPulseStats'
 import { getServiceHealth } from 'app/lib/actions/super-user/getServiceHealth'
 
 export default async function SuperDashboardPage() {
-  const [services, cronJobs, pulseStats, adminUsers, auditLogs, managedUsers, auction] = await Promise.all([
+  const [services, cronJobs, pulseStats, adminUsers, auditLogs, managedUsers] = await Promise.all([
     getServiceHealth(),
     getCronJobs(),
     getPulseStats(),
     getAdminUsers(),
     getAuditLogs(),
-    getManagedUsers(),
-    getActiveAuctionForSuperuser()
+    getManagedUsers()
   ])
 
   return (
@@ -26,7 +24,6 @@ export default async function SuperDashboardPage() {
       adminUsers={adminUsers}
       auditLogs={auditLogs}
       managedUsers={managedUsers}
-      auction={auction.data}
     />
   )
 }
