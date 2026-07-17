@@ -59,7 +59,7 @@ export async function mergeUsers({
 
     const firstName = primary.firstName ?? primary.email.split('@')[0]
     const { error: emailError } = await resend.emails.send({
-      from: 'Little Paws Dachshund Rescue <info@littlepawsdr.org>',
+      from: 'Little Paws Dachshund Rescue <support@littlepawsdr.org>',
       to: primary.email,
       subject: 'Your accounts have been merged',
       html: accountMergedTemplate({

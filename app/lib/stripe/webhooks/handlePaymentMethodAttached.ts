@@ -2,30 +2,29 @@ import { createLog } from 'app/lib/actions/log/createLog'
 import { pusherSuperuser } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
+import { getErrorMessage } from 'app/utils/_error.utils'
 
 export async function handlePaymentMethodAttached(paymentMethod: Stripe.PaymentMethod) {
   try {
     const customerId = typeof paymentMethod.customer === 'string' ? paymentMethod.customer : paymentMethod.customer?.id
 
-    if (!customerId) {
-      return
-    }
+    if (!customerId) return
 
     const user = await prisma.user.findFirst({
       where: { stripeCustomerId: customerId }
     })
 
-    if (!user) {
-      return
-    }
+    if (!user) return
 
     const existing = await prisma.paymentMethod.findUnique({
       where: { stripePaymentId: paymentMethod.id }
     })
 
-    if (existing) {
-      return
-    }
+    if (existing) return
+
+    const hasDefault = await prisma.paymentMethod.findFirst({
+      where: { userId: user.id, isDefault: true }
+    })
 
     await prisma.paymentMethod.create({
       data: {
@@ -35,14 +34,15 @@ export async function handlePaymentMethodAttached(paymentMethod: Stripe.PaymentM
         cardLast4: paymentMethod.card?.last4 || '0000',
         cardExpMonth: paymentMethod.card?.exp_month || 0,
         cardExpYear: paymentMethod.card?.exp_year || 0,
-        isDefault: false,
+        isDefault: !hasDefault,
         userId: user.id
       }
     })
 
     await createLog('info', 'Payment method attached via webhook', {
       paymentMethodId: paymentMethod.id,
-      userId: user.id
+      userId: user.id,
+      isDefault: !hasDefault
     })
 
     await pusherSuperuser('payment-method-attached', {
@@ -53,7 +53,7 @@ export async function handlePaymentMethodAttached(paymentMethod: Stripe.PaymentM
     })
   } catch (error) {
     await createLog('error', 'Error handling payment method attached', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: getErrorMessage(error),
       paymentMethodId: paymentMethod.id
     })
   }
