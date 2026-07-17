@@ -112,7 +112,12 @@ export default function MyPackClient({
       setEditingName(false)
       router.refresh()
     } catch (err) {
-      dispatch(showToast({ message: err instanceof Error ? err.message : 'Failed to update name', type: 'error' }))
+      dispatch(
+        showToast({
+          message: err instanceof Error ? err.message : 'Failed to update name',
+          type: 'error'
+        })
+      )
     } finally {
       setNameLoading(false)
     }
@@ -214,18 +219,25 @@ export default function MyPackClient({
   return (
     <>
       {shippedOrderId && (
-        <ShippedCelebration key={shippedOrderId} orderId={shippedOrderId} onClose={() => setShippedOrderId(null)} />
+        <ShippedCelebration
+          key={shippedOrderId}
+          orderId={shippedOrderId}
+          onClose={() => setShippedOrderId(null)}
+        />
       )}
 
       <AddPaymentMethodModal />
 
-      <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+      <main
+        id="main-content"
+        className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+      >
         {/* ── TopBar ── */}
         <TopBar />
 
         <MigrationBanner initiallyPending={hasPendingMigration} />
 
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8">
           <Header
             editingName={editingName}
             firstNameInput={firstNameInput}
@@ -305,7 +317,11 @@ export default function MyPackClient({
                 <SectionShell
                   heading="Merch, Wieners & Foster"
                   action={
-                    <Link href="/merch" className={addCardStyles} aria-label="Shop merch or sponsor a dog">
+                    <Link
+                      href="/merch"
+                      className={addCardStyles}
+                      aria-label="Shop merch or sponsor a dog"
+                    >
                       <Package className="w-3 h-3 shrink-0" aria-hidden="true" />
                       Shop
                     </Link>
@@ -366,7 +382,10 @@ export default function MyPackClient({
                   </Link>
                 }
               >
-                <Auctions auctionParticipation={auctionParticipation} auctionPurchases={auctionPurchases} />
+                <Auctions
+                  auctionParticipation={auctionParticipation}
+                  auctionPurchases={auctionPurchases}
+                />
               </SectionShell>
             )}
 

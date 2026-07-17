@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Menu, ShoppingBasket } from 'lucide-react'
+import { LogIn, Menu, ShoppingBasket, User } from 'lucide-react'
 import { store, useCartSelector, useUiSelector } from 'app/lib/store/store'
 import GoogleTranslate from './GoogleTranslate'
 import { setOpenContactModal, setOpenMobileNavigation } from 'app/lib/store/slices/uiSlice'
@@ -9,7 +9,7 @@ import AuctionAnnouncementStrip from './AuctionAnnouncementStrip'
 import { useScrollDirection } from '@hooks/useScrollDirection.hook'
 import Picture from 'app/components/_common/Picture'
 
-export default function Header({ auction, hasActiveFee }) {
+export default function Header({ auction, hasActiveFee, isAuthed }) {
   const { hidden } = useScrollDirection()
   const { mobileNavigation } = useUiSelector()
   const { items } = useCartSelector()
@@ -82,11 +82,21 @@ export default function Header({ auction, hasActiveFee }) {
                 </li>
                 <li>
                   <Link
-                    href="/auth/login"
-                    aria-label="Launch the member app"
-                    className="text-on-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase transition-colors whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded"
+                    href={isAuthed ? '/my-pack' : '/auth/login'}
+                    aria-label={isAuthed ? 'Go to My Pack' : 'Sign in to your account'}
+                    className="inline-flex items-center gap-1.5 text-on-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase transition-colors whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded"
                   >
-                    Launch App
+                    {isAuthed ? (
+                      <>
+                        <User className="w-3 h-3" aria-hidden="true" />
+                        My Pack
+                      </>
+                    ) : (
+                      <>
+                        <LogIn className="w-3 h-3" aria-hidden="true" />
+                        Sign In
+                      </>
+                    )}
                   </Link>
                 </li>
               </ul>
@@ -151,7 +161,9 @@ export default function Header({ auction, hasActiveFee }) {
                 aria-label="Little Paws Dachshund Rescue - Home"
                 className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
               >
-                <div className={`flex items-center space-x-3 origin-left transition-transform duration-300 ease-out`}>
+                <div
+                  className={`flex items-center space-x-3 origin-left transition-transform duration-300 ease-out`}
+                >
                   <div
                     className={`overflow-hidden flex items-center justify-center transition-[height] duration-300 ease-out h-16`}
                   >

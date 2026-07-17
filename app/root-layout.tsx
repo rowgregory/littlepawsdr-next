@@ -26,9 +26,10 @@ interface Props {
   children: ReactNode
   auction: any
   hasActiveFee: boolean
+  isAuthed: boolean
 }
 
-export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
+export function RootLayoutWrapper({ children, auction, hasActiveFee, isAuthed }: Props) {
   const segments = useSelectedLayoutSegments()
   const isNotFound = segments[0] === '__DEFAULT__' || segments.includes('/_not-found')
   const pathname = usePathname()
@@ -82,7 +83,10 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
           <Toast />
           <Confetti3D burstTrigger={burstTrigger} />
           <AuctionEndedModal data={auctionEndedData} onClose={() => setAuctionEndedData(null)} />
-          <AuctionStartedModal data={auctionStartedData} onClose={() => setAuctionStartedData(null)} />
+          <AuctionStartedModal
+            data={auctionStartedData}
+            onClose={() => setAuctionStartedData(null)}
+          />
           <CartBar />
           <CartToast />
           <PublicContactModal />
@@ -90,7 +94,9 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
             <NavigationDrawer auction={auction} hasActiveFee={hasActiveFee} />
           </Suspense>
           <CartPersistence />
-          {!isHidden && <Header auction={auction} hasActiveFee={hasActiveFee} />}
+          {!isHidden && (
+            <Header auction={auction} hasActiveFee={hasActiveFee} isAuthed={isAuthed} />
+          )}
           {children}
           {!isHidden && <Footer />}
         </Elements>

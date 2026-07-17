@@ -1,7 +1,9 @@
 import PublicDonateClient from 'app/(public)/donate/PublicDonateClient'
+import { PublicDonateSkeleton } from 'app/components/features/donate/PublicDonateSkeleton'
 import { getSavedPaymentMethods } from 'app/lib/actions/_stripe/getSavedPaymentMethods'
 import { getUserName } from 'app/lib/actions/my-pack/getUserName'
 import { auth } from 'app/lib/auth'
+import { Suspense } from 'react'
 
 export default async function PublicDonatePage() {
   const session = await auth()
@@ -19,12 +21,15 @@ export default async function PublicDonatePage() {
       ]
 
   return (
-    <PublicDonateClient
-      savedCards={paymentMethodsResult.data ?? []}
-      userName={userNameResult.data ?? null}
-      isAuthed={isAuthed}
-      email={user?.email ?? null}
-      userId={user?.id ?? null}
-    />
+    <Suspense fallback={<PublicDonateSkeleton />}>
+      <PublicDonateClient
+        savedCards={paymentMethodsResult.data ?? []}
+        userName={userNameResult.data ?? null}
+        isAuthed={isAuthed}
+        email={user?.email ?? null}
+        userId={user?.id ?? null}
+        userImage={user.image}
+      />
+    </Suspense>
   )
 }

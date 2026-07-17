@@ -31,31 +31,54 @@ export function Header({
   setEditingName
 }: HeaderProps) {
   const fullName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || 'Member'
-  const initials = [user?.firstName?.[0], user?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
+  const initials =
+    [user?.firstName?.[0], user?.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
 
   return (
-    <div className="flex items-start gap-4 sm:gap-5">
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="flex items-start gap-4 sm:gap-5"
+    >
       {/* Avatar */}
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, delay: 0.05 }}
         className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/30 dark:border-primary-dark/30 flex items-center justify-center shrink-0 overflow-hidden"
         aria-hidden="true"
       >
         {user.image ? (
-          <Picture priority={true} src={user.image} alt="" className="w-full h-full object-cover" unoptimized={false} />
+          <Picture
+            priority={true}
+            src={user.image}
+            alt=""
+            className="w-full h-full object-cover"
+            unoptimized={false}
+          />
         ) : (
           <span className="font-quicksand font-black text-base text-primary-light dark:text-primary-dark">
             {initials}
           </span>
         )}
-      </div>
+      </motion.div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-3 mb-1">
-          <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="flex items-center gap-3 mb-1"
+        >
+          <span
+            className="block w-5 h-px bg-primary-light dark:bg-primary-dark"
+            aria-hidden="true"
+          />
           <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
             {formatRole(user.role)}
           </p>
-        </div>
+        </motion.div>
 
         {editingName ? (
           <motion.form
@@ -119,7 +142,12 @@ export function Header({
             </div>
           </motion.form>
         ) : (
-          <div className="flex items-center gap-2">
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="flex items-center gap-2"
+          >
             <h1 className="font-quicksand font-black text-3xl sm:text-4xl text-text-light dark:text-text-dark leading-tight">
               {fullName}
             </h1>
@@ -135,11 +163,11 @@ export function Header({
             >
               <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
-          </div>
+          </motion.div>
         )}
 
         <EmailChangeSection currentEmail={user.email} />
       </div>
-    </div>
+    </motion.div>
   )
 }

@@ -4,6 +4,8 @@ import { useUiSelector } from 'app/lib/store/store'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 
 export function SignedInRow({ isDark }: { isDark?: boolean }) {
   const session = useSession()
@@ -22,7 +24,9 @@ export function SignedInRow({ isDark }: { isDark?: boolean }) {
   }
 
   const c = {
-    avatarBox: dark ? 'bg-primary-dark/10 border-primary-dark/30' : 'bg-primary-light/10 border-primary-light/30',
+    avatarBox: dark
+      ? 'bg-primary-dark/10 border-primary-dark/30'
+      : 'bg-primary-light/10 border-primary-light/30',
     avatarText: dark ? 'text-primary-dark' : 'text-primary-light',
     label: dark ? 'text-muted-dark' : 'text-muted-light',
     email: dark ? 'text-text-dark' : 'text-text-light',
@@ -32,14 +36,25 @@ export function SignedInRow({ isDark }: { isDark?: boolean }) {
   }
 
   return (
-    <div className="flex items-center gap-3 px-4 py-3">
-      <div className={`shrink-0 w-6 h-6 flex items-center justify-center border ${c.avatarBox}`} aria-hidden="true">
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      custom={1}
+      className="flex items-center gap-3 px-4 py-3"
+    >
+      <div
+        className={`shrink-0 w-6 h-6 flex items-center justify-center border ${c.avatarBox}`}
+        aria-hidden="true"
+      >
         <span className={`text-[9px] font-mono font-bold uppercase ${c.avatarText}`}>
           {session.data?.user?.email?.[0]}
         </span>
       </div>
       <div className="min-w-0">
-        <p className={`text-[10px] font-mono tracking-[0.15em] uppercase ${c.label}`}>Signed in as</p>
+        <p className={`text-[10px] font-mono tracking-[0.15em] uppercase ${c.label}`}>
+          Signed in as
+        </p>
         <p className={`text-xs font-mono truncate ${c.email}`}>{session.data?.user?.email}</p>
       </div>
       <button
@@ -50,6 +65,6 @@ export function SignedInRow({ isDark }: { isDark?: boolean }) {
       >
         {signingOut ? 'Signing out…' : 'Not you? Sign out'}
       </button>
-    </div>
+    </motion.div>
   )
 }

@@ -8,12 +8,20 @@ import { bebas, nunito, quicksand, workSans } from './fonts'
 export { metadata } from './metadata'
 export { viewport } from './viewport'
 
-const fontVariables = [quicksand.variable, workSans.variable, bebas.variable, nunito.variable].join(' ')
+const fontVariables = [quicksand.variable, workSans.variable, bebas.variable, nunito.variable].join(
+  ' '
+)
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [cookieStore, auction] = await Promise.all([cookies(), getCachedAuction()])
 
   const hasActiveFee = cookieStore.get('lpdr_active_adoption_fee')?.value === '1'
+
+  // Cheap, DB-free signal for UI purposes only (which nav link to show).
+  // Real auth checks still go through requireAuth()/auth() wherever it matters.
+  const isAuthed = !!(
+    cookieStore.get('authjs.session-token') ?? cookieStore.get('__Secure-authjs.session-token')
+  )
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -26,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className={fontVariables}>
         <SessionProvider refetchOnWindowFocus={false}>
-          <RootLayoutWrapper auction={auction} hasActiveFee={hasActiveFee}>
+          <RootLayoutWrapper auction={auction} hasActiveFee={hasActiveFee} isAuthed={isAuthed}>
             {children}
           </RootLayoutWrapper>
         </SessionProvider>

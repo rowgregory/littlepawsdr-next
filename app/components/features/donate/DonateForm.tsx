@@ -3,7 +3,7 @@ import { usePaymentProcessor } from '@hooks/usePaymentProcessor.hook'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { EMAIL_REGEX } from 'app/lib/constants/regex.constants'
 import { useCallback, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import { OrderType } from '@prisma/client'
 import { calculateStripeFees } from 'app/lib/stripe/calculateStripeFees'
@@ -54,7 +54,9 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
 
   // ── URL param: pre-fill amount (e.g. from StepSignIn redirect) ────────────
   // Resolved once on mount via useSearchParams — keeps seeding synchronous.
-  const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '')
+  const searchParams = new URLSearchParams(
+    typeof window !== 'undefined' ? window.location.search : ''
+  )
   const donationAmountFromUrl = searchParams.get('donationAmount')
 
   // ── Local state ───────────────────────────────────────────────────────────
@@ -100,10 +102,12 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
   useDefaultCard(savedCards, setDefaultCard)
 
   // ── Handlers ──────────────────────────────────────────────────────────────
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    patch({ [e.target.name]: e.target.value } as Partial<PaymentInputs>)
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => patch({ [e.target.name]: e.target.value } as Partial<PaymentInputs>)
 
-  const handlePresetSelect = (amount: number) => patch({ selectedAmount: amount, useCustom: false, customAmount: '' })
+  const handlePresetSelect = (amount: number) =>
+    patch({ selectedAmount: amount, useCustom: false, customAmount: '' })
 
   // ── Handlde Submit ─────────────────────────────────────────────────────────────────
   async function handleSubmit(e: { preventDefault: () => void }) {
@@ -170,12 +174,17 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="One-time donation form" className="w-full space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      aria-label="One-time donation form"
+      className="w-full space-y-5"
+    >
       {/* Preset amounts */}
       <PresetAmounts inputs={inputs} onSelect={handlePresetSelect} />
 
       {/* ── Custom amount ── */}
-      <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2} className="mb-6">
+      <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.5} className="mb-6">
         <label
           htmlFor="custom-amount"
           className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2"
@@ -188,7 +197,9 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
         <div className="relative">
           <span
             className={`absolute left-3.5 top-1/2 -translate-y-1/2 font-quicksand font-black text-sm pointer-events-none transition-colors duration-200 ${
-              inputs?.useCustom ? 'text-primary-light dark:text-primary-dark' : 'text-muted-light dark:text-muted-dark'
+              inputs?.useCustom
+                ? 'text-primary-light dark:text-primary-dark'
+                : 'text-muted-light dark:text-muted-dark'
             }`}
             aria-hidden="true"
           >
@@ -218,45 +229,56 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
               focus-visible:border-primary-light dark:focus-visible:border-primary-dark
             `}
           />
-          {inputs?.useCustom && amountBlurred && inputs?.customAmount && parseFloat(inputs?.customAmount) < 5 && (
-            <p
-              id="custom-amount-hint"
-              role="alert"
-              className="absolute text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono"
-            >
-              Minimum donation is $5
-            </p>
-          )}
+          {inputs?.useCustom &&
+            amountBlurred &&
+            inputs?.customAmount &&
+            parseFloat(inputs?.customAmount) < 5 && (
+              <p
+                id="custom-amount-hint"
+                role="alert"
+                className="absolute text-[11px] text-red-500 dark:text-red-400 mt-1.5 font-mono"
+              >
+                Minimum donation is $5
+              </p>
+            )}
         </div>
       </motion.div>
 
       {/* ── Amount display ── */}
-      <AnimatePresence mode="wait">
-        {donationAmount >= 5 && (
-          <motion.div
-            key={donationAmount}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            className="flex items-center gap-3 mb-6 py-3 px-4 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
-          >
-            <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
-              Donating
-            </span>
-            <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">
-              ${formatWithCommas(donationAmount)}
-            </span>
-            <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">one-time</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+      {donationAmount >= 5 && (
+        <motion.div
+          key={donationAmount}
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={0.75}
+          className="flex items-center gap-3 mb-6 py-3 px-4 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
+        >
+          <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+            Donating
+          </span>
+          <span className="font-quicksand font-black text-2xl text-primary-light dark:text-primary-dark">
+            ${formatWithCommas(donationAmount)}
+          </span>
+          <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark ml-auto">
+            one-time
+          </span>
+        </motion.div>
+      )}
 
       {!isAuthed && <StepSignIn redirectTo={`/donate?donationAmount=${inputs?.selectedAmount}`} />}
 
       <SignedInRow />
 
       {isAuthed && (
-        <motion.div variants={fadeUp} initial="hidden" animate="show" custom={3} className="space-y-5">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={1.25}
+          className="space-y-5"
+        >
           {/* ── Name + Email ── */}
           <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
             <FormField
@@ -313,7 +335,9 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
           {/* ── Card element ── */}
           {enteringNewCard && (
             <CardElementField
-              onChange={({ complete, error }) => patch({ cardComplete: complete, error: error ?? null })}
+              onChange={({ complete, error }) =>
+                patch({ cardComplete: complete, error: error ?? null })
+              }
             />
           )}
 
@@ -344,7 +368,13 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
       )}
 
       {/* ── Security note ── */}
-      <p className="flex items-center justify-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark">
+      <motion.p
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+        custom={1.5}
+        className="flex items-center justify-center gap-2 text-[10px] font-mono text-muted-light dark:text-muted-dark"
+      >
         <svg
           viewBox="0 0 24 24"
           className="w-3 h-3 shrink-0"
@@ -358,7 +388,7 @@ export function DonateForm({ savedCards, userName, isAuthed, userId, email }: Pr
           <path d="M7 11V7a5 5 0 0110 0v4" />
         </svg>
         Secured by Stripe. We never store your card details.
-      </p>
+      </motion.p>
     </form>
   )
 }

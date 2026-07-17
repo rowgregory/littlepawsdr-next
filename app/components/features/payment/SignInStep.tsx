@@ -4,6 +4,7 @@ import { useUiSelector } from 'app/lib/store/store'
 import { GoogleButton } from '../login/GoogleButton'
 import { FacebookButton } from '../login/FacebookButton'
 import { MagicLink } from '../login/MagicLink'
+import { fadeUp } from 'app/lib/constants/motion.constants'
 
 export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?: boolean }) {
   const [email, setEmail] = useState('')
@@ -18,7 +19,9 @@ export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?
     muted: dark ? 'text-muted-dark' : 'text-muted-light',
     text: dark ? 'text-text-dark' : 'text-text-light',
     primary: dark ? 'text-primary-dark' : 'text-primary-light',
-    sentBox: dark ? 'border-primary-dark/20 bg-surface-dark' : 'border-primary-light/20 bg-surface-light',
+    sentBox: dark
+      ? 'border-primary-dark/20 bg-surface-dark'
+      : 'border-primary-light/20 bg-surface-light',
     googleBtn: dark
       ? 'border-border-dark bg-surface-dark text-text-dark hover:border-primary-dark'
       : 'border-border-light bg-surface-light text-text-light hover:border-primary-light',
@@ -35,17 +38,19 @@ export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?
   return (
     <motion.div
       key="step-signin"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      custom={1}
       className="space-y-6"
     >
       <div>
         <h2 className={`font-quicksand text-2xl font-bold mb-1 ${c.heading}`}>
           Sign in to <span className={`font-light ${c.headingLight}`}>continue</span>
         </h2>
-        <p className={`text-sm leading-relaxed ${c.muted}`}>Use any of the options below to continue.</p>
+        <p className={`text-sm leading-relaxed ${c.muted}`}>
+          Use any of the options below to continue.
+        </p>
       </div>
 
       {sent ? (
@@ -54,9 +59,12 @@ export function StepSignIn({ redirectTo, isDark }: { redirectTo: string; isDark?
           animate={{ opacity: 1, y: 0 }}
           className={`px-4 py-4 border ${c.sentBox}`}
         >
-          <p className={`text-[10px] font-mono tracking-[0.2em] uppercase mb-1 ${c.primary}`}>Check your inbox</p>
+          <p className={`text-[10px] font-mono tracking-[0.2em] uppercase mb-1 ${c.primary}`}>
+            Check your inbox
+          </p>
           <p className={`text-sm font-mono ${c.muted}`}>
-            We sent a magic link to <span className={c.text}>{email}</span>. Click the link to sign in and return here.
+            We sent a magic link to <span className={c.text}>{email}</span>. Click the link to sign
+            in and return here.
           </p>
         </motion.div>
       ) : (
