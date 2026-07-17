@@ -85,7 +85,7 @@ export default function GoogleTranslate() {
     // Load the script
     if (!document.querySelector('script[src*="translate.google.com"]')) {
       const script = document.createElement('script')
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
       document.body.appendChild(script)
     } else {
       // Script already loaded, just sync state

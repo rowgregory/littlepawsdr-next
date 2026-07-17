@@ -1,16 +1,9 @@
 import { createLog } from 'app/lib/actions/log/createLog'
 import { NextResponse } from 'next/server'
-import prisma from 'prisma/client'
+import { getErrorMessage } from 'app/utils/_error.utils'
+import { rotateBypassCodeCore } from 'app/lib/actions/admin/adoption-fee/rotateBypassCode'
 
 export const runtime = 'nodejs'
-
-function generateBypassCode(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+'
-  const random = (len: number) =>
-    Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-
-  return `DOXIE-${random(2).toUpperCase()}${Math.floor(Math.random() * 10)}${random(5)}`
-}
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
@@ -20,20 +13,13 @@ export async function GET(request: Request) {
 
   const start = Date.now()
   try {
-    const bypassCode = generateBypassCode()
-    const existing = await prisma.adoptionApplicationBypassCode.findFirst()
-
-    await prisma.adoptionApplicationBypassCode.upsert({
-      where: { id: existing?.id ?? '' },
-      update: { bypassCode, nextRotationAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) },
-      create: { bypassCode, nextRotationAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) }
-    })
+    const result = await rotateBypassCodeCore()
 
     await createLog('info', '[CRON] rotate-bypass-code', {
       cronName: 'rotate-bypass-code',
       status: 'success',
       durationMs: Date.now() - start,
-      detail: existing ? 'Bypass code rotated' : 'Bypass code created (first run)'
+      detail: result.wasFirstRun ? 'Bypass code created (first run)' : 'Bypass code rotated'
     })
 
     return NextResponse.json({ success: true })
@@ -42,11 +28,8 @@ export async function GET(request: Request) {
       cronName: 'rotate-bypass-code',
       status: 'error',
       durationMs: Date.now() - start,
-      detail: error instanceof Error ? error.message : 'Unknown error'
+      detail: getErrorMessage(error)
     })
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: getErrorMessage(error) }, { status: 500 })
   }
 }

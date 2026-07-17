@@ -67,7 +67,7 @@ enum AddressType {
 }
 
 enum Role {
-  SUPERUSER
+  SUPER_USER
   ADMIN
   SUPPORTER
   PACK_MEMBER
@@ -224,6 +224,9 @@ model User {
   lastGeoCity      String?
   lastGeoRegion    String?
   lastGeoCountry   String?
+
+  hasMigrated Boolean   @default(false)
+  migratedAt  DateTime?
 }
 
 // ─── Payment Method ────────────────────────────────────────────────────────────────────

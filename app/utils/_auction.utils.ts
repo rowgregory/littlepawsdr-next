@@ -73,3 +73,33 @@ export function bidderDisplay(bid: IAuctionBid) {
   if (bid.user.anonymousBidding) return bid.bidderName ?? 'Anonymous'
   return `${bid.user.firstName} ${bid.user.lastName[0]}.`
 }
+
+export const AUCTION_MIN_HOUR = 6
+export const AUCTION_MAX_HOUR = 22
+
+export function validateAuctionHour(dateTimeLocal: string): string | null {
+  if (!dateTimeLocal) return null
+
+  const date = new Date(dateTimeLocal)
+  const hour = date.getHours()
+  const minutes = date.getMinutes()
+
+  if (minutes !== 0) {
+    return 'Time must be on the hour (e.g. 9:00, not 9:15).'
+  }
+
+  if (hour < AUCTION_MIN_HOUR || hour >= AUCTION_MAX_HOUR) {
+    return `Time must be between ${AUCTION_MIN_HOUR}:00 AM and ${AUCTION_MAX_HOUR - 12}:00 PM.`
+  }
+
+  return null
+}
+
+export const AUCTION_HOUR_OPTIONS = Array.from({ length: 17 }, (_, i) => {
+  const hour24 = i + 6 // 6am through 10pm
+  const label = new Date(2000, 0, 1, hour24).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit'
+  })
+  return { value: hour24, label }
+})

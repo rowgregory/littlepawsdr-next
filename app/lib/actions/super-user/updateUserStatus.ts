@@ -17,8 +17,9 @@ export async function updateUserStatus(userId: string, status: UserStatus, reaso
 
     if (!user) return { success: false, error: 'User not found' }
     if (user.status === status) return { success: false, error: `User is already ${status.toLowerCase()}` }
-    if (user.role === 'SUPERUSER') return { success: false, error: 'Cannot modify a superuser status' }
-    if (user.status === 'TERMINATED' && status === 'SUSPENDED') return { success: false, error: 'Cannot suspend a terminated user — reinstate first' }
+    if (user.role === 'SUPER_USER') return { success: false, error: 'Cannot modify a superuser status' }
+    if (user.status === 'TERMINATED' && status === 'SUSPENDED')
+      return { success: false, error: 'Cannot suspend a terminated user — reinstate first' }
 
     await prisma.user.update({
       where: { id: userId },

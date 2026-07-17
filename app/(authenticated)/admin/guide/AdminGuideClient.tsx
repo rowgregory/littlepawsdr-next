@@ -16,7 +16,8 @@ import {
   KeyRound,
   Database,
   RefreshCw,
-  AlertCircle
+  AlertCircle,
+  Mail
 } from 'lucide-react'
 import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 
@@ -32,6 +33,7 @@ const sections = [
   { id: 'pack-members', label: 'Pack Members', icon: Users },
   { id: 'donations', label: 'Donations', icon: DollarSign },
   { id: 'products', label: 'Products & Merch', icon: ShoppingBag },
+  { id: 'newsletter', label: 'Newsletter', icon: Mail },
   { id: 'adoptions', label: 'Adoption Applications', icon: ClipboardList },
   { id: 'settings', label: 'Settings', icon: Settings }
 ]
@@ -101,7 +103,7 @@ export default function AdminGuideClient() {
           {/* Sticky sidebar nav */}
           <nav
             aria-label="Guide sections"
-            className="xl:sticky xl:top-6 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
+            className="xl:sticky xl:top-16 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark"
           >
             <div className="px-4 py-3 border-b border-border-light dark:border-border-dark">
               <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
@@ -138,8 +140,9 @@ export default function AdminGuideClient() {
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Q question="What is the admin panel?">
                   <p>
-                    The admin panel is the control center for everything on the Little Paws site — orders, auctions,
-                    dachshund profiles, pack members, donations, and more. Only users with the ADMIN can access it.
+                    The admin panel is the control center for most things on the Little Paws site — orders, auctions,
+                    pack members, donations, and more. Dachshund profiles are the one exception — those are managed
+                    entirely in RescueGroups, not here. Only users with the ADMIN role can access the admin panel.
                   </p>
                 </Q>
                 <Q question="How do I navigate?">
@@ -149,21 +152,26 @@ export default function AdminGuideClient() {
                   </p>
                 </Q>
                 <Q question="Something looks wrong or broken — what do I do?">
-                  <p>
-                    Reach out to Greg at greg@sqysh.com. Include a screenshot and a description of what you were doing
-                    when it happened.
-                  </p>
+                  <Step number={1}>Refresh the page. Most display issues resolve on their own.</Step>
+                  <Step number={2}>
+                    Try the same action on a different page or a different browser to see if the issue follows you.
+                  </Step>
+                  <Step number={3}>Check the Flows page to confirm you are looking in the expected place.</Step>
+                  <Step number={4}>
+                    If it still looks wrong after that, reach out to Sqysh at greg@sqysh.com. Include a screenshot and a
+                    description of what you were doing when it happened.
+                  </Step>
                 </Q>
               </div>
             </section>
-
             {/* Signing In */}
             <section>
               <SectionHeader id="signing-in" icon={KeyRound} title="Signing In" />
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Note type="info">
-                  This site does not use passwords. There is no account creation form. Pack members sign in using Google
-                  or a magic link sent to their email. This is by design — it is simpler and more secure.
+                  This site does not use passwords. There is no account creation form. Pack members sign in using
+                  Google, Facebook, or a magic link sent to their email. This is by design — it is simpler and more
+                  secure.
                 </Note>
                 <Note type="success">
                   When a pack member signs in for the first time, their full history from the previous Little Paws site
@@ -171,41 +179,57 @@ export default function AdminGuideClient() {
                   message confirming their data is ready. No action is needed from you.
                 </Note>
                 <Q question="How does signing in work?">
-                  <p>There are two ways to sign in:</p>
+                  <p>There are three ways to sign in:</p>
                   <p>
                     <strong>Google</strong> — click Sign in with Google on the login page. If the member has a Google
                     account (Gmail, Google Workspace, etc.), they click once and they are in. No password required.
                   </p>
                   <p>
+                    <strong>Facebook</strong> — click Sign in with Facebook on the login page. If the member has a
+                    Facebook account, they click once and they are in. No password required.
+                  </p>
+                  <p>
                     <strong>Magic Link</strong> — the member enters their email address and clicks Send Link. They
                     receive an email with a button that signs them in automatically when clicked. The link expires after
-                    a short time for security.
+                    a short time for security, and only works once.
                   </p>
                 </Q>
                 <Q question="Why no passwords?">
                   <p>
                     Passwords are the most common cause of account problems — people forget them, reuse them, or get
-                    phished. Magic links and Google sign-in are both more secure and easier to use. There is nothing to
-                    remember and nothing to reset.
+                    phished. Magic links, Google sign-in, and Facebook sign-in are all more secure and easier to use.
+                    There is nothing to remember and nothing to reset.
                   </p>
                 </Q>
                 <Q question="A member says they cannot sign in — what do I tell them?">
                   <p>First, confirm which method they are using. Then walk them through the relevant steps below.</p>
                   <p>
-                    <strong>If using Google:</strong> Make sure they are clicking Sign in with Google and selecting the
-                    correct Google account. If they have multiple Google accounts, they may be choosing the wrong one.
+                    <strong>If using Google or Facebook:</strong> Make sure they are clicking the correct sign-in button
+                    and selecting the correct account. If they have multiple Google or Facebook accounts, they may be
+                    choosing the wrong one.
                   </p>
                   <p>
                     <strong>If using magic link:</strong> Ask them to check their spam or junk folder — the email
-                    sometimes lands there. The link expires quickly, so they may need to request a new one. Make sure
-                    they are opening the link on the same device and browser they requested it from.
+                    sometimes lands there. The link expires quickly and only works once, so they may need to request a
+                    new one. Make sure they are opening the link on the same device and browser they requested it from.
                   </p>
                 </Q>
                 <Q question="A member says they have two accounts — what happened?">
                   <p>
-                    This can happen if someone signed in with Google once and with a magic link another time using a
-                    different email address. Use the Merge Account tool on their profile page to combine them. If they
-                    used the same email both times, the system will have linked them automatically.
+                    This can happen if someone signed in with Google, Facebook, or a magic link using different email
+                    addresses at different times. If they used the same email every time, the system will have linked
+                    them automatically regardless of which method they used, so this only comes up when two different
+                    emails were used.
+                  </p>
+                  <Note type="warning">
+                    Merging accounts is permanent and cannot be undone. One account is deleted and all of its history is
+                    moved into the other. Only do this if the member clearly confirms they want both accounts&apos;
+                    history combined into one. If you have any doubt about which account should be the primary one, or
+                    whether they actually want to merge at all, contact Sqysh before using the Merge Account tool.
+                  </Note>
+                  <p>
+                    If the member does want to proceed, use the Merge Account tool on their profile page to combine
+                    them.
                   </p>
                 </Q>
                 <Q question="Can a pack member change their email address?">
@@ -222,14 +246,14 @@ export default function AdminGuideClient() {
                   <Step number={3}>Wait one to two minutes and check again — delivery can be slightly delayed.</Step>
                   <Step number={4}>Try requesting a new link.</Step>
                   <p>
-                    If none of that works, they can try signing in with Google instead if they have a Google account on
-                    the same email address.
+                    If none of that works, they can try signing in with Google or Facebook instead if they have an
+                    account on the same email address.
                   </p>
                 </Q>
                 <Q question="Can I create an account for someone?">
                   <p>
                     No — accounts are created automatically the first time someone signs in. There is no manual account
-                    creation. Just tell the member to go to the sign in page and use Google or a magic link.
+                    creation. Just tell the member to go to the sign in page and use Google, Facebook, or a magic link.
                   </p>
                 </Q>
                 <Q question="Is the site safe to use on a phone?">
@@ -283,11 +307,25 @@ export default function AdminGuideClient() {
                 </Q>
                 <Q question="A pack member signed in but their history did not appear — what do I do?">
                   <Step number={1}>
-                    Ask them to sign out and sign back in — the migration retries on each login until it succeeds.
+                    Confirm they are signing in with the exact same email they used on the previous site. A different
+                    email will not find their old history, even if it belongs to the same person.
                   </Step>
-                  <Step number={2}>Confirm they are using the same email address they used on the previous site.</Step>
+                  <Step number={2}>
+                    Ask them to sign out completely and sign back in. The restore only runs on a genuine first sign-in
+                    for that account.
+                  </Step>
                   <Step number={3}>
-                    If it still does not appear after a second login, contact Greg with their email address.
+                    Check their My Pack Orders, Giving, and Auctions tabs individually — history is split by type, so
+                    something might be visible in one tab and not another.
+                  </Step>
+                  <Step number={4}>
+                    Check the Users page for their profile. If an account already exists for their email, open it and
+                    see whether any history is attached at all, even if it is not showing correctly on their end.
+                  </Step>
+                  <Step number={5}>
+                    If it still does not appear after all of the above, contact Sqysh with their email address and
+                    roughly when they tried signing in. He can check whether the migration ran and why it may have
+                    failed.
                   </Step>
                 </Q>
                 <Q question="Will migration run more than once?">
@@ -399,7 +437,7 @@ export default function AdminGuideClient() {
                 <Q question="Can I cancel a subscription on behalf of a pack member?">
                   <p>
                     Not directly from the admin panel currently. If a pack member needs their subscription cancelled and
-                    cannot do it themselves, contact Greg.
+                    cannot do it themselves, contact Sqysh.
                   </p>
                 </Q>
               </div>
@@ -417,51 +455,71 @@ export default function AdminGuideClient() {
                   Only one auction can be active at a time. Make sure the previous auction has fully ended before the
                   next one is scheduled to begin.
                 </Note>
+                <Note type="warning">
+                  Auctions are checked once every hour, between 6 AM and 10 PM. Set your start and end time to any full
+                  hour within that window — for example 9:00 AM or 7:00 PM. A time outside that window, or a time that
+                  is not on the hour, will not take effect until the next hourly check inside the window.
+                </Note>
+
                 <Q question="How do I create an auction?">
                   <Step number={1}>Go to Auctions in the sidebar.</Step>
                   <Step number={2}>Click New Auction and fill in the title, goal, start date, and end date.</Step>
                   <Step number={3}>
-                    Add items under the Items tab. Each item needs a name, starting price, and at least one photo.
+                    Set the start and end time to a full hour between 6 AM and 10 PM — for example 9:00 AM or 7:00 PM.
+                    Times outside that window or not on the hour will be delayed until the next valid check.
                   </Step>
                   <Step number={4}>
+                    Add items under the Items tab. Each item needs a name, starting price, and at least one photo.
+                  </Step>
+                  <Step number={5}>
                     Double check everything before the start date — once the auction goes live, most settings are
                     locked.
                   </Step>
                 </Q>
                 <Q question="How does the auction start?">
                   <p>
-                    Automatically at the start date and time you set. A notification will appear on the site for
-                    logged-in pack members. You do not need to do anything.
+                    Automatically at the start date and time you set, once the hourly check catches it. A popup
+                    notification appears on the site for every visitor, not just pack members — anyone browsing at that
+                    moment sees it, whether they are signed in or not. Anyone can browse the auction and view items
+                    without an account. Signing in is only required the moment someone tries to bid or use Buy Now. You
+                    do not need to do anything.
                   </p>
                 </Q>
                 <Q question="How does the auction end?">
                   <p>
-                    Automatically at the end date and time you set. The system identifies winners for each item and
-                    sends payment request emails. Winners with auto-pay enabled are charged immediately. You do not need
-                    to do anything.
+                    Automatically at the end date and time you set, once the hourly check catches it. A popup
+                    notification appears on the site for every visitor at that moment, the same as when it starts. The
+                    system identifies winners for each item and sends payment request emails. Winners with auto-pay
+                    enabled are charged immediately. You do not need to do anything.
                   </p>
                 </Q>
                 <Q question="What is auto-pay?">
                   <p>
-                    Pack members can enable auto-pay in My Pack. When an auction ends, if they won an item and have a
-                    saved card and address, they are charged automatically. No action is needed from you.
+                    Pack members can enable auto-pay in My Pack. It only works if they have both a saved payment method
+                    and a saved address on file. When an auction ends, if they won an item and both are on file, they
+                    are charged automatically. If either is missing, auto-pay cannot run and they instead receive the
+                    same payment request email as everyone else. No action is needed from you.
                   </p>
                 </Q>
                 <Q question="What happens if a winner does not pay?">
                   <p>
-                    They receive an automated payment request email with a link to the winner payment page. You can see
-                    unpaid winners from the auction Winners tab. Follow up directly with the pack member if needed.
+                    They receive an automated payment request email with a link to the winner payment page. If they
+                    still have not paid 24 hours after the auction ends, they receive a daily reminder email for up to 5
+                    days. You can see unpaid winners from the auction Winners tab. Follow up directly with the pack
+                    member if it has been longer than that.
                   </p>
                 </Q>
                 <Q question="Can I edit an auction while it is live?">
                   <p>
-                    Only the item name, description, and photos can be changed while the auction is active. Prices,
-                    quantities, and shipping settings are locked. Once an auction is live it cannot be stopped or
-                    reversed.
+                    You can still add brand new items to a live auction at any time — new items always start fresh with
+                    no bids, so there is nothing to protect. For items already in the auction, only the name,
+                    description, and photos can be changed while it is active. Prices, quantities, and shipping settings
+                    on existing items are locked once bidding has started. Once an auction is live it cannot be stopped
+                    or reversed.
                   </p>
                 </Q>
                 <Q question="What if something goes wrong during the auction?">
-                  <p>Contact Greg immediately at greg@sqysh.com.</p>
+                  <p>Contact Sqysh immediately at greg@sqysh.com.</p>
                 </Q>
               </div>
             </section>
@@ -470,16 +528,22 @@ export default function AdminGuideClient() {
             <section>
               <SectionHeader id="dachshunds" icon={Dog} title="Dachshunds" />
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
-                <Q question="How do I add a new dachshund?">
-                  <Step number={1}>Go to Dachshunds in the sidebar.</Step>
-                  <Step number={2}>Click New Dachshund and fill in the profile details.</Step>
-                  <Step number={3}>Upload photos. The photo marked as primary will be the main display photo.</Step>
-                  <Step number={4}>Set the status — AVAILABLE, ADOPTED, FOSTER, or COURTESY.</Step>
-                </Q>
-                <Q question="How do I mark a dog as adopted?">
+                <Q question="Where do dachshund profiles come from?">
                   <p>
-                    Open the dog profile and change the status to ADOPTED. The dog will move out of the available
-                    listings automatically.
+                    All dachshund profiles, photos, and statuses come from RescueGroups. The site does not have its own
+                    dachshund editor — it pulls the data directly from RescueGroups and displays it.
+                  </p>
+                </Q>
+                <Q question="How do I add a new dachshund or change a status?">
+                  <p>
+                    Make the change in RescueGroups as you normally do — add the profile, upload photos, and set the
+                    status there. The site will pick up the update automatically. There is nothing to do on this site.
+                  </p>
+                </Q>
+                <Q question="A dog I marked as adopted in RescueGroups still shows as available on the site — what do I do?">
+                  <p>
+                    Give it a little time to sync. If it is still showing incorrectly after a while, contact Sqysh with
+                    the dog&apos;s name so he can check the connection to RescueGroups.
                   </p>
                 </Q>
               </div>
@@ -491,20 +555,32 @@ export default function AdminGuideClient() {
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Q question="What is a Welcome Wiener?">
                   <p>
-                    Welcome Wieners are dogs that supporters can sponsor monthly. Each dog has a sponsorship page where
-                    pack members can set up recurring donations to support that specific dog.
+                    Welcome Wieners are dogs in your care that you add profiles for. Each dog can have several specific
+                    sponsorship items attached to it, like a leash, a medical bill, or a vet visit. A visitor browses to
+                    the Welcome Wieners page, picks any dog, and adds one or more of that dog&lsquo;s items to their
+                    cart. There is no limit on how many they can add and nothing ever runs out — every item stays
+                    available no matter how many people sponsor it.
                   </p>
                 </Q>
                 <Q question="How do I add a Welcome Wiener?">
                   <Step number={1}>Go to Welcome Wieners in the sidebar.</Step>
-                  <Step number={2}>Click New Welcome Wiener and fill in the details and story.</Step>
-                  <Step number={3}>Upload a photo and set the monthly sponsorship goal.</Step>
-                  <Step number={4}>Publish when ready.</Step>
+                  <Step number={2}>Click New Welcome Wiener and fill in the dog&apos;s details and story.</Step>
+                  <Step number={3}>Upload a photo of the dog.</Step>
+                  <Step number={4}>
+                    Add the specific sponsorship items for that dog, each with its own name and price.
+                  </Step>
+                  <Step number={5}>Publish when ready.</Step>
                 </Q>
-                <Q question="How do I see who is sponsoring a dog?">
+                <Q question="Can a visitor sponsor more than one dog, or more than one item?">
                   <p>
-                    Open the Welcome Wiener profile and scroll to the Sponsors section. You can see each sponsor name,
-                    amount, and start date.
+                    Yes. A visitor can add items from as many different dogs as they want into a single cart, mix and
+                    match freely, and check out once for everything. There is no limit on quantity and every item can be
+                    sponsored any number of times.
+                  </p>
+                </Q>
+                <Q question="How do I see who sponsored a specific item?">
+                  <p>
+                    Open the order in Orders and check the line items — each one shows which dog and item it was for.
                   </p>
                 </Q>
               </div>
@@ -523,21 +599,39 @@ export default function AdminGuideClient() {
                 <Q question="How do I change a pack member role?">
                   <p>
                     Open the user profile and use the role selector to switch between Pack Member and ADMIN. Click Save
-                    role to apply. Be careful — ADMIN gives full access to the admin panel.
+                    role to apply. The change takes effect the next time the user refreshes the page — they do not need
+                    to sign out and back in. Be careful — ADMIN gives full access to the admin panel.
                   </p>
                 </Q>
                 <Q question="Can I delete a pack member?">
                   <p>
                     No — pack member deletion is not available in the admin panel. If a pack member needs to be removed,
-                    contact Greg.
+                    contact Sqysh.
                   </p>
                 </Q>
                 <Q question="A pack member says their old orders or history are missing — what do I tell them?">
                   <p>
-                    Their history should restore automatically the first time they sign in. If they signed in but still
-                    do not see their history, ask them to sign out and sign back in. If it still does not appear,
-                    contact Greg with their email address.
+                    History restores automatically the first time they sign in with the same email they used on the old
+                    site. It does not matter whether they use Google, Facebook, or a magic link — any of the three will
+                    find and restore their account as long as the email matches.
                   </p>
+                  <Step number={1}>
+                    Confirm they are signing in with the exact same email they used before. A different email will not
+                    find their old history, even if it belongs to the same person.
+                  </Step>
+                  <Step number={2}>
+                    Ask them to sign out completely and sign back in. The restore only runs on a genuine first sign-in
+                    for that account.
+                  </Step>
+                  <Step number={3}>
+                    Check their My Pack Orders, Giving, and Auctions tabs individually — history is split by type, so
+                    something might be visible in one tab and not another.
+                  </Step>
+                  <Step number={4}>
+                    If it still does not appear after signing out and back in with the correct email, contact Sqysh with
+                    their email address and roughly when they tried signing in. He can check whether the migration ran
+                    and why it may have failed.
+                  </Step>
                 </Q>
                 <Q question="A pack member says their recurring donation is missing — what do I tell them?">
                   <p>
@@ -602,9 +696,53 @@ export default function AdminGuideClient() {
                 </Q>
                 <Q question="Do I need to do anything for digital products?">
                   <p>
-                    If the product does not require shipping, no action is needed after the order is placed. It will
-                    show no shipping status in the orders list.
+                    If the product does not require shipping, no action is needed after the order is placed. In the
+                    orders list, digital-only orders show a dash under Shipping instead of a status, since there is
+                    nothing to ship.
                   </p>
+                </Q>
+              </div>
+            </section>
+
+            {/* Newsletter */}
+            <section>
+              <SectionHeader id="newsletter" icon={Mail} title="Newsletter" />
+              <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
+                <Note type="info">
+                  Newsletter has two parts — Subscribers and Issues. They work differently and are not connected to each
+                  other automatically.
+                </Note>
+                <Q question="What are Subscribers?">
+                  <p>
+                    Anyone who has submitted their email through the newsletter signup form on the site. This list grows
+                    automatically as people sign up — there is nothing for you to add manually.
+                  </p>
+                </Q>
+                <Q question="What are Issues?">
+                  <p>
+                    A record of each newsletter you publish. You create an issue entry with the month, year, and a link
+                    to the newsletter PDF or page. This is not the newsletter itself — it is a reference so visitors can
+                    browse past issues on the site.
+                  </p>
+                </Q>
+                <Q question="How do I publish a new newsletter issue?">
+                  <Step number={1}>Go to Newsletter in the sidebar and open the Issues tab.</Step>
+                  <Step number={2}>Click New Issue and select the month and year.</Step>
+                  <Step number={3}>Upload or link the newsletter PDF.</Step>
+                  <Step number={4}>
+                    Send Sqysh the link once it is created so he can build and send the actual email newsletter to
+                    subscribers at the right time.
+                  </Step>
+                  <Step number={5}>Set the issue to live once it is ready to appear on the site.</Step>
+                </Q>
+                <Q question="Does adding an issue automatically send the newsletter?">
+                  <p>
+                    No. Adding an issue only creates the record shown on the site for people to browse. The actual email
+                    newsletter sent to subscribers is built and sent separately by Sqysh using the link you provide.
+                  </p>
+                </Q>
+                <Q question="How do I see who is subscribed?">
+                  <p>Go to Newsletter in the sidebar and open the Subscribers tab to see the full list of emails.</p>
                 </Q>
               </div>
             </section>
@@ -614,10 +752,15 @@ export default function AdminGuideClient() {
               <SectionHeader id="adoptions" icon={ClipboardList} title="Adoption Applications" />
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Q question="How does the adoption application process work?">
-                  <Step number={1}>An applicant visits the Adopt page and agrees to the terms.</Step>
-                  <Step number={2}>They pay the $15 application fee (or use a bypass code to skip it).</Step>
-                  <Step number={3}>They fill out the RescueGroups application form embedded on the site.</Step>
-                  <Step number={4}>You review submissions in RescueGroups as normal.</Step>
+                  <Step number={1}>
+                    An applicant visits the Adopt page. If they are not signed in, they are prompted to sign in first
+                    through Google, Facebook, or a magic link email. If they are already signed in, this step is
+                    skipped.
+                  </Step>
+                  <Step number={2}>They agree to the terms.</Step>
+                  <Step number={3}>They pay the $15 application fee (or use a bypass code to skip it).</Step>
+                  <Step number={4}>They fill out the RescueGroups application form embedded on the site.</Step>
+                  <Step number={5}>You review submissions in RescueGroups as normal.</Step>
                 </Q>
                 <Q question="Where do I review applications?">
                   <p>
@@ -628,13 +771,6 @@ export default function AdminGuideClient() {
                 <Q question="How do I see who paid the application fee?">
                   <p>Go to Orders and filter by Adoption Fee. Each row represents one applicant who paid the fee.</p>
                 </Q>
-                <Q question="What is a CIT application?">
-                  <p>
-                    CIT (Coordinator in Training) applications are for volunteers who want to join the rescue team.
-                    These are reviewed directly in the admin panel under Adoption Fees. You can approve, reject, or
-                    request more information from applicants.
-                  </p>
-                </Q>
               </div>
             </section>
 
@@ -644,19 +780,24 @@ export default function AdminGuideClient() {
               <div className="border border-border-light dark:border-border-dark p-6 space-y-6">
                 <Q question="What can I configure in auction settings?">
                   <p>
-                    From the auction Settings tab you can start, end, or revert the auction, set the end date, update
-                    the goal amount, and toggle visibility.
+                    From the auction Settings tab you can set the start date, end date, goal amount, and toggle
+                    visibility.
                   </p>
                 </Q>
+                <Note type="info">
+                  Auctions start and end automatically based on the dates you set. There is nothing to click to make an
+                  auction go live or close it.
+                </Note>
                 <Q question="Does anything run automatically?">
                   <p>
-                    Yes — the bypass code rotates on a schedule, auction auto-pay runs when an auction ends, and outbid
-                    notification emails send automatically when a higher bid is placed. No action is needed for these.
+                    Yes — auctions go live and close automatically based on their start and end dates, the bypass code
+                    rotates on a schedule, auction auto-pay runs when an auction ends, and outbid notification emails
+                    send automatically when a higher bid is placed. No action is needed for these.
                   </p>
                 </Q>
                 <Q question="Who do I contact for technical issues?">
                   <p>
-                    Greg at greg@sqysh.com. Include a screenshot and description of what happened and what you were
+                    Sqysh at greg@sqysh.com. Include a screenshot and description of what happened and what you were
                     trying to do.
                   </p>
                 </Q>

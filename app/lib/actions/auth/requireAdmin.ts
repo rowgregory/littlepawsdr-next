@@ -20,7 +20,7 @@ export type AdminFailure = {
  *   const gate = await requireAdmin()
  *   if (!gate.ok) return { success: false, error: gate.error, data: null }
  *
- * Only ADMIN and SUPERUSER pass.
+ * Only ADMIN and SUPER_USER pass.
  */
 export async function requireAdmin(): Promise<AdminSession | AdminFailure> {
   const session = await auth()
@@ -30,7 +30,7 @@ export async function requireAdmin(): Promise<AdminSession | AdminFailure> {
   }
 
   const role = session.user.role
-  if (role !== 'ADMIN' && role !== 'SUPERUSER') {
+  if (role !== 'ADMIN' && role !== 'SUPER_USER') {
     return { ok: false, error: 'Unauthorized' }
   }
 

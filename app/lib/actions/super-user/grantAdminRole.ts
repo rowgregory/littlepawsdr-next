@@ -4,7 +4,7 @@ import { auth } from 'app/lib/auth'
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 
-export async function grantAdminRole(email: string, role: 'ADMIN' | 'SUPERUSER') {
+export async function grantAdminRole(email: string, role: 'ADMIN' | 'SUPER_USER') {
   const session = await auth()
   const grantor = session?.user?.name ?? session?.user?.email ?? 'Unknown'
 
@@ -14,7 +14,10 @@ export async function grantAdminRole(email: string, role: 'ADMIN' | 'SUPERUSER')
   })
 
   if (!existing) {
-    return { success: false, error: `No user found with email ${email} — they must sign up first before being granted a role` }
+    return {
+      success: false,
+      error: `No user found with email ${email} — they must sign up first before being granted a role`
+    }
   }
 
   if (existing.role === role) {

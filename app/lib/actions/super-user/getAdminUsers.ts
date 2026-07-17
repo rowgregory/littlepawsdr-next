@@ -8,7 +8,7 @@ export interface AdminUser {
   initials: string
   name: string
   email: string
-  role: 'SUPERUSER' | 'ADMIN'
+  role: 'SUPER_USER' | 'ADMIN'
   grantedAt: string
   avatarColor: string
   lastActive: string
@@ -41,7 +41,7 @@ function formatGrantedAt(date: Date): string {
 export async function getAdminUsers(): Promise<AdminUser[]> {
   const admins = await prisma.user.findMany({
     where: {
-      role: { in: ['SUPERUSER', 'ADMIN'] }
+      role: { in: ['SUPER_USER', 'ADMIN'] }
     },
     select: {
       id: true,
@@ -53,7 +53,7 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
       createdAt: true
     },
     orderBy: [
-      { role: 'asc' }, // ADMIN before SUPERUSER alphabetically — adjust if needed
+      { role: 'asc' }, // ADMIN before SUPER_USER alphabetically — adjust if needed
       { createdAt: 'asc' }
     ]
   })
@@ -66,7 +66,7 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
         ? `${user.firstName} ${user.lastName}`
         : (user.firstName ?? user.email.split('@')[0]),
     email: user.email,
-    role: user.role as 'SUPERUSER' | 'ADMIN',
+    role: user.role as 'SUPER_USER' | 'ADMIN',
     grantedAt: formatGrantedAt(user.createdAt),
     avatarColor: getAvatarColor(user.id),
     lastActive: formatLastActive(user.lastLoginAt)

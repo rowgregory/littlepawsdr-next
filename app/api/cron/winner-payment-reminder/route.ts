@@ -3,6 +3,9 @@ import prisma from 'prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
 import { sendWinnerEmail } from 'app/utils/_end-auction.utils'
 
+const MAX_REMINDERS = 5
+const REMINDER_WINDOW_DAYS = 5
+
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -11,12 +14,18 @@ export async function GET(request: Request) {
 
   const start = Date.now()
   try {
+    const now = Date.now()
+    const oneDayAgo = new Date(now - 24 * 60 * 60 * 1000)
+    const windowCutoff = new Date(now - (24 + REMINDER_WINDOW_DAYS * 24) * 60 * 60 * 1000)
+
     const unpaidWinners = await prisma.auctionWinningBidder.findMany({
       where: {
         winningBidPaymentStatus: 'AWAITING_PAYMENT',
+        emailNotificationCount: { lt: MAX_REMINDERS },
         auction: {
           endDate: {
-            lte: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            lte: oneDayAgo,
+            gte: windowCutoff
           }
         }
       },
@@ -38,7 +47,7 @@ export async function GET(request: Request) {
         cronName: 'winner-payment-reminder',
         status: 'skipped',
         durationMs: Date.now() - start,
-        detail: 'No unpaid winners past 24hrs'
+        detail: 'No unpaid winners in the active reminder window'
       })
       return NextResponse.json({ success: true, reminded: 0 })
     }

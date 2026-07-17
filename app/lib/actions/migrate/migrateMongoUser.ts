@@ -131,15 +131,12 @@ async function migrateOrders(tx: any, normalizedEmail: string, userId: string) {
     const items = await tx.mongoOrderItem.findMany({ where: { mongoOrderId: rec.mongoId } })
     const itemDocs = items.map((i: any) => i.data as any)
 
-    const hasWelcomeWiener = itemDocs.some((i: any) => i.itemType === 'welcomeWiener')
-    const hasEcard = itemDocs.some((i: any) => i.itemType === 'ecard')
-    const type = hasWelcomeWiener ? 'WELCOME_WIENER' : hasEcard ? 'ECARD' : 'PRODUCT'
     const isPhysical = itemDocs.some((i: any) => i.isPhysicalProduct)
     const shippingStatus = mapShippingStatus(d.shippingStatus)
 
     const order = await tx.order.create({
       data: {
-        type,
+        type: 'PURCHASE',
         status: d.status === 'completed' ? 'CONFIRMED' : 'FAILED',
         totalAmount: d.totalPrice,
         customerEmail: normalizedEmail,
@@ -159,9 +156,13 @@ async function migrateOrders(tx: any, normalizedEmail: string, userId: string) {
     })
 
     for (const item of itemDocs) {
+      const itemType =
+        item.itemType === 'welcomeWiener' ? 'WELCOME_WIENER' : item.itemType === 'ecard' ? 'ECARD' : 'PRODUCT'
+
       await tx.orderItem.create({
         data: {
           orderId: order.id,
+          itemType,
           itemName: item.itemName ?? null,
           itemImage: item.itemImage ?? null,
           quantity: item.quantity ?? 1,
@@ -175,7 +176,6 @@ async function migrateOrders(tx: any, normalizedEmail: string, userId: string) {
       })
     }
 
-    // Delete order items then order
     await tx.mongoOrderItem.deleteMany({ where: { mongoOrderId: rec.mongoId } })
     await tx.mongoOrder.delete({ where: { id: rec.id } })
   }
@@ -578,18 +578,19 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
   try {
     const mongoUser = await prisma.mongoUser.findUnique({ where: { email: normalizedEmail } })
     if (!mongoUser) {
-      console.log(`[migrate] No staging data found for ${normalizedEmail} — skipping`)
+      // No staging data ever existed for this email — new user, nothing to migrate.
+      // hasMigrated stays false, migratedAt stays null. Distinguished from a failed
+      // migration by the absence of any error log for this user.
+      await createLog('info', 'No staging data found — skipping migration', { email: normalizedEmail, userId })
       return
     }
 
-    console.log(`[migrate] Starting migration for ${normalizedEmail}`)
+    await createLog('info', 'Starting migration', { email: normalizedEmail, userId })
 
     await prisma.$transaction(
       async (tx) => {
-        console.log(`[migrate] Step 1 — user fields + address`)
         await migrateUserFields(tx, mongoUser, userId)
 
-        console.log(`[migrate] Steps 2-6 — donations, orders, adoption fees, auction winners, instant buyers`)
         await Promise.all([
           migrateDonations(tx, normalizedEmail, userId),
           migrateOrders(tx, normalizedEmail, userId),
@@ -597,7 +598,6 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
           migrateAuctions(tx, normalizedEmail, userId)
         ])
 
-        console.log(`[migrate] Step 7 — product orders, ecard orders, welcome wiener orders`)
         await Promise.all([
           migrateProductOrders(tx, normalizedEmail, userId),
           migrateEcardOrders(tx, normalizedEmail, userId),
@@ -605,17 +605,23 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
         ])
 
         await tx.mongoUser.delete({ where: { email: normalizedEmail } })
+
+        await tx.user.update({
+          where: { id: userId },
+          data: {
+            hasMigrated: true,
+            migratedAt: new Date()
+          }
+        })
       },
       {
-        timeout: 60000 // 60 seconds
+        timeout: 60000
       }
     )
 
-    console.log(`[migrate] ✓ Migration complete for ${normalizedEmail}`)
     await pusherTrigger(`user-${userId}`, 'migration-complete', {})
     await createLog('info', 'Mongo user migration complete', { email: normalizedEmail, userId })
   } catch (err) {
-    console.error(`[migrate] ✗ Migration failed for ${normalizedEmail}:`, err)
     await createLog('error', 'Mongo user migration failed', {
       email: normalizedEmail,
       userId,

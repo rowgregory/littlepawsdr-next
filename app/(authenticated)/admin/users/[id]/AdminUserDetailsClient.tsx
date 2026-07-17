@@ -14,7 +14,8 @@ import {
   XCircle,
   Check,
   Package,
-  ChevronRight
+  ChevronRight,
+  AlertCircle
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDate } from 'app/utils/_date.utils'
@@ -43,7 +44,12 @@ function Field({ icon: Icon, label, children }: { icon: React.ElementType; label
   )
 }
 
-export default function AdminUserDetailsClient({ user }: { user: UserDetail }) {
+type Props = {
+  user: UserDetail
+  migrationStatus: { hasPendingMigration: boolean; pendingCount: number } | null
+}
+
+export default function AdminUserDetailsClient({ user, migrationStatus }: Props) {
   const router = useRouter()
 
   const [role, setRole] = useState<Role>(user.role)
@@ -75,7 +81,23 @@ export default function AdminUserDetailsClient({ user }: { user: UserDetail }) {
 
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
-      <AdminPageHeader title={fullName} breadcrumbs={[{ label: 'Users', href: '/admin/users' }]} />
+      <AdminPageHeader
+        title={fullName}
+        breadcrumbs={[{ label: 'Users', href: '/admin/users' }]}
+        action={
+          migrationStatus?.hasPendingMigration ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-amber-500/40 text-amber-600 dark:text-amber-400 bg-amber-500/5 text-[9px] font-mono tracking-[0.15em] uppercase">
+              <AlertCircle className="w-3 h-3" aria-hidden="true" />
+              Migration pending ({migrationStatus.pendingCount})
+            </span>
+          ) : migrationStatus ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 text-[9px] font-mono tracking-[0.15em] uppercase">
+              <CheckCircle className="w-3 h-3" aria-hidden="true" />
+              History migrated
+            </span>
+          ) : null
+        }
+      />
 
       <div className="w-full px-4 sm:px-6 py-6">
         <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6 items-start">

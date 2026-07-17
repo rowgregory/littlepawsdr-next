@@ -10,6 +10,7 @@ import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import { FormField } from 'app/components/_primitives/FormField'
 import { FormError } from 'app/components/_primitives/FormError'
 import { createAuction } from 'app/lib/actions/admin/auction/createAuction'
+import { AUCTION_HOUR_OPTIONS, validateAuctionHour } from 'app/utils/_auction.utils'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -45,9 +46,21 @@ function validate(inputs: FormInputs): FormErrors {
   if (!inputs.startDate) errs.startDate = 'Start date is required'
   if (!inputs.endDate) errs.endDate = 'End date is required'
   if (!inputs.customAuctionLink.trim()) errs.customAuctionLink = 'Custom auction link is required'
+
+  if (inputs.startDate) {
+    const hourError = validateAuctionHour(inputs.startDate)
+    if (hourError) errs.startDate = hourError
+  }
+
+  if (inputs.endDate) {
+    const hourError = validateAuctionHour(inputs.endDate)
+    if (hourError) errs.endDate = hourError
+  }
+
   if (inputs.startDate && inputs.endDate && new Date(inputs.startDate) >= new Date(inputs.endDate)) {
     errs.endDate = 'End date must be after start date'
   }
+
   return errs
 }
 
@@ -185,15 +198,17 @@ export default function AdminAuctionModal() {
                 required
               />
 
-              <div className="grid grid-cols-2 gap-3">
+              {/* ── Start Date + Time ── */}
+              <div className="grid grid-cols-1 xs:grid-cols-[1fr_140px] gap-3">
                 <FormField
-                  id="auction-startDate"
+                  id="auction-startDate-date"
                   label="Start Date"
-                  name="startDate"
-                  type="datetime-local"
-                  value={inputs.startDate}
+                  name="startDateOnly"
+                  type="date"
+                  value={inputs.startDate ? inputs.startDate.slice(0, 10) : ''}
                   onChange={(e) => {
-                    patch({ startDate: e.target.value })
+                    const hour = inputs.startDate ? inputs.startDate.slice(11, 13) : '06'
+                    patch({ startDate: `${e.target.value}T${hour}:00:00` })
                     clearError('startDate')
                     clearError('endDate')
                   }}
@@ -201,18 +216,64 @@ export default function AdminAuctionModal() {
                   required
                 />
                 <FormField
-                  id="auction-endDate"
-                  label="End Date"
-                  name="endDate"
-                  type="datetime-local"
-                  value={inputs.endDate}
+                  id="auction-startDate-hour"
+                  label="Start Time"
+                  name="startDateHour"
+                  type="select"
+                  value={inputs.startDate ? String(Number(inputs.startDate.slice(11, 13))) : ''}
                   onChange={(e) => {
-                    patch({ endDate: e.target.value })
+                    const datePart = inputs.startDate ? inputs.startDate.slice(0, 10) : ''
+                    patch({ startDate: `${datePart}T${e.target.value.padStart(2, '0')}:00:00` })
+                    clearError('startDate')
+                    clearError('endDate')
+                  }}
+                  required
+                >
+                  <option value="">Select time</option>
+                  {AUCTION_HOUR_OPTIONS.map((h) => (
+                    <option key={h.value} value={h.value}>
+                      {h.label}
+                    </option>
+                  ))}
+                </FormField>
+              </div>
+
+              {/* ── End Date + Time ── */}
+              <div className="grid grid-cols-1 xs:grid-cols-[1fr_140px] gap-3">
+                <FormField
+                  id="auction-endDate-date"
+                  label="End Date"
+                  name="endDateOnly"
+                  type="date"
+                  value={inputs.endDate ? inputs.endDate.slice(0, 10) : ''}
+                  onChange={(e) => {
+                    const hour = inputs.endDate ? inputs.endDate.slice(11, 13) : '18'
+                    patch({ endDate: `${e.target.value}T${hour}:00:00` })
                     clearError('endDate')
                   }}
                   error={errors.endDate}
                   required
                 />
+                <FormField
+                  id="auction-endDate-hour"
+                  label="End Time"
+                  name="endDateHour"
+                  type="select"
+                  value={inputs.endDate ? String(Number(inputs.endDate.slice(11, 13))) : ''}
+                  onChange={(e) => {
+                    const datePart = inputs.endDate ? inputs.endDate.slice(0, 10) : ''
+                    patch({ endDate: `${datePart}T${e.target.value.padStart(2, '0')}:00:00` })
+                    clearError('endDate')
+                  }}
+                  required
+                >
+                  <option value="">Select time</option>
+                  {AUCTION_HOUR_OPTIONS.map((h) => (
+                    <option key={h.value} value={h.value}>
+                      {h.label}
+                    </option>
+                  ))}
+                </FormField>
               </div>
 
               <div className="px-4 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">

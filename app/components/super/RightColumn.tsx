@@ -53,7 +53,10 @@ export function RightColumn({
       if (existing) {
         setManaged((prev) => prev.map((u) => (u.id === userId ? { ...u, status } : u)))
       } else if (searchResult) {
-        setManaged((prev) => [...prev, { id: userId, name: searchResult.name, email: searchResult.email, status, actedAt: 'Just now', reason: null }])
+        setManaged((prev) => [
+          ...prev,
+          { id: userId, name: searchResult.name, email: searchResult.email, status, actedAt: 'Just now', reason: null }
+        ])
       }
     }
     if (searchResult?.id === userId) setSearchResult((p: any) => (p ? { ...p, status } : null))
@@ -75,13 +78,15 @@ export function RightColumn({
               {admin.initials}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[9px] uppercase text-text-light dark:text-text-dark truncate">{admin.name}</p>
+              <p className="font-mono text-[9px] uppercase text-text-light dark:text-text-dark truncate">
+                {admin.name}
+              </p>
               <p className="font-mono text-[8px] text-muted-light dark:text-muted-dark truncate">{admin.email}</p>
             </div>
             <span
-              className={`shrink-0 ${admin.role === 'SUPERUSER' ? 'text-primary-light dark:text-primary-dark' : 'text-muted-light dark:text-muted-dark'}`}
+              className={`shrink-0 ${admin.role === 'SUPER_USER' ? 'text-primary-light dark:text-primary-dark' : 'text-muted-light dark:text-muted-dark'}`}
             >
-              {admin.role === 'SUPERUSER' ? (
+              {admin.role === 'SUPER_USER' ? (
                 <Shield size={10} aria-label="Superuser" />
               ) : (
                 <span className="font-mono text-[8px] uppercase">Admin</span>
@@ -137,12 +142,20 @@ export function RightColumn({
             >
               <div className="flex items-center justify-between gap-1 mb-1.5">
                 <div className="min-w-0">
-                  <p className="font-mono text-[9px] text-text-light dark:text-text-dark truncate">{searchResult.name}</p>
-                  <p className="font-mono text-[8px] text-muted-light dark:text-muted-dark truncate">{searchResult.email}</p>
+                  <p className="font-mono text-[9px] text-text-light dark:text-text-dark truncate">
+                    {searchResult.name}
+                  </p>
+                  <p className="font-mono text-[8px] text-muted-light dark:text-muted-dark truncate">
+                    {searchResult.email}
+                  </p>
                 </div>
                 <span
                   className={`font-mono text-[8px] uppercase font-bold shrink-0 ${
-                    searchResult.status === 'ACTIVE' ? 'text-green-500' : searchResult.status === 'SUSPENDED' ? 'text-amber-500' : 'text-red-500'
+                    searchResult.status === 'ACTIVE'
+                      ? 'text-green-500'
+                      : searchResult.status === 'SUSPENDED'
+                        ? 'text-amber-500'
+                        : 'text-red-500'
                   }`}
                 >
                   {searchResult.status}
@@ -191,7 +204,9 @@ export function RightColumn({
             <div key={u.id} className="flex items-center gap-2 px-3 py-1.5">
               <div className="flex-1 min-w-0">
                 <p className="font-mono text-[9px] text-text-light dark:text-text-dark truncate">{u.email}</p>
-                <p className={`font-mono text-[8px] font-bold uppercase ${u.status === 'SUSPENDED' ? 'text-amber-500' : 'text-red-500'}`}>
+                <p
+                  className={`font-mono text-[8px] font-bold uppercase ${u.status === 'SUSPENDED' ? 'text-amber-500' : 'text-red-500'}`}
+                >
                   {u.status}
                 </p>
               </div>
@@ -214,7 +229,11 @@ export function RightColumn({
             <div className="flex items-center gap-1.5 mb-0.5">
               <span
                 className={`font-mono text-[8px] uppercase font-bold ${
-                  log.level === 'ERROR' ? 'text-red-500' : log.level === 'WARN' ? 'text-amber-500' : 'text-primary-light dark:text-primary-dark'
+                  log.level === 'ERROR'
+                    ? 'text-red-500'
+                    : log.level === 'WARN'
+                      ? 'text-amber-500'
+                      : 'text-primary-light dark:text-primary-dark'
                 }`}
               >
                 {log.level}

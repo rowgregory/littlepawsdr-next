@@ -1,19 +1,35 @@
 'use client'
 
 import { useState } from 'react'
-import { Gift, TrendingUp, TrendingDown, Copy, Check, Truck } from 'lucide-react'
+import { Gift, TrendingUp, TrendingDown, Copy, Check, Truck, RefreshCw } from 'lucide-react'
 import { HISTORICAL_TOTAL, sourceMeta } from 'app/lib/constants/dashboard.constants'
 import { RevenueChart } from 'app/components/admin/dashboard/RevenueChart'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { rotateBypassCode } from 'app/lib/actions/admin/adoption-fee/rotateBypassCode'
+import { useRouter } from 'next/navigation'
 
 const fmtType = (type: string) =>
   sourceMeta[type]?.label ?? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ')
 
 export default function AdminDashboardClient({ stats }) {
   const [copied, setCopied] = useState(false)
+  const router = useRouter()
+  const session = useSession()
+  const isSuperuser = session.data?.user?.role === 'SUPER_USER'
+  const [rotating, setRotating] = useState(false)
+
+  const handleRotate = async () => {
+    setRotating(true)
+    const result = await rotateBypassCode()
+    setRotating(false)
+    if (result.success) {
+      router.refresh()
+    }
+  }
 
   const monthlyUp = stats.monthlyChange >= 0
   const wieners = [...(stats.welcomeWienerRevenue ?? [])].sort((a, b) => b.totalRaised - a.totalRaised)
@@ -78,6 +94,20 @@ export default function AdminDashboardClient({ stats }) {
                 )}
               </span>
             </button>
+
+            {isSuperuser && (
+              <button
+                type="button"
+                onClick={handleRotate}
+                disabled={rotating}
+                aria-label="Rotate bypass code now"
+                className="flex items-center gap-1.5 border border-border-light dark:border-border-dark px-3 py-2 text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark hover:border-primary-light dark:hover:border-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${rotating ? 'animate-spin' : ''}`} aria-hidden="true" />
+                {rotating ? 'Rotating...' : 'Rotate'}
+              </button>
+            )}
+
             {stats.bypassCodeRotatesAt && (
               <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark hidden sm:block">
                 Rotates{' '}

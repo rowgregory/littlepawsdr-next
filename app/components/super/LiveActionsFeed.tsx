@@ -1,4 +1,4 @@
-import { SUPERUSER_CHANNEL } from 'app/lib/pusher/pusher.utils'
+import { SUPER_USER_CHANNEL } from 'app/lib/pusher/pusher.utils'
 import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
 import {
@@ -220,7 +220,7 @@ export function LiveActionsFeed() {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!
     })
 
-    const channel = pusher.subscribe(SUPERUSER_CHANNEL)
+    const channel = pusher.subscribe(SUPER_USER_CHANNEL)
 
     channel.bind_global((event: string, data: Record<string, unknown>) => {
       if (event.startsWith('pusher:')) return

@@ -22,7 +22,7 @@ export async function requireSuper(): Promise<SuperSession | SuperFailure> {
     return { ok: false, error: 'Unauthorized' }
   }
 
-  if (session.user.role !== 'SUPERUSER') {
+  if (session.user.role !== 'SUPER_USER') {
     return { ok: false, error: 'Unauthorized' }
   }
 

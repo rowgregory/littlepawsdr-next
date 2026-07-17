@@ -21,7 +21,7 @@ export async function revokeAdminRole(userId: string) {
     return { success: false, error: `${existing.email} doesn't have an admin role to revoke` }
   }
 
-  if (existing.role === 'SUPERUSER') {
+  if (existing.role === 'SUPER_USER') {
     return { success: false, error: 'Cannot revoke a superuser role' }
   }
 

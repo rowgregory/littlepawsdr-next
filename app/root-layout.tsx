@@ -61,8 +61,6 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee }: Props) {
       setAuctionEndedData(data)
     })
 
-    channel.bind('auction-updated', () => routerRef.current.refresh())
-
     return () => {
       channel.unbind_all()
       pusherClient.unsubscribe(`auction-${activeAuctionId}`)

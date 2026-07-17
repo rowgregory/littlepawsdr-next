@@ -61,7 +61,7 @@ export const getOrderById = async (id: string) => {
 
     // Only the order owner or an admin can view it
     const isOwner = order.userId === gate.userId
-    const isAdmin = gate.role === 'ADMIN' || gate.role === 'SUPERUSER'
+    const isAdmin = gate.role === 'ADMIN' || gate.role === 'SUPER_USER'
     if (!isOwner && !isAdmin) {
       return { success: false, error: 'Unauthorized', data: null }
     }

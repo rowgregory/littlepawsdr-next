@@ -14,7 +14,7 @@ export default async function AdminLayoutPage({ children }: { children: ReactNod
     redirect('/auth/login')
   }
 
-  if (role !== 'ADMIN' && role !== 'SUPERUSER') {
+  if (role !== 'ADMIN' && role !== 'SUPER_USER') {
     redirect(' /my-pack')
   }
   return <AdminLayoutClient>{children}</AdminLayoutClient>

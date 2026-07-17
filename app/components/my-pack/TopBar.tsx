@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export function TopBar() {
   const session = useSession()
-  const isAdmin = session?.data?.user?.role === 'ADMIN' || session?.data?.user?.role === 'SUPERUSER'
+  const isAdmin = session?.data?.user?.role === 'ADMIN' || session?.data?.user?.role === 'SUPER_USER'
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
