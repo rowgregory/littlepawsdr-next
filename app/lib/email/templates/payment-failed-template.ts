@@ -6,7 +6,6 @@ type Params = {
 }
 
 export function paymentFailedTemplate({ name, amount, failureReason, myPackUrl }: Params): string {
-  const greeting = name ? `Hi ${name.split(' ')[0]},` : 'Hi there,'
   const reason = failureReason ?? 'Your payment could not be processed.'
 
   return `
@@ -16,144 +15,106 @@ export function paymentFailedTemplate({ name, amount, failureReason, myPackUrl }
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Payment failed</title>
+  <style>
+    @media only screen and (max-width: 480px) {
+      .main-heading { font-size: 22px !important; }
+      .main-text    { font-size: 14px !important; }
+      .button       { padding: 14px 28px !important; font-size: 11px !important; }
+    }
+  </style>
 </head>
-<body style="margin:0;padding:0;background:#f9f8f6;font-family:'Courier New',monospace;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f8f6;padding:40px 16px;">
-    <tr>
-      <td align="center">
-        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
+<body style="margin: 0; padding: 0; background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <div style="max-width: 540px; margin: 0 auto; padding: 56px 24px;">
 
-          <!-- Header -->
-          <tr>
-            <td style="padding-bottom:24px;">
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="width:24px;"><hr style="border:none;border-top:1px solid #c05a2f;margin:0;" /></td>
-                  <td style="padding:0 10px;white-space:nowrap;">
-                    <span style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#c05a2f;">
-                      Little Paws
-                    </span>
-                  </td>
-                  <td style="width:24px;"><hr style="border:none;border-top:1px solid #c05a2f;margin:0;" /></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+    <!-- Header label (table-based for email client compatibility) -->
+    <table role="presentation" style="margin-bottom: 48px; border-collapse: collapse;">
+      <tr>
+        <td style="width: 24px; padding-right: 12px;">
+          <div style="width: 24px; height: 1px; background: #b43535;"></div>
+        </td>
+        <td>
+          <p style="margin: 0; color: #b43535; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+            Little Paws Dachshund Rescue
+          </p>
+        </td>
+      </tr>
+    </table>
 
-          <!-- Card -->
-          <tr>
-            <td style="background:#ffffff;border:1px solid #e5e2dc;position:relative;">
-              <!-- Top accent -->
-              <div style="height:2px;background:#c05a2f;width:100%;"></div>
+    <!-- Alert label -->
+    <p style="margin: 0 0 12px 0; color: #b43535; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;">
+      ⚠&nbsp; Action required
+    </p>
 
-              <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 32px 28px;">
+    <!-- Main heading -->
+    <h1 class="main-heading" style="margin: 0 0 12px 0; color: #09090b; font-size: 26px; font-weight: 900; line-height: 1.2;">
+      Your payment failed, ${name ? name.split(' ')[0] : 'there'}
+    </h1>
 
-                <!-- Alert icon + title -->
-                <tr>
-                  <td style="padding-bottom:20px;">
-                    <table cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td style="width:40px;height:40px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.05);text-align:center;vertical-align:middle;">
-                          <span style="font-size:18px;line-height:1;">⚠</span>
-                        </td>
-                        <td style="padding-left:14px;">
-                          <p style="margin:0;font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#ef4444;">
-                            Payment failed
-                          </p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+    <!-- Body text -->
+    <p class="main-text" style="margin: 0 0 36px 0; color: #52525b; font-size: 15px; line-height: 1.7;">
+      We were unable to process your recurring donation of <strong style="color: #09090b;">$${amount.toFixed(2)}</strong> to Little Paws Dachshund Rescue. <strong style="color: #b43535;">Your donation is currently paused.</strong>
+    </p>
 
-                <!-- Greeting -->
-                <tr>
-                  <td style="padding-bottom:8px;">
-                    <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#1a1a18;line-height:1.2;">
-                      ${greeting}
-                    </p>
-                  </td>
-                </tr>
+    <!-- Reason -->
+    <div style="margin-bottom: 36px;">
+      <p style="margin: 0 0 12px 0; color: #b43535; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+        Reason
+      </p>
+      <div style="padding: 16px; background: #fff5f5; border: 1px solid #fecaca; border-left: 3px solid #b43535;">
+        <p style="margin: 0; color: #09090b; font-size: 14px; line-height: 1.7;">
+          ${reason}
+        </p>
+      </div>
+    </div>
 
-                <!-- Body -->
-                <tr>
-                  <td style="padding-bottom:20px;">
-                    <p style="margin:0;font-family:'Courier New',monospace;font-size:12px;color:#666;line-height:1.7;">
-                      We were unable to process your recurring donation of
-                      <strong style="color:#1a1a18;">$${amount.toFixed(2)}</strong>
-                      to Little Paws Dachshund Rescue.
-                    </p>
-                  </td>
-                </tr>
+    <!-- CTA -->
+    <div style="margin-bottom: 40px;">
+      <p style="margin: 0 0 16px 0; color: #52525b; font-size: 15px; line-height: 1.7;">
+        To keep your donation active, please update your payment method in My Pack.
+      </p>
+      <a href="${myPackUrl}" class="button" style="display: inline-block; background: #b43535; color: #ffffff; text-decoration: none; padding: 13px 32px; font-weight: 700; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+        Update payment method
+      </a>
+    </div>
 
-                <!-- Reason box -->
-                <tr>
-                  <td style="padding-bottom:24px;">
-                    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e2dc;background:#f9f8f6;">
-                      <tr>
-                        <td style="padding:12px 16px;">
-                          <p style="margin:0 0 4px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#999;">
-                            Reason
-                          </p>
-                          <p style="margin:0;font-family:'Courier New',monospace;font-size:12px;color:#1a1a18;">
-                            ${reason}
-                          </p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+    <!-- Divider -->
+    <div style="margin: 40px 0; height: 1px; background: #e4e4e7;"></div>
 
-                <!-- CTA -->
-                <tr>
-                  <td style="padding-bottom:24px;">
-                    <p style="margin:0 0 14px;font-family:'Courier New',monospace;font-size:12px;color:#666;line-height:1.7;">
-                      To keep your donation active, please update your payment method in My Pack.
-                    </p>
-                    <a href="${myPackUrl}"
-                      style="display:inline-block;background:#c05a2f;color:#ffffff;font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;padding:12px 24px;">
-                      Update payment method
-                    </a>
-                  </td>
-                </tr>
+    <!-- Footer -->
+    <div style="margin-bottom: 24px;">
+      <p style="margin: 0 0 10px 0; color: #52525b; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+        Questions? We&apos;re here to help.
+      </p>
+      <p style="margin: 0 0 6px 0;">
+        <a href="mailto:info@littlepawsdr.org" style="color: #0891b2; font-size: 14px;">
+          info@littlepawsdr.org
+        </a>
+      </p>
+    </div>
 
-                <!-- Divider -->
-                <tr>
-                  <td style="padding-bottom:20px;">
-                    <hr style="border:none;border-top:1px solid #e5e2dc;margin:0;" />
-                  </td>
-                </tr>
+    <!-- Legal -->
+    <div style="margin-top: 24px;">
+      <p style="margin: 0; font-size: 12px; color: #52525b;">
+        <a href="https://www.littlepawsdr.org/privacy" style="color: #52525b; margin-right: 16px;">Privacy Policy</a>
+        <a href="https://www.littlepawsdr.org/terms" style="color: #52525b;">Terms of Service</a>
+      </p>
+    </div>
 
-                <!-- Footer note -->
-                <tr>
-                  <td>
-                    <p style="margin:0;font-family:'Courier New',monospace;font-size:10px;color:#999;line-height:1.6;">
-                      If you have questions, reply to this email or reach us at
-                      <a href="mailto:info@littlepawsdr.org" style="color:#c05a2f;text-decoration:none;">
-                        info@littlepawsdr.org
-                      </a>.
-                      Thank you for supporting the pups.
-                    </p>
-                  </td>
-                </tr>
+    <!-- Bottom label (table-based for email client compatibility) -->
+    <table role="presentation" style="margin-top: 40px; border-collapse: collapse;">
+      <tr>
+        <td style="width: 24px; padding-right: 12px;">
+          <div style="width: 24px; height: 1px; background: #e4e4e7;"></div>
+        </td>
+        <td>
+          <p style="margin: 0; color: #52525b; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+            Little Paws Dachshund Rescue
+          </p>
+        </td>
+      </tr>
+    </table>
 
-              </table>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="padding-top:20px;text-align:center;">
-              <p style="margin:0;font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#bbb;">
-                Little Paws Dachshund Rescue · littlepawsdr.org
-              </p>
-            </td>
-          </tr>
-
-        </table>
-      </td>
-    </tr>
-  </table>
+  </div>
 </body>
 </html>
   `.trim()
