@@ -3,7 +3,9 @@ type FormFieldProps = {
   label: string
   name: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void
   error?: string
   type?: string
   placeholder?: string
@@ -16,6 +18,7 @@ type FormFieldProps = {
   hint?: string
   disabled?: boolean
   maxLength?: number
+  unstyled?: boolean
 }
 
 export function FormField({
@@ -35,9 +38,12 @@ export function FormField({
   children,
   hint,
   disabled = false,
-  maxLength
+  maxLength,
+  unstyled = false
 }: FormFieldProps) {
-  const fieldClass = `w-full px-3.5 py-3 text-sm font-mono border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 transition-colors duration-200 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark ${readOnly || disabled ? 'cursor-not-allowed opacity-70' : ''} ${className}`
+  const fieldClass = unstyled
+    ? className
+    : `w-full px-3.5 py-3 text-sm font-mono border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark placeholder:text-muted-light/50 dark:placeholder:text-muted-dark/50 transition-colors duration-200 focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark ${readOnly || disabled ? 'cursor-not-allowed opacity-70' : ''}`
   const labelClass = `block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2`
   const errorClass = `text-[11px] text-red-500 dark:text-red-400 font-mono mt-1.5`
 
@@ -106,7 +112,9 @@ export function FormField({
           {error}
         </p>
       )}
-      {hint && <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1.5">{hint}</p>}
+      {hint && (
+        <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1.5">{hint}</p>
+      )}
     </div>
   )
 }

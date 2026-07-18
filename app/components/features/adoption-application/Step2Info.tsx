@@ -130,6 +130,7 @@ export function Step2Info({
             onChange={(e) => patch({ firstName: e.target.value })}
             className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
             required
+            unstyled
           />
           <FormField
             id="lastName"
@@ -139,6 +140,7 @@ export function Step2Info({
             onChange={(e) => patch({ lastName: e.target.value })}
             className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
             required
+            unstyled
           />
         </div>
         <FormField

@@ -59,5 +59,8 @@
     "protobufjs@7.6.5": true,
     "sharp@0.34.5": true,
     "unrs-resolver@1.11.1": true
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
   }
 }
