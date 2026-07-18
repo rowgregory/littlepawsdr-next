@@ -33,7 +33,7 @@ export default function Header({ auction, hasActiveFee, isAuthed }) {
         {/* ── Top Bar (desktop/tablet only) ── */}
         <header
           role="banner"
-          className="hidden sm:block pr-6 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11"
+          className="hidden sm:block pr-3.25 1336:pr-0 w-full mx-auto bg-red-600 bg-topbar-light dark:bg-topbar-dark relative z-100 h-11 "
         >
           <div className="max-w-334 mx-auto flex items-center justify-between h-11">
             <div className="flex items-center space-x-4 lg:space-x-10">
@@ -104,7 +104,7 @@ export default function Header({ auction, hasActiveFee, isAuthed }) {
           </div>
         </header>
 
-        {/* ── Mobile nav: burger / logo / donate ── */}
+        {/* ── Mobile nav: burger / logo / cart + donate ── */}
         <nav
           aria-label="Main navigation"
           className="sm:hidden bg-navbar-light dark:bg-navbar-dark relative z-40 h-16 px-4"
@@ -137,7 +137,26 @@ export default function Header({ auction, hasActiveFee, isAuthed }) {
               </Link>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end items-center gap-3">
+              <Link
+                href="/cart"
+                aria-label={`View shopping cart${totalItems > 0 ? ` — ${totalItems} item${totalItems !== 1 ? 's' : ''}` : ''}`}
+                className="relative inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded p-1"
+              >
+                <ShoppingBasket
+                  className="w-5 h-5 text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                  aria-hidden="true"
+                />
+                {totalItems > 0 && (
+                  <span
+                    className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-white text-[9px] font-mono font-bold"
+                    aria-hidden="true"
+                  >
+                    {totalItems > 9 ? '9+' : totalItems}
+                  </span>
+                )}
+              </Link>
+
               <Link
                 href="/donate"
                 aria-label="Donate to Little Paws Dachshund Rescue today"
@@ -152,7 +171,7 @@ export default function Header({ auction, hasActiveFee, isAuthed }) {
         {/* ── Desktop nav (sm and up) — height shrinks on scroll via CSS ── */}
         <nav
           aria-label="Main navigation"
-          className={`hidden sm:flex px-6 w-full mx-auto bg-navbar-light dark:bg-navbar-dark z-50 flex-col justify-center transition-[height] duration-300 ease-out h-[90px]`}
+          className={`hidden sm:flex px-3.25 w-full mx-auto bg-navbar-light dark:bg-navbar-dark z-50 flex-col justify-center transition-[height] duration-300 ease-out h-22.5`}
         >
           <div className="max-w-334 mx-auto w-full flex items-center justify-between relative">
             <div className="flex items-center gap-x-10">

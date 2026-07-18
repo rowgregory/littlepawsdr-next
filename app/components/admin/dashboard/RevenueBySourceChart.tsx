@@ -1,11 +1,17 @@
 import { formatMoney } from 'app/utils/_currency.utils'
 
 const COLORS = [
-  'fill-primary-light dark:fill-primary-dark',
-  'fill-emerald-500 dark:fill-emerald-400',
-  'fill-amber-500 dark:fill-amber-400',
-  'fill-purple-500 dark:fill-purple-400',
-  'fill-pink-500 dark:fill-pink-400'
+  {
+    stroke: 'stroke-primary-light dark:stroke-primary-dark',
+    bg: 'bg-primary-light dark:bg-primary-dark'
+  },
+  {
+    stroke: 'stroke-secondary-light dark:stroke-secondary-dark',
+    bg: 'bg-secondary-light dark:bg-secondary-dark'
+  },
+  { stroke: 'stroke-teal-500 dark:stroke-teal-400', bg: 'bg-teal-500 dark:bg-teal-400' },
+  { stroke: 'stroke-purple-500 dark:stroke-purple-400', bg: 'bg-purple-500 dark:bg-purple-400' },
+  { stroke: 'stroke-amber-500 dark:stroke-amber-400', bg: 'bg-amber-500 dark:bg-amber-400' }
 ]
 
 export function RevenueBySourceChart({
@@ -24,21 +30,22 @@ export function RevenueBySourceChart({
   const center = size / 2
   const circumference = 2 * Math.PI * radius
 
-  const segments = sources.map((s, i) => {
-    let offset = 0
+  const segments = sources.reduce((acc, s, i) => {
     const fraction = s.total / total
     const dash = fraction * circumference
-    const seg = {
+    const priorOffset = acc.reduce((sum, seg) => sum + seg.dash, 0)
+
+    acc.push({
       ...s,
       dash,
       gap: circumference - dash,
-      rotation: (offset / circumference) * 360,
-      colorClass: COLORS[i % COLORS.length],
+      rotation: (priorOffset / circumference) * 360,
+      colors: COLORS[i % COLORS.length],
       pct: Math.round(fraction * 100)
-    }
-    offset += dash
-    return seg
-  })
+    })
+
+    return acc
+  }, [])
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
@@ -54,9 +61,9 @@ export function RevenueBySourceChart({
           cx={center}
           cy={center}
           r={radius}
-          fill="none"
           strokeWidth={strokeWidth}
           className="stroke-border-light dark:stroke-border-dark"
+          style={{ fill: 'none' }}
         />
         {segments.map((seg) => (
           <circle
@@ -64,12 +71,12 @@ export function RevenueBySourceChart({
             cx={center}
             cy={center}
             r={radius}
-            fill="none"
             strokeWidth={strokeWidth}
             strokeDasharray={`${seg.dash} ${seg.gap}`}
             transform={`rotate(${seg.rotation - 90} ${center} ${center})`}
-            className={seg.colorClass}
+            className={seg.colors.stroke}
             strokeLinecap="butt"
+            style={{ fill: 'none' }}
           />
         ))}
         <text
@@ -95,7 +102,7 @@ export function RevenueBySourceChart({
       <ul className="w-full space-y-2" role="list">
         {segments.map((seg) => (
           <li key={seg.type} className="flex items-center gap-2.5">
-            <span className={`w-2.5 h-2.5 shrink-0 ${seg.colorClass}`} aria-hidden="true" />
+            <span className={`w-2.5 h-2.5 shrink-0 ${seg.colors.bg}`} aria-hidden="true" />
             <span className="font-mono text-[10px] tracking-widest uppercase text-muted-light dark:text-muted-dark flex-1 truncate">
               {fmtType(seg.type)}
             </span>

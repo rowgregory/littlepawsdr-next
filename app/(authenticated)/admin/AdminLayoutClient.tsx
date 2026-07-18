@@ -7,8 +7,17 @@ import Link from 'next/link'
 import { useEscapeKey } from '@hooks/useEscapeKey.hook'
 import AdminSidebar from './sidebar'
 import AdminAuctionModal from 'app/components/admin/auctions/AdminAuctionModal'
+import { Role } from '@prisma/client'
 
-export function AdminLayoutClient({ children }: { children: ReactNode }) {
+export function AdminLayoutClient({
+  children,
+  email,
+  role
+}: {
+  children: ReactNode
+  email: string
+  role: Role
+}) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEscapeKey(mobileNavOpen, () => setMobileNavOpen(false))
@@ -19,7 +28,7 @@ export function AdminLayoutClient({ children }: { children: ReactNode }) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:block">
-        <AdminSidebar />
+        <AdminSidebar onClose={() => setMobileNavOpen(false)} email={email} role={role} />
       </div>
 
       {/* Mobile nav drawer */}
@@ -44,7 +53,7 @@ export function AdminLayoutClient({ children }: { children: ReactNode }) {
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
               className="fixed inset-y-0 left-0 z-100 lg:hidden"
             >
-              <AdminSidebar onClose={() => setMobileNavOpen(false)} />
+              <AdminSidebar onClose={() => setMobileNavOpen(false)} email={email} role={role} />
             </motion.div>
           </>
         )}

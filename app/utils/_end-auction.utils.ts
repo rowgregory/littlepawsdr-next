@@ -1,5 +1,6 @@
 import { createLog } from 'app/lib/actions/log/createLog'
 import { resend } from 'app/lib/email/resend'
+import sendConfirmationEmail from 'app/lib/email/sendConfirmatioinEmail'
 import { auctionWinningBidderTemplate } from 'app/lib/email/templates/winning-bidder.template'
 import { calculateStripeFees } from 'app/lib/stripe/calculateStripeFees'
 import { stripeClient } from 'app/lib/stripe/stripe-client'
@@ -91,8 +92,7 @@ async function createAuctionOrder(
       geoRegion: userAddress?.lastGeoRegion ?? null,
       geoCountry: userAddress?.lastGeoCountry ?? null,
       geoSource: userAddress?.lastGeoLatitude != null ? 'ip' : null
-    },
-    include: { items: true }
+    }
   })
 
   await prisma.orderItem.createMany({
@@ -106,7 +106,12 @@ async function createAuctionOrder(
     }))
   })
 
-  return order
+  const orderWithItems = await prisma.order.findUniqueOrThrow({
+    where: { id: order.id },
+    include: { items: true }
+  })
+
+  return orderWithItems
 }
 
 export async function processAutoPay(
@@ -117,8 +122,20 @@ export async function processAutoPay(
   const user = await getWinnerUser(winner.userId)
   if (!user?.autoPay) return sendPaymentRequestEmail()
 
-  const paymentMethod = await getDefaultPaymentMethod(winner.userId)
+  const [paymentMethod, address] = await Promise.all([
+    getDefaultPaymentMethod(winner.userId),
+    prisma.address.findUnique({ where: { userId: winner.userId } })
+  ])
+
   if (!paymentMethod?.stripePaymentId || !user.stripeCustomerId) {
+    return sendPaymentRequestEmail()
+  }
+
+  if (!address?.addressLine1 || !address?.city || !address?.state || !address?.zipPostalCode) {
+    await createLog('warn', '[AUTO-PAY] skipped — missing address', {
+      userId: winner.userId,
+      winningBidderId: winner.winningBidderId
+    })
     return sendPaymentRequestEmail()
   }
 
@@ -154,7 +171,7 @@ export async function processAutoPay(
 
     await markWinnerPaid(winner.winningBidderId)
 
-    await createAuctionOrder(
+    const order = await createAuctionOrder(
       winner,
       paymentIntent.id,
       paymentMethod.stripePaymentId,
@@ -162,8 +179,8 @@ export async function processAutoPay(
       user.autoPayCoverFees,
       processingFee
     )
-    // ToDO
-    // await sendConfirmationEmail({ ...order, items: [] })
+
+    await sendConfirmationEmail(order)
 
     await createLog('info', '[AUTO-PAY] success', {
       userId: winner.userId,
@@ -203,7 +220,9 @@ export async function resolveAuctionWinners(auctionId: string) {
   await prisma.$transaction(async (tx) => {
     for (const [userId, bids] of Object.entries(byUser)) {
       const totalPrice = bids.reduce((sum, b) => {
-        const shipping = b.auctionItem.requiresShipping ? Number(b.auctionItem.shippingCosts ?? 0) : 0
+        const shipping = b.auctionItem.requiresShipping
+          ? Number(b.auctionItem.shippingCosts ?? 0)
+          : 0
         return sum + Number(b.bidAmount) + shipping
       }, 0)
 
@@ -295,7 +314,8 @@ export const sendWinnerEmail = async ({
   items: { name: string; soldPrice: number }[]
   totalPrice: number
 }) => {
-  const BASE = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://littlepawsdr.org'
+  const BASE =
+    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://littlepawsdr.org'
   const url = `${BASE}/auctions/winner/${winningBidderId}`
 
   try {

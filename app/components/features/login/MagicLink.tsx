@@ -25,7 +25,10 @@ export function MagicLink({ email, setEmail, setSent, redirectTo }) {
   return (
     <div className="flex flex-col gap-3">
       <div>
-        <label htmlFor="email" className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5">
+        <label
+          htmlFor="email"
+          className="block text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-1.5"
+        >
           Email Address
         </label>
         <div className="relative">
@@ -86,7 +89,7 @@ export function MagicLink({ email, setEmail, setSent, redirectTo }) {
             <motion.span
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              className="block w-3 h-3 border-2 border-white/30 border-t-white"
+              className="block w-3 h-3 border-2 border-white/30 border-t-white rounded-full"
               aria-hidden="true"
             />
             Sending...

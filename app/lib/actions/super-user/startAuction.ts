@@ -1,15 +1,17 @@
 'use server'
 
 import { revalidateTag } from 'next/cache'
-import { SuperFailure, requireSuper } from 'app/lib/actions/auth/requireSuper'
 import { createLog } from 'app/lib/actions/log/createLog'
 import prisma from 'prisma/client'
 import { pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import { getErrorMessage } from 'app/utils/_error.utils'
+import { AdminFailure, requireAdmin } from '../auth/requireAdmin'
 
 export async function startAuction(auctionId: string) {
-  const gate = await requireSuper()
-  if (!gate.ok) return { success: false, error: (gate as SuperFailure).error }
+  // TEMP: requireAdmin instead of requireSuper — widened for LPDR crew testing period.
+  // REVERT to requireSuper before going live with real Stripe keys.
+  const gate = await requireAdmin()
+  if (!gate.ok) return { success: false, error: (gate as AdminFailure).error }
 
   try {
     const auction = await prisma.auction.findUnique({
@@ -25,7 +27,8 @@ export async function startAuction(auctionId: string) {
     })
 
     if (!auction) return { success: false, error: 'Auction not found' }
-    if (auction.status !== 'DRAFT') return { success: false, error: 'Auction is not in DRAFT status' }
+    if (auction.status !== 'DRAFT')
+      return { success: false, error: 'Auction is not in DRAFT status' }
 
     await prisma.auction.update({
       where: { id: auctionId },

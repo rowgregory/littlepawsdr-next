@@ -4,6 +4,7 @@ import { RootLayoutWrapper } from './root-layout'
 import { getCachedAuction } from './lib/actions/public/auction/getCachedAuction'
 import { cookies } from 'next/headers'
 import { bebas, nunito, quicksand, workSans } from './fonts'
+import Script from 'next/script'
 
 export { metadata } from './metadata'
 export { viewport } from './viewport'
@@ -26,11 +27,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')`
-          }}
-        />
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')`}
+        </Script>
       </head>
       <body className={fontVariables}>
         <SessionProvider refetchOnWindowFocus={false}>

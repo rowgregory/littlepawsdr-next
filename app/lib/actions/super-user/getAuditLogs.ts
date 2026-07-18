@@ -10,10 +10,12 @@ export interface LogEntry {
   message: string
 }
 
-export async function getAuditLogs(limit = 50): Promise<{ success: boolean; data: LogEntry[]; error?: string }> {
+export async function getAuditLogs(
+  limit = 50
+): Promise<{ success: boolean; data: LogEntry[]; error?: string }> {
   const session = await auth()
   if (session?.user?.role !== 'SUPER_USER') {
-    return { success: false, error: 'Unauthorized', data: null }
+    return { success: false, error: 'Unauthorized', data: [] }
   }
 
   const logs = await prisma.log.findMany({

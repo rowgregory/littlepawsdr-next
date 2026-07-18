@@ -5,9 +5,19 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { LogOut } from 'lucide-react'
 import { ADMIN_NAV_GROUPS } from 'app/lib/constants/navigation.constants'
+import { Role } from '@prisma/client'
+import { formatRole } from 'app/utils/_user.utils'
+import { useState } from 'react'
 
-export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
+type Props = {
+  onClose?: () => void
+  email: string
+  role: Role
+}
+
+export default function AdminSidebar({ onClose, email, role }: Props) {
   const pathname = usePathname()
+  const [pending, setPending] = useState<string | null>(null)
 
   const isActive = (href: string) =>
     href === '/admin' ? pathname === '/admin' : pathname === href || pathname.startsWith(`${href}/`)
@@ -25,7 +35,11 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
       className="flex w-52 shrink-0 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col py-4 h-screen sticky top-0"
     >
       {/* Brand */}
-      <Link href="/" aria-label="Little Paws admin home" className="flex items-center gap-2.5 px-4 mb-6">
+      <Link
+        href="/"
+        aria-label="Little Paws admin home"
+        className="flex items-center gap-2.5 px-4 mb-6"
+      >
         <span className="w-9 h-9 flex items-center justify-center bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark font-quicksand font-black text-sm tracking-tight">
           LP
         </span>
@@ -48,9 +62,12 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
                 <Link
                   key={item.label}
                   href={item.href}
-                  onClick={onClose}
+                  onClick={() => {
+                    setPending(item.href)
+                    onClose()
+                  }}
                   aria-current={active ? 'page' : undefined}
-                  className={rowClass(active)}
+                  className={rowClass(active || pending === item.href)}
                 >
                   {active && (
                     <span
@@ -59,7 +76,9 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
                     />
                   )}
                   <Icon className="w-4.5 h-4.5 shrink-0" aria-hidden="true" />
-                  <span className="font-mono text-[11px] tracking-widest uppercase">{item.label}</span>
+                  <span className="font-mono text-[11px] tracking-widest uppercase">
+                    {item.label}
+                  </span>
                 </Link>
               )
             })}
@@ -67,15 +86,25 @@ export default function AdminSidebar({ onClose }: { onClose?: () => void }) {
         ))}
       </div>
 
-      {/* Logout — pinned to bottom */}
+      {/* Identity + Logout — pinned to bottom */}
       <div className="pt-4 border-t border-border-light dark:border-border-dark shrink-0">
+        {email && (
+          <div className="px-4 pb-3">
+            <p className="font-mono text-[10px] text-text-light dark:text-text-dark truncate">
+              {email}
+            </p>
+            <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mt-0.5">
+              {formatRole(role)}
+            </p>
+          </div>
+        )}
         <button
           type="button"
           onClick={() => signOut({ redirectTo: '/' })}
           className="w-full flex items-center gap-3 px-4 py-2 text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark hover:bg-bg-light dark:hover:bg-bg-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
         >
           <LogOut className="w-4.5 h-4.5 shrink-0" aria-hidden="true" />
-          <span className="font-mono text-[11px] tracking-widest uppercase">Logout</span>
+          <span className="font-mono text-[11px] tracking-widest uppercase">Sign Out</span>
         </button>
       </div>
     </nav>

@@ -9,6 +9,7 @@ export default async function AdminLayoutPage({ children }: { children: ReactNod
   // Runs on the Node runtime — the database session lookup works here.
   const session = await auth()
   const role = session?.user?.role
+  const email = session?.user?.email
 
   if (!session?.user) {
     redirect('/auth/login')
@@ -17,5 +18,9 @@ export default async function AdminLayoutPage({ children }: { children: ReactNod
   if (role !== 'ADMIN' && role !== 'SUPER_USER') {
     redirect(' /my-pack')
   }
-  return <AdminLayoutClient>{children}</AdminLayoutClient>
+  return (
+    <AdminLayoutClient email={email} role={role}>
+      {children}
+    </AdminLayoutClient>
+  )
 }

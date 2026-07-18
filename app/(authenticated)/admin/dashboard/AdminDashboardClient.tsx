@@ -1,7 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { TrendingUp, TrendingDown, Copy, Check, Truck, RefreshCw } from 'lucide-react'
+import {
+  TrendingUp,
+  TrendingDown,
+  Copy,
+  Check,
+  Truck,
+  RefreshCw,
+  Users,
+  Package
+} from 'lucide-react'
 import { HISTORICAL_TOTAL, sourceMeta } from 'app/lib/constants/dashboard.constants'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
@@ -11,6 +20,9 @@ import { useSession } from 'next-auth/react'
 import { rotateBypassCode } from 'app/lib/actions/admin/adoption-fee/rotateBypassCode'
 import { useRouter } from 'next/navigation'
 import { RevenueBySourceChart } from 'app/components/admin/dashboard/RevenueBySourceChart'
+import { TopSupporters } from 'app/components/admin/dashboard/TopSupporters'
+import { TopProducts } from 'app/components/admin/dashboard/TopProducts'
+import Picture from 'app/components/_common/Picture'
 
 const fmtType = (type: string) =>
   sourceMeta[type]?.label ?? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ')
@@ -31,18 +43,30 @@ export default function AdminDashboardClient({ stats }) {
     }
   }
 
-  const monthlyUp = stats.monthlyChange >= 0
-  const wieners = [...(stats.welcomeWienerRevenue ?? [])].sort(
+  if (!stats.success || !stats.data) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="font-mono text-xs text-muted-light dark:text-muted-dark">
+          {stats.error ?? 'Unable to load dashboard data'}
+        </p>
+      </div>
+    )
+  }
+
+  const data = stats.data
+
+  const monthlyUp = data.monthlyChange >= 0
+  const wieners = [...(data.welcomeWienerRevenue ?? [])].sort(
     (a, b) => b.totalRaised - a.totalRaised
   )
   const wienerTotal = wieners.reduce((s, w) => s + w.totalRaised, 0)
   const wienerMax = wieners[0]?.totalRaised ?? 0
-  const sources = [...(stats.ordersByType ?? [])].sort((a, b) => b.total - a.total)
+  const sources = [...(data.ordersByType ?? [])].sort((a, b) => b.total - a.total)
 
   const copyCode = async () => {
-    if (!stats.bypassCode) return
+    if (!data.bypassCode) return
     try {
-      await navigator.clipboard.writeText(stats.bypassCode)
+      await navigator.clipboard.writeText(data.bypassCode)
     } catch {}
     setCopied(true)
     setTimeout(() => setCopied(false), 1800)
@@ -67,19 +91,19 @@ export default function AdminDashboardClient({ stats }) {
           </span>
         </div>
 
-        {stats.bypassCode && (
+        {data.bypassCode && (
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="font-mono text-[9px] tracking-widest uppercase text-muted-light dark:text-muted-dark hidden md:inline">
               Bypass
             </span>
             <span className="font-mono text-xs font-bold tracking-[0.05em] text-primary-light dark:text-primary-dark">
-              {stats.bypassCode}
+              {data.bypassCode}
             </span>
 
             <button
               type="button"
               onClick={copyCode}
-              aria-label={`Copy adoption fee bypass code ${stats.bypassCode}`}
+              aria-label={`Copy adoption fee bypass code ${data.bypassCode}`}
               className="text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark rounded"
             >
               {copied ? (
@@ -104,10 +128,10 @@ export default function AdminDashboardClient({ stats }) {
               </button>
             )}
 
-            {stats.bypassCodeRotatesAt && (
+            {data.bypassCodeRotatesAt && (
               <span className="font-mono text-[9px] text-muted-light/70 dark:text-muted-dark/70 hidden lg:inline ml-1">
                 rotates{' '}
-                {new Date(stats.bypassCodeRotatesAt).toLocaleDateString('en-US', {
+                {new Date(data.bypassCodeRotatesAt).toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
                   timeZone: 'America/New_York'
@@ -119,7 +143,7 @@ export default function AdminDashboardClient({ stats }) {
       </motion.header>
 
       {/* Pending shipments */}
-      {stats.pendingShipments.length > 0 && (
+      {data.pendingShipments.length > 0 && (
         <motion.section
           variants={fadeUp}
           initial="hidden"
@@ -131,8 +155,8 @@ export default function AdminDashboardClient({ stats }) {
             <div className="flex items-center gap-2">
               <Truck className="w-3.5 h-3.5 text-amber-500 shrink-0" aria-hidden="true" />
               <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-amber-500">
-                Needs Shipping · {stats.pendingShipments.length}{' '}
-                {stats.pendingShipments.length === 1 ? 'order' : 'orders'}
+                Needs Shipping · {data.pendingShipments.length}{' '}
+                {data.pendingShipments.length === 1 ? 'order' : 'orders'}
               </p>
             </div>
             <Link
@@ -143,7 +167,7 @@ export default function AdminDashboardClient({ stats }) {
             </Link>
           </div>
           <div className="divide-y divide-border-light dark:divide-border-dark">
-            {stats.pendingShipments.map((shipment) => (
+            {data.pendingShipments.map((shipment) => (
               <div key={shipment.id} className="flex items-start justify-between gap-4 px-5 py-3.5">
                 <div className="min-w-0">
                   <p className="font-mono text-xs text-text-light dark:text-text-dark truncate">
@@ -173,53 +197,87 @@ export default function AdminDashboardClient({ stats }) {
         </motion.section>
       )}
 
-      <div className="px-4 sm:px-6 py-6 pb-12">
-        {/* Total revenue */}
+      <div className="px-4 sm:px-6 py-6 pb-12 space-y-5">
+        {/* ── Hero revenue row: total + monthly stat side by side ── */}
         <motion.section
           variants={fadeUp}
           initial="hidden"
           animate="show"
           custom={1}
-          className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6 mb-5"
+          className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-5"
         >
-          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
-            Total revenue · all time
-          </p>
-          <div className="flex items-end justify-between gap-4">
-            <p className="font-quicksand text-4xl sm:text-5xl font-black text-text-light dark:text-text-dark leading-none">
-              {formatMoney(stats.liveRevenue)}
+          {/* Total revenue */}
+          <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 sm:p-6">
+            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2">
+              Total revenue · all time
             </p>
-            <div className="text-right shrink-0 mb-1">
-              <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
-                + historical
+            <div className="flex items-end justify-between gap-4">
+              <p className="font-quicksand text-4xl sm:text-5xl font-black text-primary-light dark:text-primary-dark leading-none">
+                {formatMoney(data.liveRevenue)}
               </p>
-              <p className="font-mono text-sm font-bold text-muted-light dark:text-muted-dark tabular-nums">
-                {formatMoney(HISTORICAL_TOTAL)}
-              </p>
+              <div className="text-right shrink-0 mb-1">
+                <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark mb-0.5">
+                  + historical
+                </p>
+                <p className="font-mono text-sm font-bold text-muted-light dark:text-muted-dark tabular-nums">
+                  {formatMoney(HISTORICAL_TOTAL)}
+                </p>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-1.5 mt-3">
+              {monthlyUp ? (
+                <TrendingUp
+                  className="w-3.5 h-3.5 text-green-600 dark:text-green-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <TrendingDown
+                  className="w-3.5 h-3.5 text-red-600 dark:text-red-400"
+                  aria-hidden="true"
+                />
+              )}
+              <span
+                className={`font-mono text-[10px] tracking-[0.15em] uppercase ${monthlyUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
+              >
+                {monthlyUp ? 'Up' : 'Down'} {Math.abs(data.monthlyChange)}% vs last month
+              </span>
             </div>
           </div>
-          <div className="inline-flex items-center gap-1.5 mt-3">
-            {monthlyUp ? (
-              <TrendingUp
-                className="w-3.5 h-3.5 text-green-600 dark:text-green-400"
-                aria-hidden="true"
-              />
-            ) : (
-              <TrendingDown
-                className="w-3.5 h-3.5 text-red-600 dark:text-red-400"
-                aria-hidden="true"
-              />
-            )}
-            <span
-              className={`font-mono text-[10px] tracking-[0.15em] uppercase ${monthlyUp ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
-            >
-              {monthlyUp ? 'Up' : 'Down'} {Math.abs(stats.monthlyChange)}% vs last month
-            </span>
+
+          {/* Quick stat pair: users + auctions, filling the vertical space next to revenue */}
+          <div className="grid grid-cols-2 gap-5">
+            <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 flex flex-col justify-between">
+              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                Pack Members
+              </p>
+              <div>
+                <p className="font-quicksand text-2xl font-black text-text-light dark:text-text-dark leading-none mb-1">
+                  {data.totalUsers}
+                </p>
+                <p className="font-mono text-[9px] text-muted-light dark:text-muted-dark">
+                  +{data.newThisMonth} this month
+                </p>
+              </div>
+            </div>
+            <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 flex flex-col justify-between">
+              <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                Active Auctions
+              </p>
+              <div>
+                <p className="font-quicksand text-2xl font-black text-text-light dark:text-text-dark leading-none mb-1">
+                  {data.activeAuctions}
+                </p>
+                <p className="font-mono text-[9px] text-muted-light dark:text-muted-dark">
+                  {formatMoney(data.auctionRevenue)} raised
+                </p>
+              </div>
+            </div>
           </div>
         </motion.section>
 
+        {/* ── Revenue by source ── */}
         {sources.length > 0 && (
-          <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2} className="mb-6">
+          <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
             <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-2.5">
               Revenue by source
             </p>
@@ -229,7 +287,21 @@ export default function AdminDashboardClient({ stats }) {
           </motion.div>
         )}
 
-        {/* Welcome Wieners */}
+        {/* ── Top Supporters + Top Products side by side ── */}
+        {(data.topSupporters?.length > 0 || data.topProducts?.length > 0) && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            custom={3}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-5"
+          >
+            {data.topSupporters?.length > 0 && <TopSupporters supporters={data.topSupporters} />}
+            {data.topProducts?.length > 0 && <TopProducts products={data.topProducts} />}
+          </motion.div>
+        )}
+
+        {/* ── Welcome Wieners ── */}
         <motion.section
           variants={fadeUp}
           initial="hidden"

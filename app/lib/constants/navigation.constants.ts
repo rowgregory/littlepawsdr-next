@@ -222,8 +222,7 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
     heading: 'People',
     items: [
       { label: 'Users', icon: Users, href: '/admin/users' },
-      { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' },
-      { label: 'Profile', icon: User, href: '/my-pack' }
+      { label: 'Newsletter', icon: Mail, href: '/admin/newsletter' }
     ]
   },
   {
@@ -232,5 +231,9 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
       { label: 'Guide', icon: BookOpen, href: '/admin/guide' },
       { label: 'Flows', icon: Workflow, href: '/admin/flows' }
     ]
+  },
+  {
+    heading: 'Account',
+    items: [{ label: 'My Pack', icon: User, href: '/my-pack' }]
   }
 ]

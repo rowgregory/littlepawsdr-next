@@ -2,7 +2,13 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 
-export function AdoptionFeeWelcomeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function AdoptionFeeWelcomeModal({
+  isOpen,
+  onClose
+}: {
+  isOpen: boolean
+  onClose: () => void
+}) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -33,20 +39,45 @@ export function AdoptionFeeWelcomeModal({ isOpen, onClose }: { isOpen: boolean; 
               <div className="px-8 py-8 space-y-6">
                 {/* Text */}
                 <div className="space-y-2">
-                  <h2 id="adoption-welcome-title" className="text-xl font-bold text-neutral-900 dark:text-white">
+                  <h2
+                    id="adoption-welcome-title"
+                    className="text-xl font-bold text-neutral-900 dark:text-white"
+                  >
                     Thank you for your payment!
                   </h2>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     You now have full access to the adoption application. Your access is valid for{' '}
-                    <span className="font-semibold text-neutral-900 dark:text-white">7 days</span> from today.
+                    <span className="font-semibold text-neutral-900 dark:text-white">7 days</span>{' '}
+                    from today.
                   </p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     Need to come back later? Your application is always available in{' '}
-                    <span className="font-semibold text-neutral-900 dark:text-white">My Pack</span> — no need to pay
-                    again.
+                    <span className="font-semibold text-neutral-900 dark:text-white">My Pack</span>{' '}
+                    — no need to pay again.
                   </p>
                 </div>
 
+                {/* Important: must finish in one sitting */}
+                <div className="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20">
+                  <svg
+                    className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                    Once you start the application, keep this tab open until you finish. Stepping
+                    away is fine, but refreshing the page or navigating away will clear everything
+                    you have entered so far, and you will need to start over.
+                  </p>
+                </div>
                 {/* Expiry note */}
                 <div className="flex items-start gap-3 p-3 bg-primary-light/5 dark:bg-primary-dark/10 border border-primary-light/20 dark:border-primary-dark/20">
                   <svg
@@ -63,7 +94,8 @@ export function AdoptionFeeWelcomeModal({ isOpen, onClose }: { isOpen: boolean; 
                     />
                   </svg>
                   <p className="text-xs text-primary-light dark:text-primary-dark">
-                    Your access expires in 7 days. We recommend completing your application as soon as possible.
+                    Your access expires in 7 days. We recommend completing your application as soon
+                    as possible.
                   </p>
                 </div>
 

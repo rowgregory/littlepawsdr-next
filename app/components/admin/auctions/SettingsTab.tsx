@@ -28,7 +28,10 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
   }, [auction])
 
   const handleInput = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLTextAreaElement>
+    e:
+      | ChangeEvent<HTMLInputElement>
+      | ChangeEvent<HTMLSelectElement>
+      | ChangeEvent<HTMLTextAreaElement>
   ) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -59,6 +62,7 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
 
     router.push('/admin/auctions')
   }
+
   const handleSaveAuctionSettings = async () => {
     setLoading(true)
 
@@ -178,7 +182,10 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
       <div className="border border-border-light dark:border-border-dark">
         <div className="px-5 py-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark">
           <div className="flex items-center gap-3">
-            <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+            <span
+              className="block w-4 h-px bg-primary-light dark:bg-primary-dark"
+              aria-hidden="true"
+            />
             <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
               Auction Settings
             </h2>
@@ -304,7 +311,9 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-4 h-px bg-amber-500 shrink-0" aria-hidden="true" />
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-amber-500">Caution</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-amber-500">
+                  Caution
+                </p>
               </div>
               <div className="border border-amber-500/20 bg-amber-500/5 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
@@ -312,8 +321,8 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
                     Revert to Draft
                   </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                    Takes the auction offline. Bidding will stop and the public page will no longer be accessible. Bids
-                    and items are preserved.
+                    Takes the auction offline. Bidding will stop and the public page will no longer
+                    be accessible. Bids and items are preserved.
                   </p>
                 </div>
                 <button
@@ -337,7 +346,10 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
           {inputs?.status === 'DRAFT' && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
-                <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+                <span
+                  className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0"
+                  aria-hidden="true"
+                />
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                   Launch
                 </p>
@@ -348,7 +360,8 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
                     Start Auction Now
                   </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                    Manually activate this auction and notify bidders. The cron will no longer auto-start it.
+                    Manually activate this auction and notify bidders. The cron will no longer
+                    auto-start it.
                   </p>
                 </div>
                 <button
@@ -372,7 +385,9 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-4 h-px bg-red-500 shrink-0" aria-hidden="true" />
-                <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-red-500">End Auction</p>
+                <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-red-500">
+                  End Auction
+                </p>
               </div>
               <div className="border border-red-500/20 bg-red-500/5 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
@@ -380,7 +395,8 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
                     End Auction Now
                   </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-                    Immediately ends the auction, resolves winners, and sends payment emails. This cannot be undone.
+                    Immediately ends the auction, resolves winners, and sends payment emails. This
+                    cannot be undone.
                   </p>
                 </div>
                 <button
@@ -408,7 +424,10 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
           {inputs?.status === 'DRAFT' && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
-                <span className="block w-4 h-px bg-red-500 dark:bg-red-400 shrink-0" aria-hidden="true" />
+                <span
+                  className="block w-4 h-px bg-red-500 dark:bg-red-400 shrink-0"
+                  aria-hidden="true"
+                />
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-red-500 dark:text-red-400">
                   Danger Zone
                 </p>
