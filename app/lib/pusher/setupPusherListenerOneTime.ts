@@ -12,7 +12,10 @@ type OrderFailedEvent = {
   error?: string
 }
 
-export async function setupPusherListenerOneTime(channelId: string, router: AppRouterInstance): Promise<void> {
+export async function setupPusherListenerOneTime(
+  channelId: string,
+  router: AppRouterInstance
+): Promise<void> {
   let processingStatus = 'processing'
   let hasProcessed = false
 
@@ -40,7 +43,7 @@ export async function setupPusherListenerOneTime(channelId: string, router: AppR
       const finish = async () => {
         if (data.type === 'ADOPTION_FEE') {
           if (data.adoptionFeeId) await setAdoptionFeeCookie(data.adoptionFeeId)
-          router.push('/adopt/application')
+          router.push('/adopt/application?ref=?tab=orders')
         } else {
           router.push(`/order-confirmation/${data.orderId}?ref=new`)
         }

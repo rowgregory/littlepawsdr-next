@@ -106,7 +106,7 @@ export const PreApplicationFlowClient = ({
         setBypassError(result.error ?? 'Something went wrong. Please try again.')
         return
       }
-      router.push('/adopt/application')
+      router.push('/adopt/application?ref=?tab=orders')
     } catch {
       setBypassError('Something went wrong. Please try again.')
     } finally {
@@ -117,7 +117,10 @@ export const PreApplicationFlowClient = ({
   const currentIndex = STEPS.indexOf(step)
 
   return (
-    <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+    <main
+      id="main-content"
+      className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+    >
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
         {/* ── Header ── */}
         <Header />

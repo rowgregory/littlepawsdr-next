@@ -14,7 +14,7 @@ export default async function PreApplicationFlowPage() {
   // Signed-in users with an active fee skip straight to the application.
   if (isAuthed) {
     const { isActive } = await hasActiveAdoptionFee()
-    if (isActive) redirect('/adopt/application')
+    if (isActive) redirect('/adopt/application?ref=?tab=orders')
   }
 
   const [paymentMethodsResult, userNameResult] = isAuthed
