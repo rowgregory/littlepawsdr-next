@@ -1,7 +1,9 @@
 import { OrderType, RecurringFrequency } from '@prisma/client'
 import { createLog } from 'app/lib/actions/log/createLog'
 import { FEED_A_FOSTER_ITEMS } from 'app/lib/constants/feed-a-foster.constants'
+import { resend } from 'app/lib/email/resend'
 import sendConfirmationEmail from 'app/lib/email/sendConfirmatioinEmail'
+import { adminOrderNotificationTemplate } from 'app/lib/email/templates/admin-order-notification.template'
 import { pusherSuperuser, pusherTrigger } from 'app/lib/pusher/pusher.utils'
 import prisma from 'prisma/client'
 import Stripe from 'stripe'
@@ -38,7 +40,9 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
 
     const [products, wieners, winningBidder, instantBuyItem] = await Promise.all([
       ids.length ? prisma.product.findMany({ where: { id: { in: ids } } }) : Promise.resolve([]),
-      wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([]),
+      wienerIds.length
+        ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } })
+        : Promise.resolve([]),
       orderType === 'AUCTION_PURCHASE' && metadata?.winningBidderId
         ? prisma.auctionWinningBidder.findUnique({
             where: { id: metadata.winningBidderId },
@@ -106,7 +110,9 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
         coverFees: metadata?.coverFees === 'true',
         feesCovered: parseFloat(metadata?.feesCovered || '0') || 0,
         isRecurring,
-        recurringFrequency: isRecurring ? ((metadata?.recurringFrequency as RecurringFrequency) ?? null) : null,
+        recurringFrequency: isRecurring
+          ? ((metadata?.recurringFrequency as RecurringFrequency) ?? null)
+          : null,
         stripeSubscriptionId: isRecurring ? (metadata?.stripeSubscriptionId ?? null) : null,
         nextBillingDate: nbd && !isNaN(+nbd) ? nbd : null,
         paymentMethodId: (paymentIntent.payment_method as string) || null,
@@ -174,7 +180,9 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
             const sizes = fresh.sizes as ProductSizeEntry[] | null
             const updatedSizes =
               line.s && sizes
-                ? sizes.map((s) => (s.size === line.s ? { ...s, quantity: Math.max(0, s.quantity - line.q) } : s))
+                ? sizes.map((s) =>
+                    s.size === line.s ? { ...s, quantity: Math.max(0, s.quantity - line.q) } : s
+                  )
                 : sizes
 
             await prisma.product.update({
@@ -192,7 +200,10 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
         const productId = productIdParts.join('-')
         const wiener = wieners.find((w) => w.id === wienerId)
         if (!wiener) {
-          await createLog('warn', 'Order item could not be resolved', { orderId: order.id, itemId: line.i })
+          await createLog('warn', 'Order item could not be resolved', {
+            orderId: order.id,
+            itemId: line.i
+          })
           continue
         }
 
@@ -296,7 +307,8 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
               auctionItemPaymentStatus: 'PAID',
               shippingStatus: 'PENDING_FULFILLMENT',
               paidOn: new Date(),
-              processingFee: metadata?.coverFees === 'true' ? parseFloat(metadata.feesCovered || '0') || 0 : 0
+              processingFee:
+                metadata?.coverFees === 'true' ? parseFloat(metadata.feesCovered || '0') || 0 : 0
             },
             include: {
               user: { select: { email: true } },
@@ -371,6 +383,25 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
     }
 
     await sendConfirmationEmail(order)
+
+    if (hasPhysical && order.addressLine1) {
+      await resend.emails.send({
+        from: 'Little Paws Dachshund Rescue <orders@littlepawsdr.org>',
+        to: 'info@littlepawsdr.org',
+        subject: `New order to ship — #${order.id.slice(-8).toUpperCase()}`,
+        html: adminOrderNotificationTemplate({
+          orderId: order.id,
+          customerName: order.customerName,
+          customerEmail: order.customerEmail,
+          items: order.items.map((i) => ({ name: i.itemName, quantity: i.quantity })),
+          addressLine1: order.addressLine1,
+          addressLine2: order.addressLine2,
+          city: order.city,
+          state: order.state,
+          zipPostalCode: order.zipPostalCode
+        })
+      })
+    }
 
     const channelId = userId
 
