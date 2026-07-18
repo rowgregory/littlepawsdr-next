@@ -1,16 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  TrendingUp,
-  TrendingDown,
-  Copy,
-  Check,
-  Truck,
-  RefreshCw,
-  Users,
-  Package
-} from 'lucide-react'
+import { TrendingUp, TrendingDown, Copy, Check, Truck, RefreshCw } from 'lucide-react'
 import { HISTORICAL_TOTAL, sourceMeta } from 'app/lib/constants/dashboard.constants'
 import { formatMoney } from 'app/utils/_currency.utils'
 import { motion } from 'framer-motion'
@@ -22,7 +13,6 @@ import { useRouter } from 'next/navigation'
 import { RevenueBySourceChart } from 'app/components/admin/dashboard/RevenueBySourceChart'
 import { TopSupporters } from 'app/components/admin/dashboard/TopSupporters'
 import { TopProducts } from 'app/components/admin/dashboard/TopProducts'
-import Picture from 'app/components/_common/Picture'
 
 const fmtType = (type: string) =>
   sourceMeta[type]?.label ?? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ')

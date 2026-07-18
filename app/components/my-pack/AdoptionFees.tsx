@@ -29,7 +29,12 @@ export function AdoptionFees({ adoptionFees }) {
                 {fee.bypassCode && (
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark flex items-center">
                     Bypass code used:
-                    <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg
+                      className="w-4 h-4 shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                    >
                       <path
                         fillRule="evenodd"
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -48,10 +53,10 @@ export function AdoptionFees({ adoptionFees }) {
                 </p>
                 {fee.status === 'ACTIVE' && (
                   <p className="mt-1 text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
-                    You have an active application window. Note: the application must be completed in one sitting —
-                    progress cannot be saved.{' '}
+                    You have an active application window. Note: the application must be completed
+                    in one sitting — progress cannot be saved.{' '}
                     <Link
-                      href="/adopt/application"
+                      href="/adopt/application?ref=?tab=orders"
                       className="text-primary-light dark:text-primary-dark hover:text-secondary-light dark:hover:text-secondary-dark transition-colors focus-visible:outline-none underline"
                     >
                       Begin application →

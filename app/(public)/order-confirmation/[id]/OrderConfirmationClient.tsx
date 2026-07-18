@@ -2,7 +2,16 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { CheckCircle, ArrowRight, Receipt, Package, Heart, ChevronLeft, User, Utensils } from 'lucide-react'
+import {
+  CheckCircle,
+  ArrowRight,
+  Receipt,
+  Package,
+  Heart,
+  ChevronLeft,
+  User,
+  Utensils
+} from 'lucide-react'
 import { fadeUp } from 'app/lib/constants/motion.constants'
 import Picture from '../../../components/_common/Picture'
 import { useSession } from 'next-auth/react'
@@ -23,6 +32,7 @@ export default function OrderConfirmationClient({ order }) {
   const searchParams = useSearchParams()
   const isNewOrder = searchParams.get('ref') === 'new'
   const isAdminView = searchParams.get('ref') === 'admin'
+  const myPackTab = searchParams.get('ref')
 
   useEffect(() => {
     dispatch(clearCart())
@@ -89,7 +99,10 @@ export default function OrderConfirmationClient({ order }) {
               className="relative shrink-0"
             >
               <div className="w-10 h-10 flex items-center justify-center bg-cyan-600/10 dark:bg-violet-400/10">
-                <CheckCircle className="w-5 h-5 text-cyan-600 dark:text-violet-400" aria-hidden="true" />
+                <CheckCircle
+                  className="w-5 h-5 text-cyan-600 dark:text-violet-400"
+                  aria-hidden="true"
+                />
               </div>
               <motion.div
                 animate={{
@@ -131,7 +144,10 @@ export default function OrderConfirmationClient({ order }) {
           {/* Receipt header */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2">
             <div className="flex items-center gap-2">
-              <Receipt className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50" aria-hidden="true" />
+              <Receipt
+                className="w-3.5 h-3.5 text-zinc-400 dark:text-muted-dark/50"
+                aria-hidden="true"
+              />
               <span className="  text-[10px] uppercase tracking-[0.25em] text-zinc-500 dark:text-muted-dark">
                 Receipt
               </span>
@@ -158,11 +174,17 @@ export default function OrderConfirmationClient({ order }) {
                         />
                       ) : Icon ? (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Icon className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
+                          <Icon
+                            className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30"
+                            aria-hidden="true"
+                          />
                         </div>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Package className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30" aria-hidden="true" />
+                          <Package
+                            className="w-4 h-4 text-zinc-400 dark:text-muted-dark/30"
+                            aria-hidden="true"
+                          />
                         </div>
                       )}
                     </div>
@@ -197,7 +219,9 @@ export default function OrderConfirmationClient({ order }) {
               </div>
               <div className="flex flex-col">
                 <p className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
-                  {order?.type === 'RECURRING_DONATION' ? 'Recurring Donation' : 'One-Time Donation'}
+                  {order?.type === 'RECURRING_DONATION'
+                    ? 'Recurring Donation'
+                    : 'One-Time Donation'}
                 </p>
                 {order?.tierName && (
                   <p className="  text-xs uppercase tracking-wide text-zinc-400 dark:text-muted-dark/50">
@@ -213,13 +237,17 @@ export default function OrderConfirmationClient({ order }) {
             {order?.coverFees && Number(order?.feesCovered) > 0 && (
               <>
                 <div className="flex justify-between items-center">
-                  <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Subtotal</span>
+                  <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">
+                    Subtotal
+                  </span>
                   <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark">
                     ${formatWithCommas(subtotal.toFixed(2))}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Processing fees covered</span>
+                  <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">
+                    Processing fees covered
+                  </span>
                   <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark">
                     +${Number(order?.feesCovered).toFixed(2)}
                   </span>
@@ -228,7 +256,9 @@ export default function OrderConfirmationClient({ order }) {
             )}
             {order?.isRecurring && order?.recurringFrequency && (
               <div className="flex justify-between items-center">
-                <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">Frequency</span>
+                <span className="font-lato text-xs text-zinc-500 dark:text-muted-dark">
+                  Frequency
+                </span>
                 <span className="  text-xs tabular-nums text-zinc-950 dark:text-text-dark capitalize">
                   {order?.recurringFrequency.toLowerCase()}
                 </span>
@@ -242,7 +272,9 @@ export default function OrderConfirmationClient({ order }) {
                   : ''
               }`}
             >
-              <span className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">Total</span>
+              <span className="  text-xs uppercase tracking-wide text-zinc-950 dark:text-text-dark">
+                Total
+              </span>
               <span className="  text-2xl tabular-nums text-cyan-600 dark:text-violet-400">
                 ${formatWithCommas(order?.totalAmount.toFixed(2))}
               </span>
@@ -252,14 +284,18 @@ export default function OrderConfirmationClient({ order }) {
           {/* Meta */}
           <div className="px-5 py-4 border-t border-zinc-200 dark:border-border-dark bg-zinc-50 dark:bg-white/2 space-y-2">
             <div className="flex justify-between items-center">
-              <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">Email</span>
+              <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
+                Email
+              </span>
               <span className="font-lato text-[10px] text-zinc-600 dark:text-muted-dark truncate max-w-50">
                 {order?.customerEmail}
               </span>
             </div>
             {order?.paidAt && (
               <div className="flex justify-between items-center">
-                <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">Date</span>
+                <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
+                  Date
+                </span>
                 <span className="font-lato text-[10px] text-zinc-600 dark:text-muted-dark">
                   {new Date(order?.paidAt).toLocaleDateString('en-US', {
                     month: 'long',
@@ -271,7 +307,9 @@ export default function OrderConfirmationClient({ order }) {
             )}
             {order?.isRecurring && order?.nextBillingDate && (
               <div className="flex justify-between items-center">
-                <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">Next billing</span>
+                <span className="font-lato text-[10px] text-zinc-400 dark:text-muted-dark/50">
+                  Next billing
+                </span>
                 <span className="font-lato text-[10px] text-zinc-600 dark:text-muted-dark">
                   {new Date(order?.nextBillingDate).toLocaleDateString('en-US', {
                     month: 'long',
@@ -293,7 +331,10 @@ export default function OrderConfirmationClient({ order }) {
           className="flex items-start gap-3 px-4 py-3 mb-6 border-l-2 border-cyan-600 dark:border-violet-400 bg-cyan-600/5 dark:bg-violet-400/5"
           role="note"
         >
-          <Heart className="w-3.5 h-3.5 text-cyan-600 dark:text-violet-400 shrink-0 mt-0.5" aria-hidden="true" />
+          <Heart
+            className="w-3.5 h-3.5 text-cyan-600 dark:text-violet-400 shrink-0 mt-0.5"
+            aria-hidden="true"
+          />
           <p className="font-lato text-xs text-zinc-500 dark:text-muted-dark leading-relaxed">
             A confirmation email has been sent to &nbsp;{' '}
             <strong className="text-zinc-950 dark:text-text-dark">{order?.customerEmail}</strong>
@@ -330,7 +371,7 @@ export default function OrderConfirmationClient({ order }) {
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
               <Link
-                href="/my-pack"
+                href={`/my-pack${myPackTab}`}
                 className="flex-1 flex items-center justify-center px-6 py-3.5 text-sm uppercase tracking-widest border border-zinc-200 dark:border-border-dark hover:border-cyan-600/30 dark:hover:border-violet-400/30 hover:bg-zinc-50 dark:hover:bg-white/5 text-zinc-500 dark:text-muted-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 dark:focus-visible:ring-violet-400"
               >
                 My Pack

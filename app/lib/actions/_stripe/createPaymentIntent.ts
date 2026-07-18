@@ -62,6 +62,8 @@ export async function createPaymentIntent({
     return { success: false, error: 'Minimum donation is $5' }
   }
 
+  let purchaseDescription = `Order from ${name}`
+
   try {
     let computedBase = 0
 
@@ -71,8 +73,17 @@ export async function createPaymentIntent({
 
       const [products, wieners] = await Promise.all([
         ids.length ? prisma.product.findMany({ where: { id: { in: ids } } }) : Promise.resolve([]),
-        wienerIds.length ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } }) : Promise.resolve([])
+        wienerIds.length
+          ? prisma.welcomeWiener.findMany({ where: { id: { in: wienerIds } } })
+          : Promise.resolve([])
       ])
+
+      if (items.length === 1) {
+        const product = products.find((p) => p.id === items[0].id)
+        purchaseDescription = `${product?.name ?? items[0].name} purchase from ${name}`
+      } else {
+        purchaseDescription = `${items.length}-item order from ${name}`
+      }
 
       for (const item of items) {
         if (item.feedAFosterId) {
@@ -85,9 +96,13 @@ export async function createPaymentIntent({
         if (product) {
           if (!product.isLive) throw new Error(`${product.name} is no longer available`)
           const sizes = product.sizes as ProductSizeEntry[] | null
-          const available = item.size ? (sizes?.find((s) => s.size === item.size)?.quantity ?? 0) : product.countInStock
+          const available = item.size
+            ? (sizes?.find((s) => s.size === item.size)?.quantity ?? 0)
+            : product.countInStock
           if (item.quantity > available) {
-            throw new Error(`Only ${available} of ${product.name}${item.size ? ` (${item.size})` : ''} available`)
+            throw new Error(
+              `Only ${available} of ${product.name}${item.size ? ` (${item.size})` : ''} available`
+            )
           }
           computedBase += (Number(product.price) + Number(product.shippingPrice)) * item.quantity
           continue
@@ -124,7 +139,7 @@ export async function createPaymentIntent({
       PRODUCT: `Product purchase from ${name}`,
       ADOPTION_FEE: `Adoption fee from ${name}`,
       AUCTION_PURCHASE: `Auction payment from ${name}`,
-      PURCHASE: `Order from ${name}`,
+      PURCHASE: purchaseDescription,
       FEED_A_FOSTER: `Feed a Foster donation from ${name}`
     }
 

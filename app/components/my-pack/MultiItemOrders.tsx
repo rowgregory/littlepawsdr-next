@@ -7,11 +7,30 @@ import Link from 'next/link'
 import { ITEM_ICONS } from 'app/lib/constants/feed-a-foster.constants'
 import { Utensils } from 'lucide-react'
 
-const TYPE_LABELS: Record<string, string> = {
+const ITEM_TYPE_LABELS: Record<string, string> = {
   PRODUCT: 'Merch',
   WELCOME_WIENER: 'Welcome Wiener',
   FEED_A_FOSTER: 'Feed a Foster',
-  PURCHASE: 'Multi-item order'
+  AUCTION_WINNING_BID: 'Auction',
+  AUCTION_INSTANT_BUY: 'Auction'
+}
+
+const ORDER_TYPE_LABELS: Record<string, string> = {
+  ONE_TIME_DONATION: 'Donation',
+  RECURRING_DONATION: 'Recurring Donation',
+  ADOPTION_FEE: 'Adoption Fee',
+  AUCTION_PURCHASE: 'Auction',
+  ECARD: 'eCard'
+}
+
+function getOrderLabel(order) {
+  if (order.type !== 'PURCHASE') {
+    return ORDER_TYPE_LABELS[order.type] ?? order.type.replaceAll('_', ' ')
+  }
+  if (order.items.length === 1) {
+    return ITEM_TYPE_LABELS[order.items[0].type] ?? 'Purchase'
+  }
+  return 'Multi-item order'
 }
 
 export function MultiItemOrders({ multiItemOrders }) {
@@ -22,15 +41,22 @@ export function MultiItemOrders({ multiItemOrders }) {
       ) : (
         <div className="border border-border-light dark:border-border-dark divide-y divide-border-light dark:divide-border-dark">
           {multiItemOrders?.slice(0, 3).map((order) => (
-            <div key={order.id} className="p-4 sm:p-5">
+            <div
+              key={order.id}
+              className={`p-4 sm:p-5 ${order.shippingStatus ? 'border-l-2 border-l-amber-400 dark:border-l-amber-400' : ''}`}
+            >
               {/* Header */}
               <div className="flex items-center justify-between gap-3 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="block w-3 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
                   <div>
                     <p className="text-[10px] font-mono tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
                       {formatDate(order.createdAt, true)}
                     </p>
+                    {order.shippingStatus && (
+                      <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-amber-600 dark:text-amber-400">
+                        · {order.shippingStatus.replaceAll('_', ' ')}
+                      </span>
+                    )}
                     {order.customerName && (
                       <p className="text-xs font-mono text-text-light dark:text-text-dark mt-0.5">
                         {order.customerName}
@@ -40,10 +66,9 @@ export function MultiItemOrders({ multiItemOrders }) {
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-[9px] font-mono tracking-[0.15em] uppercase px-2 py-0.5 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark">
-                    {TYPE_LABELS[order.type] ?? order.type.replaceAll('_', ' ')}
+                    {getOrderLabel(order)}
                   </span>
                   <StatusPill status={order.status} />
-                  {order.shippingStatus && <StatusPill status={order.shippingStatus} />}
                   <span className="font-quicksand font-black text-sm text-primary-light dark:text-primary-dark tabular-nums">
                     {formatMoney(order.totalAmount)}
                   </span>
@@ -73,20 +98,26 @@ export function MultiItemOrders({ multiItemOrders }) {
                           </div>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">?</span>
+                            <span className="text-[9px] font-mono text-muted-light dark:text-muted-dark">
+                              ?
+                            </span>
                           </div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-mono text-text-light dark:text-text-dark truncate">
-                          {`${order.type === 'FEED_A_FOSTER' && 'Feed a Foster - '}`}
                           {item.name}
                         </p>
-                        {item.quantity > 1 && (
-                          <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
-                            ×{item.quantity}
-                          </p>
-                        )}
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[9px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark shrink-0">
+                            {ITEM_TYPE_LABELS[item.itemType] ?? item.itemType.replaceAll('_', ' ')}
+                          </span>
+                          {item.quantity > 1 && (
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark">
+                              ×{item.quantity}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <span className="text-[11px] font-mono text-muted-light dark:text-muted-dark tabular-nums shrink-0">
                         {formatMoney(item.price * item.quantity)}
@@ -104,9 +135,11 @@ export function MultiItemOrders({ multiItemOrders }) {
                   </p>
                   <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark leading-relaxed">
                     {order.shippingAddress.addressLine1}
-                    {order.shippingAddress.addressLine2 && `, ${order.shippingAddress.addressLine2}`}
+                    {order.shippingAddress.addressLine2 &&
+                      `, ${order.shippingAddress.addressLine2}`}
                     {', '}
-                    {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zipPostalCode}
+                    {order.shippingAddress.city}, {order.shippingAddress.state}{' '}
+                    {order.shippingAddress.zipPostalCode}
                   </p>
                 </div>
               )}
@@ -114,7 +147,7 @@ export function MultiItemOrders({ multiItemOrders }) {
               {/* View confirmation */}
               <div className="mt-3 pt-3 border-t border-border-light dark:border-border-dark">
                 <Link
-                  href={`/order-confirmation/${order.id}`}
+                  href={`/order-confirmation/${order.id}?ref=?tab=orders`}
                   aria-label={`View order confirmation for ${formatDate(order.createdAt)}`}
                   className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline"
                 >
