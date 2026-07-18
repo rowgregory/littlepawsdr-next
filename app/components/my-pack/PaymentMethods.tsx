@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, CreditCard } from 'lucide-react'
 import { EmptyState } from './EmptyState'
@@ -9,6 +10,8 @@ export function PaymentMethods({
   handleDeletePaymentMethod,
   deleteError
 }) {
+  const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null)
+
   return (
     <section aria-labelledby="payment-methods-heading">
       {paymentMethods?.length === 0 ? (
@@ -82,15 +85,58 @@ export function PaymentMethods({
                       )}
                     </>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => handleDeletePaymentMethod(pm.id)}
-                    aria-label={`Delete ${pm.cardBrand} ending in ${pm.cardLast4}`}
-                    className="text-[9px] font-mono tracking-widest uppercase px-2.5 py-1.5 border border-border-light dark:border-border-dark hover:border-red-500 dark:hover:border-red-400 text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                  >
-                    Delete
-                  </button>
+
+                  <AnimatePresence mode="wait">
+                    {confirmingDelete === pm.id ? (
+                      <motion.div
+                        key="confirm"
+                        initial={{ opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -4 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <span className="text-[9px] font-mono tracking-widest uppercase text-red-500 dark:text-red-400">
+                          Remove?
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleDeletePaymentMethod(pm.id)
+                            setConfirmingDelete(null)
+                          }}
+                          aria-label={`Confirm delete ${pm.cardBrand} ending in ${pm.cardLast4}`}
+                          className="text-[9px] font-mono tracking-widest uppercase px-2.5 py-1.5 border border-red-500 dark:border-red-400 text-red-500 dark:text-red-400 hover:bg-red-500 hover:text-white dark:hover:bg-red-400 dark:hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                        >
+                          Yes
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setConfirmingDelete(null)}
+                          aria-label="Cancel delete"
+                          className="text-[9px] font-mono tracking-widest uppercase px-2.5 py-1.5 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                        >
+                          No
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <motion.button
+                        key="delete"
+                        initial={{ opacity: 0, x: 4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 4 }}
+                        transition={{ duration: 0.15 }}
+                        type="button"
+                        onClick={() => setConfirmingDelete(pm.id)}
+                        aria-label={`Delete ${pm.cardBrand} ending in ${pm.cardLast4}`}
+                        className="text-[9px] font-mono tracking-widest uppercase px-2.5 py-1.5 border border-border-light dark:border-border-dark hover:border-red-500 dark:hover:border-red-400 text-muted-light dark:text-muted-dark hover:text-red-500 dark:hover:text-red-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                      >
+                        Delete
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
+
                 {deleteError[pm.id] && (
                   <motion.p
                     initial={{ opacity: 0, height: 0 }}
