@@ -39,7 +39,7 @@ export function MultiItemOrders({ multiItemOrders }) {
       {multiItemOrders?.length === 0 ? (
         <EmptyState message="You haven't made any purchases yet." />
       ) : (
-        <div className="border border-border-light dark:border-border-dark divide-y divide-border-light dark:divide-border-dark">
+        <div className="divide-y divide-border-light dark:divide-border-dark">
           {multiItemOrders?.slice(0, 3).map((order) => (
             <div
               key={order.id}
