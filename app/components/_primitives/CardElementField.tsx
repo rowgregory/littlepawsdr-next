@@ -26,7 +26,7 @@ export function CardElementField({ onChange }: Props) {
           options={{
             style: {
               base: {
-                color: isDark ? '#f1f0ff' : '#09090b',
+                color: isDark ? '#f1f0ff' : '#ffffff',
                 backgroundColor: 'transparent',
                 fontSize: '14px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
