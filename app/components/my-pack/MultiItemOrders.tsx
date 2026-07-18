@@ -43,7 +43,13 @@ export function MultiItemOrders({ multiItemOrders }) {
           {multiItemOrders?.slice(0, 3).map((order) => (
             <div
               key={order.id}
-              className={`p-4 sm:p-5 ${order.shippingStatus ? 'border-l-2 border-l-amber-400 dark:border-l-amber-400' : ''}`}
+              className={`p-4 sm:p-5 ${
+                order.shippingStatus === 'SHIPPED'
+                  ? 'border-l-2 border-l-green-500'
+                  : order.shippingStatus
+                    ? 'border-l-2 border-l-amber-400'
+                    : ''
+              }`}
             >
               {/* Header */}
               <div className="flex items-center justify-between gap-3 mb-3">
@@ -53,7 +59,13 @@ export function MultiItemOrders({ multiItemOrders }) {
                       {formatDate(order.createdAt, true)}
                     </p>
                     {order.shippingStatus && (
-                      <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-amber-600 dark:text-amber-400">
+                      <span
+                        className={`text-[9px] font-mono tracking-[0.15em] uppercase ${
+                          order.shippingStatus === 'SHIPPED'
+                            ? 'text-green-500 dark:text-green-400'
+                            : 'text-amber-600 dark:text-amber-400'
+                        }`}
+                      >
                         · {order.shippingStatus.replaceAll('_', ' ')}
                       </span>
                     )}
