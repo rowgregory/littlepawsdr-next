@@ -1,4 +1,4 @@
-import { Switch } from 'app/components/_primitives/Switch'
+import { Toggle } from 'app/components/_primitives'
 import { TERMS_AND_CONDITIONS } from 'app/lib/constants/adoption-application.constants'
 import { slideVariants } from 'app/lib/constants/motion.constants'
 import { motion } from 'framer-motion'
@@ -34,7 +34,10 @@ export function Step1Terms({ agreedToTerms, handleContinueToInfo, setAgreedToTer
             </h3>
             <ul className="space-y-2" role="list">
               {section.content.map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-sm text-muted-light dark:text-on-dark">
+                <li
+                  key={i}
+                  className="flex items-start gap-2.5 text-sm text-muted-light dark:text-on-dark"
+                >
                   <span
                     className="w-1.5 h-1.5  bg-primary-light dark:bg-primary-dark shrink-0 mt-1.5"
                     aria-hidden="true"
@@ -48,14 +51,13 @@ export function Step1Terms({ agreedToTerms, handleContinueToInfo, setAgreedToTer
       </div>
 
       <div className="border-t border-border-light dark:border-border-dark pt-6 space-y-6">
-        <label className="flex items-start gap-3 cursor-pointer">
-          <Switch checked={agreedToTerms} onChange={setAgreedToTerms} />
-          <span className="text-sm font-mono text-muted-light dark:text-on-dark leading-relaxed">
-            I have read and agree to the terms and conditions. I understand that the{' '}
-            <strong className="text-text-light dark:text-text-dark">$15 application fee is non-refundable</strong> and
-            that approval is not guaranteed.
-          </span>
-        </label>
+        <Toggle
+          id="agree-to-terms"
+          label="I have read and agree to the terms and conditions."
+          description="I understand that the $15 application fee is non-refundable and that approval is not guaranteed."
+          checked={agreedToTerms}
+          onToggle={() => setAgreedToTerms((prev) => !prev)}
+        />
         <button
           onClick={handleContinueToInfo}
           disabled={!agreedToTerms}
