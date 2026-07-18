@@ -17,100 +17,107 @@ export const getPackMemberData = async () => {
 
     const userId = gate.userId
 
-    const [user, orders, auctionBids, paymentMethods, adoptionFees, instantBuyers] = await Promise.all([
-      prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          phone: true,
-          anonymousBidding: true,
-          address: true,
-          createdAt: true,
-          autoPay: true,
-          autoPayCoverFees: true,
-          role: true,
-          image: true
-        }
-      }),
-      prisma.order.findMany({
-        where: { userId },
-        include: {
-          items: {
-            select: {
-              id: true,
-              iconKey: true,
-              images: true,
-              isPhysical: true,
-              itemImage: true,
-              itemName: true,
-              price: true,
-              size: true,
-              totalPrice: true,
-              quantity: true,
-              itemType: true
-            }
+    const [user, orders, auctionBids, paymentMethods, adoptionFees, instantBuyers] =
+      await Promise.all([
+        prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phone: true,
+            anonymousBidding: true,
+            address: true,
+            createdAt: true,
+            autoPay: true,
+            autoPayCoverFees: true,
+            role: true,
+            image: true
           }
-        },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.auctionBid.findMany({
-        where: { userId },
-        include: {
-          auctionItem: {
-            include: {
-              photos: {
-                orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
-                take: 1
-              },
-              winningBidder: {
-                select: { userId: true, id: true, winningBidPaymentStatus: true, paidOn: true }
+        }),
+        prisma.order.findMany({
+          where: { userId },
+          include: {
+            items: {
+              select: {
+                id: true,
+                iconKey: true,
+                images: true,
+                isPhysical: true,
+                itemImage: true,
+                itemName: true,
+                price: true,
+                size: true,
+                totalPrice: true,
+                quantity: true,
+                itemType: true
               }
             }
           },
-          auction: {
-            select: { id: true, title: true, status: true, endDate: true, customAuctionLink: true }
-          }
-        },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.paymentMethod.findMany({
-        where: { userId },
-        orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }]
-      }),
-      prisma.adoptionFee.findMany({
-        where: { userId },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.auctionItemInstantBuyer.findMany({
-        where: { userId },
-        include: {
-          auctionItem: {
-            select: {
-              id: true,
-              name: true,
-              photos: {
-                orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
-                take: 1
+          orderBy: { createdAt: 'desc' }
+        }),
+        prisma.auctionBid.findMany({
+          where: { userId },
+          include: {
+            auctionItem: {
+              include: {
+                photos: {
+                  orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+                  take: 1
+                },
+                winningBidder: {
+                  select: { userId: true, id: true, winningBidPaymentStatus: true, paidOn: true }
+                }
+              }
+            },
+            auction: {
+              select: {
+                id: true,
+                title: true,
+                status: true,
+                endDate: true,
+                customAuctionLink: true
               }
             }
           },
-          auction: {
-            select: { id: true }
-          }
-        },
-        orderBy: { createdAt: 'desc' }
-      })
-    ])
+          orderBy: { createdAt: 'desc' }
+        }),
+        prisma.paymentMethod.findMany({
+          where: { userId },
+          orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }]
+        }),
+        prisma.adoptionFee.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'desc' }
+        }),
+        prisma.auctionItemInstantBuyer.findMany({
+          where: { userId },
+          include: {
+            auctionItem: {
+              select: {
+                id: true,
+                name: true,
+                photos: {
+                  orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+                  take: 1
+                }
+              }
+            },
+            auction: {
+              select: { id: true }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        })
+      ])
 
     if (!user) return { success: false, error: 'User not found', data: null }
 
     // ── Orders ────────────────────────────────────────────────────────────────
 
     const donations: Donation[] = orders
-      .filter((o) => o.type === 'ONE_TIME_DONATION')
+      .filter((o) => o.type === 'ONE_TIME_DONATION' && o.status === 'CONFIRMED')
       .map((o) => ({
         id: o.id,
         amount: Number(o.totalAmount),
@@ -119,7 +126,7 @@ export const getPackMemberData = async () => {
       }))
 
     const subscriptions: Subscription[] = orders
-      .filter((o) => o.type === 'RECURRING_DONATION')
+      .filter((o) => o.type === 'RECURRING_DONATION' && o.status === 'CONFIRMED')
       .map((o) => ({
         id: o.id,
         tierName: o.items[0]?.itemName ?? 'Recurring Donation',
@@ -130,7 +137,7 @@ export const getPackMemberData = async () => {
       }))
 
     const multiItemOrders: MultiItemOrder[] = orders
-      .filter((o) => o.type === 'PURCHASE')
+      .filter((o) => o.type === 'PURCHASE' && o.status === 'CONFIRMED')
       .map((o) => ({
         id: o.id,
         type: o.type,
@@ -179,7 +186,10 @@ export const getPackMemberData = async () => {
 
     // ── Auction participation ─────────────────────────────────────────────────
 
-    const byAuction = new Map<string, AuctionParticipation & { itemMap: Map<string, ParticipationItem> }>()
+    const byAuction = new Map<
+      string,
+      AuctionParticipation & { itemMap: Map<string, ParticipationItem> }
+    >()
 
     for (const bid of auctionBids) {
       const auction = bid.auction
@@ -237,10 +247,12 @@ export const getPackMemberData = async () => {
       }
     }
 
-    const auctionParticipation: AuctionParticipation[] = [...byAuction.values()].map(({ itemMap, ...group }) => ({
-      ...group,
-      items: [...itemMap.values()]
-    }))
+    const auctionParticipation: AuctionParticipation[] = [...byAuction.values()].map(
+      ({ itemMap, ...group }) => ({
+        ...group,
+        items: [...itemMap.values()]
+      })
+    )
 
     // ── Adoption fees ─────────────────────────────────────────────────────────
 
