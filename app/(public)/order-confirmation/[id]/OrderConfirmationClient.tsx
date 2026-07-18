@@ -32,7 +32,7 @@ export default function OrderConfirmationClient({ order }) {
   const searchParams = useSearchParams()
   const isNewOrder = searchParams.get('ref') === 'new'
   const isAdminView = searchParams.get('ref') === 'admin'
-  const myPackTab = searchParams.get('ref')
+  const myPackTab = !isNewOrder && !isAdminView ? searchParams.get('ref') : ''
 
   useEffect(() => {
     dispatch(clearCart())
