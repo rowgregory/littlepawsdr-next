@@ -19,14 +19,14 @@ export function CardElementField({ onChange }: Props) {
       <div
         role="group"
         aria-labelledby="card-label"
-        className="px-3.5 py-3.5 border-2 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark transition-colors duration-200 focus-within:border-primary-light dark:focus-within:border-primary-dark"
+        className="px-3.5 py-3.5 border-2 border-border-light dark:border-border-dark bg-white dark:bg-surface-dark transition-colors duration-200 focus-within:border-primary-light dark:focus-within:border-primary-dark"
       >
         <CardElement
           onChange={(e) => onChange({ complete: e.complete, error: e.error?.message ?? null })}
           options={{
             style: {
               base: {
-                color: isDark ? '#f1f0ff' : '#ffffff',
+                color: isDark ? '#f1f0ff' : '#09090b',
                 backgroundColor: 'transparent',
                 fontSize: '14px',
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
