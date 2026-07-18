@@ -53,14 +53,17 @@ export function Step2Info({
       {/* ── Bypass code ── */}
       <div className="border border-border-light dark:border-border-dark p-5 mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+          <span
+            className="block w-4 h-px bg-primary-light dark:bg-primary-dark"
+            aria-hidden="true"
+          />
           <p className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
             Have a Bypass Code?
           </p>
         </div>
         <p className="text-xs text-muted-light dark:text-muted-dark mb-4 leading-relaxed">
-          If you have a code to waive the application fee, enter it below and verify. A successful verification will
-          take you directly to the application — no payment required.
+          If you have a code to waive the application fee, enter it below and verify. A successful
+          verification will take you directly to the application — no payment required.
         </p>
         <div className="flex gap-2">
           <input
@@ -110,7 +113,10 @@ export function Step2Info({
       </div>
 
       {/* ── Your info ── */}
-      <h2 id="step-info-heading" className="text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6">
+      <h2
+        id="step-info-heading"
+        className="text-2xl uppercase leading-none text-text-light dark:text-text-dark mb-6"
+      >
         Your Information
       </h2>
 
@@ -122,6 +128,7 @@ export function Step2Info({
             label="First Name"
             value={inputs.firstName}
             onChange={(e) => patch({ firstName: e.target.value })}
+            className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
             required
           />
           <FormField
@@ -130,6 +137,7 @@ export function Step2Info({
             label="Last Name"
             value={inputs.lastName}
             onChange={(e) => patch({ lastName: e.target.value })}
+            className="flex-1 px-4 py-3 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark placeholder:text-muted-light dark:placeholder:text-muted-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition"
             required
           />
         </div>
@@ -161,15 +169,24 @@ export function Step2Info({
                 aria-hidden="true"
               />
             ) : (
-              <Info className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5" aria-hidden="true" />
+              <Info
+                className="w-4 h-4 text-primary-light dark:text-primary-dark shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
             )}
             <div className="text-sm">
               <div className="flex items-center gap-2 mb-1">
-                <p className="font-semibold text-text-light dark:text-text-dark">Application Fee:</p>
+                <p className="font-semibold text-text-light dark:text-text-dark">
+                  Application Fee:
+                </p>
                 {bypassPayment ? (
                   <div className="flex items-center gap-1.5">
-                    <span className="line-through text-muted-light dark:text-muted-dark text-xs">$15</span>
-                    <span className="font-semibold text-primary-light dark:text-primary-dark">$0</span>
+                    <span className="line-through text-muted-light dark:text-muted-dark text-xs">
+                      $15
+                    </span>
+                    <span className="font-semibold text-primary-light dark:text-primary-dark">
+                      $0
+                    </span>
                   </div>
                 ) : (
                   <span className="font-semibold text-text-light dark:text-text-dark">$15</span>
