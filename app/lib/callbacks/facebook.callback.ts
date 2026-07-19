@@ -15,7 +15,11 @@ interface FacebookProfile extends Profile {
   }
 }
 
-export async function handleFacebookCallback(user: User, account: Account, profile: FacebookProfile): Promise<boolean> {
+export async function handleFacebookCallback(
+  user: User,
+  account: Account,
+  profile: FacebookProfile
+): Promise<boolean> {
   if (!user.email) {
     await createLog('warn', 'Facebook sign-in missing email', { profile })
     return false
@@ -58,8 +62,8 @@ export async function handleFacebookCallback(user: User, account: Account, profi
             lastGeoCity: details.geoCity,
             lastGeoRegion: details.geoRegion,
             lastGeoCountry: details.geoCountry,
-            firstName: profile?.first_name || existingUser.firstName,
-            lastName: profile?.last_name || existingUser.lastName,
+            firstName: existingUser.firstName || profile?.first_name,
+            lastName: existingUser.lastName || profile?.last_name,
             image: profile?.picture?.data?.url || existingUser.image
           }
         }),

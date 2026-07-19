@@ -19,7 +19,7 @@ export function MyPackNav({ active }: { active: MyPackTab }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="hidden lg:flex items-center border-b border-border-light dark:border-border-dark"
+        className="hidden sm:flex items-center border-b border-border-light dark:border-border-dark"
       >
         {TABS.map(({ id, label, icon: Icon }) => {
           const isActive = active === id
@@ -49,22 +49,21 @@ export function MyPackNav({ active }: { active: MyPackTab }) {
 
       {/* ── Mobile floating bottom bar — liquid glass ── */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 20, x: '-50%' }}
+        animate={{ opacity: 1, y: 0, x: '-50%' }}
         transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+        className="sm:hidden fixed bottom-4 left-1/2 z-50"
         role="navigation"
         aria-label="My Pack navigation"
-        style={{ x: '-50%' }}
       >
         <div
-          className="flex items-center px-2 py-2 gap-1"
+          className="flex items-center px-1.5 py-1.5 gap-1 rounded-full"
           style={{
-            background: 'rgba(255, 255, 255, 0.55)',
+            background: 'rgba(255, 255, 255, 0.12)',
             backdropFilter: 'blur(40px) saturate(180%)',
             WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-            boxShadow:
-              '0 8px 32px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.8) inset, 0 0 0 0.5px rgba(0,0,0,0.08)'
+            boxShadow: `0 1px 1px rgba(255,255,255,0.5) inset, 0 -1px 1px rgba(0,0,0,0.05) inset, 0 8px 24px rgba(0,0,0,0.12)`,
+            border: '1px solid rgba(255,255,255,0.3)'
           }}
         >
           {TABS.map(({ id, label, icon: Icon }) => {
@@ -75,16 +74,16 @@ export function MyPackNav({ active }: { active: MyPackTab }) {
                 onClick={() => navigate(id)}
                 aria-label={label}
                 aria-current={isActive ? 'page' : undefined}
-                className="relative flex flex-col items-center justify-center gap-1 px-5 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
+                className="relative flex items-center justify-center w-11 h-11 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light"
               >
                 {isActive && (
                   <motion.span
                     layoutId="mobile-nav-pill"
                     transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                    className="absolute inset-0"
+                    className="absolute inset-0 rounded-full"
                     style={{
-                      background: 'rgba(255,255,255,0.7)',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.06)'
+                      background: 'rgba(255, 255, 255, 0.25)',
+                      boxShadow: '0 1px 1px rgba(255,255,255,0.6) inset, 0 2px 6px rgba(0,0,0,0.08)'
                     }}
                   />
                 )}
@@ -95,14 +94,6 @@ export function MyPackNav({ active }: { active: MyPackTab }) {
                   }}
                   aria-hidden="true"
                 />
-                <span
-                  className="relative text-[9px] font-mono tracking-[0.15em] uppercase transition-colors"
-                  style={{
-                    color: isActive ? 'var(--color-primary-light)' : 'rgba(0,0,0,0.4)'
-                  }}
-                >
-                  {label}
-                </span>
               </button>
             )
           })}

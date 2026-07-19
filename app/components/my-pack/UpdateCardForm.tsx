@@ -48,7 +48,11 @@ export function UpdateCardForm({
       if (!result.success) throw new Error(result.error ?? 'Failed to update card')
 
       dispatch(
-        showToast({ message: 'Card updated', description: 'Your payment method has been updated.', type: 'success' })
+        showToast({
+          message: 'Card updated',
+          description: 'Your payment method has been updated.',
+          type: 'success'
+        })
       )
       onSuccess()
     } catch (err) {
@@ -136,7 +140,7 @@ export function UpdateCardForm({
               <motion.span
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current "
+                className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
                 aria-hidden="true"
               />
               Updating...

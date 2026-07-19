@@ -124,7 +124,7 @@ export function Header({
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                    className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current"
+                    className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
                     aria-hidden="true"
                   />
                 ) : (

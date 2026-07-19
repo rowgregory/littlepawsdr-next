@@ -60,6 +60,7 @@ export function Subscriptions({ subscriptions }) {
                   <Link
                     href={`/my-pack/subscription/${sub.id}?ref=?tab=giving`}
                     aria-label={`View details for ${sub.tierName} subscription`}
+                    title={`View details for ${sub.tierName} subscription`}
                     className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:underline"
                   >
                     View details →

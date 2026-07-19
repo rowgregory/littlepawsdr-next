@@ -129,7 +129,7 @@ export const getPackMemberData = async () => {
       .filter((o) => o.type === 'RECURRING_DONATION' && o.status === 'CONFIRMED')
       .map((o) => ({
         id: o.id,
-        tierName: o.items[0]?.itemName ?? 'Recurring Donation',
+        tierName: o.tierName ?? 'Recurring Donation',
         amount: Number(o.totalAmount),
         interval: o.recurringFrequency ?? 'MONTHLY',
         status: o.status,

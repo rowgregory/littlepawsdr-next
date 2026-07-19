@@ -15,7 +15,9 @@ export function OrderFulfillmentSection({ order }: { order: SerializedOrder }) {
   const [shippedLocally, setShippedLocally] = useState(false)
   const router = useRouter()
 
-  const address = [order.addressLine1, order.addressLine2, order.city, order.state].filter(Boolean).join(', ')
+  const address = [order.addressLine1, order.addressLine2, order.city, order.state]
+    .filter(Boolean)
+    .join(', ')
   const itemCount = order.items.reduce((s, i) => s + (i.quantity ?? 1), 0)
   const destination = [order.city, order.state].filter(Boolean).join(', ')
   const isShipped = order.shippingStatus === 'SHIPPED' || shippedLocally
@@ -43,7 +45,8 @@ export function OrderFulfillmentSection({ order }: { order: SerializedOrder }) {
         showToast({
           type: 'error',
           message: `Couldn't mark order #${order.id.slice(-8)} as shipped`,
-          description: err instanceof Error ? err.message : 'Something went wrong — please try again',
+          description:
+            err instanceof Error ? err.message : 'Something went wrong — please try again',
           duration: 6000
         })
       )
@@ -90,7 +93,7 @@ export function OrderFulfillmentSection({ order }: { order: SerializedOrder }) {
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current"
+                  className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
                   aria-hidden="true"
                 />
                 Marking...

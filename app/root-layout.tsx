@@ -11,7 +11,7 @@ import { usePathname, useRouter, useSelectedLayoutSegments } from 'next/navigati
 import { HIDDEN_PATHS } from './lib/constants/navigation.constants'
 import { stripePromise } from './lib/stripe/stripe-promise'
 import { pusherClient } from './lib/pusher/pusher-client'
-import NavigationDrawer from './components/layout/NavigationDrawer'
+import NavigationDrawer from './components/layout/navigation-drawer/NavigationDrawer'
 import { AuctionEndedData, AuctionStartedData } from 'types/_auction'
 import Header from './components/layout/header/Header'
 import Footer from './components/layout/footer/Footer'
@@ -21,6 +21,7 @@ import { CartToast } from './components/features/cart/CartToast'
 import PublicContactModal from './components/features/home/PublicContactModal'
 import { CartPersistence } from './components/features/cart/CartPersistence'
 import { AuctionEndedModal } from './components/features/auction'
+import { AuthRedirectWatcher } from './components/features/login/AuthRedirectWatcher'
 
 interface Props {
   children: ReactNode
@@ -80,6 +81,9 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee, isAuthed }:
     <Provider store={store}>
       <ThemeProvider>
         <Elements stripe={stripePromise}>
+          <Suspense fallback={null}>
+            <AuthRedirectWatcher />
+          </Suspense>
           <Toast />
           <Confetti3D burstTrigger={burstTrigger} />
           <AuctionEndedModal data={auctionEndedData} onClose={() => setAuctionEndedData(null)} />

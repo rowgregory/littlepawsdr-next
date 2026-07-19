@@ -16,7 +16,9 @@ function StatPill({ label, value }: { label: string; value: string }) {
       <span className="text-[10px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
         {label}
       </span>
-      <span className="text-sm font-semibold text-text-light dark:text-text-dark truncate">{value}</span>
+      <span className="text-sm font-semibold text-text-light dark:text-text-dark truncate">
+        {value}
+      </span>
     </div>
   )
 }
@@ -25,7 +27,10 @@ function StatPill({ label, value }: { label: string; value: string }) {
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <span className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+      <span
+        className="block w-6 h-px bg-primary-light dark:bg-primary-dark shrink-0"
+        aria-hidden="true"
+      />
       <h2 className="text-xs font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
         {children}
       </h2>
@@ -151,9 +156,15 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
   }
 
   return (
-    <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+    <main
+      id="main-content"
+      className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+    >
       {/* ── Breadcrumb ── */}
-      <nav aria-label="Breadcrumb" className="sticky top-0 px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+      <nav
+        aria-label="Breadcrumb"
+        className="1200:sticky 1200:top-0 px-4 sm:px-6 lg:px-8 pt-6 pb-2"
+      >
         <ol className="max-w-180 1000:max-w-240 1200:max-w-300 mx-auto flex items-center gap-2 text-xs text-muted-light dark:text-muted-dark flex-wrap">
           <li>
             <Link
@@ -182,7 +193,7 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
       <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <div className="max-w-180 1000:max-w-240 1200:max-w-300 mx-auto grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-14 items-start">
           {/* ══ LEFT — Gallery ══════════════════════════════════════════════ */}
-          <div className="sticky top-12">
+          <div className="1200:sticky 1200:top-12">
             {/* Main image */}
             <div className="relative overflow-hidden  bg-surface-light dark:bg-surface-dark aspect-square sm:aspect-4/3">
               <Picture
@@ -267,7 +278,11 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                   </svg>
                 </button>
               )}
-              <div className="flex gap-2 flex-1 overflow-hidden" role="list" aria-label="Photo thumbnails">
+              <div
+                className="flex gap-2 flex-1 overflow-hidden"
+                role="list"
+                aria-label="Photo thumbnails"
+              >
                 {visibleThumbs.map((photo, i) => {
                   const realIdx = thumbStart + i
                   return (
@@ -348,7 +363,11 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
               </p>
 
               {/* Qualities */}
-              <div className="flex flex-wrap gap-2 mt-4" role="list" aria-label="Traits and qualities">
+              <div
+                className="flex flex-wrap gap-2 mt-4"
+                role="list"
+                aria-label="Traits and qualities"
+              >
                 {a?.qualities?.map((q) => (
                   <span
                     key={q}
@@ -394,7 +413,11 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                     ok: !a?.isYardRequired,
                     note: a?.isYardRequired ? 'Preferred' : 'Not required'
                   },
-                  { label: 'Special Needs', ok: !a?.isSpecialNeeds, note: a?.isSpecialNeeds ? 'Yes' : 'No' },
+                  {
+                    label: 'Special Needs',
+                    ok: !a?.isSpecialNeeds,
+                    note: a?.isSpecialNeeds ? 'Yes' : 'No'
+                  },
                   { label: 'Adults OK', ok: true, note: a?.adultSexesOk }
                 ].map(({ label, ok, note }) => (
                   <div
@@ -406,8 +429,12 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                       className={`w-2 h-2  shrink-0 ${ok ? 'bg-primary-light dark:bg-primary-dark' : 'bg-secondary-light dark:bg-secondary-dark'}`}
                     />
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-text-light dark:text-text-dark">{label}</p>
-                      {note && <p className="text-[10px] text-muted-light dark:text-muted-dark">{note}</p>}
+                      <p className="text-xs font-medium text-text-light dark:text-text-dark">
+                        {label}
+                      </p>
+                      {note && (
+                        <p className="text-[10px] text-muted-light dark:text-muted-dark">{note}</p>
+                      )}
                     </div>
                     <span className="sr-only">{ok ? 'Yes' : 'No'}</span>
                   </div>
@@ -468,7 +495,9 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                             <span className="text-muted-light dark:text-muted-dark uppercase tracking-wide text-[10px]">
                               {pill.label}
                             </span>
-                            <span className="text-text-light dark:text-text-dark font-semibold">{pill.value}</span>
+                            <span className="text-text-light dark:text-text-dark font-semibold">
+                              {pill.value}
+                            </span>
                           </span>
                         ))}
                       </div>
@@ -489,7 +518,10 @@ export default function DachshundDetailClient({ data }: { data: Dog }) {
                           </h3>
                         )}
                         {section.body.split('\n\n').map((para, j) => (
-                          <p key={j} className="text-sm text-text-light dark:text-text-dark leading-relaxed mb-3">
+                          <p
+                            key={j}
+                            className="text-sm text-text-light dark:text-text-dark leading-relaxed mb-3"
+                          >
                             {para}
                           </p>
                         ))}

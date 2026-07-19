@@ -33,7 +33,7 @@ export default function Header({ auction, hasActiveFee, isAuthed }) {
         {/* ── Top Bar (desktop/tablet only) ── */}
         <header
           role="banner"
-          className="hidden sm:block pr-3.25 1336:pr-0 w-full mx-auto bg-red-600 bg-topbar-light dark:bg-topbar-dark relative z-100 h-11 "
+          className="hidden sm:block pr-3.25 1336:pr-0 w-full mx-auto bg-topbar-light dark:bg-topbar-dark relative z-100 h-11 "
         >
           <div className="max-w-334 mx-auto flex items-center justify-between h-11">
             <div className="flex items-center space-x-4 lg:space-x-10">

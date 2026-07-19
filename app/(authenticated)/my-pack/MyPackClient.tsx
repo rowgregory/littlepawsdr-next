@@ -108,13 +108,21 @@ export default function MyPackClient({
       })
 
       if (!result.success) throw new Error(result.error ?? 'Failed to update name')
-      dispatch(showToast({ message: 'Name updated', type: 'success' }))
+      dispatch(
+        showToast({
+          message: 'Name updated',
+          description: `Your name is now ${firstNameInput.trim()} ${lastNameInput.trim()}.`,
+          type: 'success'
+        })
+      )
       setEditingName(false)
       router.refresh()
     } catch (err) {
       dispatch(
         showToast({
-          message: err instanceof Error ? err.message : 'Failed to update name',
+          message: 'Failed to update name',
+          description:
+            err instanceof Error ? err.message : 'Something went wrong. Please try again.',
           type: 'error'
         })
       )

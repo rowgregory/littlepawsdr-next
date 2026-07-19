@@ -12,20 +12,29 @@ import { addToCart } from 'app/lib/store/slices/cartSlice'
 import { setOpenCartToast } from 'app/lib/store/slices/uiSlice'
 import { WELCOME_WIENER_CATEGORY_LABELS } from 'app/lib/constants/welcome-wiener.constants'
 
-export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWiener: IWelcomeWiener }) {
+export default function PublicWelcomeWienerClient({
+  welcomeWiener
+}: {
+  welcomeWiener: IWelcomeWiener
+}) {
   const dispatch = useAppDispatch()
   const [photoIndex, setPhotoIndex] = useState(0)
   const [added, setAdded] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
-  const [activeCategory, setActiveCategory] = useState<WelcomeWienerProduct['category'] | 'all'>('all')
+  const [activeCategory, setActiveCategory] = useState<WelcomeWienerProduct['category'] | 'all'>(
+    'all'
+  )
 
   const allImages = [...(welcomeWiener.images ?? [])]
 
   const products = (welcomeWiener.associatedProducts ?? []) as WelcomeWienerProduct[]
 
-  const categories = [...new Set(products.map((p) => p.category))] as WelcomeWienerProduct['category'][]
+  const categories = [
+    ...new Set(products.map((p) => p.category))
+  ] as WelcomeWienerProduct['category'][]
 
-  const filteredProducts = activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory)
+  const filteredProducts =
+    activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory)
 
   const handleAddToCart = (product: WelcomeWienerProduct) => {
     if (added.includes(product.id)) return
@@ -34,7 +43,7 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
 
     const cartItem = {
       id: product.id,
-      name: product.name,
+      name: `${product.name} for ${welcomeWiener.name}`,
       image: welcomeWiener.images[0] ?? null,
       price: product.price,
       quantity: 1,
@@ -63,7 +72,10 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
   const totalNeeded = products.reduce((sum, p) => sum + p.price, 0)
 
   return (
-    <main id="main-content" className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+    <main
+      id="main-content"
+      className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-24 sm:pb-32">
         {/* ── Back ── */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="mb-8">
@@ -182,7 +194,10 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
             {/* ── Header ── */}
             <motion.div variants={fadeUp} initial="hidden" animate="show" custom={2}>
               <div className="flex items-center gap-3 mb-3">
-                <span className="block w-5 h-px bg-primary-light dark:bg-primary-dark" aria-hidden="true" />
+                <span
+                  className="block w-5 h-px bg-primary-light dark:bg-primary-dark"
+                  aria-hidden="true"
+                />
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                   Welcome Wiener
                 </p>
@@ -194,7 +209,9 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                     {welcomeWiener.name ?? 'Unknown'}
                   </h1>
                   {welcomeWiener.age && (
-                    <p className="text-sm font-mono text-muted-light dark:text-muted-dark mt-1">{welcomeWiener.age}</p>
+                    <p className="text-sm font-mono text-muted-light dark:text-muted-dark mt-1">
+                      {welcomeWiener.age}
+                    </p>
                   )}
                 </div>
 
@@ -225,7 +242,9 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                         className="flex items-center gap-1.5"
                       >
                         <Share2 className="w-3.5 h-3.5" aria-hidden="true" />
-                        <span className="text-[10px] font-mono tracking-[0.15em] uppercase">Share</span>
+                        <span className="text-[10px] font-mono tracking-[0.15em] uppercase">
+                          Share
+                        </span>
                       </motion.span>
                     )}
                   </AnimatePresence>
@@ -245,7 +264,9 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark mb-3">
                   About
                 </p>
-                <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">{welcomeWiener.bio}</p>
+                <p className="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+                  {welcomeWiener.bio}
+                </p>
               </motion.div>
             )}
 
@@ -265,14 +286,19 @@ export default function PublicWelcomeWienerClient({ welcomeWiener }: { welcomeWi
                       Items Needed
                     </p>
                     <p className="text-xs font-mono text-muted-light/60 dark:text-muted-dark/60">
-                      {products.length} item{products.length !== 1 ? 's' : ''} · ${totalNeeded} total
+                      {products.length} item{products.length !== 1 ? 's' : ''} · ${totalNeeded}{' '}
+                      total
                     </p>
                   </div>
                 </div>
 
                 {/* Category filters */}
                 {categories.length > 1 && (
-                  <div className="flex flex-wrap gap-1.5 mb-4" role="group" aria-label="Filter by category">
+                  <div
+                    className="flex flex-wrap gap-1.5 mb-4"
+                    role="group"
+                    aria-label="Filter by category"
+                  >
                     <button
                       type="button"
                       onClick={() => setActiveCategory('all')}

@@ -42,8 +42,8 @@ export async function handleGoogleCallback(
         lastGeoCity: details.geoCity,
         lastGeoRegion: details.geoRegion,
         lastGeoCountry: details.geoCountry,
-        firstName: profile?.given_name || existingUser.firstName,
-        lastName: profile?.family_name || existingUser.lastName,
+        firstName: existingUser.firstName || profile?.given_name,
+        lastName: existingUser.lastName || profile?.family_name,
         image: profile?.picture || existingUser.image,
         emailVerified: existingUser.emailVerified ?? new Date()
       }

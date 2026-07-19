@@ -41,7 +41,10 @@ export function CancelSubscriptionModal({
         <div className="flex items-start justify-between px-6 py-5 border-b border-border-light dark:border-border-dark">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <AlertTriangle className="w-3.5 h-3.5 text-red-500 dark:text-red-400" aria-hidden="true" />
+              <AlertTriangle
+                className="w-3.5 h-3.5 text-red-500 dark:text-red-400"
+                aria-hidden="true"
+              />
               <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-red-500 dark:text-red-400">
                 Cancel Subscription
               </p>
@@ -90,7 +93,7 @@ export function CancelSubscriptionModal({
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                    className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current"
+                    className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
                     aria-hidden="true"
                   />
                   Cancelling...

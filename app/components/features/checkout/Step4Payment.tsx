@@ -92,7 +92,9 @@ export function Step4Payment({
             useNewCard={inputs.useNewCard}
             onSelectCard={(id) => patch({ selectedCardId: id, useNewCard: false })}
             onUseNewCard={() => patch({ useNewCard: true, selectedCardId: null })}
-            onUseSavedCard={() => patch({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null })}
+            onUseSavedCard={() =>
+              patch({ useNewCard: false, selectedCardId: savedCards[0]?.stripePaymentId ?? null })
+            }
           />
         </motion.div>
       )}
@@ -101,13 +103,21 @@ export function Step4Payment({
       {enteringNewCard && (
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4} className="mb-6">
           <CardElementField
-            onChange={({ complete, error }) => patch({ cardComplete: complete, error: error ?? null })}
+            onChange={({ complete, error }) =>
+              patch({ cardComplete: complete, error: error ?? null })
+            }
           />
         </motion.div>
       )}
 
       {/* Options */}
-      <motion.div variants={fadeUp} initial="hidden" animate="show" custom={4.5} className="mb-6 space-y-2">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="show"
+        custom={4.5}
+        className="mb-6 space-y-2"
+      >
         <CoverFeesToggle
           checked={inputs.coverFees}
           onChange={() => patch({ coverFees: !inputs.coverFees })}
@@ -156,7 +166,7 @@ export function Step4Payment({
               <motion.span
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current "
+                className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
                 aria-hidden="true"
               />
               Processing...

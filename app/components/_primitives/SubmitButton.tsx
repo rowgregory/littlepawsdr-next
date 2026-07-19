@@ -32,7 +32,7 @@ export function SubmitButton({ loading, isValid, label, price, onClick }: Props)
           <motion.span
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current"
+            className="block w-3.5 h-3.5 border-2 border-current/30 border-t-current rounded-full"
             aria-hidden="true"
           />
           Processing...
@@ -43,7 +43,9 @@ export function SubmitButton({ loading, isValid, label, price, onClick }: Props)
             {label}
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </span>
-          <span className="flex items-center justify-center px-5 py-4 bg-black/10 tabular-nums">{price}</span>
+          <span className="flex items-center justify-center px-5 py-4 bg-black/10 tabular-nums">
+            {price}
+          </span>
         </>
       ) : (
         <span className="flex flex-1 items-center justify-center gap-2 py-4">
