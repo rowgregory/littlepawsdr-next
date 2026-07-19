@@ -47,10 +47,6 @@ export function getOrderEmailSubject(order: OrderWithItems): string {
 }
 
 // ─── Colors (WCAG AA compliant against white/light backgrounds) ───────────────
-// #09090b on #ffffff → ~19.6:1
-// #3f3f46 on #ffffff → ~9.6:1  (body copy)
-// #155e75 on #ffffff → ~7.8:1  (links/accent, replaces #0891b2 which was ~3.8:1)
-// #52525b on #ffffff → ~7.0:1  (footer/legal, replaces #a1a1aa which was ~2.6:1)
 
 const COLOR = {
   heading: '#09090b',
@@ -68,15 +64,17 @@ const fmt = (amount: number | string) => `$${Number(amount).toFixed(2)}`
 const fmtDate = (date: Date | string) =>
   new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
+// Uses <th scope="row"> for the label so screen readers announce
+// "Label: Value" correctly instead of reading two unrelated cells.
 const row = (label: string, value: string) => `
   <tr>
-    <td style="padding: 12px 0; border-bottom: 1px solid ${COLOR.border}; color: ${COLOR.body}; font-size: 13px; width: 160px;">${label}</td>
+    <th scope="row" style="padding: 12px 0; border-bottom: 1px solid ${COLOR.border}; color: ${COLOR.body}; font-size: 13px; width: 160px; font-weight: 400; text-align: left;">${label}</th>
     <td style="padding: 12px 0; border-bottom: 1px solid ${COLOR.border}; color: ${COLOR.heading}; font-size: 14px; font-weight: 700; text-align: right; font-family: 'Courier New', monospace;">${value}</td>
   </tr>`
 
 const accentRow = (label: string, value: string) => `
   <tr>
-    <td style="padding: 16px 0 0 0; color: ${COLOR.heading}; font-size: 14px; font-weight: 700;">${label}</td>
+    <th scope="row" style="padding: 16px 0 0 0; color: ${COLOR.heading}; font-size: 14px; font-weight: 700; text-align: left;">${label}</th>
     <td style="padding: 16px 0 0 0; color: ${COLOR.accent}; font-size: 16px; text-align: right; font-family: 'Courier New', monospace; font-weight: 900;">${value}</td>
   </tr>`
 
@@ -188,7 +186,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
 
     <!-- Header label -->
     <div style="margin-bottom: 48px; display: flex; align-items: center; gap: 12px;">
-      <div style="width: 24px; height: 1px; background: ${COLOR.accent};"></div>
+      <div aria-hidden="true" style="width: 24px; height: 1px; background: ${COLOR.accent};"></div>
       <p style="margin: 0; color: ${COLOR.accent}; font-size: 10px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Little Paws Dachshund Rescue
       </p>
@@ -209,7 +207,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
       <p style="margin: 0 0 12px 0; color: ${COLOR.body}; font-size: 9px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Order details
       </p>
-      <table style="width: 100%; border-collapse: collapse;">
+      <table role="table" aria-label="Order details" style="width: 100%; border-collapse: collapse;">
         ${detailRows.join('')}
       </table>
     </div>
@@ -217,7 +215,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
     ${shippingBlock}
 
     <!-- Divider -->
-    <div style="margin: 40px 0; height: 1px; background: ${COLOR.border};"></div>
+    <div aria-hidden="true" style="margin: 40px 0; height: 1px; background: ${COLOR.border};"></div>
 
     ${notices.join('')}
 
@@ -243,8 +241,8 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
 
     <!-- Bottom label -->
     <div style="margin-top: 40px; display: flex; align-items: center; gap: 12px;">
-      <div style="width: 24px; height: 1px; background: ${COLOR.border};"></div>
-      <p style="margin: 0; color: ${COLOR.footer}; font-size: 9px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
+      <div aria-hidden="true" style="width: 24px; height: 1px; background: ${COLOR.border};"></div>
+      <p style="margin: 0; color: ${COLOR.footer}; font-size: 10px; font-family: 'Courier New', monospace; letter-spacing: 0.2em; text-transform: uppercase;">
         Little Paws Dachshund Rescue
       </p>
     </div>
