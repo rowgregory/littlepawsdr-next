@@ -27,6 +27,7 @@ import { MergeUserSection } from 'app/components/admin/user/MergeUserSection'
 import { updateUserRole } from 'app/lib/actions/admin/user/updateUserRole'
 import { getUserById } from 'app/lib/actions/admin/user/getUserById'
 import Picture from 'app/components/_common/Picture'
+import { MigrationTroubleshootPanel } from 'app/components/admin/user/MigrationTroubleShootPanel'
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 
@@ -273,6 +274,9 @@ export default function AdminUserDetailsClient({ user, migrationStatus, loggedIn
 
           {/* ── Right column — orders ── */}
           <div className="space-y-4">
+            {migrationStatus?.hasPendingMigration && (
+              <MigrationTroubleshootPanel userId={user.id} />
+            )}
             {/* Total spent stat */}
             <div className="grid grid-cols-2 gap-3">
               <div className="border border-border-light dark:border-border-dark p-4">

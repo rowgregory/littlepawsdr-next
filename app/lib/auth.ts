@@ -86,7 +86,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         })
 
         if (mongoUser) {
-          migrateMongoUser(user.email, user.id).catch((err) =>
+          await migrateMongoUser(user.email, user.id).catch((err) =>
             createLog('error', 'Mongo migration failed silently', {
               email: user.email,
               error: err instanceof Error ? err.message : 'Unknown error'

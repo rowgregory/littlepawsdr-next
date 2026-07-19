@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { AlertCircle, ArrowRight, CheckCircle, Search } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle, Minus, Search } from 'lucide-react'
 import { formatDate } from 'app/utils/_date.utils'
 import { IUser, RoleFilter } from 'types/_user'
 import { formatRole } from 'app/utils/_user.utils'
@@ -38,6 +38,12 @@ const columns: Column<IUser>[] = [
                 Migrated
               </span>
             )}
+            {user.migrationStatus === 'not-needed' && (
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark bg-bg-light dark:bg-bg-dark text-[8px] font-mono tracking-[0.15em] uppercase shrink-0">
+                <Minus className="w-2.5 h-2.5" aria-hidden="true" />
+                No prior history
+              </span>
+            )}
           </div>
           <p className="text-xs font-mono text-muted-light dark:text-muted-dark mt-0.5">
             {user.email}
@@ -52,9 +58,11 @@ const columns: Column<IUser>[] = [
     cell: (user) => (
       <span
         className={`text-[9px] font-black tracking-widest uppercase px-2 py-1 ${
-          user.role === 'ADMIN' || user.role === 'SUPER_USER'
-            ? 'bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark'
-            : 'bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark'
+          user.role === 'SUPER_USER'
+            ? 'bg-purple-500/15 dark:bg-purple-400/15 text-purple-600 dark:text-purple-400 border border-purple-500/30 dark:border-purple-400/30'
+            : user.role === 'ADMIN'
+              ? 'bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark'
+              : 'bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark'
         }`}
       >
         {formatRole(user.role)}
