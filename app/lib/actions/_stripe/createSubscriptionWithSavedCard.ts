@@ -45,8 +45,10 @@ export async function createSubscriptionWithSavedCard({
     const details = await stampUserGeoFromRequest(userId)
 
     const product = await stripeClient.products.create({
-      name: `${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`,
-      description: `Recurring donation of $${(amount / 100).toFixed(2)}/${frequency === 'MONTHLY' ? 'month' : 'year'}`,
+      name: tierName
+        ? `${tierName} — ${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`
+        : `${frequency === 'MONTHLY' ? 'Monthly' : 'Yearly'} Donation`,
+      description: `Recurring donation of $${(amount / 100).toFixed(2)}/${frequency === 'MONTHLY' ? 'month' : 'year'}${tierName ? ` — ${tierName} tier` : ''}`,
       metadata: { userId, donorName: name || '' }
     })
 
@@ -67,6 +69,7 @@ export async function createSubscriptionWithSavedCard({
         items: [{ price: price.id }],
         default_payment_method: savedCardId,
         payment_settings: { save_default_payment_method: 'on_subscription' },
+        description: `${tierName} donation — ${name || email}`,
         metadata: {
           userId,
           email: email || '',

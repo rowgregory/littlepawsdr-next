@@ -123,8 +123,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
         geoRegion: geoUser?.lastGeoRegion ?? null,
         geoCountry: geoUser?.lastGeoCountry ?? null,
         geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null
-      },
-      include: { items: true }
+      }
     })
 
     // ── Now create order items using the already-fetched products/wieners ──
@@ -382,23 +381,28 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
       }
     }
 
-    await sendConfirmationEmail(order)
+    const orderWithItems = await prisma.order.findUniqueOrThrow({
+      where: { id: order.id },
+      include: { items: true }
+    })
 
-    if (hasPhysical && order.addressLine1) {
+    await sendConfirmationEmail(orderWithItems)
+
+    if (hasPhysical && orderWithItems.addressLine1) {
       await resend.emails.send({
         from: 'Little Paws Dachshund Rescue <orders@littlepawsdr.org>',
-        to: 'info@littlepawsdr.org',
-        subject: `New order to ship — #${order.id.slice(-8).toUpperCase()}`,
+        to: 'lpdr@littlepawsdr.org',
+        subject: `New order to ship — #${orderWithItems.id.slice(-8).toUpperCase()}`,
         html: adminOrderNotificationTemplate({
-          orderId: order.id,
-          customerName: order.customerName,
-          customerEmail: order.customerEmail,
-          items: order.items.map((i) => ({ name: i.itemName, quantity: i.quantity })),
-          addressLine1: order.addressLine1,
-          addressLine2: order.addressLine2,
-          city: order.city,
-          state: order.state,
-          zipPostalCode: order.zipPostalCode
+          orderId: orderWithItems.id,
+          customerName: orderWithItems.customerName,
+          customerEmail: orderWithItems.customerEmail,
+          items: orderWithItems.items.map((i) => ({ name: i.itemName, quantity: i.quantity })),
+          addressLine1: orderWithItems.addressLine1,
+          addressLine2: orderWithItems.addressLine2,
+          city: orderWithItems.city,
+          state: orderWithItems.state,
+          zipPostalCode: orderWithItems.zipPostalCode
         })
       })
     }

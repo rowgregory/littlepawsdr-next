@@ -62,16 +62,19 @@ export default function Footer() {
 
             <address className="not-italic mt-6 space-y-1.5">
               <div className="flex items-center gap-3">
-                <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+                <span
+                  className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0"
+                  aria-hidden="true"
+                />
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                   Contact
                 </p>
               </div>
               <a
-                href="mailto:info@littlepawsdr.org"
+                href="mailto:lpdr@littlepawsdr.org"
                 className="block text-sm font-mono text-on-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark pl-7"
               >
-                info@littlepawsdr.org
+                lpdr@littlepawsdr.org
               </a>
             </address>
 
@@ -98,7 +101,10 @@ export default function Footer() {
           {/* Col 3 — Nav ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+              <span
+                className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0"
+                aria-hidden="true"
+              />
               <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                 Quick Links
               </h2>
@@ -126,7 +132,10 @@ export default function Footer() {
           {/* Col 4 — Newsletter ── */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <span className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0" aria-hidden="true" />
+              <span
+                className="block w-4 h-px bg-primary-light dark:bg-primary-dark shrink-0"
+                aria-hidden="true"
+              />
               <h2 className="text-[10px] font-mono tracking-[0.2em] uppercase text-primary-light dark:text-primary-dark">
                 Newsletter
               </h2>
@@ -147,7 +156,9 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
                   autoComplete="email"
-                  aria-describedby={error ? 'newsletter-error' : success ? 'newsletter-success' : undefined}
+                  aria-describedby={
+                    error ? 'newsletter-error' : success ? 'newsletter-success' : undefined
+                  }
                   className="w-full bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm font-mono text-white placeholder:text-on-dark focus:outline-none focus:border-primary-light dark:focus:border-primary-dark transition-colors"
                 />
               </div>
@@ -161,7 +172,11 @@ export default function Footer() {
               </button>
 
               {error && (
-                <p id="newsletter-error" role="alert" className="text-[10px] font-mono tracking-widest text-red-400">
+                <p
+                  id="newsletter-error"
+                  role="alert"
+                  className="text-[10px] font-mono tracking-widest text-red-400"
+                >
                   {error}
                 </p>
               )}

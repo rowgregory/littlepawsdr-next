@@ -48,7 +48,7 @@ export async function requestEmailChange(newEmail: string): Promise<{
 
     await Promise.all([
       resend.emails.send({
-        from: 'Little Paws Dachshund Rescue <info@littlepawsdr.org>',
+        from: 'Little Paws Dachshund Rescue <auth@littlepawsdr.org>',
         to: normalizedEmail,
         subject: 'Verify your new email address',
         html: emailChangeVerificationTemplate({

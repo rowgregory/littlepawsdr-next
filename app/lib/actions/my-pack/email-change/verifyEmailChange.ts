@@ -17,7 +17,10 @@ export async function verifyEmailChange(token: string): Promise<{
 
     if (record.expiresAt < new Date()) {
       await prisma.emailChangeToken.delete({ where: { token } })
-      return { success: false, error: 'This verification link has expired. Please request a new one.' }
+      return {
+        success: false,
+        error: 'This verification link has expired. Please request a new one.'
+      }
     }
 
     const user = await prisma.user.findUnique({ where: { id: record.userId } })
@@ -40,7 +43,7 @@ export async function verifyEmailChange(token: string): Promise<{
     ])
 
     await resend.emails.send({
-      from: 'Little Paws Dachshund Rescue <info@littlepawsdr.org>',
+      from: 'Little Paws Dachshund Rescue <auth@littlepawsdr.org>',
       to: oldEmail,
       subject: 'Your email address has been changed',
       html: emailChangeNotificationTemplate({

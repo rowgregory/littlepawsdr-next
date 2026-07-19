@@ -99,7 +99,9 @@ export async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         recurringFrequency: frequency as RecurringFrequency,
         coverFees: coverFees,
         feesCovered: feesCovered,
-        paidAt: invoice.status_transitions?.paid_at ? new Date(invoice.status_transitions.paid_at * 1000) : new Date(),
+        paidAt: invoice.status_transitions?.paid_at
+          ? new Date(invoice.status_transitions.paid_at * 1000)
+          : new Date(),
         nextBillingDate: getNextBillingDate(subscription),
         tierName: subscription.metadata.tierName || null,
         geoLatitude: geoUser?.lastGeoLatitude ?? null,
@@ -109,8 +111,7 @@ export async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
         geoCountry: geoUser?.lastGeoCountry ?? null,
         geoSource: geoUser?.lastGeoLatitude != null ? 'ip' : null,
         isFirstPayment
-      },
-      include: { items: true }
+      }
     })
 
     await createLog('info', `Recurring donation ${isFirstPayment ? 'created' : 'renewed'}`, {
@@ -120,9 +121,14 @@ export async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
       isFirstPayment
     })
 
+    const orderWithItems = await prisma.order.findUniqueOrThrow({
+      where: { id: order.id },
+      include: { items: true }
+    })
+
     // Only send confirmation email on first payment
     if (isFirstPayment) {
-      await sendConfirmationEmail(order)
+      await sendConfirmationEmail(orderWithItems)
     }
 
     const channelId = `payment-${subscriptionId}`

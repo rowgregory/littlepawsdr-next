@@ -80,6 +80,7 @@ export async function createSubscriptionAfterSetup({
         payment_settings: {
           save_default_payment_method: 'on_subscription'
         },
+        description: `${tierName} donation — ${name || email}`,
         metadata: {
           userId,
           email: email || '',
@@ -93,7 +94,6 @@ export async function createSubscriptionAfterSetup({
       },
       { idempotencyKey: `sub_${setupIntentId}` }
     )
-
     await createLog('info', 'Subscription created', {
       userId,
       subscriptionId: subscription.id,

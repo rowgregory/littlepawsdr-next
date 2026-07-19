@@ -150,7 +150,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
     notices.push(
       noticeBlock(
         'Need to cancel?',
-        `You can cancel your recurring donation at any time by contacting us at <a href="mailto:info@littlepawsdr.org" style="color: ${COLOR.accent}; text-decoration: underline; font-weight: 500;">info@littlepawsdr.org</a>`
+        `You can cancel your recurring donation at any time by contacting us at <a href="mailto:lpdr@littlepawsdr.org" style="color: ${COLOR.accent}; text-decoration: underline; font-weight: 500;">lpdr@littlepawsdr.org</a>`
       )
     )
   }
@@ -227,8 +227,8 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
         Questions? We&apos;re here to help.
       </p>
       <p style="margin: 0 0 6px 0;">
-        <a href="mailto:info@littlepawsdr.org" style="color: ${COLOR.accent}; text-decoration: underline; font-size: 13px;">
-          info@littlepawsdr.org
+        <a href="mailto:lpdr@littlepawsdr.org" style="color: ${COLOR.accent}; text-decoration: underline; font-size: 13px;">
+          lpdr@littlepawsdr.org
         </a>
       </p>
     </div>

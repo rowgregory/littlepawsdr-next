@@ -36,7 +36,7 @@ export const updateOrderShippingStatus = async ({
 
       const firstName = order.customerName.split(' ')[0]
       const { error: emailError } = await resend.emails.send({
-        from: 'Little Paws Dachshund Rescue <info@littlepawsdr.org>',
+        from: 'Little Paws Dachshund Rescue <orders@littlepawsdr.org>',
         to: order.customerEmail,
         subject: 'Your order is on its way',
         html: orderShippedTemplate({

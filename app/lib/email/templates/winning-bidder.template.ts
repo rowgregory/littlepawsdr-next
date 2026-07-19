@@ -122,8 +122,8 @@ export const auctionWinningBidderTemplate = ({
         Questions? We&apos;re here to help.
       </p>
       <p style="margin: 0 0 6px 0;">
-        <a href="mailto:info@littlepawsdr.org" style="color: #0891b2; font-size: 14px;">
-          info@littlepawsdr.org
+        <a href="mailto:lpdr@littlepawsdr.org" style="color: #0891b2; font-size: 14px;">
+          lpdr@littlepawsdr.org
         </a>
       </p>
     </div>
