@@ -22,6 +22,8 @@ import PublicContactModal from './components/features/home/PublicContactModal'
 import { CartPersistence } from './components/features/cart/CartPersistence'
 import { AuctionEndedModal } from './components/features/auction'
 import { AuthRedirectWatcher } from './components/features/login/AuthRedirectWatcher'
+import { CookieConsentBanner } from './components/layout/CookieConsentBanner'
+import { FixedDonateTab } from './components/layout/FixedDonateTab'
 
 interface Props {
   children: ReactNode
@@ -84,6 +86,8 @@ export function RootLayoutWrapper({ children, auction, hasActiveFee, isAuthed }:
           <Suspense fallback={null}>
             <AuthRedirectWatcher />
           </Suspense>
+          <CookieConsentBanner />
+          <FixedDonateTab />
           <Toast />
           <Confetti3D burstTrigger={burstTrigger} />
           <AuctionEndedModal data={auctionEndedData} onClose={() => setAuctionEndedData(null)} />
