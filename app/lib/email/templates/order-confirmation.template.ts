@@ -234,7 +234,7 @@ export function orderConfirmationTemplate(order: OrderWithItems): string {
     <!-- Legal -->
     <div style="margin-top: 24px;">
       <p style="margin: 0; font-size: 11px; color: ${COLOR.footer};">
-        <a href="https://www.littlepawsdr.org/privacy" style="color: ${COLOR.footer}; text-decoration: underline; margin-right: 16px;">Privacy Policy</a>
+        <a href="https://www.littlepawsdr.org/privacy-policy" style="color: ${COLOR.footer}; text-decoration: underline; margin-right: 16px;">Privacy Policy</a>
         <a href="https://www.littlepawsdr.org/terms" style="color: ${COLOR.footer}; text-decoration: underline;">Terms of Service</a>
       </p>
     </div>

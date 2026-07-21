@@ -4,7 +4,6 @@ import { RootLayoutWrapper } from './root-layout'
 import { getCachedAuction } from './lib/actions/public/auction/getCachedAuction'
 import { cookies } from 'next/headers'
 import { bebas, nunito, quicksand, workSans } from './fonts'
-import Script from 'next/script'
 
 export { metadata } from './metadata'
 export { viewport } from './viewport'
@@ -18,8 +17,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const hasActiveFee = cookieStore.get('lpdr_active_adoption_fee')?.value === '1'
 
-  // Cheap, DB-free signal for UI purposes only (which nav link to show).
-  // Real auth checks still go through requireAuth()/auth() wherever it matters.
   const isAuthed = !!(
     cookieStore.get('authjs.session-token') ?? cookieStore.get('__Secure-authjs.session-token')
   )
@@ -27,9 +24,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')`}
-        </Script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')`
+          }}
+        />
       </head>
       <body className={fontVariables}>
         <SessionProvider refetchOnWindowFocus={false}>

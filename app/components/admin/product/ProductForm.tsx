@@ -15,6 +15,7 @@ import { ProductSettingsSection } from './ProductSettingsSection'
 import { ProductSummarySection } from './ProductSummarySection'
 import { updateProduct } from 'app/lib/actions/admin/product/updateProduct'
 import { createProduct } from 'app/lib/actions/admin/product/createProduct'
+import { ProductDangerSection } from './ProductDangerSection'
 
 export default function ProductForm({ product }: { product?: IProduct }) {
   const router = useRouter()
@@ -33,7 +34,8 @@ export default function ProductForm({ product }: { product?: IProduct }) {
     images: product?.images ?? []
   })
 
-  const set = <K extends keyof FormState>(k: K, v: FormState[K]) => setForm((f) => ({ ...f, [k]: v }))
+  const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
+    setForm((f) => ({ ...f, [k]: v }))
 
   const hasSizes = form.sizes.length > 0
   const sizesTotal = form.sizes.reduce((sum, s) => sum + (s.quantity || 0), 0)
@@ -55,7 +57,9 @@ export default function ProductForm({ product }: { product?: IProduct }) {
       images: form.images
     }
 
-    const res = isEditing ? await updateProduct({ id: product.id, ...payload }) : await createProduct(payload)
+    const res = isEditing
+      ? await updateProduct({ id: product.id, ...payload })
+      : await createProduct(payload)
 
     setLoading(false)
     if (res.success) router.push('/admin/products')
@@ -74,7 +78,10 @@ export default function ProductForm({ product }: { product?: IProduct }) {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div className="w-px h-4 bg-border-light dark:bg-border-dark" aria-hidden="true" />
-          <Package className="w-3.5 h-3.5 text-primary-light dark:text-primary-dark" aria-hidden="true" />
+          <Package
+            className="w-3.5 h-3.5 text-primary-light dark:text-primary-dark"
+            aria-hidden="true"
+          />
           <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
             {isEditing ? 'Edit Product' : 'New Product'}
           </span>
@@ -100,13 +107,19 @@ export default function ProductForm({ product }: { product?: IProduct }) {
       <div className="max-w-4xl mx-auto px-5 py-8 grid grid-cols-1 1000:grid-cols-12 gap-6">
         <div className="1000:col-span-8 flex flex-col gap-6">
           <ProductIdentitySection form={form} set={set} />
-          <ProductPricingSection form={form} set={set} sizesTotal={sizesTotal} hasSizes={hasSizes} />
+          <ProductPricingSection
+            form={form}
+            set={set}
+            sizesTotal={sizesTotal}
+            hasSizes={hasSizes}
+          />
           <ProductSizesSection form={form} set={set} />
           <ProductImagesSection form={form} set={set} />
         </div>
         <div className="1000:col-span-4 flex flex-col gap-6">
           <ProductSettingsSection form={form} set={set} />
           <ProductSummarySection form={form} countInStock={countInStock} />
+          <ProductDangerSection productId={product.id} productName={form.name ?? ''} />
         </div>
       </div>
     </div>

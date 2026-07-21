@@ -38,7 +38,11 @@ const columns: Column<IAdoptionFee>[] = [
     cell: (f) => (
       <>
         <p className="text-sm font-bold text-text-light dark:text-text-dark">{fullName(f)}</p>
-        {f.email && <p className="font-mono text-[11px] text-muted-light dark:text-muted-dark mt-0.5">{f.email}</p>}
+        {f.email && (
+          <p className="font-mono text-[11px] text-muted-light dark:text-muted-dark mt-0.5">
+            {f.email}
+          </p>
+        )}
       </>
     )
   },
@@ -54,7 +58,8 @@ const columns: Column<IAdoptionFee>[] = [
   },
   {
     header: 'Amount',
-    className: 'font-quicksand font-black text-sm text-text-light dark:text-text-dark whitespace-nowrap',
+    className:
+      'font-quicksand font-black text-sm text-text-light dark:text-text-dark whitespace-nowrap',
     cell: (f) => (f.feeAmount != null ? fmtCurrency(Number(f.feeAmount)) : '—')
   },
   {
@@ -79,14 +84,16 @@ const columns: Column<IAdoptionFee>[] = [
   }
 ]
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+const HISTORICAL_ADOPTION_FEE_TOTAL = 16185
+
 export default function AdminAdoptionFeesClient({ fees }: Props) {
   const [filter, setFilter] = useState<FeeFilter>('ALL')
 
   const stats = useMemo(() => {
-    const total = fees.reduce((sum, f) => sum + Number(f.feeAmount ?? 0), 0) + 16185
+    const siteTotal = fees.reduce((sum, f) => sum + Number(f.feeAmount ?? 0), 0)
     return {
-      total,
+      siteTotal,
+      total: siteTotal + HISTORICAL_ADOPTION_FEE_TOTAL,
       active: fees.filter((f) => f.status === 'ACTIVE').length,
       expired: fees.filter((f) => f.status === 'EXPIRED').length
     }
@@ -101,7 +108,10 @@ export default function AdminAdoptionFeesClient({ fees }: Props) {
     return base
   }, [fees])
 
-  const visible = useMemo(() => (filter === 'ALL' ? fees : fees.filter((f) => f.status === filter)), [fees, filter])
+  const visible = useMemo(
+    () => (filter === 'ALL' ? fees : fees.filter((f) => f.status === filter)),
+    [fees, filter]
+  )
 
   return (
     <main id="main-content" className="min-h-screen w-full bg-bg-light dark:bg-bg-dark">
@@ -110,7 +120,12 @@ export default function AdminAdoptionFeesClient({ fees }: Props) {
       <div className="px-4 sm:px-6 py-6 space-y-6">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Stat label="Total collected" value={fmtCurrency(stats.total)} icon={DollarSign} />
+          <Stat
+            label="Total collected"
+            value={fmtCurrency(stats.siteTotal)}
+            icon={DollarSign}
+            sublabel={`${fmtCurrency(stats.siteTotal)} on site + ${fmtCurrency(HISTORICAL_ADOPTION_FEE_TOTAL)} historical`}
+          />
           <Stat label="Active" value={String(stats.active)} icon={Clock} />
           <Stat label="Expired" value={String(stats.expired)} icon={XCircle} />
         </div>

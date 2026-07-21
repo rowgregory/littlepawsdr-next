@@ -18,7 +18,7 @@ export default async function sendContactEmail({
 }) {
   try {
     await resend.emails.send({
-      from: 'Little Paws DR <noreply@littlepawsdr.org>',
+      from: 'Little Paws Dachshund Rescue <lpdr@littlepawsdr.org>',
       to: 'lpdr@littlepawsdr.org',
       replyTo: email,
       subject: `[Contact] ${subject}`,

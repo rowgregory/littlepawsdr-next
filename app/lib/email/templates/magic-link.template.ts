@@ -87,7 +87,7 @@ export const magicLinkTemplate = (url: string) => `
     <!-- Legal -->
     <div style="margin-top: 24px;">
       <p style="margin: 0; font-size: 12px; color: #52525b;">
-        <a href="https://www.littlepawsdr.org/privacy" style="color: #52525b; margin-right: 16px;">Privacy Policy</a>
+        <a href="https://www.littlepawsdr.org/privacy-policy" style="color: #52525b; margin-right: 16px;">Privacy Policy</a>
         <a href="https://www.littlepawsdr.org/terms" style="color: #52525b;">Terms of Service</a>
       </p>
     </div>

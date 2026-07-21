@@ -10,6 +10,7 @@ import { updateAuction } from 'app/lib/actions/admin/auction/updateAuction'
 import { startAuction } from 'app/lib/actions/super-user/startAuction'
 import { revertAuctionToDraft } from 'app/lib/actions/super-user/revertAuctionToDraft'
 import { endAuctionManually } from 'app/lib/actions/super-user/endAuctionManually'
+import { useSession } from 'next-auth/react'
 
 const inputStyles = `w-full px-3.5 py-3 text-xs font-mono border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark focus:outline-none focus-visible:border-primary-light dark:focus-visible:border-primary-dark transition-colors scheme-light dark:scheme-dark`
 
@@ -22,6 +23,8 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
   const [reverting, setReverting] = useState(false)
   const [ending, setEnding] = useState(false)
   const [confirmEnd, setConfirmEnd] = useState(false)
+  const session = useSession()
+  const isSuperUser = session.data?.user?.role === 'SUPER_USER'
 
   useEffect(() => {
     setInputs(auction)
@@ -307,7 +310,7 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
           </div>
 
           {/* Revert to draft — only for ACTIVE */}
-          {inputs?.status === 'ACTIVE' && (
+          {inputs?.status === 'ACTIVE' && isSuperUser && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-4 h-px bg-amber-500 shrink-0" aria-hidden="true" />
@@ -343,7 +346,7 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
           )}
 
           {/* Start auction — only for DRAFT */}
-          {inputs?.status === 'DRAFT' && (
+          {inputs?.status === 'DRAFT' && isSuperUser && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span
@@ -381,7 +384,7 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
             </div>
           )}
 
-          {inputs?.status === 'ACTIVE' && (
+          {inputs?.status === 'ACTIVE' && isSuperUser && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span className="block w-4 h-px bg-red-500 shrink-0" aria-hidden="true" />
@@ -421,7 +424,7 @@ export function SettingsTab({ auction }: { auction: IAuction }) {
           )}
 
           {/* Danger zone — only visible for DRAFT auctions */}
-          {inputs?.status === 'DRAFT' && (
+          {inputs?.status === 'DRAFT' && isSuperUser && (
             <div className="pt-6 mt-6 border-t border-border-light dark:border-border-dark">
               <div className="flex items-center gap-3 mb-4">
                 <span

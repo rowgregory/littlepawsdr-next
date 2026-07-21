@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Cookie, X } from 'lucide-react'
 import Link from 'next/link'
@@ -19,13 +19,21 @@ function setCookie(name: string, value: string, maxAge: number) {
 }
 
 export function CookieConsentBanner() {
-  // Lazy initializer runs once on mount, reading the cookie directly.
-  // Since this only ever runs client-side after hydration (server always
-  // returns false since document is undefined there), there's a brief
-  // instant where the server-rendered version differs from client —
-  // acceptable here since the banner defaults to hidden either way,
-  // avoiding a hydration mismatch.
-  const [visible, setVisible] = useState(() => !getCookie(COOKIE_NAME))
+  // Always false on both server and first client render — this guarantees
+  // the initial markup matches exactly, avoiding a hydration mismatch.
+  // We only decide whether to show the banner after mount, once `document`
+  // is safely available and hydration has already completed.
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    if (!getCookie(COOKIE_NAME)) {
+      // document.cookie is only available client-side; this cannot be
+      // derived during render without risking a hydration mismatch between
+      // server (no document) and client (cookie may already exist).
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reading
+      setVisible(true)
+    }
+  }, [])
 
   const handleAccept = () => {
     setCookie(COOKIE_NAME, 'accepted', COOKIE_MAX_AGE)
