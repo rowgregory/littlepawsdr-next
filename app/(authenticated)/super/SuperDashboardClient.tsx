@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { RefreshCw, LogOut, LayoutDashboard } from 'lucide-react'
+import { RefreshCw, LogOut, LayoutDashboard, ScrollText } from 'lucide-react'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 import { CronJob } from 'app/lib/actions/super-user/getCronJobs'
@@ -85,6 +85,13 @@ export default function SuperDashboardClient({
           >
             <LayoutDashboard size={9} aria-hidden="true" />
             Admin
+          </Link>
+          <Link
+            href="/super/logs"
+            className="inline-flex items-center gap-1 px-2 py-1 font-mono text-[8px] tracking-[0.12em] uppercase border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:border-primary-light dark:hover:border-primary-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+          >
+            <ScrollText size={9} aria-hidden="true" />
+            Logs
           </Link>
           <button
             type="button"

@@ -7,7 +7,7 @@ import { formatDate } from 'app/utils/_date.utils'
 import AdminPageHeader from 'app/components/admin/_shared/AdminPageHeader'
 import { Pagination } from 'app/components/_common/Pagination'
 import { Log } from 'types/_log.types'
-import { LEVELS, levelStyles, PAGE_SIZE } from 'app/lib/constants/log.constants'
+import { LEVEL_STYLES, LEVELS, PAGE_SIZE } from 'app/lib/constants/log.constants'
 
 function LogRow({ log, index }: { log: Log; index: number }) {
   const [expanded, setExpanded] = useState(false)
@@ -49,7 +49,7 @@ function LogRow({ log, index }: { log: Log; index: number }) {
 
         {/* Level */}
         <span
-          className={`text-[10px] font-mono tracking-[0.2em] uppercase ${levelStyles[log.level] ?? 'text-muted-light dark:text-muted-dark'}`}
+          className={`text-[10px] font-mono tracking-[0.2em] uppercase ${LEVEL_STYLES[log.level] ?? 'text-muted-light dark:text-muted-dark'}`}
         >
           {log.level}
         </span>
@@ -60,7 +60,9 @@ function LogRow({ log, index }: { log: Log; index: number }) {
         </span>
 
         {/* Message */}
-        <span className="text-xs font-mono text-text-light dark:text-text-dark truncate">{log.message}</span>
+        <span className="text-xs font-mono text-text-light dark:text-text-dark truncate">
+          {log.message}
+        </span>
 
         {/* User */}
         <span className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate text-right">

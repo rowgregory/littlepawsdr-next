@@ -74,7 +74,9 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
         // Fall back to addressRef lookup
       } else if (d.addressRef) {
         const addressMongoId = d.addressRef?.$oid ?? d.addressRef?.toString() ?? d.addressRef
-        const mongoAddress = await tx.mongoAddress.findUnique({ where: { mongoId: addressMongoId } })
+        const mongoAddress = await tx.mongoAddress.findUnique({
+          where: { mongoId: addressMongoId }
+        })
         if (mongoAddress) {
           const a = mongoAddress.data as any
           await tx.address.create({
@@ -157,7 +159,11 @@ async function migrateOrders(tx: any, normalizedEmail: string, userId: string) {
 
     for (const item of itemDocs) {
       const itemType =
-        item.itemType === 'welcomeWiener' ? 'WELCOME_WIENER' : item.itemType === 'ecard' ? 'ECARD' : 'PRODUCT'
+        item.itemType === 'welcomeWiener'
+          ? 'WELCOME_WIENER'
+          : item.itemType === 'ecard'
+            ? 'ECARD'
+            : 'PRODUCT'
 
       await tx.orderItem.create({
         data: {
@@ -186,47 +192,56 @@ async function migrateAdoptionFees(tx: any, normalizedEmail: string, userId: str
   for (const rec of adoptionFees) {
     const d = rec.data as any
 
-    if (d.feeAmount != null) {
-      await tx.order.create({
-        data: {
-          type: 'ADOPTION_FEE',
-          status: 'CONFIRMED',
-          totalAmount: d.feeAmount,
-          customerEmail: normalizedEmail,
-          customerName: joinName(d.firstName, d.lastName, normalizedEmail),
-          userId,
-          isPhysical: false,
-          source: 'MONGO_MIGRATION',
-          paidAt: parseDate(d.createdAt),
-          createdAt: parseDate(d.createdAt)
-        }
-      })
+    try {
+      if (d.feeAmount != null) {
+        await tx.order.create({
+          data: {
+            type: 'ADOPTION_FEE',
+            status: 'CONFIRMED',
+            totalAmount: d.feeAmount,
+            customerEmail: normalizedEmail,
+            customerName: joinName(d.firstName, d.lastName, normalizedEmail),
+            userId,
+            isPhysical: false,
+            source: 'MONGO_MIGRATION',
+            paidAt: parseDate(d.createdAt),
+            createdAt: parseDate(d.createdAt)
+          }
+        })
 
-      const now = new Date()
-      const expiresAt = d.expiresAt ? parseDate(d.expiresAt) : null
-      const isExpired = expiresAt ? expiresAt < now : false
+        const now = new Date()
+        const expiresAt = d.expiresAt ? parseDate(d.expiresAt) : null
+        const isExpired = expiresAt ? expiresAt < now : false
 
-      await tx.adoptionFee.create({
-        data: {
-          userId,
-          email: normalizedEmail,
-          firstName: d.firstName ?? null,
-          lastName: d.lastName ?? null,
-          feeAmount: d.feeAmount,
-          status: isExpired ? 'EXPIRED' : 'ACTIVE',
-          expiresAt,
-          bypassCode: d.bypassCode ?? null,
-          createdAt: parseDate(d.createdAt)
-        }
-      })
-    } else {
-      await createLog('warn', 'Adoption fee migration skipped — missing feeAmount', {
+        await tx.adoptionFee.create({
+          data: {
+            userId,
+            email: normalizedEmail,
+            firstName: d.firstName ?? null,
+            lastName: d.lastName ?? null,
+            feeAmount: d.feeAmount,
+            status: isExpired ? 'EXPIRED' : 'ACTIVE',
+            expiresAt,
+            bypassCode: d.bypassCode ?? null,
+            createdAt: parseDate(d.createdAt)
+          }
+        })
+      } else {
+        await createLog('warn', 'Adoption fee migration skipped — missing feeAmount', {
+          mongoId: rec.id,
+          email: normalizedEmail
+        })
+      }
+
+      await tx.mongoAdoptionFee.delete({ where: { id: rec.id } })
+    } catch (err) {
+      await createLog('error', 'Adoption fee migration failed for record', {
         mongoId: rec.id,
-        email: normalizedEmail
+        email: normalizedEmail,
+        error: err instanceof Error ? err.message : 'Unknown error'
       })
+      throw err
     }
-
-    await tx.mongoAdoptionFee.delete({ where: { id: rec.id } })
   }
 }
 
@@ -288,7 +303,9 @@ async function migrateAuctions(tx: any, normalizedEmail: string, userId: string)
       continue
     }
 
-    const auctionItemIds = (d.auctionItems ?? []).map((ref: any) => mongoId(ref)).filter(Boolean) as string[]
+    const auctionItemIds = (d.auctionItems ?? [])
+      .map((ref: any) => mongoId(ref))
+      .filter(Boolean) as string[]
     const mongoAuctionItems = await tx.mongoAuctionItem.findMany({
       where: { mongoId: { in: auctionItemIds } }
     })
@@ -301,7 +318,8 @@ async function migrateAuctions(tx: any, normalizedEmail: string, userId: string)
         totalPrice: d.totalPrice ?? 0,
         itemSoldPrice: d.subtotal ?? d.totalPrice ?? 0,
         shipping: d.shipping ?? 0,
-        shippingStatus: (mapShippingStatus(d.shippingStatus) as any) ?? 'PENDING_PAYMENT_CONFIRMATION',
+        shippingStatus:
+          (mapShippingStatus(d.shippingStatus) as any) ?? 'PENDING_PAYMENT_CONFIRMATION',
         paidOn: d.paidOn ? parseDate(d.paidOn) : parseDate(d.createdAt),
         createdAt: parseDate(d.createdAt)
       }
@@ -344,7 +362,9 @@ async function migrateAuctions(tx: any, normalizedEmail: string, userId: string)
     const auction = await getAuction(mongoAuctionId)
 
     const mongoItemId = mongoId(d.auctionItem)
-    const mongoItem = mongoItemId ? await tx.mongoAuctionItem.findUnique({ where: { mongoId: mongoItemId } }) : null
+    const mongoItem = mongoItemId
+      ? await tx.mongoAuctionItem.findUnique({ where: { mongoId: mongoItemId } })
+      : null
     const item = mongoItem?.data as any
     const isPhysical = !d.isDigital
     const shippingStatus = isPhysical ? 'PENDING_FULFILLMENT' : 'DIGITAL'
@@ -401,7 +421,9 @@ async function migrateAuctions(tx: any, normalizedEmail: string, userId: string)
     }
 
     const mongoItemId = d.auctionItem?.$oid ?? d.auctionItem?.toString()
-    const mongoItem = mongoItemId ? await tx.mongoAuctionItem.findUnique({ where: { mongoId: mongoItemId } }) : null
+    const mongoItem = mongoItemId
+      ? await tx.mongoAuctionItem.findUnique({ where: { mongoId: mongoItemId } })
+      : null
     const item = mongoItem?.data as any
 
     const bidder = await getOrCreateBidder(auction.id)
@@ -459,7 +481,9 @@ async function migrateProductOrders(tx: any, normalizedEmail: string, userId: st
   for (const rec of productOrders) {
     const d = rec.data as any
 
-    const parentMongoOrder = await tx.mongoOrder.findUnique({ where: { mongoId: rec.mongoOrderId } })
+    const parentMongoOrder = await tx.mongoOrder.findUnique({
+      where: { mongoId: rec.mongoOrderId }
+    })
     if (!parentMongoOrder) {
       await tx.mongoProductOrder.delete({ where: { id: rec.id } })
       continue
@@ -496,7 +520,9 @@ async function migrateEcardOrders(tx: any, normalizedEmail: string, userId: stri
   for (const rec of ecardOrders) {
     const d = rec.data as any
 
-    const parentMongoOrder = await tx.mongoOrder.findUnique({ where: { mongoId: rec.mongoOrderId } })
+    const parentMongoOrder = await tx.mongoOrder.findUnique({
+      where: { mongoId: rec.mongoOrderId }
+    })
     if (!parentMongoOrder) {
       await tx.mongoEcardOrder.delete({ where: { id: rec.id } })
       continue
@@ -607,7 +633,10 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
       // No staging data ever existed for this email — new user, nothing to migrate.
       // hasMigrated stays false, migratedAt stays null. Distinguished from a failed
       // migration by the absence of any error log for this user.
-      await createLog('info', 'No staging data found — skipping migration', { email: normalizedEmail, userId })
+      await createLog('info', 'No staging data found — skipping migration', {
+        email: normalizedEmail,
+        userId
+      })
       return
     }
 

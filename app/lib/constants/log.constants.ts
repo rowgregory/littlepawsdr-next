@@ -1,10 +1,12 @@
+import { Level } from 'types/_log.types'
+
 export const PAGE_SIZE = 50
 
-export const LEVELS = ['all', 'info', 'warn', 'error', 'debug'] as const
+export const LEVELS = ['all', 'info', 'warn', 'error'] as const
 
-export const levelStyles: Record<string, string> = {
-  info: 'text-primary-light dark:text-primary-dark',
-  warn: 'text-yellow-500 dark:text-yellow-400',
-  error: 'text-red-500 dark:text-red-400',
-  debug: 'text-muted-light dark:text-muted-dark'
+export const LEVEL_STYLES: Record<Level, string> = {
+  all: '',
+  info: 'text-primary-dark',
+  warn: 'text-secondary-dark',
+  error: 'text-red-400'
 }
