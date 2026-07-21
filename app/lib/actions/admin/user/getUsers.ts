@@ -47,8 +47,6 @@ export default async function getUsers() {
         prisma.mongoBid.groupBy({ by: ['email'], where: { email: { in: emails } }, _count: true })
       ])
 
-    console.log('USERS: ', users)
-
     const stagingEmailSet = new Set(mongoUsers.map((m) => m.email))
 
     const pendingMap = new Map<string, number>()

@@ -1,6 +1,4 @@
 /**
- * app/lib/actions/migrate/migrateMongoUser.ts
- *
  * Called on first login for each user.
  * Migrates all historical Mongo data into live Prisma tables.
  * Deletes each staging record after successful migration.
@@ -622,6 +620,39 @@ async function migrateWelcomeWienerOrders(tx: any, normalizedEmail: string, user
   }
 }
 
+async function runMigrationTransaction(
+  tx: any,
+  normalizedEmail: string,
+  userId: string,
+  mongoUser?: any
+) {
+  if (mongoUser) {
+    await migrateUserFields(tx, mongoUser, userId)
+  }
+
+  await Promise.all([
+    migrateDonations(tx, normalizedEmail, userId),
+    migrateOrders(tx, normalizedEmail, userId),
+    migrateAdoptionFees(tx, normalizedEmail, userId),
+    migrateAuctions(tx, normalizedEmail, userId)
+  ])
+
+  await Promise.all([
+    migrateProductOrders(tx, normalizedEmail, userId),
+    migrateEcardOrders(tx, normalizedEmail, userId),
+    migrateWelcomeWienerOrders(tx, normalizedEmail, userId)
+  ])
+
+  if (mongoUser) {
+    await tx.mongoUser.deleteMany({ where: { email: normalizedEmail } })
+  }
+
+  await tx.user.update({
+    where: { id: userId },
+    data: { hasMigrated: true, migratedAt: new Date() }
+  })
+}
+
 // ── Main export ───────────────────────────────────────────────────────────────
 
 export async function migrateMongoUser(email: string, userId: string): Promise<void> {
@@ -629,11 +660,13 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
 
   try {
     const mongoUser = await prisma.mongoUser.findUnique({ where: { email: normalizedEmail } })
+
     if (!mongoUser) {
-      // No staging data ever existed for this email — new user, nothing to migrate.
-      // hasMigrated stays false, migratedAt stays null. Distinguished from a failed
-      // migration by the absence of any error log for this user.
-      await createLog('info', 'No staging data found — skipping migration', {
+      await prisma.$transaction(
+        async (tx) => runMigrationTransaction(tx, normalizedEmail, userId),
+        { timeout: 60000 }
+      )
+      await createLog('info', 'No mongo user record — migrated orphaned records only', {
         email: normalizedEmail,
         userId
       })
@@ -643,35 +676,8 @@ export async function migrateMongoUser(email: string, userId: string): Promise<v
     await createLog('info', 'Starting migration', { email: normalizedEmail, userId })
 
     await prisma.$transaction(
-      async (tx) => {
-        await migrateUserFields(tx, mongoUser, userId)
-
-        await Promise.all([
-          migrateDonations(tx, normalizedEmail, userId),
-          migrateOrders(tx, normalizedEmail, userId),
-          migrateAdoptionFees(tx, normalizedEmail, userId),
-          migrateAuctions(tx, normalizedEmail, userId)
-        ])
-
-        await Promise.all([
-          migrateProductOrders(tx, normalizedEmail, userId),
-          migrateEcardOrders(tx, normalizedEmail, userId),
-          migrateWelcomeWienerOrders(tx, normalizedEmail, userId)
-        ])
-
-        await tx.mongoUser.delete({ where: { email: normalizedEmail } })
-
-        await tx.user.update({
-          where: { id: userId },
-          data: {
-            hasMigrated: true,
-            migratedAt: new Date()
-          }
-        })
-      },
-      {
-        timeout: 60000
-      }
+      async (tx) => runMigrationTransaction(tx, normalizedEmail, userId, mongoUser),
+      { timeout: 60000 }
     )
 
     await pusherTrigger(`user-${userId}`, 'migration-complete', {})

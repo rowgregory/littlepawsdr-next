@@ -16,7 +16,6 @@ export function MigrationTroubleshootPanel({ userId }: { userId: string }) {
   const handleDiagnose = async () => {
     setDiagnosing(true)
     const res = await diagnoseMigration(userId)
-    console.log('res: ', res)
     setDiagnosing(false)
     if (res.success) setDiagnosis(res.data)
   }
