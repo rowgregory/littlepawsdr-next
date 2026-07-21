@@ -3,7 +3,7 @@ import prisma from 'prisma/client'
 export async function getTopSellingProducts(limit = 5) {
   const grouped = await prisma.orderItem.groupBy({
     by: ['itemName'],
-    where: { itemType: 'PRODUCT', order: { status: 'CONFIRMED' } },
+    where: { itemType: 'PRODUCT', order: { status: 'CONFIRMED', source: 'SITE' } },
     _sum: { totalPrice: true, quantity: true },
     orderBy: { _sum: { totalPrice: 'desc' } },
     take: limit

@@ -13164,4 +13164,48 @@
     "$date": "2026-07-03T18:47:05.486Z"
   },
   "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6a5a9539c0cf9d16f85c3dc8"
+  },
+  "user": {
+    "$oid": "6a5a9539c0cf9d16f85c3dc7"
+  },
+  "email": "sarah.axson@icloud.com",
+  "name": "Sarah Axson",
+  "shippingAddress": {
+    "name": "Sarah Axson",
+    "address": "3307 Heyward St",
+    "city": "Columbia",
+    "state": "SC",
+    "zipPostalCode": "29205",
+    "_id": {
+      "$oid": "6a5a9539c0cf9d16f85c3dc9"
+    },
+    "createdAt": {
+      "$date": "2026-07-17T20:48:57.854Z"
+    },
+    "updatedAt": {
+      "$date": "2026-07-17T20:48:57.854Z"
+    }
+  },
+  "items": [
+    {
+      "$oid": "6a5a9539c0cf9d16f85c3dca"
+    }
+  ],
+  "subtotal": 15.5,
+  "shippingPrice": 0,
+  "totalPrice": 15.5,
+  "paypalOrderId": "1MS70230YH3826413",
+  "status": "completed",
+  "shippingStatus": "not-shipped",
+  "createdAt": {
+    "$date": "2026-07-17T20:48:57.854Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-17T20:48:57.868Z"
+  },
+  "__v": 1
 }]

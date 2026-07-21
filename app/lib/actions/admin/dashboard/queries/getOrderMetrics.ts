@@ -14,6 +14,7 @@ export async function getOrderMetrics() {
   const orders = await prisma.order.findMany({
     where: {
       status: 'CONFIRMED',
+      source: 'SITE',
       createdAt: { gte: windowStart }
     },
     select: {

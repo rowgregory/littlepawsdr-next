@@ -17,10 +17,10 @@
     "$date": "2022-04-04T17:30:13.965Z"
   },
   "updatedAt": {
-    "$date": "2026-07-07T15:09:03.364Z"
+    "$date": "2026-07-21T18:02:20.617Z"
   },
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNGIyYjI1YTc3NzI3MDJiOTBiMjdkZiIsIm5hbWUiOiJHcmVnIFJvdyIsImVtYWlsIjoiaXQubGl0dGxlLnBhd3NAZ21haWwuY29tIiwiaWF0IjoxNzQ4MTAwMDQ4LCJleHAiOjE3NDgzNTkyNDh9.anaVCZZb3U3Ni1q7v-_nWgijd5f7hGTusJK_H-6rjsA",
-  "lastLoginTime": "Tue Mar 10 2026 00:18:12 GMT+0000 (Coordinated Universal Time)",
+  "lastLoginTime": "Mon Jul 20 2026 04:13:00 GMT+0000 (Coordinated Universal Time)",
   "anonymousBidding": true,
   "campaigns": [
     {
@@ -174,7 +174,7 @@
     "$date": "2023-01-15T20:11:40.341Z"
   },
   "updatedAt": {
-    "$date": "2026-07-04T10:43:50.197Z"
+    "$date": "2026-07-15T12:10:00.112Z"
   },
   "__v": 2,
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzQ1ZGZjZmRhZTY3MDAwNGRmY2U4NSIsIm5hbWUiOiJDYXRoeSAuIiwiZW1haWwiOiJjYXRoeW5AbGl0dGxlcGF3c2RyLm9yZyIsImlhdCI6MTc0OTc0ODc2OSwiZXhwIjoxNzUwMDA3OTY5fQ.gwNVg0kbCkYDkf2sa_QXrxIAIgNZIUKOGbZLnUlwjvM",
@@ -465,11 +465,11 @@
     "$date": "2023-01-27T23:53:25.443Z"
   },
   "updatedAt": {
-    "$date": "2026-03-20T14:35:48.392Z"
+    "$date": "2026-07-21T18:02:15.439Z"
   },
   "__v": 2,
   "token": null,
-  "lastLoginTime": "Fri Mar 20 2026 10:34:21 GMT-0400 (Eastern Daylight Time)",
+  "lastLoginTime": "Tue Jul 21 2026 17:57:36 GMT+0000 (Coordinated Universal Time)",
   "introducedToSilverPaws": false,
   "anonymousBidding": false,
   "campaigns": [],
@@ -6924,7 +6924,7 @@
     "$date": "2024-09-27T00:54:21.385Z"
   },
   "updatedAt": {
-    "$date": "2025-11-21T20:14:45.008Z"
+    "$date": "2026-07-17T00:29:26.707Z"
   },
   "__v": 1,
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjYwMjNkYzc3Zjg2Y2Q5MjhiZmUzMCIsImlhdCI6MTcyNzM5ODQ3MSwiZXhwIjoxNzI3NDg0ODcxfQ.7g5BZIXbmY1qPBrnmImzcOVZklfGqDlBU2pzxBNzH5Q",
@@ -6934,6 +6934,36 @@
   "resetPasswordToken": null,
   "addressRef": {
     "$oid": "685349b62bbc542463683708"
+  },
+  "dachshundPreferences": {
+    "preferredSize": "no-preference",
+    "preferredAge": "no-preference",
+    "preferredCoat": [
+      "smooth",
+      "longhaired"
+    ],
+    "preferredTemperament": [
+      "friendly",
+      "calm",
+      "playful",
+      "independent"
+    ],
+    "trainingExperience": true
+  },
+  "jobTitle": "Stay at Home Mom.  Homeschool Mom.  We are home a lot!",
+  "profileGradient": "",
+  "workSchedule": "home",
+  "yourHome": {
+    "homeType": "house",
+    "yardType": "medium",
+    "hasYardFence": true,
+    "hasOtherDogs": true,
+    "numberOfDogs": 1,
+    "willingToTrain": true,
+    "childrenInHome": true,
+    "childAges": [
+      7
+    ]
   }
 },
 {
@@ -13328,7 +13358,7 @@
     "$date": "2025-03-13T18:00:10.849Z"
   },
   "updatedAt": {
-    "$date": "2026-01-30T03:26:55.656Z"
+    "$date": "2026-07-14T02:06:39.172Z"
   },
   "__v": 1,
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDMxZDJhODJlZDM0NWYxOTliM2UwYSIsIm5hbWUiOiJBbGV4YW5kcmEgSG9sYnJvb2siLCJlbWFpbCI6ImFsZXhhbmRyYWhvbGJyb29rQHlhaG9vLmNvbSIsImlhdCI6MTc0MTkxOTQ1MiwiZXhwIjoxNzQyMTc4NjUyfQ.cpiA4PSSignybF-peLMebjJjA4gaUWjpDbzdiTGeMa8",
@@ -26259,7 +26289,7 @@
     "$date": "2025-11-22T22:53:15.787Z"
   },
   "updatedAt": {
-    "$date": "2026-06-07T14:36:12.867Z"
+    "$date": "2026-07-13T11:02:17.733Z"
   },
   "__v": 0,
   "resetPasswordExpires": null,
@@ -32974,7 +33004,7 @@
     "$date": "2026-05-13T13:50:54.605Z"
   },
   "updatedAt": {
-    "$date": "2026-05-13T13:54:27.832Z"
+    "$date": "2026-07-15T15:22:39.544Z"
   },
   "__v": 0,
   "jobTitle": "Dog Mom",
@@ -35561,7 +35591,7 @@
     "$date": "2026-06-15T16:46:35.519Z"
   },
   "updatedAt": {
-    "$date": "2026-06-15T16:46:35.519Z"
+    "$date": "2026-07-21T15:56:34.003Z"
   },
   "__v": 0
 },
@@ -35820,5 +35850,269 @@
   },
   "__v": 0,
   "jobTitle": "Call Center Analyst",
+  "workSchedule": "full-time"
+},
+{
+  "_id": {
+    "$oid": "6a5652fbb0287c79100de915"
+  },
+  "auctions": [],
+  "orders": [],
+  "addressRef": null,
+  "bugs": [],
+  "name": "Carolee Tully",
+  "email": "cmtully46@icloud.com",
+  "password": "$2b$10$/NuspjCDK/JrCM/t5QwqKu0MVy.0Bv1y80z7hCbf1Y07EoM2aP63.",
+  "isAdmin": false,
+  "firstNameFirstInitial": "C",
+  "lastNameFirstInitial": "T",
+  "firstName": "Carolee",
+  "lastName": "Tully",
+  "securityQuestion": "What was the name of your first pet?",
+  "securityAnswer": "Smoky",
+  "anonymousBidding": false,
+  "hasAddress": false,
+  "conversionSource": "donation_confirmation_modal",
+  "lastSeenChangelogVersion": "0.0.0",
+  "isPublic": false,
+  "profileGradient": "from-gray-500 to-gray-700",
+  "yourHome": {
+    "hasYardFence": false,
+    "hasOtherDogs": false,
+    "numberOfDogs": 0,
+    "willingToTrain": true,
+    "childrenInHome": false,
+    "childAges": []
+  },
+  "dachshundPreferences": {
+    "preferredCoat": [],
+    "preferredTemperament": [],
+    "trainingExperience": false
+  },
+  "isGuest": false,
+  "createdAt": {
+    "$date": "2026-07-14T15:17:15.634Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-14T15:18:32.746Z"
+  },
+  "__v": 0,
+  "lastLoginTime": "Tue Jul 14 2026 15:17:15 GMT+0000 (Coordinated Universal Time)"
+},
+{
+  "_id": {
+    "$oid": "6a5779d94061a8eefa7a94ad"
+  },
+  "auctions": [],
+  "orders": [],
+  "addressRef": {
+    "$oid": "6a577df04061a8eefa7a94b1"
+  },
+  "bugs": [],
+  "name": "Katelyn Powell",
+  "email": "katelynapowell@gmail.com",
+  "password": "$2b$10$kO3VYyfua2mkFr/N6TthBeGkueq0tuM3XKZn2GU1WdJ1t78SxiOOu",
+  "isAdmin": false,
+  "firstNameFirstInitial": "K",
+  "lastNameFirstInitial": "P",
+  "firstName": "Katelyn",
+  "lastName": "Powell",
+  "securityQuestion": "What was the make of your first car?",
+  "securityAnswer": "subaru",
+  "anonymousBidding": false,
+  "hasAddress": true,
+  "conversionSource": null,
+  "lastSeenChangelogVersion": "0.0.0",
+  "isPublic": false,
+  "profileGradient": "",
+  "yourHome": {
+    "homeType": "house",
+    "yardType": "large",
+    "hasYardFence": false,
+    "hasOtherDogs": false,
+    "numberOfDogs": 0,
+    "willingToTrain": true,
+    "childrenInHome": false,
+    "childAges": []
+  },
+  "dachshundPreferences": {
+    "preferredSize": "no-preference",
+    "preferredAge": "no-preference",
+    "preferredCoat": [],
+    "preferredTemperament": [],
+    "trainingExperience": false
+  },
+  "isGuest": false,
+  "createdAt": {
+    "$date": "2026-07-15T12:15:21.726Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-15T12:32:48.082Z"
+  },
+  "__v": 0,
+  "jobTitle": "Speech Language Pathologist",
+  "workSchedule": "full-time"
+},
+{
+  "_id": {
+    "$oid": "6a59457ad5f036a934a39834"
+  },
+  "auctions": [],
+  "orders": [],
+  "addressRef": {
+    "$oid": "6a5945fbd5f036a934a39838"
+  },
+  "bugs": [],
+  "name": "Devin Starr",
+  "email": "starr.devin.m@gmail.com",
+  "password": "$2b$10$JgPbcL2CpM6zAj66abKhoOwTCd0WO4q.C.IdugqJTW3YjV3FNt2sW",
+  "isAdmin": false,
+  "firstNameFirstInitial": "D",
+  "lastNameFirstInitial": "S",
+  "firstName": "Devin",
+  "lastName": "Starr",
+  "securityQuestion": "What was the name of your first pet?",
+  "securityAnswer": "Angel",
+  "anonymousBidding": false,
+  "hasAddress": true,
+  "conversionSource": null,
+  "lastSeenChangelogVersion": "0.0.0",
+  "isPublic": false,
+  "profileGradient": "",
+  "yourHome": {
+    "homeType": "apartment",
+    "yardType": "none",
+    "hasYardFence": false,
+    "hasOtherDogs": false,
+    "numberOfDogs": 0,
+    "willingToTrain": true,
+    "childrenInHome": false,
+    "childAges": []
+  },
+  "dachshundPreferences": {
+    "preferredSize": "miniature",
+    "preferredAge": "adult",
+    "preferredCoat": [
+      "smooth",
+      "wirehaired",
+      "longhaired"
+    ],
+    "preferredTemperament": [
+      "friendly",
+      "independent",
+      "calm",
+      "playful"
+    ],
+    "trainingExperience": true
+  },
+  "isGuest": false,
+  "createdAt": {
+    "$date": "2026-07-16T20:56:26.840Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-16T20:58:35.806Z"
+  },
+  "__v": 0,
+  "jobTitle": "Wealth Advisor",
+  "workSchedule": "home"
+},
+{
+  "_id": {
+    "$oid": "6a5a9539c0cf9d16f85c3dc7"
+  },
+  "auctions": [],
+  "orders": [],
+  "bugs": [],
+  "name": "Sarah Axson",
+  "email": "sarah.axson@icloud.com",
+  "isAdmin": false,
+  "anonymousBidding": false,
+  "hasAddress": false,
+  "conversionSource": null,
+  "lastSeenChangelogVersion": "0.0.0",
+  "isPublic": false,
+  "profileGradient": "from-gray-500 to-gray-700",
+  "yourHome": {
+    "hasYardFence": false,
+    "hasOtherDogs": false,
+    "numberOfDogs": 0,
+    "willingToTrain": true,
+    "childrenInHome": false,
+    "childAges": []
+  },
+  "dachshundPreferences": {
+    "preferredCoat": [],
+    "preferredTemperament": [],
+    "trainingExperience": false
+  },
+  "isGuest": true,
+  "createdAt": {
+    "$date": "2026-07-17T20:48:57.834Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-17T20:48:57.834Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5cd5b3ba96b5ba94b5516b"
+  },
+  "auctions": [],
+  "orders": [],
+  "addressRef": {
+    "$oid": "6a5cd630ba96b5ba94b5516f"
+  },
+  "bugs": [],
+  "name": "Caroline Ryan",
+  "email": "carolineryan08@gmail.com",
+  "password": "$2b$10$2fO3naJ9YDYuA6Sxkkfid.bbTgYhuffFxW7OnEgBXkAsXlpvHnPuq",
+  "isAdmin": false,
+  "firstNameFirstInitial": "C",
+  "lastNameFirstInitial": "R",
+  "firstName": "Caroline",
+  "lastName": "Ryan",
+  "securityQuestion": "What was the name of your first pet?",
+  "securityAnswer": "Toby",
+  "anonymousBidding": false,
+  "hasAddress": true,
+  "conversionSource": null,
+  "lastSeenChangelogVersion": "0.0.0",
+  "isPublic": true,
+  "profileGradient": "",
+  "yourHome": {
+    "homeType": "house",
+    "yardType": "large",
+    "hasYardFence": true,
+    "hasOtherDogs": false,
+    "numberOfDogs": 0,
+    "willingToTrain": false,
+    "childrenInHome": false,
+    "childAges": []
+  },
+  "dachshundPreferences": {
+    "preferredSize": "miniature",
+    "preferredAge": "no-preference",
+    "preferredCoat": [
+      "smooth",
+      "longhaired"
+    ],
+    "preferredTemperament": [
+      "friendly",
+      "calm",
+      "playful",
+      "independent"
+    ],
+    "trainingExperience": false
+  },
+  "isGuest": false,
+  "createdAt": {
+    "$date": "2026-07-19T13:48:35.304Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-19T13:50:40.842Z"
+  },
+  "__v": 0,
+  "jobTitle": "Student ",
   "workSchedule": "full-time"
 }]

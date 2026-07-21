@@ -3,7 +3,7 @@ import prisma from 'prisma/client'
 export async function getTopSupporters(limit = 5) {
   const grouped = await prisma.order.groupBy({
     by: ['userId'],
-    where: { status: 'CONFIRMED', userId: { not: null } },
+    where: { status: 'CONFIRMED', source: 'SITE', userId: { not: null } },
     _sum: { totalAmount: true },
     _count: { id: true },
     orderBy: { _sum: { totalAmount: 'desc' } },

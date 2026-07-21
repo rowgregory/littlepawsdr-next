@@ -26151,13 +26151,13 @@
   "expiresAt": {
     "$date": "2026-07-14T00:49:34.848Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-07T00:49:34.849Z"
   },
   "updatedAt": {
-    "$date": "2026-07-07T00:49:34.849Z"
+    "$date": "2026-07-14T09:00:00.079Z"
   },
   "__v": 0
 },
@@ -26174,13 +26174,13 @@
   "expiresAt": {
     "$date": "2026-07-14T04:12:41.594Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-07T04:12:41.595Z"
   },
   "updatedAt": {
-    "$date": "2026-07-07T04:12:41.595Z"
+    "$date": "2026-07-14T09:00:00.079Z"
   },
   "__v": 0
 },
@@ -26197,13 +26197,13 @@
   "expiresAt": {
     "$date": "2026-07-14T14:13:19.962Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-07T14:13:19.962Z"
   },
   "updatedAt": {
-    "$date": "2026-07-07T14:13:19.962Z"
+    "$date": "2026-07-15T09:00:00.084Z"
   },
   "__v": 0
 },
@@ -26220,13 +26220,13 @@
   "expiresAt": {
     "$date": "2026-07-14T16:06:12.293Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-07T16:06:12.293Z"
   },
   "updatedAt": {
-    "$date": "2026-07-07T16:06:12.293Z"
+    "$date": "2026-07-15T09:00:00.084Z"
   },
   "__v": 0
 },
@@ -26243,13 +26243,13 @@
   "expiresAt": {
     "$date": "2026-07-16T18:30:10.806Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-09T18:30:10.807Z"
   },
   "updatedAt": {
-    "$date": "2026-07-09T18:30:10.807Z"
+    "$date": "2026-07-17T09:00:00.046Z"
   },
   "__v": 0
 },
@@ -26266,13 +26266,13 @@
   "expiresAt": {
     "$date": "2026-07-17T00:09:39.408Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-10T00:09:39.409Z"
   },
   "updatedAt": {
-    "$date": "2026-07-10T00:09:39.409Z"
+    "$date": "2026-07-17T09:00:00.046Z"
   },
   "__v": 0
 },
@@ -26289,13 +26289,13 @@
   "expiresAt": {
     "$date": "2026-07-18T15:13:47.426Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-11T15:13:47.427Z"
   },
   "updatedAt": {
-    "$date": "2026-07-11T15:13:47.427Z"
+    "$date": "2026-07-19T09:00:00.047Z"
   },
   "__v": 0
 },
@@ -26312,13 +26312,266 @@
   "expiresAt": {
     "$date": "2026-07-18T17:35:19.877Z"
   },
-  "applicationStatus": "Active",
-  "tokenStatus": "Valid",
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
   "createdAt": {
     "$date": "2026-07-11T17:35:19.880Z"
   },
   "updatedAt": {
-    "$date": "2026-07-11T17:35:19.880Z"
+    "$date": "2026-07-19T09:00:00.047Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a53ec15f23bbeffc05a1a80"
+  },
+  "firstName": "Tim",
+  "lastName": "Smith",
+  "emailAddress": "rt_smith@yahoo.com",
+  "state": "MA",
+  "feeAmount": 15,
+  "paypalOrderId": "2HH94090NF036551F",
+  "expiresAt": {
+    "$date": "2026-07-19T19:33:41.789Z"
+  },
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
+  "createdAt": {
+    "$date": "2026-07-12T19:33:41.791Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-20T09:00:00.054Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a556430b0287c79100de8bb"
+  },
+  "firstName": "Wendy",
+  "lastName": "Peyrat",
+  "emailAddress": "wpeyrat08@yahoo.com",
+  "state": "VT",
+  "feeAmount": 15,
+  "paypalOrderId": "8FP19023GP637984X",
+  "expiresAt": {
+    "$date": "2026-07-20T22:18:24.158Z"
+  },
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
+  "createdAt": {
+    "$date": "2026-07-13T22:18:24.159Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-21T09:00:00.048Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a55944eb0287c79100de8cc"
+  },
+  "firstName": "Tim",
+  "lastName": "Smith",
+  "emailAddress": "tsmith.n1ti@gmail.com",
+  "state": "MA",
+  "feeAmount": 0,
+  "bypassCode": "DOXIE-KO5o3f$R",
+  "expiresAt": {
+    "$date": "2026-07-21T01:43:42.492Z"
+  },
+  "applicationStatus": "Inactive",
+  "tokenStatus": "Invalid",
+  "createdAt": {
+    "$date": "2026-07-14T01:43:42.493Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-21T09:00:00.048Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5676c2b0287c79100de923"
+  },
+  "firstName": "Joann",
+  "lastName": "Gaspar-Hudak",
+  "emailAddress": "jgaspar879@gmail.com",
+  "state": "NJ",
+  "feeAmount": 15,
+  "paypalOrderId": "6MH95515C3714363C",
+  "expiresAt": {
+    "$date": "2026-07-21T17:49:54.015Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-14T17:49:54.016Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-14T17:49:54.016Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a56828bb0287c79100de929"
+  },
+  "firstName": "Alexis",
+  "lastName": "Preisser",
+  "emailAddress": "avpreisser@gmail.com",
+  "state": "NC",
+  "feeAmount": 15,
+  "paypalOrderId": "7A058460ES4841058",
+  "expiresAt": {
+    "$date": "2026-07-21T18:40:11.153Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-14T18:40:11.154Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-14T18:40:11.154Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a56abbb4061a8eefa7a9463"
+  },
+  "firstName": "Elizabeth",
+  "lastName": "Escalante",
+  "emailAddress": "e_escalante@comcast.net",
+  "state": "GA",
+  "feeAmount": 15,
+  "paypalOrderId": "231115819N817200L",
+  "expiresAt": {
+    "$date": "2026-07-21T21:35:55.339Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-14T21:35:55.340Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-14T21:35:55.340Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5748704061a8eefa7a9478"
+  },
+  "firstName": "Katelyn",
+  "lastName": "Powell",
+  "emailAddress": "katelynapowell@gmail.com",
+  "state": "NY",
+  "feeAmount": 15,
+  "paypalOrderId": "0SE131803B868883Y",
+  "expiresAt": {
+    "$date": "2026-07-22T08:44:32.195Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-15T08:44:32.196Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-15T08:44:32.196Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a584e88eca6755e306962e2"
+  },
+  "firstName": "Lina",
+  "lastName": "Macaluso",
+  "emailAddress": "linamacaluso@hotmail.com",
+  "state": "NY",
+  "feeAmount": 15,
+  "paypalOrderId": "7E236097AK775661W",
+  "expiresAt": {
+    "$date": "2026-07-23T03:22:48.961Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-16T03:22:48.962Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-16T03:22:48.962Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5a5233d5f036a934a398a2"
+  },
+  "firstName": "Todd",
+  "lastName": "Major",
+  "emailAddress": "tmajoratl@gmail.com",
+  "state": "GA",
+  "feeAmount": 15,
+  "paypalOrderId": "8PJ36789DN4411417",
+  "expiresAt": {
+    "$date": "2026-07-24T16:02:59.098Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-17T16:02:59.099Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-17T16:02:59.099Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5c935eba96b5ba94b55152"
+  },
+  "firstName": "Annie",
+  "lastName": "Gelbard",
+  "emailAddress": "Anniegelbard@aol.com",
+  "state": "SC",
+  "feeAmount": 15,
+  "paypalOrderId": "394984188P0970505",
+  "expiresAt": {
+    "$date": "2026-07-26T09:05:34.011Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-19T09:05:34.012Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-19T09:05:34.012Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a5e5b8128d326d3cc7573b3"
+  },
+  "firstName": "Gerald ",
+  "lastName": "Cohen ",
+  "emailAddress": "gcohen97@verizon.net",
+  "state": "NJ",
+  "feeAmount": 15,
+  "paypalOrderId": "3RE26357WJ024203M",
+  "expiresAt": {
+    "$date": "2026-07-27T17:31:45.919Z"
+  },
+  "applicationStatus": "Active",
+  "tokenStatus": "Valid",
+  "createdAt": {
+    "$date": "2026-07-20T17:31:45.920Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-20T17:31:45.920Z"
   },
   "__v": 0
 }]
