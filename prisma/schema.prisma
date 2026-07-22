@@ -69,7 +69,6 @@ enum AddressType {
 enum Role {
   SUPER_USER
   ADMIN
-  SUPPORTER
   PACK_MEMBER
 }
 
