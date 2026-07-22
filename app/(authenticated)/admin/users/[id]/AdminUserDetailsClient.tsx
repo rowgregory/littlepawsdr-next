@@ -276,47 +276,71 @@ export default function AdminUserDetailsClient({ user, migrationStatus, loggedIn
                 {/* Role tab */}
                 {tab === 'role' && (
                   <div className="p-5">
-                    <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
+                    <p className="text-[13px] text-muted-light dark:text-muted-dark leading-relaxed mb-3">
                       Admins can manage the site. Supporters are regular members.
                     </p>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                      <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">
-                        {ASSIGNABLE_ROLES.map((r) => {
-                          const selected = role === r
-                          return (
-                            <button
-                              key={r}
-                              type="button"
-                              onClick={() => setRole(r)}
-                              aria-pressed={selected}
-                              className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                                selected
-                                  ? 'bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark'
-                                  : 'bg-bg-light dark:bg-bg-dark text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
-                              }`}
-                            >
-                              {formatRole(r)}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleSave}
-                        disabled={!dirty || saving}
-                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-                      >
-                        {saved ? (
-                          <>
-                            <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
-                          </>
-                        ) : saving ? (
-                          'Saving...'
-                        ) : (
-                          'Save role'
-                        )}
-                      </button>
+
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 mb-5 border border-primary-light/40 dark:border-primary-dark/40 text-primary-light dark:text-primary-dark text-[9px] font-mono tracking-[0.15em] uppercase">
+                      Currently {formatRole(user.role)}
                     </div>
+
+                    <div className="flex flex-col gap-2.5 mb-5">
+                      {ASSIGNABLE_ROLES.map((r) => {
+                        const selected = role === r
+                        const isCurrent = user.role === r
+                        return (
+                          <button
+                            key={r}
+                            type="button"
+                            onClick={() => setRole(r)}
+                            aria-pressed={selected}
+                            className={`relative w-full px-4 py-3.5 text-left border transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                              selected
+                                ? 'border-primary-light dark:border-primary-dark bg-primary-light/5 dark:bg-primary-dark/5'
+                                : 'border-border-light dark:border-border-dark hover:border-muted-light dark:hover:border-muted-dark'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <p
+                                className={`text-[11px] font-mono tracking-[0.15em] uppercase font-bold ${
+                                  selected
+                                    ? 'text-primary-light dark:text-primary-dark'
+                                    : 'text-text-light dark:text-text-dark'
+                                }`}
+                              >
+                                {formatRole(r)}
+                              </p>
+                              {isCurrent && (
+                                <span className="text-[8px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+                                  Current
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark mt-1">
+                              {r === 'ADMIN' ? 'Full site management' : 'Regular member access'}
+                            </p>
+                          </button>
+                        )
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={!dirty || saving}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                    >
+                      {saved ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
+                        </>
+                      ) : saving ? (
+                        'Saving...'
+                      ) : (
+                        'Save role'
+                      )}
+                    </button>
+
                     {error && (
                       <p
                         role="alert"
