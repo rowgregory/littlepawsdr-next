@@ -45,6 +45,8 @@ export interface IUser {
   lastGeoRegion: string | null
   lastGeoCountry: string | null
 
+  paymentMethodCount?: number
+
   // Relations (present only when included)
   address?: IAddress | null
   paymentMethods?: IPaymentMethod[]

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { AlertCircle, ArrowRight, CheckCircle, Minus, Search } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle, CreditCard, Minus, Search } from 'lucide-react'
 import { formatDate } from 'app/utils/_date.utils'
 import { IUser, RoleFilter } from 'types/_user'
 import { formatRole } from 'app/utils/_user.utils'
@@ -70,9 +70,25 @@ const columns: Column<IUser>[] = [
     )
   },
   {
+    header: 'Payment',
+    className: 'whitespace-nowrap',
+    cell: (user) =>
+      user.paymentMethodCount > 0 ? (
+        <span className="inline-flex items-center gap-1 text-[9px] font-mono tracking-widest uppercase text-emerald-600 dark:text-emerald-400">
+          <CreditCard className="w-3 h-3" aria-hidden="true" />
+          {user.paymentMethodCount}
+        </span>
+      ) : (
+        <span className="inline-flex items-center gap-1 text-[9px] font-mono tracking-widest uppercase text-muted-light dark:text-muted-dark">
+          <Minus className="w-3 h-3" aria-hidden="true" />
+          None
+        </span>
+      )
+  },
+  {
     header: 'Created',
     className: 'whitespace-nowrap text-xs font-mono text-muted-light dark:text-muted-dark',
-    cell: (user) => formatDate(user.createdAt)
+    cell: (user) => formatDate(user.createdAt, true)
   },
   {
     header: '',

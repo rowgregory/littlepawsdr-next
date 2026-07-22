@@ -49,7 +49,8 @@ export async function getUserById(id: string) {
               }
             }
           }
-        }
+        },
+        paymentMethods: true
       }
     })
 

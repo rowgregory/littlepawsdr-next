@@ -11,7 +11,19 @@ export default async function getUsers() {
 
   try {
     const users = await prisma.user.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        createdAt: true,
+        role: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        hasMigrated: true,
+        _count: {
+          select: { paymentMethods: true }
+        }
+      }
     })
 
     const emails = users.map((u) => u.email.toLowerCase().trim())
@@ -65,6 +77,7 @@ export default async function getUsers() {
       const normalizedEmail = u.email.toLowerCase().trim()
       const pendingCount = pendingMap.get(normalizedEmail) ?? 0
       const hasStagingRecord = stagingEmailSet.has(normalizedEmail)
+      const paymentMethodCount = u._count.paymentMethods
 
       let migrationStatus: 'migrated' | 'not-needed' | 'pending'
 
@@ -78,7 +91,8 @@ export default async function getUsers() {
       return {
         ...u,
         migrationStatus,
-        pendingMigrationCount: pendingCount
+        pendingMigrationCount: pendingCount,
+        paymentMethodCount
       }
     })
 

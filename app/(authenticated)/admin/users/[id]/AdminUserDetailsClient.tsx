@@ -16,7 +16,8 @@ import {
   Package,
   ChevronRight,
   AlertCircle,
-  Info
+  Info,
+  CreditCard
 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDate } from 'app/utils/_date.utils'
@@ -73,6 +74,7 @@ export default function AdminUserDetailsClient({ user, migrationStatus, loggedIn
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [tab, setTab] = useState<'role' | 'merge'>('role')
 
   const dirty = role !== user.role
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || 'Unnamed user'
@@ -207,71 +209,134 @@ export default function AdminUserDetailsClient({ user, migrationStatus, loggedIn
               </div>
             </section>
 
-            {/* Role editor */}
-            {(user.role !== 'SUPER_USER' || loggedInUser.role === 'SUPER_USER') &&
-              loggedInUser.id !== user.id && (
-                <section className="border border-border-light dark:border-border-dark p-5">
-                  <p className="text-[15px] font-bold text-text-light dark:text-text-dark mb-1">
-                    Change role
-                  </p>
-                  <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
-                    Admins can manage the site. Supporters are regular members.
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                    <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">
-                      {ASSIGNABLE_ROLES.map((r) => {
-                        const selected = role === r
-                        return (
-                          <button
-                            key={r}
-                            type="button"
-                            onClick={() => setRole(r)}
-                            aria-pressed={selected}
-                            className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
-                              selected
-                                ? 'bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark'
-                                : 'bg-bg-light dark:bg-bg-dark text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
-                            }`}
-                          >
-                            {formatRole(r)}
-                          </button>
-                        )
-                      })}
+            {/* Payment methods */}
+            <section className="border border-border-light dark:border-border-dark divide-y divide-border-light dark:divide-border-dark">
+              <div className="px-4 py-3 flex items-center justify-between">
+                <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
+                  Payment methods
+                </p>
+                <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-muted-light dark:text-muted-dark">
+                  {user.paymentMethods.length} saved
+                </span>
+              </div>
+              {user.paymentMethods.length === 0 ? (
+                <div className="px-4 py-3 flex items-center gap-2 text-muted-light dark:text-muted-dark">
+                  <CreditCard className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  <p className="font-mono text-[11px]">No saved payment methods</p>
+                </div>
+              ) : (
+                user.paymentMethods.map((pm) => (
+                  <div key={pm.id} className="px-4 py-3 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <CreditCard
+                        className="w-3.5 h-3.5 shrink-0 text-muted-light dark:text-muted-dark"
+                        aria-hidden="true"
+                      />
+                      <div className="min-w-0">
+                        <p className="font-mono text-[11px] text-text-light dark:text-text-dark capitalize">
+                          {pm.cardBrand} ···· {pm.cardLast4}
+                          {pm.isDefault && (
+                            <span className="ml-2 text-[8px] tracking-widest uppercase text-primary-light dark:text-primary-dark">
+                              Default
+                            </span>
+                          )}
+                        </p>
+                        <p className="font-mono text-[10px] text-muted-light dark:text-muted-dark">
+                          {pm.cardholderName ?? '—'} · Exp {pm.cardExpMonth}/{pm.cardExpYear}
+                        </p>
+                      </div>
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={handleSave}
-                      disabled={!dirty || saving}
-                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
-                    >
-                      {saved ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
-                        </>
-                      ) : saving ? (
-                        'Saving...'
-                      ) : (
-                        'Save role'
-                      )}
-                    </button>
                   </div>
-
-                  {error && (
-                    <p
-                      role="alert"
-                      className="mt-3 font-mono text-[11px] text-red-600 dark:text-red-400"
-                    >
-                      {error}
-                    </p>
-                  )}
-                </section>
+                ))
               )}
+            </section>
 
-            <MergeUserSection userId={user.id} userEmail={user.email} />
+            {/* Tabbed: Role + Merge */}
+            {((user.role !== 'SUPER_USER' && loggedInUser.id !== user.id) ||
+              loggedInUser.role === 'SUPER_USER') && (
+              <section className="border border-border-light dark:border-border-dark">
+                {/* Tab headers */}
+                <div className="flex border-b border-border-light dark:border-border-dark">
+                  {(['role', 'merge'] as const).map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setTab(t)}
+                      className={`px-4 py-2.5 font-mono text-[9px] tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                        tab === t
+                          ? 'text-text-light dark:text-text-dark border-b-2 border-primary-light dark:border-primary-dark -mb-px'
+                          : 'text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
+                      }`}
+                    >
+                      {t === 'role' ? 'Change role' : 'Merge accounts'}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Role tab */}
+                {tab === 'role' && (
+                  <div className="p-5">
+                    <p className="text-[13px] text-muted-light dark:text-muted-dark mb-4">
+                      Admins can manage the site. Supporters are regular members.
+                    </p>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <div className="flex items-center gap-px bg-border-light dark:bg-border-dark border border-border-light dark:border-border-dark w-fit">
+                        {ASSIGNABLE_ROLES.map((r) => {
+                          const selected = role === r
+                          return (
+                            <button
+                              key={r}
+                              type="button"
+                              onClick={() => setRole(r)}
+                              aria-pressed={selected}
+                              className={`px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark ${
+                                selected
+                                  ? 'bg-primary-light dark:bg-primary-dark text-bg-light dark:text-bg-dark'
+                                  : 'bg-bg-light dark:bg-bg-dark text-muted-light dark:text-muted-dark hover:text-text-light dark:hover:text-text-dark'
+                              }`}
+                            >
+                              {formatRole(r)}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleSave}
+                        disabled={!dirty || saving}
+                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-[10px] font-mono tracking-[0.2em] uppercase bg-primary-light dark:bg-primary-dark text-white dark:text-bg-dark transition-colors hover:bg-secondary-light dark:hover:bg-secondary-dark disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-light dark:focus-visible:ring-primary-dark"
+                      >
+                        {saved ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" aria-hidden="true" /> Saved
+                          </>
+                        ) : saving ? (
+                          'Saving...'
+                        ) : (
+                          'Save role'
+                        )}
+                      </button>
+                    </div>
+                    {error && (
+                      <p
+                        role="alert"
+                        className="mt-3 font-mono text-[11px] text-red-600 dark:text-red-400"
+                      >
+                        {error}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Merge tab */}
+                {tab === 'merge' && (
+                  <div className="p-5">
+                    <MergeUserSection userId={user.id} userEmail={user.email} />
+                  </div>
+                )}
+              </section>
+            )}
           </div>
-
           {/* ── Right column — orders ── */}
           <div className="space-y-4">
             {migrationStatus?.hasPendingMigration && (
