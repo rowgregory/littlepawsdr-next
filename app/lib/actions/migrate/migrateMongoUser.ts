@@ -637,12 +637,11 @@ async function runMigrationTransaction(
 
   if (mongoUser) {
     await tx.mongoUser.deleteMany({ where: { email: normalizedEmail } })
+    await tx.user.update({
+      where: { id: userId },
+      data: { hasMigrated: true, migratedAt: new Date() }
+    })
   }
-
-  await tx.user.update({
-    where: { id: userId },
-    data: { hasMigrated: true, migratedAt: new Date() }
-  })
 }
 
 /**
