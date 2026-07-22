@@ -34,6 +34,7 @@ function parseDate(val: any): Date {
 async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
   if (!mongoUser) return
   const d = mongoUser.data as any
+  const fullName = `${d.firstName ?? ''} ${d.lastName ?? ''}`.trim() || 'Unknown'
 
   await tx.user.update({
     where: { id: userId },
@@ -52,7 +53,7 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
         await tx.address.create({
           data: {
             user: { connect: { id: userId } },
-            name: d.shippingAddress.name ?? null,
+            name: d.shippingAddress.name ?? fullName,
             addressLine1: d.shippingAddress.address ?? '',
             addressLine2: d.shippingAddress.addressLine2 ?? null,
             city: d.shippingAddress.city ?? '',
@@ -71,7 +72,7 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
           await tx.address.create({
             data: {
               user: { connect: { id: userId } },
-              name: a.name ?? null,
+              name: a.name ?? fullName,
               addressLine1: a.address ?? '',
               addressLine2: a.addressLine2 ?? null,
               city: a.city ?? '',
