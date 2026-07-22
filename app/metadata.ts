@@ -31,7 +31,7 @@ export const metadata: Metadata = {
       'We specialize in finding permanent homes for dachshunds and dachshund mixes. We strive to make the lives of all dogs better through action, advocacy, awareness, and education.',
     images: [
       {
-        url: 'https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Flpdr-rich-preview.png?alt=media&token=cec2408b-9d4b-4af6-ad3e-365d98a91f52',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Little Paws Dachshund Rescue'
@@ -44,9 +44,7 @@ export const metadata: Metadata = {
     title: 'Little Paws Dachshund Rescue',
     description:
       'We specialize in finding permanent homes for dachshunds and dachshund mixes. We strive to make the lives of all dogs better through action, advocacy, awareness, and education.',
-    images: [
-      'https://firebasestorage.googleapis.com/v0/b/little-paws-dachshund-re-a1632.appspot.com/o/images%2Flpdr-rich-preview.png?alt=media&token=cec2408b-9d4b-4af6-ad3e-365d98a91f52'
-    ]
+    images: ['/og-image.png']
   },
 
   robots: {
@@ -62,5 +60,14 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: 'https://littlepawsdr.org'
+  },
+
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' }
+    ],
+    apple: [{ url: '/icon-192.png', sizes: '192x192', type: 'image/png' }]
   }
 }
