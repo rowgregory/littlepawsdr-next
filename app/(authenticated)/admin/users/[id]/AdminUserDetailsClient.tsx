@@ -32,7 +32,7 @@ import { MigrationTroubleshootPanel } from 'app/components/admin/user/MigrationT
 
 type UserDetail = NonNullable<Awaited<ReturnType<typeof getUserById>>['data']>
 
-const ASSIGNABLE_ROLES: Role[] = ['ADMIN', 'SUPPORTER']
+const ASSIGNABLE_ROLES: Role[] = ['ADMIN', 'PACK_MEMBER']
 
 function Field({
   icon: Icon,

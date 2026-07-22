@@ -8,7 +8,7 @@ import { IAuctionWinningBidder } from './_auction-winning-bidder'
 import { IOrder } from './_order.types'
 import { IPaymentMethod } from './_payment-method.types'
 
-export type UserRole = 'ADMIN' | 'SUPPORTER' | 'SUPER_USER'
+export type UserRole = 'ADMIN' | 'PACK_MEMBER' | 'SUPER_USER'
 export type RoleFilter = 'ALL' | UserRole
 
 export interface IUser {

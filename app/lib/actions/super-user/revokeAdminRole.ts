@@ -17,7 +17,7 @@ export async function revokeAdminRole(userId: string) {
     return { success: false, error: 'User not found' }
   }
 
-  if (existing.role === 'SUPPORTER') {
+  if (existing.role === 'PACK_MEMBER') {
     return { success: false, error: `${existing.email} doesn't have an admin role to revoke` }
   }
 
@@ -27,7 +27,7 @@ export async function revokeAdminRole(userId: string) {
 
   await prisma.user.update({
     where: { id: userId },
-    data: { role: 'SUPPORTER' }
+    data: { role: 'PACK_MEMBER' }
   })
 
   await createLog('warn', `[SUPER] ${grantor} revoked admin role from ${existing.email}`, {
