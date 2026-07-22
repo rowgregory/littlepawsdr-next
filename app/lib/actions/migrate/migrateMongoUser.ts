@@ -1,10 +1,3 @@
-/**
- * Called on first login for each user.
- * Migrates all historical Mongo data into live Prisma tables.
- * Deletes each staging record after successful migration.
- * Once all users have migrated, staging tables will be empty and can be dropped.
- */
-
 import prisma from 'prisma/client'
 import { createLog } from '../log/createLog'
 import { pusherTrigger } from 'app/lib/pusher/pusher.utils'
@@ -55,11 +48,10 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
   if (d.shippingAddress?.address || d.addressRef) {
     const existingAddress = await tx.address.findUnique({ where: { userId } })
     if (!existingAddress) {
-      // Try embedded shippingAddress first
       if (d.shippingAddress?.address) {
         await tx.address.create({
           data: {
-            userId,
+            user: { connect: { id: userId } },
             name: d.shippingAddress.name ?? null,
             addressLine1: d.shippingAddress.address ?? '',
             addressLine2: d.shippingAddress.addressLine2 ?? null,
@@ -69,7 +61,6 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
             country: d.shippingAddress.country ?? 'US'
           }
         })
-        // Fall back to addressRef lookup
       } else if (d.addressRef) {
         const addressMongoId = d.addressRef?.$oid ?? d.addressRef?.toString() ?? d.addressRef
         const mongoAddress = await tx.mongoAddress.findUnique({
@@ -79,7 +70,7 @@ async function migrateUserFields(tx: any, mongoUser: any, userId: string) {
           const a = mongoAddress.data as any
           await tx.address.create({
             data: {
-              userId,
+              user: { connect: { id: userId } },
               name: a.name ?? null,
               addressLine1: a.address ?? '',
               addressLine2: a.addressLine2 ?? null,
@@ -653,8 +644,12 @@ async function runMigrationTransaction(
   })
 }
 
-// ── Main export ───────────────────────────────────────────────────────────────
-
+/**
+ * Called on first login for each user.
+ * Migrates all historical Mongo data into live Prisma tables.
+ * Deletes each staging record after successful migration.
+ * Once all users have migrated, staging tables will be empty and can be dropped.
+ */
 export async function migrateMongoUser(email: string, userId: string): Promise<void> {
   const normalizedEmail = email.toLowerCase().trim()
 
