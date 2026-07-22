@@ -54,7 +54,9 @@ const columns: Column<IAdoptionFee>[] = [
   {
     header: 'State',
     className: 'font-mono text-[13px] text-muted-light dark:text-muted-dark',
-    cell: (f) => f.state || '—'
+    cell: (f) => (
+      <>{f.order?.geoRegion ?? <span className="text-muted-light dark:text-muted-dark">—</span>}</>
+    )
   },
   {
     header: 'Amount',

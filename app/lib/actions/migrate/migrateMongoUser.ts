@@ -184,7 +184,7 @@ async function migrateAdoptionFees(tx: any, normalizedEmail: string, userId: str
 
     try {
       if (d.feeAmount != null) {
-        await tx.order.create({
+        const order = await tx.order.create({
           data: {
             type: 'ADOPTION_FEE',
             status: 'CONFIRMED',
@@ -206,6 +206,7 @@ async function migrateAdoptionFees(tx: any, normalizedEmail: string, userId: str
         await tx.adoptionFee.create({
           data: {
             userId,
+            orderId: order.id,
             email: normalizedEmail,
             firstName: d.firstName ?? null,
             lastName: d.lastName ?? null,

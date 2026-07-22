@@ -11,7 +11,9 @@ export const getAdoptionFees = async () => {
 
   try {
     const adoptionFees = await prisma.adoptionFee.findMany({
-      orderBy: { createdAt: 'desc' }
+      where: { expiresAt: { not: null } },
+      orderBy: { createdAt: 'desc' },
+      include: { order: { select: { geoRegion: true } } }
     })
 
     return { success: true, data: adoptionFees, error: null }

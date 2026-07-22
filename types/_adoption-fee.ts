@@ -11,6 +11,8 @@ export interface IAdoptionFee {
   status: AdoptionFeeStatus
   expiresAt: Date | null
   createdAt: Date
+
+  order?: { geoRegion: string | null } | null
 }
 
 export interface UpdateAdoptionFeeInputs {

@@ -17,6 +17,8 @@ import Link from 'next/link'
 import { FormField, SectionLabel, Toggle } from 'app/components/_primitives'
 import Picture from 'app/components/_common/Picture'
 import { createWelcomeWiener } from 'app/lib/actions/admin/welcome-wiener/createWelcomeWiener'
+import { DangerZone } from './DangerZone'
+import { deleteWelcomeWiener } from 'app/lib/actions/admin/welcome-wiener/deleteWelcomeWiener'
 
 type FormState = {
   name: string
@@ -52,15 +54,18 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
 
   const patch = (data: Partial<FormState>) => setForm((prev) => ({ ...prev, ...data }))
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    patch({ [e.target.name]: e.target.value } as Partial<FormState>)
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => patch({ [e.target.name]: e.target.value } as Partial<FormState>)
 
   const associated = form.associatedProducts
   const isAdded = (id: string) => associated.some((p) => p.id === id)
 
   const toggleProduct = (product: WelcomeWienerProduct) => {
     patch({
-      associatedProducts: isAdded(product.id) ? associated.filter((p) => p.id !== product.id) : [...associated, product]
+      associatedProducts: isAdded(product.id)
+        ? associated.filter((p) => p.id !== product.id)
+        : [...associated, product]
     })
   }
   const handleSave = async () => {
@@ -75,7 +80,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
     let uploaded: string[] = []
     if (pendingPhotos.length > 0) {
       try {
-        uploaded = await Promise.all(pendingPhotos.map((file) => uploadFileToFirebase(file, setUploadProgress)))
+        uploaded = await Promise.all(
+          pendingPhotos.map((file) => uploadFileToFirebase(file, setUploadProgress))
+        )
       } catch {
         setErrors({ form: 'Failed to upload images. Please try again.' })
         setLoading(false)
@@ -146,7 +153,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
           >
             Welcome Wieners
           </Link>
-          <span className="text-[9px] font-mono text-border-light dark:text-muted-dark/70" aria-hidden="true">
+          <span
+            className="text-[9px] font-mono text-border-light dark:text-muted-dark/70"
+            aria-hidden="true"
+          >
             /
           </span>
           <h1
@@ -163,7 +173,11 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
           {/* ── Title band ── */}
           <div className="flex items-center gap-3 pt-6 pb-4">
             <div className="w-8 h-8 flex items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 shrink-0">
-              <Dog size={15} className="text-primary-light dark:text-primary-dark" aria-hidden="true" />
+              <Dog
+                size={15}
+                className="text-primary-light dark:text-primary-dark"
+                aria-hidden="true"
+              />
             </div>
             <div className="min-w-0">
               <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-light dark:text-muted-dark">
@@ -267,7 +281,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                                   className={`w-5 h-5 flex items-center justify-center border transition-colors duration-150 ${added ? 'border-primary-light dark:border-primary-dark bg-primary-light dark:bg-primary-dark' : 'border-border-light dark:border-border-dark'}`}
                                 >
                                   {added ? (
-                                    <Check className="w-3 h-3 text-white dark:text-bg-dark" aria-hidden="true" />
+                                    <Check
+                                      className="w-3 h-3 text-white dark:text-bg-dark"
+                                      aria-hidden="true"
+                                    />
                                   ) : (
                                     <Plus
                                       className="w-3 h-3 text-muted-light dark:text-muted-dark"
@@ -293,7 +310,7 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
               <Toggle
                 id="ww-isLive"
                 label="Live"
-                description="Visible to the public on the donation page"
+                description="Visible to the public on the welcome wieners page"
                 checked={form?.isLive ?? false}
                 onToggle={() => patch({ isLive: !form.isLive })}
               />
@@ -321,7 +338,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                           />
                           <button
                             type="button"
-                            onClick={() => patch({ images: form.images.filter((url: string) => url !== photo) })}
+                            onClick={() =>
+                              patch({ images: form.images.filter((url: string) => url !== photo) })
+                            }
                             aria-label={`Remove image ${i + 1}`}
                             className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity flex items-center justify-center focus:outline-none"
                           >
@@ -353,7 +372,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                           )}
                           <button
                             type="button"
-                            onClick={() => setPendingPhotos((prev) => prev.filter((_, idx) => idx !== i))}
+                            onClick={() =>
+                              setPendingPhotos((prev) => prev.filter((_, idx) => idx !== i))
+                            }
                             className="absolute top-1 right-1 w-5 h-5 flex items-center justify-center bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                             aria-label={`Remove ${file.name}`}
                           >
@@ -388,7 +409,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                         className="flex items-center justify-center gap-2 px-4 py-3 border border-dashed border-border-light dark:border-border-dark hover:border-primary-light dark:hover:border-primary-dark text-muted-light dark:text-muted-dark hover:text-primary-light dark:hover:text-primary-dark text-[10px] font-mono tracking-[0.2em] uppercase cursor-pointer transition-colors"
                       >
                         <ImagePlus size={13} aria-hidden="true" />
-                        {pendingPhotos.length > 0 ? `${pendingPhotos.length} selected — add more` : 'Select photos'}
+                        {pendingPhotos.length > 0
+                          ? `${pendingPhotos.length} selected — add more`
+                          : 'Select photos'}
                       </label>
                       <input
                         id="photos"
@@ -425,7 +448,9 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                     <div className="space-y-1.5">
                       {associated.map((p) => (
                         <div key={p.id} className="flex items-center justify-between">
-                          <span className="text-[11px] font-mono text-text-light dark:text-text-dark">{p.name}</span>
+                          <span className="text-[11px] font-mono text-text-light dark:text-text-dark">
+                            {p.name}
+                          </span>
                           <div className="flex items-center gap-3">
                             <span className="text-[11px] font-mono text-primary-light dark:text-primary-dark tabular-nums">
                               ${p.price}
@@ -453,6 +478,17 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
                   </div>
                 </section>
               )}
+
+              <DangerZone
+                label="Delete Welcome Wiener"
+                description="Permanently removes this entry."
+                confirmText="Delete this Welcome Wiener? This can't be undone."
+                onDelete={() => deleteWelcomeWiener(welcomeWiener.id)}
+                onDeleted={() => {
+                  router.push('/admin/welcome-wieners')
+                  router.refresh()
+                }}
+              />
             </div>
           </div>
         </div>
@@ -462,7 +498,10 @@ export function WelcomeWienerForm({ welcomeWiener }: { welcomeWiener: IWelcomeWi
       <div className="fixed bottom-0 inset-x-0 z-20 w-full border-t border-border-light dark:border-border-dark bg-bg-light/90 dark:bg-bg-dark/90 backdrop-blur px-4 sm:px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-end gap-3">
           {errors?.form && (
-            <p role="alert" className="mr-auto text-[10px] font-mono text-red-500 dark:text-red-400 truncate">
+            <p
+              role="alert"
+              className="mr-auto text-[10px] font-mono text-red-500 dark:text-red-400 truncate"
+            >
               {errors.form}
             </p>
           )}

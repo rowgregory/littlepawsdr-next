@@ -370,6 +370,7 @@ export async function handlePaymentIntentSucceeded(paymentIntent: Stripe.Payment
         adoptionFee = await prisma.adoptionFee.create({
           data: {
             userId,
+            orderId: order.id,
             feeAmount: paymentIntent.amount / 100,
             status: 'ACTIVE',
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

@@ -27,7 +27,9 @@ const columns: Column<Product>[] = [
         )}
         <div className="min-w-0">
           <p className="text-xs font-mono text-text-light dark:text-text-dark">
-            {p?.name ?? <span className="text-muted-light dark:text-muted-dark italic">Unnamed</span>}
+            {p?.name ?? (
+              <span className="text-muted-light dark:text-muted-dark italic">Unnamed</span>
+            )}
           </p>
           {p?.description && (
             <p className="text-[10px] font-mono text-muted-light dark:text-muted-dark truncate max-w-45">
@@ -61,17 +63,27 @@ const columns: Column<Product>[] = [
   {
     header: 'Status',
     className: 'whitespace-nowrap',
-    cell: (p) => (
-      <span
-        className={`inline-block px-2 py-0.5 text-[9px] font-mono tracking-[0.15em] uppercase border ${
-          p?.isLive
-            ? 'text-emerald-600 dark:text-emerald-400 border-emerald-600/30 dark:border-emerald-400/30 bg-emerald-500/10'
-            : 'text-muted-light dark:text-muted-dark border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark'
-        }`}
-      >
-        {p?.isLive ? 'Live' : 'Draft'}
-      </span>
-    )
+    cell: (p) => {
+      const status = p.archivedAt ? 'Archived' : p.isLive ? 'Live' : 'Draft'
+      const textColor = p.archivedAt
+        ? 'text-muted-light dark:text-muted-dark'
+        : p.isLive
+          ? 'text-emerald-600 dark:text-emerald-400'
+          : 'text-amber-600 dark:text-amber-400'
+      const dotColor = p.archivedAt
+        ? 'bg-border-light dark:bg-border-dark'
+        : p.isLive
+          ? 'bg-emerald-500'
+          : 'bg-amber-500'
+      return (
+        <span
+          className={`inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase ${textColor}`}
+        >
+          <span className={`w-1.5 h-1.5 shrink-0 ${dotColor}`} aria-hidden="true" />
+          {status}
+        </span>
+      )
+    }
   },
   {
     header: '',
@@ -95,7 +107,10 @@ export function AdminProductsClient({ products }: { products: [] }) {
         title="Products"
         count={{ value: products.length, noun: 'product' }}
         action={
-          <AdminHeaderButton href="/admin/products/new" icon={<Plus className="w-3 h-3" aria-hidden="true" />}>
+          <AdminHeaderButton
+            href="/admin/products/new"
+            icon={<Plus className="w-3 h-3" aria-hidden="true" />}
+          >
             Add Product
           </AdminHeaderButton>
         }

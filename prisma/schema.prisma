@@ -308,6 +308,8 @@ model Order {
   items OrderItem[]
   notes String?
 
+  adoptionFee AdoptionFee?
+
   @@index([type])
   @@index([status])
   @@index([userId])
@@ -608,6 +610,9 @@ model AdoptionFee {
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  orderId String? @unique
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: SetNull)
 }
 
 // ─── Log ───────────────────────────────────────────────────
